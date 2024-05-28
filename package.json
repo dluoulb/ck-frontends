@@ -6,11 +6,22 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.37.1",
+    "@tanstack/react-query-devtools": "^5.37.1",
+    "axios": "^1.7.2",
+    "immutable": "^4.3.6",
+    "luxon": "^3.4.4",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "supertokens-auth-react": "^0.41.1"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.12",
+    "@types/react": "18.3.2",
+    "typescript": "5.4.5"
   }
 }
