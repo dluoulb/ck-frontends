@@ -14,6 +14,7 @@ interface AuthState {
   accessToken: any;
   isAuthorized: any;
   isAuthenticated: any;
+  needsRefresh: (data: any) => boolean;
 }
 
 const defaultState: AuthState = {
@@ -30,6 +31,7 @@ const defaultState: AuthState = {
   accessToken: null,
   isAuthorized: false,
   isAuthenticated: false,
+  needsRefresh: () => true,
 };
 
 export const AuthContext = createContext<AuthState>(defaultState);

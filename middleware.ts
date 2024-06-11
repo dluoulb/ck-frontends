@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 export const config = {
   matcher: ["/((?!api|_next|robots.txt|fonts|examples|.*/img).*)"],
@@ -8,17 +9,14 @@ const sites = [
   {
     domain: "reports.localhost",
     shortname: "reports",
-    redirects: false,
   },
   {
     domain: "admin.localhost",
     shortname: "admin",
-    redirects: false,
   },
   {
     domain: "borrower.localhost",
     shortname: "borrower",
-    redirects: false,
   },
 ];
 
@@ -34,22 +32,32 @@ function siteForHost(host) {
   }
 }
 
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
   const site = siteForHost(req.headers.get("host")!);
 
-  let pathname = req.nextUrl.pathname;
-
-  if (pathname.includes("/components") || pathname.includes("/layout")) {
-    return NextResponse.rewrite(new URL("/404", req.url));
+  if (["/login", "/login-token"].includes(pathname)) {
+    return NextResponse.next();
   }
 
-  if (site && site.redirects && site.redirects[pathname]) {
-    return NextResponse.redirect(new URL(site.redirects[pathname], req.url));
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token && site) {
+    ////////////// BUG FOR DEV //////////////
+    // Based on this Github issue, it appears in dev routes are going
+    // to relative path instead of defined absolute path
+    // https://github.com/vercel/next.js/issues/44482
+    return NextResponse.redirect(
+      new URL(
+        `${process.env.NEXTAUTH_URL}/login?from=${site?.shortname}`,
+        req.url
+      )
+    );
   }
 
   if (site) {
     return NextResponse.rewrite(
-      new URL(`/${site.shortname}${pathname}`, req.url)
+      new URL(`/${site?.shortname}${pathname}`, req.url)
     );
   }
 }

@@ -1,0 +1,66 @@
+import React, { FC } from "react";
+import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinnerThird } from "@fortawesome/pro-regular-svg-icons";
+
+interface OutlineButtonProps {
+  ariaLabel?: string;
+  buttonText: string;
+  buttonColor: string;
+  hoverClass: string;
+  icon?: any;
+  disabled?: boolean;
+  isLoading?: boolean;
+  onClick?: () => void;
+  isSmall?: boolean;
+}
+
+const OutlineButton: FC<OutlineButtonProps> = ({
+  ariaLabel,
+  buttonText,
+  buttonColor,
+  hoverClass,
+  icon,
+  disabled,
+  isLoading,
+  onClick,
+  isSmall,
+}) => {
+  return (
+    <div className="flex w-full">
+      <button
+        aria-label={ariaLabel}
+        className={classNames(
+          "w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block mx-auto my-1 sm:my-2 tracking-wider rounded-lg flex justify-center items-center border-[1.5px]",
+          buttonColor,
+          isSmall
+            ? "py-2 px-3 text-xs"
+            : "py-2 sm:py-3 px-4 text-xs md:text-sm",
+          {
+            "cursor-not-allowed border-disabled hover:border-disabled text-disabled hover:text-disabled":
+              disabled,
+          },
+          !isLoading && !disabled && hoverClass
+        )}
+        type="submit"
+        role="submit"
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <div className="flex justify-center items-center">
+          <span className="hidden xs:inline">
+            {icon && !isLoading && (
+              <FontAwesomeIcon icon={icon} className="mr-2" />
+            )}
+            {isLoading && (
+              <FontAwesomeIcon className="mr-2" icon={faSpinnerThird} spin />
+            )}
+          </span>
+          <span>{buttonText}</span>
+        </div>
+      </button>
+    </div>
+  );
+};
+
+export default OutlineButton;

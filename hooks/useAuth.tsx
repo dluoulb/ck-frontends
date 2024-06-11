@@ -1,24 +1,32 @@
 import { useContext, useEffect, useState, useCallback } from "react";
+import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
-import { DateTime } from "luxon";
 import Session from "supertokens-auth-react/recipe/session";
 
 import SuperTokensConfig from "../lib/constants/SuperTokensConfig";
 import UserRecord from "../records/user";
-import { AuthContext, ApiContext, UserContext } from "contexts";
-import { USE_SUPERTOKENS } from "lib/constants/SiteVariables";
+import { AuthContext, ApiContext, UserContext } from "../contexts";
+import { USE_SUPERTOKENS } from "../lib/constants/SiteVariables";
+import { getCKItem, removeCKItem, setCKItem } from "../lib/utils/local_storage";
+
+export const useAuth = () => useContext(AuthContext);
 
 export function ProvideAuth({ children }) {
-  const persistentDataAuth = usePersistentDataAuth();
-  const superTokensAuth = useSuperTokensAuth();
-  return (
-    <AuthContext.Provider
-      value={USE_SUPERTOKENS ? superTokensAuth : persistentDataAuth}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  if (USE_SUPERTOKENS)
+    return <WithSuperTokensAuth>{children}</WithSuperTokensAuth>;
+
+  return <WithPersistentAuth>{children}</WithPersistentAuth>;
+}
+
+function WithSuperTokensAuth({ children }) {
+  const auth = useSuperTokensAuth();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+}
+
+function WithPersistentAuth({ children }) {
+  const auth = usePersistentDataAuth();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
 interface CreateTokenParams {
@@ -30,15 +38,17 @@ interface CreateTokenParams {
 }
 
 function usePersistentDataAuth() {
-  const router = useRouter();
   const api = useContext(ApiContext);
   const { auth, setAuth } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
-  const saved = JSON.parse(window.localStorage.getItem("auth")) || undefined;
+  const router = useRouter();
+  const saved = getCKItem();
 
   const needsRefresh = (token) => {
+    if (!token) return true;
+
     const expires = DateTime.fromSeconds(token.created_at)
       .plus({ hours: 2 })
       .setZone(DateTime.local().zoneName);
@@ -50,28 +60,34 @@ function usePersistentDataAuth() {
     if (!auth && data && data.authorized && !user) {
       setAuth(data);
       setUser(new UserRecord({ ...data.user }));
-      window.localStorage.setItem("auth", JSON.stringify(data));
+      setCKItem(JSON.stringify(data));
     }
   };
 
   const signout = () => {
+    const currentLocation = router.pathname.replace("/", "");
+
     setAuth(null);
     setUser(null);
-    window.localStorage.removeItem("auth");
+    removeCKItem();
+    // redirectToLogin(currentLocation);
   };
 
-  const redirectToLogin = (location) => {
-    return router.replace({
-      pathname: "/login",
-      query: { from: location },
-    });
-  };
+  // const redirectToLogin = (location) => {
+  //   if (typeof window !== "undefined") {
+  //     // EVENTUALLY CHANGE TO::::: NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN
+  //     const loginUrl = new URL(`${process.env.NEXTAUTH_URL}/login`);
+  //     loginUrl.searchParams.set("from", location);
+
+  //     window.location.href = loginUrl.toString();
+  //   }
+  // };
 
   const verify = useMutation({
     mutationFn: async ({ contact, type, ui }: CreateTokenParams) => {
-      const url = `/api/users/${ui}/verify`;
+      const url = ui ? `/api/users/${ui}/verify` : `/api/users/verify`;
 
-      await api.post(url, {
+      return await api.post(url, {
         type: type,
         contact: contact.contact,
       });
@@ -94,24 +110,12 @@ function usePersistentDataAuth() {
     },
   });
 
-  useEffect(() => {
-    if (!auth || (saved && needsRefresh(saved?.token) && !loading)) {
-      if (saved && !needsRefresh(saved?.token)) return signin(saved);
-      setLoading(true);
-      signout();
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    if (auth && auth.token.access_token) router.push("/");
-  }, [auth]);
-
   return {
     auth,
     setAuth,
     loading,
     setLoading,
-    redirectToLogin,
+    redirectToLogin: null,
     signin,
     signout,
     verify,
@@ -120,6 +124,8 @@ function usePersistentDataAuth() {
     accessToken: auth?.token?.access_token,
     isAuthorized: !!auth?.authorized,
     isAuthenticated: !!auth,
+    saved,
+    needsRefresh,
   };
 }
 
@@ -159,6 +165,16 @@ export const useSuperTokensAuth = () => {
     buildContext();
   }, [buildContext]);
 
+  const saved = getCKItem() || undefined;
+
+  const needsRefresh = (token) => {
+    const expires = DateTime.fromSeconds(token.created_at)
+      .plus({ hours: 2 })
+      .setZone(DateTime.local().zoneName);
+
+    return DateTime.now().setZone(DateTime.local().zoneName) >= expires;
+  };
+
   const isAuthenticated = () => sessionExists;
 
   const isAuthorized = (roles) => {
@@ -185,13 +201,15 @@ export const useSuperTokensAuth = () => {
   };
 
   const redirectToLogin = () => {
-    const currentUrl = window.location.origin + window.location.pathname;
-    const loginUrl = new URL(
-      SuperTokensConfig.appInfo.websiteDomain +
-        SuperTokensConfig.appInfo.websiteBasePath
-    );
-    loginUrl.searchParams.set("r", currentUrl);
-    window.location.href = loginUrl.toString();
+    if (typeof window !== "undefined") {
+      const currentUrl = window.location.origin + window.location.pathname;
+      const loginUrl = new URL(
+        SuperTokensConfig.appInfo.websiteDomain +
+          SuperTokensConfig.appInfo.websiteBasePath
+      );
+      loginUrl.searchParams.set("r", currentUrl);
+      window.location.href = loginUrl.toString();
+    }
   };
 
   const accessToken = () => authCtx.auth?.accessToken;
@@ -210,5 +228,7 @@ export const useSuperTokensAuth = () => {
     accessToken,
     isAuthorized,
     isAuthenticated,
+    saved,
+    needsRefresh,
   };
 };
