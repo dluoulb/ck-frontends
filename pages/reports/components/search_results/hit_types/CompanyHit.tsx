@@ -5,7 +5,6 @@ import { address, highlightMatches } from "../helpers";
 import { fromISO } from "../../../../../lib/utils/datetime_formatters";
 
 export default function CompanyHit({ hit }) {
-  console.log(hit);
   return (
     <article className="py-3 border-b w-full" key={hit.id} id="search_result">
       <div className="flex gap-3 w-full">
@@ -26,9 +25,7 @@ export default function CompanyHit({ hit }) {
           <p className="normal-case">Match: {highlightMatches(hit)}</p>
         </div>
         <p className="col-span-2">
-          <span className="block">
-            EIN: {hit.ein}
-          </span>
+          <span className="block">EIN: {hit.ein}</span>
           <span className="block">Address: {address(hit.address)}</span>
         </p>
         <div className="col-span-1">
