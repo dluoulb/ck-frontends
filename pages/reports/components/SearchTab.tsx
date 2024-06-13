@@ -1,0 +1,20 @@
+import React from "react";
+import classNames from "classnames";
+
+const SearchTab = ({ content, setContent, type }) => {
+  return (
+    <div
+      onClick={() => setContent(type)}
+      className={classNames(
+        content === type
+          ? "border-primary-blue text-primary-blue"
+          : "border-transparent text-tertiary-gray hover:border-primary-border-gray hover:text-secondary-gray",
+        "whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium capitalize"
+      )}
+    >
+      {type === "credit_key_applications" ? "Applications" : type}
+    </div>
+  );
+};
+
+export default SearchTab;

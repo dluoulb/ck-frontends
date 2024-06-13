@@ -25,6 +25,9 @@ module.exports = {
       fontFamily: {
         manrope: ["Manrope", "sans-serif"],
       },
+      width: {
+        "1/10": "10%",
+      },
     },
   },
   plugins: [],

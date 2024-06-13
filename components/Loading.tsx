@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-
-import spinner from "../lib/images/spinner.svg";
+import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinnerThird } from "@fortawesome/pro-solid-svg-icons";
 
 interface LoadingProps {
   className?: string;
@@ -10,7 +11,13 @@ interface LoadingProps {
 const Loading: FC<LoadingProps> = ({ className, containerClass }) => {
   return (
     <div className={`flex justify-center ${containerClass}`} role="loading">
-      <img src={spinner} className={`animate-spin ${className}`} />
+      <FontAwesomeIcon
+        icon={faSpinnerThird}
+        className={classNames(
+          "text-4xl text-primary-blue animate-spin",
+          className
+        )}
+      />
     </div>
   );
 };
