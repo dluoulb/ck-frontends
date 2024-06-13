@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   faHandWave,
@@ -35,7 +35,8 @@ const LoginToken = () => {
     });
 
     if (result?.ok) {
-      router.push("/");
+      // router.push("/");
+      router.push(`/${from}`);
     } else {
       setError(result.error);
       setLoading(false);

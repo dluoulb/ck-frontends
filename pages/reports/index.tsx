@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { useContext, useEffect, useState } from "react";
 import { SearchBox, useSearchBox } from "react-instantsearch";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,6 +6,7 @@ import { QueryContext } from "contexts";
 import HitTab from "@reports/search_results/HitTab";
 import SearchResults from "@reports/search_results/SearchResults";
 import SearchTab from "@reports/SearchTab";
+
 function Reports() {
   const queryClient = useQueryClient();
   const { query, refine } = useSearchBox();
@@ -95,7 +95,5 @@ function Reports() {
     </main>
   );
 }
-
-Reports.requireAuth = true;
 
 export default Reports;

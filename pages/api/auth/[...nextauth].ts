@@ -12,6 +12,10 @@ const api = axios.create({
   headers: headers,
 });
 
+const useSecureCookies = process.env.NEXTAUTH_URL.startsWith("https://");
+const hostName = new URL(process.env.NEXTAUTH_URL).hostname;
+const rootDomain = "creditkey.com";
+
 export default NextAuth({
   providers: [
     Credentials({
@@ -47,18 +51,29 @@ export default NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        return user;
-      }
-      if (Date.now() > token.expires_in) {
-        return null;
+        token.user = user;
+        token.expires = Date.now() + 2 * 60 * 60 * 1000;
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (token) {
         session.user = token.user;
+        session.expires = new Date(token.expires).toISOString();
       }
       return session;
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `${useSecureCookies ? "__Secure-" : ""}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: hostName === "localhost" ? hostName : "." + rootDomain,
+      },
     },
   },
   jwt: {

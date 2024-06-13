@@ -6,18 +6,9 @@ export const config = {
 };
 
 const sites = [
-  {
-    domain: "reports.localhost",
-    shortname: "reports",
-  },
-  {
-    domain: "admin.localhost",
-    shortname: "admin",
-  },
-  {
-    domain: "borrower.localhost",
-    shortname: "borrower",
-  },
+  { domain: "reports.localhost", shortname: "reports" },
+  { domain: "admin.localhost", shortname: "admin" },
+  { domain: "borrower.localhost", shortname: "borrower" },
 ];
 
 function siteForHost(host) {
@@ -27,8 +18,7 @@ function siteForHost(host) {
     return matchingSite ? matchingSite : null;
   } else {
     const domain = host.replace(/(local|new)\./, "").replace(":3000", "");
-    const matchingSite = sites.find((site) => site.domain === domain);
-    return matchingSite ? matchingSite : null;
+    return sites.find((site) => site.domain === domain) || null;
   }
 }
 
