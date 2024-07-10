@@ -1,16 +1,7 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-
-const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
-};
-
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  headers: headers,
-});
+import api from "lib/api";
 
 const useSecureCookies = process.env.NEXTAUTH_URL.startsWith("https://");
 const hostName = new URL(process.env.NEXTAUTH_URL).hostname;
@@ -51,35 +42,41 @@ export default NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.user = user;
-        token.expires = Date.now() + 2 * 60 * 60 * 1000;
+        token.user = user.user;
+        token.accessToken = user.token.access_token;
+        token.refreshToken = user.token.refresh_token;
+        token.expires = Date.now() + user.token.expires_in * 1000;
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (token) {
         session.user = token.user;
+        session.access_token = token.accessToken;
         session.expires = new Date(token.expires).toISOString();
       }
+      console.log('WHAT IS THE SESSION', session)
       return session;
     },
   },
-  cookies: {
-    sessionToken: {
-      name: `${useSecureCookies ? "__Secure-" : ""}next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: useSecureCookies,
-        domain: hostName === "localhost" ? hostName : "." + rootDomain,
-      },
-    },
-  },
+  // cookies: {
+  //   sessionToken: {
+  //     name: `${useSecureCookies ? "__Secure-" : ""}next-auth.session-token`,
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: useSecureCookies,
+  //       domain: hostName === "localhost" ? hostName : "." + rootDomain,
+  //     },
+  //   },
+  // },
+  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
     maxAge: 2 * 60 * 60,
   },
   session: {
+    strategy: "jwt",
     maxAge: 2 * 60 * 60,
   },
 });

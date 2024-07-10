@@ -12,28 +12,20 @@ import "../global.css";
 import { ProvideAuth } from "../hooks/useAuth";
 import { SessionProvider } from "next-auth/react";
 import { UserContext, QueryContext } from "../contexts";
+import api from "lib/api";
 import MainLayout from "@components/layout/MainLayout";
 import SearchConfig from "@components/SearchConfig";
-
-const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json",
-};
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  headers: headers,
-});
 
 const queryClient = new QueryClient();
 export const ApiContext = createContext(api);
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps: { session, ...pageProps } }) {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider session={pageProps.session}>
+      <SessionProvider session={session}>
         <ProvideAuth>
           <ApiContext.Provider value={api}>
             <UserContext.Provider value={{ user, setUser }}>

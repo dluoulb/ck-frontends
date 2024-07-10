@@ -35,8 +35,8 @@ const LoginToken = () => {
     });
 
     if (result?.ok) {
-      // router.push("/");
-      router.push(`/${from}`);
+      router.push("/");
+      // router.push(`/${from}`);
     } else {
       setError(result.error);
       setLoading(false);

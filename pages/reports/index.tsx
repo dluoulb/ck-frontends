@@ -50,10 +50,11 @@ function Reports() {
   return (
     <main>
       <div className="xl:max-w-[90%] mx-auto">
+        <h1 className="text-3xl font-bold text-primary my-6">Credit Key Reporting UI</h1>
         <div className="mt-4 mb-2">
           <SearchBox
             classNames={{
-              root: "relative mb-2",
+              root: "relative mb-1.5",
               input:
                 "block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500",
               submit:
@@ -63,7 +64,7 @@ function Reports() {
             }}
             placeholder="Begin typing to search for companies ..."
           />
-          <p className="text-sm text-light-gray pl-2">
+          <p className="text-sm text-light-gray pl-1">
             Search by company name, phone, or order key
           </p>
         </div>

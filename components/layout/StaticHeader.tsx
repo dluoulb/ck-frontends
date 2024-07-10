@@ -11,12 +11,10 @@ import { faArrowRightFromBracket } from "@fortawesome/pro-regular-svg-icons";
 export default function StaticHeader() {
   const router = useRouter();
   const { data: session } = useSession();
-  console.log('SESSSIONN', {session});
   const [origin, setOrigin] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log('static header', window.location);
       setOrigin(window.location.origin);
     }
   }, []);
@@ -37,16 +35,10 @@ export default function StaticHeader() {
       {session?.user && (
         <div className="flex items-center justify-around gap-2 text-primary-blue text-sm font-semibold hover:cursor-pointer hover:text-primary-blue-hover">
           <p
-            // onClick={() =>
-            //   signOut({
-            //     callbackUrl: `${host}/login?from=${router.pathname?.replace(
-            //       "/",
-            //       ""
-            //     )}`,
-            //   })
-            // }
             onClick={() =>
-              signOut()
+              signOut({
+                callbackUrl: `/login?from=${router.pathname?.replace("/", "")}`,
+              })
             }
             className="hover:underline sm:hover:no-underline underline-offset-8 decoration-1"
           >

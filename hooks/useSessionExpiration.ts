@@ -16,11 +16,6 @@ const useSessionExpiration = () => {
         DateTime.fromISO(session.expires).toMillis() -
         DateTime.now().toMillis();
 
-      console.log(
-        "Session expires at: ",
-        DateTime.fromISO(session.expires).toLocaleString(DateTime.DATETIME_FULL)
-      );
-
       const handleExpiration = () => {
         makeToast(
           "Your session has expired. You are being redirected to log in again.",
