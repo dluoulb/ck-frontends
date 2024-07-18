@@ -1,18 +1,18 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
+import { fromISO } from '../../../../../lib/utils/datetime_formatters';
 import {
   formatPhoneNumber,
   normalizePhone,
-} from "../../../../../lib/utils/formatters";
-import { address, highlightMatches } from "../helpers";
-import { fromISO } from "../../../../../lib/utils/datetime_formatters";
+} from '../../../../../lib/utils/formatters';
+import { address, highlightMatches } from '../helpers';
 
 export default function UserHit({ hit }) {
   return (
     <article className="py-3 border-b w-full" key={hit.id} id="search_result">
       <div className="flex gap-3 w-full">
-        <span className="md-1/10 lg:w-1/12 flex items-center justify-center rounded-md px-3 lg:px-0 py-1 capitalize font-semibold bg-violet-100 text-violet-600 text-xs tracking-wide">
+        <span className="md:w-1/10 lg:w-1/12 flex items-center justify-center rounded-md px-3 lg:px-0 py-1 capitalize font-semibold bg-violet-100 text-violet-600 text-xs tracking-wide">
           User
         </span>
         <Link
@@ -38,16 +38,16 @@ export default function UserHit({ hit }) {
         </p>
         <div className="col-span-1">
           <span className="block">
-            Phone:{" "}
+            Phone:{' '}
             {hit.phone
               ? formatPhoneNumber(normalizePhone(hit?.phone))
-              : "Not Provided"}
+              : 'Not Provided'}
           </span>
           <span className="block">
-            DOB:{" "}
+            DOB:{' '}
             {hit.birthdate
               ? fromISO(hit.birthdate).toLocaleString()
-              : "Not Provided"}
+              : 'Not Provided'}
           </span>
         </div>
       </div>
