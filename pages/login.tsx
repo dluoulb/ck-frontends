@@ -1,26 +1,28 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { useSearchParams } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquare } from "@fortawesome/free-solid-svg-icons";
-import { faHandWave } from "@fortawesome/pro-regular-svg-icons";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faHandWave } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useAuth } from "hooks/useAuth";
-import Support from "@components/Support";
-import UserVerification from "@components/UserVerification";
+import Support from '@components/Support';
+import UserVerification from '@components/UserVerification';
+import { useAuth } from 'hooks/useAuth';
 
 export default function Login() {
   const router = useRouter();
-  const from = useSearchParams().get("from");
   const { verify, loading, setLoading } = useAuth();
 
   const save = (values, input_type) => {
     setLoading(true);
     verify
-      .mutateAsync({ contact: values, type: input_type, ui: from })
+      .mutateAsync({
+        contact: values,
+        type: input_type,
+        ui: window.location.host.split('.')[0],
+      })
       .then(() =>
         router.push(
-          `/login-token?input_type=${input_type}&contact=${values.contact}&from=${from}`
+          `/login-token?input_type=${input_type}&contact=${values.contact}`
         )
       )
       .finally(() => setLoading(false));

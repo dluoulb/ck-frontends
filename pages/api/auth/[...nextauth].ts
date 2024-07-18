@@ -1,21 +1,16 @@
-import axios from "axios";
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import api from "lib/api";
-
-const useSecureCookies = process.env.NEXTAUTH_URL.startsWith("https://");
-const hostName = new URL(process.env.NEXTAUTH_URL).hostname;
-const rootDomain = "creditkey.com";
+import api from 'lib/api';
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
 export default NextAuth({
   providers: [
     Credentials({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        contact: { label: "Contact", type: "text" },
-        type: { label: "Type", type: "text" },
-        verification_code: { label: "Verification Code", type: "number" },
-        ui: { label: "UI", type: "text" },
+        contact: { label: 'Contact', type: 'text' },
+        type: { label: 'Type', type: 'text' },
+        verification_code: { label: 'Verification Code', type: 'number' },
+        ui: { label: 'UI', type: 'text' },
       },
       authorize: async ({ type, contact, verification_code, ui }) => {
         const url = ui ? `/api/users/${ui}/verified` : `/api/users/verified`;
@@ -29,12 +24,12 @@ export default NextAuth({
         if (result.data.authorized) {
           return result.data;
         } else if (result.data.invalid_code) {
-          throw new Error("Invalid Code");
+          throw new Error('Invalid Code');
         } else if (result.data.locked) {
-          throw new Error("User locked out");
+          throw new Error('User locked out');
         } else {
           // CONSIDER INVALID ROLES HERE!
-          throw new Error("An error occurred");
+          throw new Error('An error occurred');
         }
       },
     }),
@@ -55,28 +50,15 @@ export default NextAuth({
         session.access_token = token.accessToken;
         session.expires = new Date(token.expires).toISOString();
       }
-      console.log('WHAT IS THE SESSION', session)
       return session;
     },
   },
-  // cookies: {
-  //   sessionToken: {
-  //     name: `${useSecureCookies ? "__Secure-" : ""}next-auth.session-token`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       secure: useSecureCookies,
-  //       domain: hostName === "localhost" ? hostName : "." + rootDomain,
-  //     },
-  //   },
-  // },
   secret: process.env.NEXTAUTH_SECRET,
   jwt: {
     maxAge: 2 * 60 * 60,
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 2 * 60 * 60,
   },
 });

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import {
   faHandWave,
   faTriangleExclamation,
-} from "@fortawesome/pro-regular-svg-icons";
-import { faSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useSearchParams } from "next/navigation";
+} from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-import { useAuth } from "hooks/useAuth";
-import Alert from "@components/Alert";
-import Loading from "@components/Loading";
-import Support from "@components/Support";
-import UserTokenVerification from "@components/UserTokenVerification";
+import Alert from '@components/Alert';
+import Loading from '@components/Loading';
+import Support from '@components/Support';
+import UserTokenVerification from '@components/UserTokenVerification';
+import { useAuth } from 'hooks/useAuth';
 
 const LoginToken = () => {
   const router = useRouter();
@@ -26,17 +26,16 @@ const LoginToken = () => {
 
   const onSubmit = async (givenToken) => {
     setLoading(true);
-    const result = await signIn("credentials", {
+    const result = await signIn('credentials', {
       redirect: false,
       contact,
       type: input_type,
       verification_code: givenToken,
-      ui: from,
+      ui: window.location.host.split('.')[0],
     });
 
     if (result?.ok) {
-      router.push("/");
-      // router.push(`/${from}`);
+      router.push('/');
     } else {
       setError(result.error);
       setLoading(false);
@@ -58,7 +57,7 @@ const LoginToken = () => {
             />
           </span>
           <div className="text-xl sm:text-4xl font-extrabold">
-            We just {input_type === "phone" ? "texted" : "emailed"} you
+            We just {input_type === 'phone' ? 'texted' : 'emailed'} you
           </div>
         </div>
         <div className="font-light sm:text-lg tracking-wide mb-6">
@@ -83,7 +82,7 @@ const LoginToken = () => {
           </p>
           <Link
             href="/login"
-            className="xxs:ml-1.5 text-sm sm:text-lg text-primary-blue hover:text-primary-blue-hover"
+            className="text-sm sm:text-lg text-primary-blue hover:text-primary-blue-hover"
           >
             Change {input_type}
           </Link>

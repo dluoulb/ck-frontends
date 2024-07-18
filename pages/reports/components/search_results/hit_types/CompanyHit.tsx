@@ -1,14 +1,14 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import { address, highlightMatches } from "../helpers";
-import { fromISO } from "../../../../../lib/utils/datetime_formatters";
+import { fromISO } from '../../../../../lib/utils/datetime_formatters';
+import { address, highlightMatches } from '../helpers';
 
 export default function CompanyHit({ hit }) {
   return (
     <article className="py-3 border-b w-full" key={hit.id} id="search_result">
       <div className="flex gap-3 w-full">
-        <span className="md-1/10 lg:w-1/12 flex items-center justify-center rounded-md px-3 lg:px-0 py-1 capitalize font-semibold text-success text-xs tracking-wide bg-background-success">
+        <span className="md:w-1/10 lg:w-1/12 flex items-center justify-center rounded-md px-3 lg:px-0 py-1 capitalize font-semibold text-success text-xs tracking-wide bg-background-success">
           Company
         </span>
         <Link
@@ -30,7 +30,7 @@ export default function CompanyHit({ hit }) {
         </p>
         <div className="col-span-1">
           <p>Status: {hit.underwriting_status}</p>
-          <p>Tier: {hit.tier.includes("_") ? hit.tier.slice(5) : hit.tier}</p>
+          <p>Tier: {hit.tier.includes('_') ? hit.tier.slice(5) : hit.tier}</p>
         </div>
       </div>
     </article>
