@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Loading from '@components/Loading';
-import EntityDetail from '@reports/entity/EntityDetail';
+import EntityDetail from '@reports/entity_detail/EntityDetail';
 import NoDataError from '@reports/NoDataError';
 import { useQuery } from '@tanstack/react-query';
 import { ApiContext } from 'contexts';
@@ -9,25 +9,25 @@ import { useRouter } from 'next/router';
 import useCompanyDependencies from 'pages/reports/hooks/useCompanyDependencies';
 
 const CompanyIndex = () => {
-  const router = useRouter();
   const api = useContext(ApiContext);
-  const { id } = router.query;
+  const { query } = useRouter();
+  const [content, setContent] = useState(query?.content);
 
   const {
     data: company,
     error: companyError,
     isLoading: companyLoading,
   } = useQuery({
-    queryKey: ['company', id],
-    queryFn: () => getCompany(api, id),
-    enabled: !!id,
+    queryKey: ['company', query.id],
+    queryFn: () => getCompany(api, query.id),
+    enabled: !!query.id,
     retry: false,
   });
 
   const {
     companyProps: { isLoading },
     companyProps,
-  } = useCompanyDependencies(company);
+  } = useCompanyDependencies(company, content);
 
   if (companyError) return <NoDataError tag="Company" />;
 
@@ -36,7 +36,11 @@ const CompanyIndex = () => {
 
   return (
     <div className="max-w-[90%] mx-auto">
-      <EntityDetail props={companyProps} />
+      <EntityDetail
+        props={companyProps}
+        content={content}
+        setContent={setContent}
+      />
     </div>
   );
 };

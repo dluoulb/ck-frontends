@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
-import { faDownload } from '@fortawesome/pro-regular-svg-icons';
+import Loading from '@components/Loading';
+import { faDownload } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 
-import Loading from '@components/Loading';
 import useToast from '../../../../hooks/useToast';
 import { getAgreement } from '../../../../lib/actions/orders';
 
-export default function DownloadAgreement({ order, buttonText, buttonClass }) {
+export default function DownloadAgreement({
+  order,
+  buttonText = '',
+  buttonClass = '',
+}) {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const { makeToast } = useToast();
@@ -45,7 +49,10 @@ export default function DownloadAgreement({ order, buttonText, buttonClass }) {
       {loading ? (
         <Loading className="w-3 h-3" />
       ) : (
-        <FontAwesomeIcon icon={faDownload} />
+        <span className="flex items-center gap-2">
+          <FontAwesomeIcon icon={faDownload} />
+          <p className="hidden mid:inline">Download</p>
+        </span>
       )}
     </div>
   );

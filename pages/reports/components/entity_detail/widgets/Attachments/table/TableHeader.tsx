@@ -3,33 +3,12 @@ import GlobalFilter from '@components/GlobalFilter';
 import classNames from 'classnames';
 import { startCase } from 'lodash';
 
-const statusTabs = [
-  {
-    name: 'all',
-    filter_value: '',
-  },
-  {
-    name: 'Bank Statements',
-    filter_value: 'bank_statements',
-  },
-  {
-    name: 'Adverse Action',
-    filter_value: [
-      'manual_adverse_action_notice',
-      'adverse_action_reason_for_denial',
-    ],
-  },
-  {
-    name: 'Underwriting',
-    filter_value: 'underwriting_other',
-  },
-  {
-    name: 'Other',
-    filter_value: 'misc',
-  },
-];
-
-export default function TableHeader({ tableInstance, active, setActive }) {
+export default function TableHeader({
+  tableInstance,
+  statusTabs = [],
+  active = '',
+  setActive = (tag) => {},
+}) {
   const {
     state: { globalFilter },
     setGlobalFilter,

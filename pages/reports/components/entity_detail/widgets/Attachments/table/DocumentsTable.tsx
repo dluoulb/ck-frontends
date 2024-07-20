@@ -8,6 +8,32 @@ import TableHeader from './TableHeader';
 export default function DocumentsTable({ documents }) {
   const [active, setActive] = useState('all');
 
+  const statusTabs = [
+    {
+      name: 'all',
+      filter_value: '',
+    },
+    {
+      name: 'Bank Statements',
+      filter_value: 'bank_statements',
+    },
+    {
+      name: 'Adverse Action',
+      filter_value: [
+        'manual_adverse_action_notice',
+        'adverse_action_reason_for_denial',
+      ],
+    },
+    {
+      name: 'Underwriting',
+      filter_value: 'underwriting_other',
+    },
+    {
+      name: 'Other',
+      filter_value: 'misc',
+    },
+  ];
+
   const data = useMemo(() => documents || [], [documents?.length]);
   const columns = useMemo(() => TableColumns, []);
   const instance = useTable(
@@ -28,6 +54,7 @@ export default function DocumentsTable({ documents }) {
   return (
     <div className="flex flex-col max-w-full">
       <TableHeader
+        statusTabs={statusTabs}
         tableInstance={instance}
         active={active}
         setActive={setActive}

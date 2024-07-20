@@ -5,6 +5,17 @@ export const getOrder = async (api, id) => {
   return order?.data.data.attributes;
 };
 
+export const getOrders = async (api, entity, type, pageIndex) => {
+  if (entity) {
+    const orders = await api.get(
+      `/api/orders?filter[${type}]=${entity?.id}&page=${
+        pageIndex + 1
+      }&per_page=25&include=payment_schedule`,
+    );
+    return orders ? orders : [];
+  }
+};
+
 export const getAgreement = (order, token) => {
   const fileUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${order.id}/agreement`;
 

@@ -3,7 +3,7 @@ import Loading from '@components/Loading';
 import { faDownload } from '@fortawesome/pro-regular-svg-icons';
 import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DocumentsTable from '@reports/entity/widgets/Attachments/table/DocumentsTable';
+import DocumentsTable from '@reports/entity_detail/widgets/Attachments/table/DocumentsTable';
 
 export default function Attachments({ props }) {
   const {

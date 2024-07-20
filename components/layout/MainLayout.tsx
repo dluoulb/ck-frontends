@@ -17,7 +17,7 @@ export default function MainLayout({ children }) {
 
       <div className="flex flex-col min-h-screen font-manrope">
         <StaticHeader />
-        <div className="flex-grow container md:max-w-[900px] lg:!container mx-auto px-4 xl:px-8">
+        <div className="flex-grow container md:max-w-[900px] lg:max-w-[1200px] xl:!container mx-auto px-4 xl:px-8">
           {children}
         </div>
         <Toaster

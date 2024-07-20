@@ -38,7 +38,7 @@ const PageNavigation = ({ order, type, entity }) => {
                   className="text-xs mt-0.5"
                 />
                 <Link
-                  href={`${buildLinkPath()}?content=loans`}
+                  href={`${buildLinkPath()}?content=orders`}
                   className="hover:text-primary-blue-hover"
                 >
                   Orders
