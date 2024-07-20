@@ -1,20 +1,15 @@
-import toast from "react-hot-toast";
-import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import toast from 'react-hot-toast';
 import {
   faCircleCheck,
   faCircleXmark,
-} from "@fortawesome/pro-regular-svg-icons";
+} from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 
 export default function useToast() {
-  // TODO: FIX THE BACKGROUND NOT DISPLAYING PROPERLY
   const makeToast = (msg, type) => {
     return toast(
       <div
-        className={classNames(
-          "absolute top-3 right-3 shadow-lg mx-auto w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3",
-          type === "success" ? "bg-success" : "bg-error"
-        )}
         id="static-example"
         role="alert"
         aria-live="assertive"
@@ -23,18 +18,28 @@ export default function useToast() {
       >
         <div
           className={classNames(
-            "flex justify-between items-center p-3 bg-clip-padding border-b rounded-lg",
-            type === "success"
-              ? "bg-success border-success"
-              : "bg-error border-error"
+            'flex justify-between items-center p-3 rounded-md',
+            type === 'success'
+              ? 'bg-background-success border-success'
+              : 'bg-background-error border-error'
           )}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-start gap-2">
             <FontAwesomeIcon
-              icon={type === "success" ? faCircleCheck : faCircleXmark}
-              className="text-white text-lg"
+              icon={type === 'success' ? faCircleCheck : faCircleXmark}
+              className={classNames(
+                'mt-1',
+                type === 'success' ? 'text-success' : 'text-error'
+              )}
             />
-            <p className="text-white mt-0.5">{msg}</p>
+            <p
+              className={classNames(
+                'text-sm',
+                type === 'success' ? 'text-success' : 'text-error'
+              )}
+            >
+              {msg}
+            </p>
           </div>
         </div>
       </div>

@@ -1,10 +1,4 @@
 import { useContext } from 'react';
-import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-
 import Loading from '@components/Loading';
 import NoDataError from '@reports/NoDataError';
 import AdditionalInfo from '@reports/orders/AdditionalInfo';
@@ -15,9 +9,12 @@ import OrderInfo from '@reports/orders/overview/OrderInfo';
 import ProductInfo from '@reports/orders/overview/ProductInfo';
 import PSTable from '@reports/orders/payment_schedule/PSTable';
 import TransactionsTable from '@reports/orders/transactions_table/TransactionsTable';
-import useOrderDependencies from 'hooks/useOrderDependencies';
+import PageNavigation from '@reports/PageNavigation';
+import { useQuery } from '@tanstack/react-query';
 import { ApiContext } from 'contexts';
 import { getOrder } from 'lib/actions/orders';
+import { useRouter } from 'next/router';
+import useOrderDependencies from 'pages/reports/hooks/useOrderDependencies';
 
 const OrderIndex = () => {
   const router = useRouter();
@@ -47,13 +44,6 @@ const OrderIndex = () => {
     },
   } = useOrderDependencies(order);
 
-  const buildLinkPath = () => {
-    if (type === 'account') {
-      return `/accounts/${entity?.id}`;
-    }
-    return `/companies/${entity?.id}`;
-  };
-
   if (orderError) return <NoDataError tag="Order" />;
 
   if (errors.entityError) return <NoDataError tag="User" />;
@@ -64,50 +54,7 @@ const OrderIndex = () => {
         <Loading className="w-14 h-14 my-16" />
       ) : (
         <>
-          <div className="flex items-center my-6">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-primary font-semibold">
-              <div className="flex items-center gap-2">
-                <Link href="/" className="hover:text-primary-blue-hover">
-                  Search
-                </Link>
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="text-xs mt-0.5"
-                />
-              </div>
-              {entity && (
-                <>
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`${buildLinkPath()}?content=dashboard`}
-                      className="hover:text-primary-blue-hover"
-                    >
-                      {entity?.name}
-                    </Link>
-                    <FontAwesomeIcon
-                      icon={faChevronRight}
-                      className="text-xs mt-0.5"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`${buildLinkPath()}?content=loans`}
-                      className="hover:text-primary-blue-hover"
-                    >
-                      Orders
-                    </Link>
-                    <FontAwesomeIcon
-                      icon={faChevronRight}
-                      className="text-xs mt-0.5"
-                    />
-                  </div>
-                </>
-              )}
-              <p className="text-primary-blue-hover">
-                {order?.product?.order_key}
-              </p>
-            </div>
-          </div>
+          <PageNavigation order={order} type={type} entity={entity} />
           <p className="text-4xl font-bold text-primary">Order Details</p>
           <div className="relative rounded-t-md border-t border-x border-border-gray shadow-sm mt-8 pb-16">
             <div className="p-6">

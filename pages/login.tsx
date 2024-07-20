@@ -29,7 +29,7 @@ export default function Login() {
   };
 
   return (
-    <div role="main" className="mx-6 sm:mx-auto my-12">
+    <div role="main" className="mx-4 sm:mx-auto my-6 sm:my-12">
       <div className="mx-auto max-w-xl w-full overflow-y-scroll">
         <div className="my-4 flex items-center">
           <span className="fa-layers fa-fw text-5xl">

@@ -2,9 +2,12 @@ import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ApiContext } from 'contexts';
 
-import { getAccount } from '../lib/actions/accounts';
-import { getCompany } from '../lib/actions/companies';
-import { getPaymentSchedule, getTransactions } from '../lib/actions/orders';
+import { getAccount } from '../../../lib/actions/accounts';
+import { getCompany } from '../../../lib/actions/companies';
+import {
+  getPaymentSchedule,
+  getTransactions,
+} from '../../../lib/actions/orders';
 
 function useOrderDependencies(order) {
   let orderProps;

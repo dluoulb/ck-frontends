@@ -23,7 +23,7 @@ export default function Tooltip({
         <div
           ref={setTooltipRef}
           {...getTooltipProps({
-            className: `border border-opaque-navy-border shadow-md p-2 rounded-md z-10 block ${container_class}`,
+            className: `shadow-md p-2 rounded-md z-10 block ${container_class}`,
           })}
         >
           {tooltip_text}

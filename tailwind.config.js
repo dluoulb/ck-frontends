@@ -21,6 +21,8 @@ module.exports = {
         error: '#A72525',
         'background-error': '#F6D5D5',
         'icon-error': '#7D1C1C',
+        warning: '#907309',
+        'background-warning': '#EBE3AD',
       },
       fontFamily: { manrope: ['Manrope', 'sans-serif'] },
       width: { '1/10': '10%' },
