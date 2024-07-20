@@ -1,27 +1,28 @@
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import '@fortawesome/fontawesome-svg-core/styles.css';
+
+import { createContext, useState } from 'react';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import '../global.css';
+
+import MainLayout from '@components/layout/MainLayout';
+import SearchConfig from '@components/SearchConfig';
+import api from 'lib/api';
+import { SessionProvider } from 'next-auth/react';
+
+import { QueryContext, UserContext } from '../contexts';
+import { ProvideAuth } from '../hooks/useAuth';
+
 config.autoAddCss = false;
-
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useState, createContext, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-import "../global.css";
-import { ProvideAuth } from "../hooks/useAuth";
-import { SessionProvider } from "next-auth/react";
-import { UserContext, QueryContext } from "../contexts";
-import api from "lib/api";
-import MainLayout from "@components/layout/MainLayout";
-import SearchConfig from "@components/SearchConfig";
 
 const queryClient = new QueryClient();
 export const ApiContext = createContext(api);
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const [user, setUser] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <QueryClientProvider client={queryClient}>

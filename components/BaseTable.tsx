@@ -10,6 +10,8 @@ export default function BaseTable({
   expandedRow = null,
   noDataFoundWarning = '',
   onClickHandler = null,
+  rowClass = '',
+  headerClass = '',
   tableClass = '',
   addRows = 0,
   fillTable = false,
@@ -39,7 +41,10 @@ export default function BaseTable({
   for (let i = 0; i < addRows; i++) {
     additionalRows.push(
       <tr key={i}>
-        <td colSpan={visibleColumns.length} className="px-4 pt-3 pb-1" />
+        <td
+          colSpan={visibleColumns.length}
+          className={classNames('px-4 pt-3 pb-1', rowClass)}
+        />
       </tr>
     );
   }
@@ -50,7 +55,10 @@ export default function BaseTable({
       for (let i = 0; i < pageSize - rowList.length; i++) {
         additionalRows.push(
           <tr key={i} className="h-1/5">
-            <td colSpan={visibleColumns.length} className="px-4 pt-3 pb-1" />
+            <td
+              colSpan={visibleColumns.length}
+              className={classNames('px-4 pt-3 pb-1', rowClass)}
+            />
           </tr>
         );
       }
@@ -63,13 +71,17 @@ export default function BaseTable({
       <table {...getTableProps()} className={`min-w-full ${tableClass}`}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()} className="border-b">
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className="border-b sticky top-0"
+            >
               {headerGroup.headers.map((column) => (
                 <th
                   scope="col"
                   className={classNames(
-                    'py-3 text-left text-sm text-primary bg-secondary-blue',
-                    column.isSorted ? 'px-4 sm:px-12' : 'px-6 sm:px-12'
+                    'py-4 text-left text-sm text-primary bg-secondary-blue',
+                    column.isSorted ? 'px-4 sm:px-12' : 'px-6 sm:px-12',
+                    headerClass
                   )}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
@@ -133,6 +145,7 @@ export default function BaseTable({
                           {...cell.getCellProps({
                             className: classNames(
                               'py-4 whitespace-nowrap',
+                              rowClass,
                               cell.column.className,
                               cell.column.isSorted
                                 ? 'px-5 sm:px-12'
@@ -157,11 +170,11 @@ export default function BaseTable({
           ) : (
             <>
               <tr>
-                <td colSpan={visibleColumns.length} className="p-4">
+                <td colSpan={visibleColumns.length} className="p-2 lg:p-4">
                   {noDataFoundWarning}
                 </td>
               </tr>
-              {addRows && additionalRows}
+              {addRows ? additionalRows : null}
             </>
           )}
         </tbody>
