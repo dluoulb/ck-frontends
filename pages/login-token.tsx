@@ -31,7 +31,7 @@ const LoginToken = () => {
       contact,
       type: input_type,
       verification_code: givenToken,
-      ui: window.location.host.split('.')[0],
+      ui: router?.query?.from || '',
     });
 
     if (result?.ok) {

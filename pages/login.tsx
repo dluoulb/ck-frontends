@@ -18,11 +18,11 @@ export default function Login() {
       .mutateAsync({
         contact: values,
         type: input_type,
-        ui: window.location.host.split('.')[0],
+        ui: router?.query?.from || '',
       })
       .then(() =>
         router.push(
-          `/login-token?input_type=${input_type}&contact=${values.contact}`
+          `/login-token?input_type=${input_type}&contact=${values.contact}&from=${router?.query?.from || ''}`
         )
       )
       .finally(() => setLoading(false));

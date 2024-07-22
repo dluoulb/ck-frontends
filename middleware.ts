@@ -24,7 +24,7 @@ function siteForHost(host) {
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const site = siteForHost(req.headers.get('host')!);
+  const site = siteForHost(req.headers.get('host'));
 
   if (['/login', '/login-token'].includes(pathname)) {
     return NextResponse.next();
@@ -32,13 +32,14 @@ export default async function middleware(req: NextRequest) {
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  if (!token && site) {
-    ////////////// BUG FOR DEV //////////////
-    // Based on this Github issue, it appears in dev routes are going
-    // to relative path instead of defined absolute path
-    // https://github.com/vercel/next.js/issues/44482
+  if (!token) {
     return NextResponse.redirect(
-      new URL(`${process.env.NEXTAUTH_URL}/login`, req.url)
+      new URL(
+        site
+          ? `${process.env.NEXTAUTH_URL}/login?from=${site.shortname}`
+          : `${process.env.NEXTAUTH_URL}/login`,
+        req.url
+      )
     );
   }
 

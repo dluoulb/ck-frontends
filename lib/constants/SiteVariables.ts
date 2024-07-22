@@ -1,25 +1,27 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 
 const protocol = 'https://';
 const rootURI = 'creditkey.com';
 
 export const VERSION = '1.0.0';
 
-export const USE_SUPERTOKENS = process.env.NEXT_PUBLIC_USE_SUPERTOKENS === 'true';
+export const USE_SUPERTOKENS =
+  process.env.NEXT_PUBLIC_USE_SUPERTOKENS === 'true';
 
-export const supportPhone =  '+1 (844) 334-3636';
+export const supportPhone = '+1 (844) 334-3636';
 export const declinedSupportPhone = '+1 (844) 900-3330';
 
 export const formStyles = {
-    error: (error) =>
-      classNames('input focus:border-primary-blue', {
-        '!border-error': error,
-      }),
-    input: (multi, error) =>
-      classNames('w-full', multi ? 'mb-2 sm:mb-2' : 'mb-2 ', {
-        'mb-0 sm:mb-2': error,
-      }),
-    validation: 'text-error text-xxs sm:text-xs text-left',
-  };
+  error: (error) =>
+    classNames('input focus:border-primary-blue', {
+      '!border-error': error,
+    }),
+  input: (multi, error) =>
+    classNames('w-full', multi ? 'mb-2 sm:mb-2' : 'mb-2 ', {
+      'mb-0 sm:mb-2': error,
+    }),
+  validation: 'text-error text-xxs sm:text-xs text-left',
+};
 
-export const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+export const emailRegex =
+  /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
