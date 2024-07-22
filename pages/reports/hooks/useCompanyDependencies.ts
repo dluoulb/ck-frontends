@@ -9,13 +9,13 @@ import {
 } from '../../../lib/actions/companies';
 import { getUser } from '../../../lib/actions/users';
 
-function useCompanyDependencies(company) {
+function useCompanyDependencies(company, content) {
   let companyProps;
   const api = useContext(ApiContext);
   const [hasErrors, setHasErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const fetchConfig = {
-    enabled: !!company && !companyProps,
+    enabled: !!company && !companyProps && content !== 'orders',
     retry: false,
   };
 
@@ -65,7 +65,7 @@ function useCompanyDependencies(company) {
   }, [userError, applicationsError, statsError, companyDocsError]);
 
   useEffect(() => {
-    setIsLoading(userLoading || statsLoading || companyDocsLoading);
+    setIsLoading(userLoading || applicationsLoading || statsLoading || companyDocsLoading);
   }, [userLoading, statsLoading, companyDocsLoading]);
 
   const errors = {

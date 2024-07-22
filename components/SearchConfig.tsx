@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 
-import { getSearchConfig } from '../pages/reports/actions/search';
+import { getSearchConfig } from '../pages/reports/lib/actions/search';
 
 const getConfig = () => {
   const router = useRouter();

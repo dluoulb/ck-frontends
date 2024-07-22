@@ -27,7 +27,7 @@ module.exports = {
       fontFamily: { manrope: ['Manrope', 'sans-serif'] },
       width: { '1/10': '10%' },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
-      screens: { xs: '480px' },
+      screens: { xs: '480px', 'mid': '856px' },
     },
   },
   plugins: [],

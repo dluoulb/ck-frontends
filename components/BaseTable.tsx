@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { faAngleDown, faAngleUp } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -65,6 +65,39 @@ export default function BaseTable({
     }
     return additionalRows;
   };
+
+  window.addEventListener('resize', () => {
+    tableInstance.columns.forEach((column) => {
+      if (window.innerWidth <= column.hideColumn && column.isVisible) {
+        column.toggleHidden(true);
+      }
+      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
+        column.toggleHidden(false);
+      }
+    });
+  });
+
+  useEffect(() => {
+    tableInstance.columns.forEach((column) => {
+      if (window.innerWidth <= column.hideColumn && column.isVisible) {
+        column.toggleHidden(true);
+      }
+      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
+        column.toggleHidden(false);
+      }
+    });
+  },[])
+
+  useEffect(() => {
+    tableInstance.columns.forEach((column) => {
+      if (window.innerWidth <= column.hideColumn && column.isVisible) {
+        column.toggleHidden(true);
+      }
+      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
+        column.toggleHidden(false);
+      }
+    });
+  },[window.innerWidth])
 
   return (
     <>
@@ -135,7 +168,7 @@ export default function BaseTable({
                     className={classNames(
                       'py-4 border-b last:border-b-0',
                       onClickHandler
-                        ? 'cursor-pointer hover:bg-primary-blue hover:bg-opacity-10'
+                        ? 'cursor-pointer hover:bg-primary-blue hover:bg-secondary-blue'
                         : ''
                     )}
                   >

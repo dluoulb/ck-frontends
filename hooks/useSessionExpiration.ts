@@ -16,7 +16,6 @@ const useSessionExpiration = () => {
         DateTime.fromISO(session.expires).toMillis() -
         DateTime.now().toMillis();
 
-      // TODO: FIX TOAST DISPLAY UPON EXPIRATION
       const handleExpiration = () => {
         makeToast(
           'Your session has expired. You are being redirected to log in again.',

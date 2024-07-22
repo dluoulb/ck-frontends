@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 
 import EntityOverview from './EntityOverview';
 import MainDashboard from './MainDashboard';
 import OrderDashboard from './OrderDashboard';
 import PageNavigation from '../PageNavigation';
 
-export default function EntityDetail({ props }) {
+export default function EntityDetail({ props, content, setContent }) {
   const { type, entity } = props;
-  const { query } = useRouter();
-  const [content, setContent] = useState(query?.content);
 
   return (
     <div>
