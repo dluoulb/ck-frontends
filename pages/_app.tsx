@@ -4,21 +4,24 @@ import { createContext, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
 
-import MainLayout from '@components/layout/MainLayout';
-import SearchConfig from '@components/SearchConfig';
-import api from 'lib/api';
-import { SessionProvider } from 'next-auth/react';
-
+import MainLayout from '../components/layout/MainLayout';
+import SearchConfig from '../components/SearchConfig';
 import { QueryContext, UserContext } from '../contexts';
-import { ProvideAuth } from '../hooks/useAuth';
+import api from '../lib/api';
+import { SuperTokensConfig } from 'lib/constants/SuperTokensConfig';
 
 config.autoAddCss = false;
 
 const queryClient = new QueryClient();
 export const ApiContext = createContext(api);
+
+if (typeof window !== 'undefined') {
+  SuperTokens.init(SuperTokensConfig);
+}
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const [user, setUser] = useState(null);
@@ -26,21 +29,19 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider session={session}>
-        <ProvideAuth>
-          <ApiContext.Provider value={api}>
-            <UserContext.Provider value={{ user, setUser }}>
-              <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
-                <MainLayout>
-                  <SearchConfig>
-                    <Component {...pageProps} />
-                  </SearchConfig>
-                </MainLayout>
-              </QueryContext.Provider>
-            </UserContext.Provider>
-          </ApiContext.Provider>
-        </ProvideAuth>
-      </SessionProvider>
+      <SuperTokensWrapper>
+        <ApiContext.Provider value={api}>
+          <UserContext.Provider value={{ user, setUser }}>
+            <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
+              <MainLayout>
+                <SearchConfig>
+                  <Component {...pageProps} />
+                </SearchConfig>
+              </MainLayout>
+            </QueryContext.Provider>
+          </UserContext.Provider>
+        </ApiContext.Provider>
+      </SuperTokensWrapper>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

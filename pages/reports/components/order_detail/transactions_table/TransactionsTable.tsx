@@ -12,7 +12,7 @@ import Loading from '@components/Loading';
 import { TableColumns } from './TableColumns';
 
 export default function TransactionsTable({ transactions, err }) {
-  const data = useMemo(() => transactions || [], [transactions]);
+  const data = useMemo(() => transactions || [], [transactions?.length]);
   const columns = useMemo(() => TableColumns, []);
   const sortTypes = React.useMemo(
     () => ({
@@ -30,7 +30,7 @@ export default function TransactionsTable({ transactions, err }) {
       columns,
       data,
       initialState: {
-        pageSize: 5,
+        pageSize: transactions?.length < 5 ? transactions?.length : 5,
         sortBy: [{ id: 'value_date', desc: true }],
       },
       sortTypes,
@@ -58,9 +58,8 @@ export default function TransactionsTable({ transactions, err }) {
             ? 'Error: Unable to retrieve order transactions.'
             : 'No transactions found.'
         }
-        tableClass="min-h-[21rem] w-full px-2 sm:px-6"
-        addRows={6}
-        fillTable={true}
+        tableClass="w-full px-2 sm:px-6"
+        addRows={5}
       />
     </div>
   );

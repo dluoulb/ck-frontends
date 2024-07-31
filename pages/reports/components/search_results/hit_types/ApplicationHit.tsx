@@ -15,7 +15,7 @@ export default function ApplicationHit({ hit }) {
         </span>
         <Link
           className="text-lg font-bold text-primary-blue cursor-pointer underline"
-          href={`/companies/${hit.company_id}`}
+          href={`/reports/companies/${hit.company_id}`}
         >
           {hit.company_name}
         </Link>

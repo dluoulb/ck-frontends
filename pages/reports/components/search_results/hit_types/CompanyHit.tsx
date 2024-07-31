@@ -13,7 +13,7 @@ export default function CompanyHit({ hit }) {
         </span>
         <Link
           className="text-lg font-bold text-primary-blue cursor-pointer underline"
-          href={`/companies/${hit.id}`}
+          href={`/reports/companies/${hit.id}`}
         >
           {hit.name}
         </Link>

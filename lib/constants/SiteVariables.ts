@@ -1,12 +1,6 @@
 import classNames from 'classnames';
 
-const protocol = 'https://';
-const rootURI = 'creditkey.com';
-
 export const VERSION = '1.0.0';
-
-export const USE_SUPERTOKENS =
-  process.env.NEXT_PUBLIC_USE_SUPERTOKENS === 'true';
 
 export const supportPhone = '+1 (844) 334-3636';
 export const declinedSupportPhone = '+1 (844) 900-3330';

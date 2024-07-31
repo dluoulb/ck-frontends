@@ -2,25 +2,22 @@ import React, { useState } from 'react';
 import { faDownload } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import useToast from 'hooks/useToast';
-import { getCompanyDocument } from 'lib/actions/companies';
+import { getEntityDocument } from 'lib/actions/entities';
 
 export default function DownloadDocument({ document_id }) {
-  const router = useRouter();
   const queryClient = useQueryClient();
-  const { id } = router.query;
+  const { id, type } = useRouter().query;
   const { makeToast } = useToast();
-  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const company = queryClient.getQueryData(['company', id]);
+  const entity = queryClient.getQueryData([type, id]);
 
-  const fetchDocument = () => {
+  const fetchDocument = async () => {
     let download;
-    download = getCompanyDocument(company, document_id, session?.access_token);
+    download = await getEntityDocument(entity, document_id);
 
     setLoading(true);
     download

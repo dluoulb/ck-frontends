@@ -1,4 +1,3 @@
-import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
@@ -25,20 +24,12 @@ function siteForHost(host) {
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const site = siteForHost(req.headers.get('host'));
+  const sessionToken = req.cookies.get('st-access-token');
 
-  if (['/login', '/login-token'].includes(pathname)) {
-    return NextResponse.next();
-  }
-
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-  if (!token) {
+  if (!sessionToken) {
     return NextResponse.redirect(
       new URL(
-        site
-          ? `${process.env.NEXTAUTH_URL}/login?from=${site.shortname}`
-          : `${process.env.NEXTAUTH_URL}/login`,
-        req.url
+        `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${process.env.NEXT_PUBLIC_BASE_URL}${site ? `/${site.shortname}` : pathname}`
       )
     );
   }

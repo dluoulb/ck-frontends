@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import Loading from '@components/Loading';
+import React, {  useState } from 'react';
 import { faDownload } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { useSession } from 'next-auth/react';
 
+import Loading from '@components/Loading';
 import useToast from '../../../../hooks/useToast';
 import { getAgreement } from '../../../../lib/actions/orders';
 
@@ -12,14 +11,14 @@ export default function DownloadAgreement({
   order,
   buttonText = '',
   buttonClass = '',
+  isTable = false,
 }) {
-  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const { makeToast } = useToast();
 
-  const fetchAgreement = (order) => {
+  const fetchAgreement = async (order) => {
     let download;
-    download = getAgreement(order, session?.access_token);
+    download = await getAgreement(order);
 
     setLoading(true);
     download
@@ -51,7 +50,9 @@ export default function DownloadAgreement({
       ) : (
         <span className="flex items-center gap-2">
           <FontAwesomeIcon icon={faDownload} />
-          <p className="hidden mid:inline">Download</p>
+          <p className={classNames(isTable ? 'hidden mid:inline' : 'hidden')}>
+            Download
+          </p>
         </span>
       )}
     </div>

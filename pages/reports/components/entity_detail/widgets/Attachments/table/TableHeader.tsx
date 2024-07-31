@@ -31,10 +31,10 @@ export default function TableHeader({
               >
                 <div
                   className={classNames(
-                    'inline-flex p-4 rounded-t-lg border-b-2 border-transparent',
+                    'inline-flex p-4 rounded-t-lg border-b-2',
                     active === s.name
                       ? 'text-primary-blue border-primary-blue'
-                      : 'hover:text-primary-blue-hover hover:bg-secondary-blue'
+                      : 'hover:text-primary-blue hover:border-primary-blue'
                   )}
                 >
                   <span>{startCase(s.name)}</span>

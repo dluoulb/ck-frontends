@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import useApi from './useApi';
 import { getOrders } from 'lib/actions/orders';
-import { ApiContext } from 'contexts';
 
 function useOrders(props, pageIndex = 0) {
+  const api = useApi();
   const { type, entity } = props;
-  const api = useContext(ApiContext);
   const [orders, setOrders] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [ordersError, setOrdersError] = useState();

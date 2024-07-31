@@ -12,7 +12,7 @@ import Loading from '@components/Loading';
 import { TableColumns } from './TableColumns';
 
 export default function PSTable({ payment_schedule, err }) {
-  const data = useMemo(() => payment_schedule || [], [payment_schedule]);
+  const data = useMemo(() => payment_schedule || [], [payment_schedule?.length]);
   const columns = useMemo(() => TableColumns, []);
   const sortTypes = React.useMemo(
     () => ({
@@ -30,7 +30,7 @@ export default function PSTable({ payment_schedule, err }) {
       columns,
       data,
       initialState: {
-        pageSize: 5,
+        pageSize: payment_schedule?.length < 5 ? payment_schedule?.length : 5,
         sortBy: [{ id: 'due_date', desc: true }],
       },
       sortTypes,
@@ -58,8 +58,8 @@ export default function PSTable({ payment_schedule, err }) {
             ? 'Error: Unable to retrieve payment schedule.'
             : 'No payment schedule found.'
         }
-        tableClass="min-h-[21rem] w-full px-2 sm:px-6"
-        addRows={6}
+        tableClass="w-full px-2 sm:px-6 text-sm"
+        addRows={5}
         fillTable={true}
       />
     </div>

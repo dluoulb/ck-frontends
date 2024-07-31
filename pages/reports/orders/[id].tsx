@@ -1,4 +1,6 @@
-import { useContext } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+
 import Loading from '@components/Loading';
 import NoDataError from '@reports/NoDataError';
 import AdditionalInfo from '@reports/order_detail/AdditionalInfo';
@@ -10,15 +12,13 @@ import ProductInfo from '@reports/order_detail/overview/ProductInfo';
 import PSTable from '@reports/order_detail/payment_schedule/PSTable';
 import TransactionsTable from '@reports/order_detail/transactions_table/TransactionsTable';
 import PageNavigation from '@reports/PageNavigation';
-import { useQuery } from '@tanstack/react-query';
-import { ApiContext } from 'contexts';
+import useApi from 'hooks/useApi';
 import { getOrder } from 'lib/actions/orders';
-import { useRouter } from 'next/router';
 import useOrderDependencies from 'pages/reports/hooks/useOrderDependencies';
 
 const OrderIndex = () => {
   const router = useRouter();
-  const api = useContext(ApiContext);
+  const api = useApi();
   const { id } = router.query;
 
   const {
@@ -29,7 +29,7 @@ const OrderIndex = () => {
     queryKey: ['orders', id],
     queryFn: () => getOrder(api, id),
     enabled: !!id,
-    retry: false,
+    retry: 1,
   });
 
   const {

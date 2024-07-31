@@ -1,33 +1,33 @@
 import { useContext, useEffect } from 'react';
 import { ApiContext } from 'contexts';
-import { signOut, useSession } from 'next-auth/react';
+import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 
-const useApi = () => {
+function useApi() {
   const api = useContext(ApiContext);
-  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      api.defaults.headers.common['Authorization'] =
-        `Bearer ${session.access_token}`;
+    if (Session.doesSessionExist()) {
+      Session.getAccessToken().then((token) => {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      const responseInterceptor = api.interceptors.response.use(
-        (response) => response,
-        (error) => {
-          if (error.response.status === 403) {
-            signOut();
+        const responseInterceptor = api.interceptors.response.use(
+          (response) => response,
+          (error) => {
+            if (error.response.status === 403) {
+              signOut();
+            }
+            return Promise.reject(error);
           }
-          return Promise.reject(error);
-        }
-      );
+        );
 
-      return () => {
-        api.interceptors.response.eject(responseInterceptor);
-      };
+        return () => {
+          api.interceptors.response.eject(responseInterceptor);
+        };
+      });
     }
-  }, [session, status]);
+  }, [Session]);
 
   return api;
-};
+}
 
 export default useApi;
