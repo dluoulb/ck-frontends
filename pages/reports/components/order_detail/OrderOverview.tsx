@@ -1,28 +1,16 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import classNames from 'classnames';
-import { DateTime } from 'luxon';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-
+import React, { useContext } from 'react';
 import Loading from '@components/Loading';
-import DownloadAgreement from './DownloadAgreement';
-import useApi from 'hooks/useApi';
-import { reformatDate } from '../../../../lib/utils/datetime_formatters';
-import { getUser } from 'lib/actions/users';
+import classNames from 'classnames';
+import { UserContext } from 'contexts';
+import { DateTime } from 'luxon';
 
-type LoadedSessionContextType = {
-  loading: false;
-  doesSessionExist: boolean;
-  invalidClaims: any[];
-  accessTokenPayload: Record<string, any>;
-  userId: string;
-};
+import DownloadAgreement from './DownloadAgreement';
+import { reformatDate } from '../../../../lib/utils/datetime_formatters';
 
 export default function OrderOverview({ order, product }) {
   let statusColor;
   let statusText;
-  const api = useApi();
-  const session = useSessionContext() as LoadedSessionContextType;
+  const { user } = useContext(UserContext);
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   const status = isPaymentPlan
@@ -49,14 +37,7 @@ export default function OrderOverview({ order, product }) {
       break;
   }
 
-  const { data: user, isLoading: userLoading } = useQuery({
-    queryKey: ['users', session?.userId],
-    queryFn: () => getUser(api, session?.userId),
-    enabled: !!session?.userId,
-    retry: 1,
-  });
-
-  if (userLoading) return <Loading className="w-14 h-14 my-16" />;
+  if (!user) return <Loading className="w-14 h-14 my-16" />;
 
   return (
     <div className="flex justify-between items-center">
@@ -77,7 +58,7 @@ export default function OrderOverview({ order, product }) {
               DateTime.DATE_MED_WITH_WEEKDAY
             )}
           </p>
-          {['superadmin', 'admin'].includes(user?.attributes?.role) && (
+          {['superadmin', 'admin'].includes(user?.role) && (
             <a
               href={order?.checkout_url}
               target="_new"

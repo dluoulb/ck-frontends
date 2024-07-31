@@ -12,15 +12,16 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-primary my-6">
           Welcome to Credit Key
         </h1>
-        <div className="border border-primary-border-gray rounded-lg bg-slate-50">
-          <div className="overflow-hidden sm:grid sm:grid-cols-2 sm:gap-px">
+        <div className="border border-primary-border-gray rounded-lg bg-slate-50 mb-16">
+          <div className="overflow-hidden grid grid-cols-1 sm:grid-cols-2 sm:gap-px">
             {routes.map((route, routeIdx) => (
               <Link
                 href={route.href}
                 key={route.title}
                 className={classNames(
                   routeIdx < 4 && 'border-b',
-                  [1, 3, 5].includes(routeIdx) && 'border-l',
+                  routeIdx === routes.length - 1 && 'border-t sm:border-t-0',
+                  [1, 3, 5].includes(routeIdx) && 'sm:border-l',
                   route.disabled
                     ? '!cursor-not-allowed'
                     : 'bg-white hover:bg-secondary-blue',
@@ -28,18 +29,16 @@ export default function Home() {
                   'group relative p-6'
                 )}
               >
-                <div>
-                  <span
-                    className={classNames(
-                      route.iconBackground,
-                      route.iconForeground,
-                      'inline-flex rounded-lg p-3'
-                    )}
-                  >
-                    <FontAwesomeIcon icon={route.icon} className="text-lg" />
-                  </span>
-                </div>
-                <div className="mt-8">
+                <span
+                  className={classNames(
+                    route.iconBackground,
+                    route.iconForeground,
+                    'inline-flex rounded-lg p-3'
+                  )}
+                >
+                  <FontAwesomeIcon icon={route.icon} className="text-lg" />
+                </span>
+                <div className="mt-4 sm:mt-8">
                   <h3 className="text-base font-semibold text-lg leading-6 text-primary">
                     <span aria-hidden="true" className="absolute inset-0" />
                     {route.title}

@@ -1,0 +1,47 @@
+
+
+volumes:
+  ck-market-api-pg:
+
+networks:
+  ck-eco-net:
+    external: true
+
+services:
+  ck-frontends:
+    build:
+      target: dev
+      context: .
+      args:
+        FONTAWESOME_NPM_AUTH_TOKEN: ${FONTAWESOME_NPM_AUTH_TOKEN}
+    ports:
+      - 3000
+    volumes:
+      - ./.npmrc:/app/.npmrc
+      - ./global.css:/app/global.css
+      - ./middleware.ts:/app/middleware.ts
+      - ./next.config.js:/app/next.config.js
+      - ./next-env.d.ts:/app/next-env.d.ts
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./postcss.config.js:/app/postcss.config.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tailwind.config.js:/app/tailwind.config.js
+      - ./components:/app/components
+      - ./contexts:/app/contexts
+      - ./hooks:/app/hooks
+      - ./lib:/app/lib
+      - ./pages:/app/pages
+      - ./public:/app/public
+      - ./records:/app/records
+      - ./types:/app/types
+    env_file:
+      - ./.env.docker
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ck-frontends.entrypoints: web
+      traefik.http.routers.ck-frontends.rule: "Host(`frontends.creditkey.localhost`)"
+    networks:
+      - ck-eco-net
+    dns:
+      - ${CK_DNSMASQ_IP}
