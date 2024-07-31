@@ -14,7 +14,7 @@ export const routes = [
     icon: faFileChartColumn,
     iconForeground: 'text-success',
     iconBackground: 'bg-background-success',
-    divClass: 'rounded-tl-lg',
+    divClass: 'rounded-t-lg sm:rounded-tl-lg',
     disabled: false,
     description:
       'Search and review company, order, and application data for all TPS orders and loans. Includes ability to export company documents and download loan and payment plan agreements.',
@@ -69,7 +69,7 @@ export const routes = [
     icon: faQuestion,
     iconForeground: 'text-indigo-700',
     iconBackground: 'bg-indigo-50',
-    divClass: 'rounded-br-lg',
+    divClass: 'rounded-b-lg sm:rounded-br-lg',
     disabled: true,
     description:
       'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.',
