@@ -20,7 +20,7 @@ export const TableColumns = [
       return (
         <Link
           className="text-primary-blue font-semibold cursor-pointer hover:text-primary-blue-hover"
-          href={`/orders/${value}`}
+          href={`/reports/orders/${value}`}
         >
           {value}
         </Link>
@@ -71,6 +71,7 @@ export const TableColumns = [
       <DownloadAgreement
         buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center"
         order={original}
+        isTable={true}
       />
     ),
   },

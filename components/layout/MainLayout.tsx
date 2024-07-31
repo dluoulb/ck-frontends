@@ -1,15 +1,42 @@
-import React from 'react';
+import { useContext, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import Session from 'supertokens-auth-react/recipe/session';
 
-import Title from '@components/Title';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
-import useSessionExpiration from 'hooks/useSessionExpiration';
+import Title from '@components/Title';
+import useApi from 'hooks/useApi';
+import { getUser } from 'lib/actions/users';
+import { parseUserJwt } from 'lib/utils/authorization';
+import { UserContext } from 'contexts';
 
 export default function MainLayout({ children }) {
-  useSessionExpiration();
   const router = useRouter();
+  const api = useApi();
+  const { setUser } = useContext(UserContext);
+
+  const getCurrentUser = useMutation({
+    mutationFn: (id: string) => {
+      return getUser(api, id);
+    },
+    onSuccess: (data, variables) => {
+      setUser(data.attributes);
+    },
+    onError: (error) => {
+      console.log('Error occured fetching current user', { error });
+    },
+    retry: 1,
+  });
+
+  useEffect(() => {
+    if (Session.doesSessionExist()) {
+      Session.getAccessToken().then((token) => {
+        getCurrentUser.mutate(parseUserJwt(token));
+      });
+    }
+  }, [Session]);
 
   return (
     <div>

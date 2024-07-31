@@ -7,16 +7,16 @@ const PageNavigation = ({ order, type, entity }) => {
   const pathname = usePathname();
   const buildLinkPath = () => {
     if (type === 'account') {
-      return `/accounts/${entity?.id}`;
+      return `/reports/accounts/${entity?.id}`;
     }
-    return `/companies/${entity?.id}`;
+    return `/reports/companies/${entity?.id}`;
   };
 
   return (
     <div className="flex items-center my-4 md:my-6">
       <div className="flex flex-col sm:flex-row sm:items-center md:gap-2 text-primary font-semibold">
         <div className="flex items-center gap-2">
-          <Link href="/" className="hover:text-primary-blue-hover">
+          <Link href="/reports" className="hover:text-primary-blue-hover">
             Search
           </Link>
           <FontAwesomeIcon icon={faChevronRight} className="text-xs mt-0.5" />

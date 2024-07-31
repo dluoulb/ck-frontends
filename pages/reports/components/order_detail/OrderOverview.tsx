@@ -1,15 +1,28 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { DateTime } from 'luxon';
-import { useSession } from 'next-auth/react';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
+import Loading from '@components/Loading';
 import DownloadAgreement from './DownloadAgreement';
+import useApi from 'hooks/useApi';
 import { reformatDate } from '../../../../lib/utils/datetime_formatters';
+import { getUser } from 'lib/actions/users';
+
+type LoadedSessionContextType = {
+  loading: false;
+  doesSessionExist: boolean;
+  invalidClaims: any[];
+  accessTokenPayload: Record<string, any>;
+  userId: string;
+};
 
 export default function OrderOverview({ order, product }) {
   let statusColor;
   let statusText;
-  const { data } = useSession();
+  const api = useApi();
+  const session = useSessionContext() as LoadedSessionContextType;
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   const status = isPaymentPlan
@@ -36,6 +49,15 @@ export default function OrderOverview({ order, product }) {
       break;
   }
 
+  const { data: user, isLoading: userLoading } = useQuery({
+    queryKey: ['users', session?.userId],
+    queryFn: () => getUser(api, session?.userId),
+    enabled: !!session?.userId,
+    retry: 1,
+  });
+
+  if (userLoading) return <Loading className="w-14 h-14 my-16" />;
+
   return (
     <div className="flex justify-between items-center">
       <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
@@ -55,7 +77,7 @@ export default function OrderOverview({ order, product }) {
               DateTime.DATE_MED_WITH_WEEKDAY
             )}
           </p>
-          {['superadmin', 'admin'].includes(data?.user?.role) && (
+          {['superadmin', 'admin'].includes(user?.attributes?.role) && (
             <a
               href={order?.checkout_url}
               target="_new"
@@ -80,6 +102,7 @@ export default function OrderOverview({ order, product }) {
               isPaymentPlan ? 'Payment Plan Agreement' : 'Loan Agreement'
             }
             order={order}
+            isTable={false}
           />
         </div>
       </div>

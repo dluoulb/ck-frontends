@@ -1,9 +1,7 @@
-import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ApiContext } from 'contexts';
+import useApi from 'hooks/useApi';
 
-import { getAccount } from '../../../lib/actions/accounts';
-import { getCompany } from '../../../lib/actions/companies';
+import { getAccount, getCompany } from '../../../lib/actions/entities';
 import {
   getPaymentSchedule,
   getTransactions,
@@ -11,7 +9,7 @@ import {
 
 function useOrderDependencies(order) {
   let orderProps;
-  const api = useContext(ApiContext);
+  const api = useApi();
   const fetchConfig = {
     enabled: !!order && !orderProps,
     retry: false,
@@ -22,7 +20,7 @@ function useOrderDependencies(order) {
     error: entityError,
     isLoading: entityLoading,
   } = useQuery({
-    queryKey: ['entity', order?.id],
+    queryKey: ['entity', order?.entity_id],
     queryFn: () =>
       order?.entity_type === 'company'
         ? getCompany(api, order?.entity_id)

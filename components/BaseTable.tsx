@@ -38,7 +38,7 @@ export default function BaseTable({
   const rowList = page ? page : rows;
   const usePagination = page ? true : false;
 
-  for (let i = 0; i < addRows; i++) {
+  for (let i = 0; i <= addRows; i++) {
     additionalRows.push(
       <tr key={i}>
         <td
@@ -113,7 +113,7 @@ export default function BaseTable({
                   scope="col"
                   className={classNames(
                     'py-4 text-left text-sm text-primary bg-secondary-blue',
-                    column.isSorted ? 'px-4 sm:px-12' : 'px-6 sm:px-12',
+                    column.isSorted ? 'px-4 sm:px-8' : 'px-6 sm:px-8',
                     headerClass
                   )}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
@@ -144,7 +144,7 @@ export default function BaseTable({
 
         <tbody
           {...getTableBodyProps()}
-          className="text-sm sm:text-base -mx-2 overflow-auto text-primary"
+          className="text-sm mid:text-base -mx-2 overflow-auto text-primary"
         >
           {rows.length > 0 ? (
             rowList.map((row, i) => {
@@ -181,8 +181,8 @@ export default function BaseTable({
                               rowClass,
                               cell.column.className,
                               cell.column.isSorted
-                                ? 'px-5 sm:px-12'
-                                : 'px-6 sm:px-12'
+                                ? 'px-5 sm:px-8'
+                                : 'px-6 sm:px-8'
                             ),
                           })}
                         >

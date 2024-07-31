@@ -67,7 +67,6 @@ export default function OrdersTable({
         tableInstance={instance}
         noDataFoundWarning="No Orders Found."
         totalRows={totalRows}
-        onClickHandler={(value) => router.push(`/orders/${value.id}`)}
       />
     </div>
   );

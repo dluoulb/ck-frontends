@@ -19,8 +19,8 @@ export default function UserHit({ hit }) {
           className="text-lg font-bold text-primary-blue cursor-pointer underline"
           href={
             hit.company_id
-              ? `/companies/${hit.company_id}`
-              : `/accounts/${hit.account_id}`
+              ? `/reports/companies/${hit.company_id}`
+              : `/reports/accounts/${hit.account_id}`
           }
         >
           {hit.first_name} {hit.last_name}

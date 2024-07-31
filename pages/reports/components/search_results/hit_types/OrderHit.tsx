@@ -19,7 +19,7 @@ export default function OrderHit({ hit }) {
         </span>
         <Link
           className="text-lg font-bold text-primary-blue cursor-pointer underline"
-          href={`/orders/${hit.order_key}`}
+          href={`/reports/orders/${hit.order_key}`}
         >
           {clipOrderKey(hit.order_key)}
         </Link>
