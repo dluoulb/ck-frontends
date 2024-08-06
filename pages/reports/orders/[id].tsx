@@ -1,20 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
+import NoDataError from '@apps/reports/components/NoDataError';
+import AdditionalInfo from '@apps/reports/components/order_detail/AdditionalInfo';
+import OrderOverview from '@apps/reports/components/order_detail/OrderOverview';
+import BorrowerInfo from '@apps/reports/components/order_detail/overview/BorrowerInfo';
+import MerchantInfo from '@apps/reports/components/order_detail/overview/MerchantInfo';
+import OrderInfo from '@apps/reports/components/order_detail/overview/OrderInfo';
+import ProductInfo from '@apps/reports/components/order_detail/overview/ProductInfo';
+import PSTable from '@apps/reports/components/order_detail/payment_schedule/PSTable';
+import TransactionsTable from '@apps/reports/components/order_detail/transactions_table/TransactionsTable';
+import PageNavigation from '@apps/reports/components/PageNavigation';
+import useOrderDependencies from '@apps/reports/hooks/useOrderDependencies';
 import Loading from '@components/Loading';
-import NoDataError from '@reports/NoDataError';
-import AdditionalInfo from '@reports/order_detail/AdditionalInfo';
-import OrderOverview from '@reports/order_detail/OrderOverview';
-import BorrowerInfo from '@reports/order_detail/overview/BorrowerInfo';
-import MerchantInfo from '@reports/order_detail/overview/MerchantInfo';
-import OrderInfo from '@reports/order_detail/overview/OrderInfo';
-import ProductInfo from '@reports/order_detail/overview/ProductInfo';
-import PSTable from '@reports/order_detail/payment_schedule/PSTable';
-import TransactionsTable from '@reports/order_detail/transactions_table/TransactionsTable';
-import PageNavigation from '@reports/PageNavigation';
-import useApi from 'hooks/useApi';
-import { getOrder } from 'lib/actions/orders';
-import useOrderDependencies from 'pages/reports/hooks/useOrderDependencies';
+import useApi from '@hooks/useApi';
+import { getOrder } from '@lib/actions/orders';
 
 const OrderIndex = () => {
   const router = useRouter();

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
+import EntityDetail from '@apps/reports/components/entity_detail/EntityDetail';
+import NoDataError from '@apps/reports/components/NoDataError';
+import useEntityDependencies from '@apps/reports/hooks/useEntityDependencies';
 import Loading from '@components/Loading';
-import EntityDetail from '@reports/entity_detail/EntityDetail';
-import NoDataError from '@reports/NoDataError';
-import useApi from 'hooks/useApi';
-import useEntityDependencies from '../hooks/useEntityDependencies';
-import { getAccount, getCompany } from 'lib/actions/entities';
+import useApi from '@hooks/useApi';
+import { getAccount, getCompany } from '@lib/actions/entities';
 
 export default function EntityIndex() {
   const api = useApi();

@@ -6,15 +6,16 @@
     ],
     "importOrder": [
       "^react$",
-      "^react",
       "<BUILTIN_MODULES>",
       "<THIRD_PARTY_MODULES>",
       "",
-      "^~(.*)$",
-      "",
-      "^\\./",
+      "^@apps/(.*)$",
+      "^@components/(.*)$",
+      "^@contexts",
+      "^@hooks/(.*)$",    
+      "^@lib/(.*)$",    
+      "^\\./",                   
       "^\\.\\./",
-      "^[./]",
-      ""
+      "^[./]"                    
     ]
   }

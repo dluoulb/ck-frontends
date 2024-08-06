@@ -1,5 +1,16 @@
+const path = require('path');
+
 module.exports = {
   publicRuntimeConfig: {
-    baseURL: process.env.NEXTAUTH_URL || "http://localhost:3000",
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+  },
+  webpack: (config, { isServer }) => {
+    config.resolve.alias['@components'] = path.join(__dirname, 'shared/components');
+    config.resolve.alias['@contexts'] = path.join(__dirname, 'shared/contexts');
+    config.resolve.alias['@hooks'] = path.join(__dirname, 'shared/hooks');
+    config.resolve.alias['@lib'] = path.join(__dirname, 'shared/lib');
+    config.resolve.alias['@apps/reports'] = path.join(__dirname, 'apps/reports');
+
+    return config;
   },
 };
