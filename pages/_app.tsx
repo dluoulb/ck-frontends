@@ -8,11 +8,11 @@ import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
 
-import MainLayout from '../components/layout/MainLayout';
-import SearchConfig from '../components/SearchConfig';
-import { QueryContext, UserContext } from '../contexts';
-import api from '../lib/api';
-import { SuperTokensConfig } from 'lib/constants/SuperTokensConfig';
+import MainLayout from '@components/layout/MainLayout';
+import SearchConfig from '@components/SearchConfig';
+import { QueryContext, UserContext } from '@contexts';
+import api from '@lib/api';
+import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
 
 config.autoAddCss = false;
 

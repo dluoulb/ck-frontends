@@ -19,7 +19,7 @@ ARG NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
 ENV NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=$NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
 
 
-# Setup env variabless for yarn and nextjs
+# Setup env variables for yarn and nextjs
 # https://nextjs.org/telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
@@ -49,14 +49,10 @@ FROM builder AS dev
 
 RUN NODE_ENV=development npm install --save-dev
 
-COPY ./components ./components
-COPY ./contexts ./contexts
-COPY ./hooks ./hooks
-COPY ./lib ./lib
+COPY ./shared ./shared
+COPY ./apps ./apps
 COPY ./pages ./pages
 COPY ./public ./public
-COPY ./records ./records
-COPY ./types ./types
 
 CMD ["dumb-init","npm","run", "dev"]
 

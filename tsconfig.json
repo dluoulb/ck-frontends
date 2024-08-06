@@ -2,18 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@reports/*": [
-        "pages/reports/components/*"
-      ]
+      "@components/*": ["shared/components/*"],
+      "@contexts": ["shared/contexts"],
+      "@hooks/*": ["shared/hooks/*"],
+      "@lib/*": ["shared/lib/*"],
+      "@apps/reports/*": ["apps/reports/*"],
+      "@pages/reports/*": ["pages/reports/*"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -26,13 +22,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next.config.js"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
+  "exclude": ["node_modules"]
 }
