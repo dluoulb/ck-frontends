@@ -5,9 +5,9 @@ export const config = {
 };
 
 const sites = [
-  { domain: 'reports.localhost', shortname: 'reports' },
-  { domain: 'admin.localhost', shortname: 'admin' },
-  { domain: 'borrower.localhost', shortname: 'borrower' },
+  { domain: 'reports.creditkey.localhost', shortname: 'reports' },
+  { domain: 'admin.creditkey.localhost', shortname: 'admin' },
+  { domain: 'borrower.creditkey.localhost', shortname: 'borrower' },
 ];
 
 function siteForHost(host) {
