@@ -1,5 +1,5 @@
 import DownloadAgreement from 'apps/reports/components/order_detail/DownloadAgreement';
-import { formatCurrency } from 'lib/utils/formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 import Link from 'next/link';
 
 import Tooltip from '@components/Tooltip';
