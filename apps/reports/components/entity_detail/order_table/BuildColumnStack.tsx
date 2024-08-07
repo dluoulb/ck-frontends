@@ -1,9 +1,9 @@
 import DownloadAgreement from 'apps/reports/components/order_detail/DownloadAgreement';
-import { reformatDate } from 'lib/utils/datetime_formatters';
-import { formatCurrency } from 'lib/utils/formatters';
 import Link from 'next/link';
 
 import Tooltip from '@components/Tooltip';
+import { reformatDate } from '@lib/utils/datetime_formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 import OrderStatus from './OrderStatus';
 
 export const BuildStack = ({ original }) => {

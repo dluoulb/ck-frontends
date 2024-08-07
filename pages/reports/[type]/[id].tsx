@@ -51,7 +51,7 @@ export default function EntityIndex() {
   }
 
   return (
-    <div className="max-w-[90%] mx-auto">
+    <div data-testid="container" className="max-w-[90%] mx-auto">
       <EntityDetail
         props={entityProps}
         content={queryContent}

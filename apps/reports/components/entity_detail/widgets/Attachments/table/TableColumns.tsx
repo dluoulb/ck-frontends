@@ -24,7 +24,7 @@ export const TableColumns = [
       value === 'misc' ? (
         'Miscellaneous'
       ) : (
-        <span className="capitalize">{value.replace(/_/g, ' ')}</span>
+        <span className="capitalize">{value?.replace(/_/g, ' ')}</span>
       ),
   },
   {

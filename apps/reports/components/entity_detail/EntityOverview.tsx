@@ -76,6 +76,7 @@ export default function EntityOverview({ props }) {
           </div>
           <div className="flex flex-col-reverse sm:flex-col sm:items-end gap-1 sm:gap-2">
             <span
+              role="status"
               className={classNames(
                 'inline-flex items-center text-sm sm:text-lg rounded-md px-3 sm:px-4 py-2 font-semibold tracking-wide mb-2 sm:mb-0 w-max sm:w-auto',
                 statusColor
