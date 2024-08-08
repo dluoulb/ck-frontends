@@ -49,7 +49,7 @@ const OrderIndex = () => {
   if (errors.entityError) return <NoDataError tag="User" />;
 
   return (
-    <div>
+    <div role={OrderIndex.role}>
       {(orderLoading || isLoading) && !hasErrors ? (
         <Loading className="w-14 h-14 my-16" />
       ) : (
@@ -89,3 +89,5 @@ const OrderIndex = () => {
 };
 
 export default OrderIndex;
+
+OrderIndex.role = 'order-index-component'

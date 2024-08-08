@@ -9,7 +9,7 @@ export default function MerchantInfo({ order, product }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-start gap-2" role={MerchantInfo.role}>
       <span className="fa-layers fa-fw text-4xl md:text-5xl hidden sm:inline">
         <FontAwesomeIcon icon={faCircle} className="text-secondary-blue" />
         <FontAwesomeIcon
@@ -57,3 +57,5 @@ export default function MerchantInfo({ order, product }) {
     </div>
   );
 }
+
+MerchantInfo.role = 'merchant-info-component';

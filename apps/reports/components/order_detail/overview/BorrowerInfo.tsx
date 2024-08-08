@@ -2,15 +2,19 @@ import React from 'react';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function BorrowerInfo({ order, entity }) {
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-start gap-2" role={BorrowerInfo.role}>
       <span className="fa-layers fa-fw text-4xl md:text-5xl hidden sm:inline">
         <FontAwesomeIcon icon={faCircle} className="text-secondary-blue" />
-        <FontAwesomeIcon icon={faUser} className="text-primary-blue text-base md:text-xl" />
+        <FontAwesomeIcon
+          icon={faUser}
+          className="text-primary-blue text-base md:text-xl"
+        />
       </span>
       <div className="text-sm text-primary font-medium tracking-wide capitalize">
         <p className="font-semibold text-lg mb-1">Borrower Details</p>
@@ -52,3 +56,5 @@ export default function BorrowerInfo({ order, entity }) {
     </div>
   );
 }
+
+BorrowerInfo.role = 'borrower-info-component';

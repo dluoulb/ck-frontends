@@ -43,6 +43,7 @@ export default function DownloadAgreement({
     <div
       onClick={() => fetchAgreement(order)}
       className={classNames('flex items-center gap-1.5', buttonClass)}
+      role={DownloadAgreement.role}
     >
       <p>{buttonText}</p>
       {loading ? (
@@ -58,3 +59,5 @@ export default function DownloadAgreement({
     </div>
   );
 }
+
+DownloadAgreement.role = 'download-agreement-component'
