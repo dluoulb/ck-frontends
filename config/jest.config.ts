@@ -6,6 +6,7 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
+  rootDir: '../',
   clearMocks: true,
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
@@ -20,12 +21,16 @@ const config: Config = {
     '^@apps/reports/(.*)$': '<rootDir>/apps/reports/$1',
     '^@pages/reports/(.*)$': '<rootDir>/pages/reports/$1',
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/config/jest.setup.ts'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-instantsearch|react-instantsearch-core)/)',
+  ],
+  testMatch: [
+    '<rootDir>/__tests__/**/*.[jt]s?(x)',
+    '<rootDir>/**/?(*.)+(spec|test).[tj]s?(x)',
   ],
 };
 

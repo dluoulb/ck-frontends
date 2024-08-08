@@ -22,9 +22,9 @@ services:
       - ./next-env.d.ts:/app/next-env.d.ts
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json
-      - ./postcss.config.js:/app/postcss.config.js
+      - ./postcss.config.js:/app/config/postcss.config.js
       - ./tsconfig.json:/app/tsconfig.json
-      - ./tailwind.config.js:/app/tailwind.config.js
+      - ./tailwind.config.js:/app/config/tailwind.config.js
       - ./shared:/app/shared
       - ./apps:/app/apps
       - ./pages:/app/pages
