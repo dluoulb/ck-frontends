@@ -3,10 +3,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {
-  formatCurrency,
-  formatPercent,
-} from '../../../../../lib/utils/formatters';
+import { formatCurrency, formatPercent } from '@lib/utils/formatters';
 
 export default function MerchantInfo({ order, product }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';

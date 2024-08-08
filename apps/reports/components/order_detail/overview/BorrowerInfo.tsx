@@ -2,8 +2,8 @@ import React from 'react';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fromISO } from 'lib/utils/datetime_formatters';
-import { formatCurrency } from 'lib/utils/formatters';
+import { fromISO } from '@lib/utils/datetime_formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 
 export default function BorrowerInfo({ order, entity }) {
   return (

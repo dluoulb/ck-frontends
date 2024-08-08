@@ -2,8 +2,9 @@ import React from 'react';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { reformatDate } from 'lib/utils/datetime_formatters';
-import { formatCurrency } from 'lib/utils/formatters';
+
+import { reformatDate } from '@lib/utils/datetime_formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 
 export default function ProductInfo({ order, product }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
