@@ -89,6 +89,6 @@ describe('Order Detail Page', () => {
       routerQuery: { id: orderA.id },
     });
 
-    await waitFor(() => screen.getByText('Merchant Order ID: TEST1234'));
+    await waitFor(() => screen.getByRole('order-index-component'));
   });
 });

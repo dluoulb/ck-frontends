@@ -1,5 +1,5 @@
 const user = {
-  id: '5dd38c8cd5691b6c81096c58',
+  id: 'user1',
   company_id: '123',
   account_id: '456',
   first_name: 'Test',
@@ -14,6 +14,18 @@ const user = {
     zip: '90000',
   },
   role: 'borrower',
+};
+
+const adminUser = {
+  id: 'admin1',
+  company_id: '123',
+  account_id: '456',
+  first_name: 'Test',
+  last_name: 'User',
+  email: 'admin@creditkey.com',
+  phone: '19895551234',
+  address: {},
+  role: 'superadmin',
 };
 
 const consumerAccount = {
@@ -413,7 +425,7 @@ const tpsLoan2 = {
   order_key: 'CK-78900',
   next_payment_due_date: '2024-08-19 01:00:00.000-07:00',
   disbursement_date: '2024-07-18 13:28:11.164-07:00',
-  last_past_due_at: null,
+  last_past_due_at: '2024-07-21T13:28:11.164-07:00',
   merchant_fee_percent: 0.029,
   interest_fee_percent: 0.0164,
   processing_fee_percent: 0,
@@ -611,6 +623,7 @@ const orderB = {
 };
 
 export {
+  adminUser,
   application1,
   application2,
   companyApproved,
