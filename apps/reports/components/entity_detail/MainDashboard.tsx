@@ -8,7 +8,7 @@ import OwnerInfo from './widgets/OwnerInfo';
 
 export default function MainDashboard({ props }) {
   return (
-    <div className="p-2.5">
+    <div className="p-2.5" role={MainDashboard.role}>
       <BaseGrid>
         <BaseGridItem gridConfig="md:col-span-2 md:row-span-2">
           <EntityInfo props={props} />
@@ -29,3 +29,5 @@ export default function MainDashboard({ props }) {
     </div>
   );
 }
+
+MainDashboard.role = 'main-dashboard-component';

@@ -37,56 +37,58 @@ jest.mock('@apps/reports/hooks/useOrderDependencies');
   return { data: null, error: null, isLoading: false };
 });
 
-test('displays error page when order not fetched', async () => {
-  (useQuery as jest.Mock).mockReturnValue({
-    data: undefined,
-    error: new Error('Order not found'),
-    isLoading: false,
-  });
-
-  (useOrderDependencies as jest.Mock).mockReturnValue({
-    orderProps: {
-      type: 'company',
-      entity: null,
-      transactions: [],
-      paymentSchedule: [],
-      errors: {},
-      hasErrors: false,
+describe('Order Detail Page', () => {
+  test('displays error page when order not fetched', async () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: undefined,
+      error: new Error('Order not found'),
       isLoading: false,
-    },
+    });
+
+    (useOrderDependencies as jest.Mock).mockReturnValue({
+      orderProps: {
+        type: 'company',
+        entity: null,
+        transactions: [],
+        paymentSchedule: [],
+        errors: {},
+        hasErrors: false,
+        isLoading: false,
+      },
+    });
+
+    customRender(<OrderIndex />, { routerQuery: { id: 'invalid-id' } });
+
+    expect(screen.getByText('No Order found'));
   });
 
-  customRender(<OrderIndex />, { routerQuery: { id: 'invalid-id' } });
-
-  expect(screen.getByText('No Order found'));
-});
-
-test('fetches and displays order index page', async () => {
-  (useQuery as jest.Mock).mockReturnValue({
-    data: orderA,
-    error: null,
-    isLoading: false,
-  });
-
-  (usePathname as jest.Mock).mockReturnValue('/reports/orders/CK-123456');
-
-  // Mock the useEntityDependencies hook to return the desired props
-  (useOrderDependencies as jest.Mock).mockReturnValue({
-    orderProps: {
-      type: companyApproved.type,
-      entity: companyApproved,
-      transactions: tpsLoan1.transactions,
-      paymentSchedule: tpsLoan1.payment_schedule,
-      errors: {},
-      hasErrors: false,
+  test('fetches and displays order data', async () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: orderA,
+      error: null,
       isLoading: false,
-    },
-  });
+    });
 
-  customRender(<OrderIndex />, {
-    userContext: { user, setUser: jest.fn() },
-    routerQuery: { id: orderA.id },
-  });
+    (usePathname as jest.Mock).mockReturnValue('/reports/orders/CK-123456');
 
-  await waitFor(() => screen.getByText('Merchant Order ID: TEST1234'));
+    // Mock the useEntityDependencies hook to return the desired props
+    (useOrderDependencies as jest.Mock).mockReturnValue({
+      orderProps: {
+        type: companyApproved.type,
+        entity: companyApproved,
+        transactions: tpsLoan1.transactions,
+        paymentSchedule: tpsLoan1.payment_schedule,
+        errors: {},
+        hasErrors: false,
+        isLoading: false,
+      },
+    });
+
+    customRender(<OrderIndex />, {
+      userContext: { user, setUser: jest.fn() },
+      routerQuery: { id: orderA.id },
+    });
+
+    await waitFor(() => screen.getByText('Merchant Order ID: TEST1234'));
+  });
 });

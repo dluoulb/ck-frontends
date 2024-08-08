@@ -9,7 +9,7 @@ export default function OrderDashboard({ props }) {
   const totalRows = props?.stats?.active + props?.stats?.closed;
 
   return (
-    <div className="min-h-[72rem]">
+    <div className="min-h-[72rem]" role={OrderDashboard.role}>
       <OrdersTable
         orders={orders}
         ordersLoading={ordersLoading}
@@ -22,3 +22,5 @@ export default function OrderDashboard({ props }) {
     </div>
   );
 }
+
+OrderDashboard.role = 'order-dashboard-component';

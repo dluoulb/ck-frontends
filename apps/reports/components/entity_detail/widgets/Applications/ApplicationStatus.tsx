@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Tooltip from '@components/Tooltip';
 
 export default function ApplicationStatus({ app }) {
@@ -43,9 +42,11 @@ export default function ApplicationStatus({ app }) {
   }
 
   return (
-    <div>
+    <div role={ApplicationStatus.role}>
       <span className="mr-1 font-normal">Application Status:</span>
       {app.status}
     </div>
   );
 }
+
+ApplicationStatus.role = 'application-status-component';
