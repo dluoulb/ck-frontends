@@ -42,6 +42,7 @@ export default function DownloadDocument({ document_id }) {
     <span
       className="cursor-pointer hover:text-primary-blue-hover"
       onClick={fetchDocument}
+      role={DownloadDocument.role}
     >
       {loading ? (
         <Loading className="w-3 h-3" containerClass="!justify-start" />
@@ -54,3 +55,5 @@ export default function DownloadDocument({ document_id }) {
     </span>
   );
 }
+
+DownloadDocument.role = 'download-document-component'

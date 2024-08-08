@@ -4,14 +4,10 @@ import Tooltip from '@components/Tooltip';
 
 export default function PendReasons({ app }) {
   const reasonDisplay = () => {
-    let reasonString = '';
     if (app.reasons.length > 1) {
-      app.reasons.forEach((r) => {
-        reasonString += `${r.replaceAll('_', ' ')}, `;
-      });
-      return reasonString;
+      return app?.reasons?.map((r) => r.replaceAll('_', ' ')).join(', ');
     } else {
-      return app.reasons;
+      return app?.reasons[0]?.replaceAll('_', ' ');
     }
   };
 
@@ -30,9 +26,11 @@ export default function PendReasons({ app }) {
     );
 
   return (
-    <div>
+    <div role={PendReasons.role}>
       <span className="mr-1 font-normal">Pending/Decline Reasons:</span>
       {!app.reasons.length ? 'None' : reasonDisplay()}
     </div>
   );
 }
+
+PendReasons.role = 'pend-reasons-component';

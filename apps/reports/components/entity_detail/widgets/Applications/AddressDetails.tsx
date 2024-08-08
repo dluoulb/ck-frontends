@@ -30,7 +30,7 @@ export default function AddressDetails({
     );
 
   return (
-    <div className="mt-2 font-normal">
+    <div className="mt-2 font-normal" role={AddressDetails.role}>
       <span className="font-semibold">{type} Address:</span>
       <p>{appAddress?.address1}</p>
       <p>{appAddress?.address2}</p>
@@ -41,3 +41,5 @@ export default function AddressDetails({
     </div>
   );
 }
+
+AddressDetails.role = 'address-details-component';

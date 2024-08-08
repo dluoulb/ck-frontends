@@ -4,7 +4,8 @@ import { usePathname } from 'next/navigation';
 import useEntityDependencies from '@apps/reports/hooks/useEntityDependencies';
 import { apiResponse } from '@lib/testing/api_response';
 import {
-  application,
+  application1,
+  application2,
   companyApproved,
   consumerAccount,
   documentA,
@@ -37,7 +38,7 @@ jest.mock('@apps/reports/hooks/useEntityDependencies');
     };
   } else if (options.queryKey[0] === 'applications') {
     return {
-      data: [{ attributes: application }],
+      data: [{ attributes: application1 }, { attributes: application2 }],
       error: null,
       isLoading: false,
     };
@@ -53,110 +54,112 @@ jest.mock('@apps/reports/hooks/useEntityDependencies');
   return { data: null, error: null, isLoading: false };
 });
 
-test('displays error page when entity not fetched', async () => {
-  (useQuery as jest.Mock).mockReturnValue({
-    data: undefined,
-    error: new Error('Entity not found'),
-    isLoading: false,
-  });
-
-  (useEntityDependencies as jest.Mock).mockReturnValue({
-    entityProps: {
-      type: 'company',
-      entity: null,
-      ownerAddress: null,
-      applications: [],
-      stats: null,
-      documents: [],
-      errors: {},
-      hasErrors: false,
+describe('Entity Detail Page', () => {
+  test('displays error page when entity not fetched', async () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: undefined,
+      error: new Error('Entity not found'),
       isLoading: false,
-    },
+    });
+
+    (useEntityDependencies as jest.Mock).mockReturnValue({
+      entityProps: {
+        type: 'company',
+        entity: null,
+        ownerAddress: null,
+        applications: [],
+        stats: null,
+        documents: [],
+        errors: {},
+        hasErrors: false,
+        isLoading: false,
+      },
+    });
+
+    customRender(<EntityIndex />, {
+      routerQuery: {
+        id: 'invalid-id',
+        type: 'companies',
+        content: 'dashboard',
+      },
+    });
+
+    expect(screen.getByText('No Company found'));
   });
 
-  customRender(<EntityIndex />, {
-    routerQuery: {
-      id: 'invalid-id',
-      type: 'companies',
-      content: 'dashboard',
-    },
-  });
-
-  expect(screen.getByText('No Company found'));
-});
-
-test('fetches and displays account entity', async () => {
-  (useQuery as jest.Mock).mockReturnValue({
-    data: apiResponse(consumerAccount),
-    error: null,
-    isLoading: false,
-  });
-
-  (usePathname as jest.Mock).mockReturnValue('/reports/accounts/456');
-
-  // Mock the useEntityDependencies hook to return the desired props
-  (useEntityDependencies as jest.Mock).mockReturnValue({
-    entityProps: {
-      type: consumerAccount.type,
-      entity: consumerAccount,
-      ownerAddress: user.address,
-      applications: [application],
-      stats: stats,
-      documents: [documentA, documentB],
-      errors: {},
-      hasErrors: false,
+  test('fetches and displays account data', async () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: apiResponse(consumerAccount),
+      error: null,
       isLoading: false,
-    },
+    });
+
+    (usePathname as jest.Mock).mockReturnValue('/reports/accounts/456');
+
+    // Mock the useEntityDependencies hook to return the desired props
+    (useEntityDependencies as jest.Mock).mockReturnValue({
+      entityProps: {
+        type: consumerAccount.type,
+        entity: consumerAccount,
+        ownerAddress: user.address,
+        applications: [application1, application2],
+        stats: stats,
+        documents: [documentA, documentB],
+        errors: {},
+        hasErrors: false,
+        isLoading: false,
+      },
+    });
+
+    customRender(<EntityIndex />, {
+      routerQuery: {
+        id: consumerAccount.id,
+        type: 'accounts',
+        content: 'dashboard',
+      },
+    });
+
+    await waitFor(() => screen.getByTestId('container'));
+
+    const entityName = screen.getByTestId('entity_name');
+    expect(entityName).toHaveTextContent('Test User');
   });
 
-  customRender(<EntityIndex />, {
-    routerQuery: {
-      id: consumerAccount.id,
-      type: 'accounts',
-      content: 'dashboard',
-    },
-  });
-
-  await waitFor(() => screen.getByTestId('container'));
-
-  const entityName = screen.getByTestId('entity_name');
-  expect(entityName).toHaveTextContent('Test User');
-});
-
-test('fetches and displays company entity', async () => {
-  (useQuery as jest.Mock).mockReturnValue({
-    data: apiResponse(companyApproved),
-    error: null,
-    isLoading: false,
-  });
-
-  (usePathname as jest.Mock).mockReturnValue('/reports/companies/123');
-
-  // Mock the useEntityDependencies hook to return the desired props
-  (useEntityDependencies as jest.Mock).mockReturnValue({
-    entityProps: {
-      type: companyApproved.type,
-      entity: companyApproved,
-      ownerAddress: user.address,
-      applications: [application],
-      stats: stats,
-      documents: [documentA, documentB],
-      errors: {},
-      hasErrors: false,
+  test('fetches and displays company data', async () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: apiResponse(companyApproved),
+      error: null,
       isLoading: false,
-    },
+    });
+
+    (usePathname as jest.Mock).mockReturnValue('/reports/companies/123');
+
+    // Mock the useEntityDependencies hook to return the desired props
+    (useEntityDependencies as jest.Mock).mockReturnValue({
+      entityProps: {
+        type: companyApproved.type,
+        entity: companyApproved,
+        ownerAddress: user.address,
+        applications: [application1, application2],
+        stats: stats,
+        documents: [documentA, documentB],
+        errors: {},
+        hasErrors: false,
+        isLoading: false,
+      },
+    });
+
+    customRender(<EntityIndex />, {
+      routerQuery: {
+        id: companyApproved.id,
+        type: 'companies',
+        content: 'dashboard',
+      },
+    });
+
+    await waitFor(() => screen.getByTestId('container'));
+
+    const entityName = screen.getByTestId('entity_name');
+    expect(entityName).toHaveTextContent('Widget Maker Co.');
   });
-
-  customRender(<EntityIndex />, {
-    routerQuery: {
-      id: companyApproved.id,
-      type: 'companies',
-      content: 'dashboard',
-    },
-  });
-
-  await waitFor(() => screen.getByTestId('container'));
-
-  const entityName = screen.getByTestId('entity_name');
-  expect(entityName).toHaveTextContent('Widget Maker Co.');
 });

@@ -26,6 +26,11 @@ function customRender(
     query: routerQuery,
   });
 
+  // jest.mock('@lib/actions/entities');
+  jest.mock('@hooks/useToast', () => ({
+    default: () => ({ makeToast: jest.fn() }),
+  }));
+
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>

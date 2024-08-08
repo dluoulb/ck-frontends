@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 
-import { render, screen, waitFor } from './test-utils';
+import { customRender, screen, waitFor } from './test-utils';
 
 type ComponentWithRole = React.ComponentType<any> & { role: string };
 
@@ -9,8 +9,8 @@ export function renders(
   props: any = {},
   renderOptions = {}
 ) {
-  return test('Renders', async () => {
-    render(<Component {...props} />, renderOptions);
+  return test(`Renders ${Component.role}`, async () => {
+    customRender(<Component {...props} />, renderOptions);
 
     await waitFor(() => screen.getByRole(Component.role));
   });

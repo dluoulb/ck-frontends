@@ -11,7 +11,7 @@ export default function Tooltip({
     usePopperTooltip({ placement: 'auto' });
 
   return (
-    <>
+    <div role={Tooltip.role}>
       <span
         ref={setTriggerRef}
         className={trigger_class}
@@ -29,6 +29,8 @@ export default function Tooltip({
           {tooltip_text}
         </div>
       )}
-    </>
+    </div>
   );
 }
+
+Tooltip.role = 'tooltip-component';
