@@ -56,7 +56,7 @@ export default function EntityOverview({ props }) {
       <div className="flex justify-between items-center">
         <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
           <div className="text-sm md:text-base">
-            <p className="text-xl md:text-3xl font-bold text-primary-blue-hover">
+            <p data-testid="entity_name" className="text-xl md:text-3xl font-bold text-primary-blue-hover">
               {entity?.name}
             </p>
             <p className="font-semibold">

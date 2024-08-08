@@ -42,8 +42,8 @@ export default function EntityIndex() {
     setQueryContent(content);
   }, [content]);
 
-  if (entityError) {
-    return <NoDataError tag={entity?.type} />;
+  if ((!entity && !entityLoading) || entityError) {
+    return <NoDataError tag={type === 'accounts' ? 'Account' : 'Company'} />;
   }
 
   if (entityLoading || isLoading) {
