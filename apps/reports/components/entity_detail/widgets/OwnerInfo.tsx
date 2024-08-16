@@ -22,8 +22,8 @@ export default function OwnerInfo({ props }) {
           DOB:
           <Tooltip
             tooltip_text="NetX owners do not provide date of birth during application flow"
-            trigger_class="cursor-pointer ml-1.5 font-avenir-book"
-            container_class="z-50 text-center p-4 px-6 text-sm max-w-xs font-avenir-book"
+            trigger_class="cursor-pointer ml-1.5"
+            container_class="z-50 text-center p-4 px-6 text-sm max-w-xs"
           >
             N/A - NetX Applicant
           </Tooltip>

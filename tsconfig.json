@@ -6,8 +6,11 @@
       "@contexts": ["shared/contexts"],
       "@hooks/*": ["shared/hooks/*"],
       "@lib/*": ["shared/lib/*"],
+      "@records/*": ["shared/records/*"],
       "@apps/reports/*": ["apps/reports/*"],
-      "@pages/reports/*": ["pages/reports/*"]
+      "@apps/borrower/*": ["apps/borrower/*"],
+      "@pages/reports/*": ["pages/reports/*"],
+      "@pages/borrower/*": ["pages/borrower/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

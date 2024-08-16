@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function StaticFooter() {
   return (
-    <footer className="flex-shrink-0 w-full max-h-max py-4 px-6 lg:px-16 shadow-none flex justify-between mid:items-center rounded-none border-t border-border-gray">
+    <footer className="z-40 w-full h-12 sm:h-16 py-4 sm:py-0 px-6 md:px-16 shadow-none flex justify-center items-center border-t-[3px] border-border-gray bg-white">
       <div className="w-full text-tertiary-gray flex flex-col mid:flex-row justify-between mid:items-center text-sm">
         <div className="mb-2 mid:mb-0 tracking-wide mid:tracking-normal">
           Loans made by Lead Bank. Visit

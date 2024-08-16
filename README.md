@@ -92,7 +92,6 @@ docker compose up -d
 # Clone ck-auth directory and start auth server
 git clone git@bitbucket.org:creditkey/ck-auth.git
 cd ck-auth
-git checkout feature/ck-eco4
 docker compose up -d
 ```
 
@@ -100,7 +99,6 @@ docker compose up -d
 # Clone ck-login directory and start
 git clone git@bitbucket.org:creditkey/ck-login.git
 cd ck-login
-git checkout feature/ck-eco4
 docker compose up -d
 ```
 
@@ -126,7 +124,7 @@ Upon start, if user has not already been authenticated, the application will nav
 
 ## SuperTokens User Management
 
-Access the SuperTokens User Admin portal at: http://ck-auth.creditkey.localhost/dashboard/
+Access the SuperTokens User Admin portal at: http://auth.creditkey.localhost/dashboard/
 
 > NOTE: Contact Credit Key engineering team for login credentials and assistance managing SuperTokens users and roles
 

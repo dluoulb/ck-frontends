@@ -37,7 +37,7 @@ export const routes = [
     iconForeground: 'text-primary-blue',
     iconBackground: 'bg-secondary-blue',
     divClass: '',
-    disabled: true,
+    disabled: false,
     description:
       'View and manage borrower specific data dashboard like orders, payment methods, payment schedules, and general company or consumer details.',
   },

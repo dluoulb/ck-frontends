@@ -18,15 +18,10 @@ export default function MainLayout({ children }) {
   const { setUser } = useContext(UserContext);
 
   const getCurrentUser = useMutation({
-    mutationFn: (id: string) => {
-      return getUser(api, id);
-    },
-    onSuccess: (data, variables) => {
-      setUser(data.attributes);
-    },
-    onError: (error) => {
-      console.log('Error occured fetching current user', { error });
-    },
+    mutationFn: (id: string) => getUser(api, id),
+    onSuccess: (data) => setUser(data.attributes),
+    onError: (error) =>
+      console.log('Error occurred fetching current user', { error }),
     retry: 1,
   });
 
@@ -42,11 +37,14 @@ export default function MainLayout({ children }) {
     <div>
       <Title pathname={router.pathname} />
 
-      <div className="flex flex-col min-h-screen font-manrope">
+      <div className="flex flex-col min-h-screen font-manrope relative">
         <StaticHeader />
-        <div className="flex-grow container md:max-w-[900px] lg:max-w-[1200px] xl:!container mx-auto px-4 xl:px-8">
-          {children}
+        <div className="flex-grow w-full">
+          <div className="w-[90%] sm:container md:max-w-[900px] lg:max-w-[1200px] xl:!container mx-auto md:px-4 xl:px-8 pt-16">
+            {children}
+          </div>
         </div>
+        <StaticFooter />
         <Toaster
           position="top-right"
           reverseOrder={false}
@@ -59,7 +57,6 @@ export default function MainLayout({ children }) {
             },
           }}
         />
-        <StaticFooter />
       </div>
     </div>
   );

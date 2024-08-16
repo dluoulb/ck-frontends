@@ -1,5 +1,7 @@
 import JsFileDownloader from 'js-file-downloader';
+
 import { addAuthorization, headers } from '@lib/utils/authorization';
+import { PaymentMethodRecord } from '@records/payment_method';
 
 const buildUrl = (type, resource) => {
   const controller = type === 'account' ? 'pi4/accounts' : 'companies';
@@ -44,17 +46,38 @@ export const getStats = async (api, entity) => {
   return stats.data;
 };
 
-export const getCompany = async (api, companyID) => {
-  if (!companyID) return;
-  const foundCompany = await api.get(`/api/companies/${companyID}`);
+export const getCompany = async (api, company_id) => {
+  if (!company_id) return;
+  const foundCompany = await api.get(`/api/companies/${company_id}`);
   return {
     ...foundCompany.data.data.attributes,
     type: foundCompany.data.data.type,
   };
 };
 
+export const getMerchant = async (api, merchant_id) => {
+  if (!merchant_id) return;
+  const merchant = await api.get(`/api/merchants/${merchant_id}`);
+  return merchant.data.data.attributes;
+};
+
+export const getApprovedTerms = async (api, company_id, merchant_id) => {
+  if (!merchant_id || !company_id) return;
+  const terms = await api.post(`/api/companies/${company_id}/approved_terms`, {
+    merchant_id,
+  });
+  return terms?.data?.data?.attributes;
+};
+
 export const getAccount = async (api, accountID) => {
   if (!accountID) return;
   const account = await api.get(`/api/pi4/accounts/${accountID}`);
   return { ...account.data.data.attributes, type: account.data.data.type };
+};
+
+export const getPaymentMethods = async (api, filters = '') => {
+  const pms = await api.get(`/api/payment_methods?${filters}`);
+  return pms?.data.data.map((p) => {
+    return new PaymentMethodRecord(p.attributes);
+  });
 };

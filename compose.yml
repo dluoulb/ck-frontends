@@ -27,6 +27,7 @@ services:
       - ./tailwind.config.js:/app/config/tailwind.config.js
       - ./shared:/app/shared
       - ./apps:/app/apps
+      - ./types:/app/types
       - ./pages:/app/pages
       - ./public:/app/public
     env_file:
