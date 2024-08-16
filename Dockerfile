@@ -50,6 +50,7 @@ FROM builder AS dev
 RUN NODE_ENV=development npm install --save-dev
 
 COPY ./shared ./shared
+COPY ./types ./types
 COPY ./apps ./apps
 COPY ./pages ./pages
 COPY ./public ./public

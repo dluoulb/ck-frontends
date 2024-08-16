@@ -1,0 +1,49 @@
+import React from 'react';
+import { faCircleQuestion } from '@fortawesome/pro-regular-svg-icons';
+import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import ZendeskChatLink from '@components/ZendeskChatLink';
+import { supportLink } from '@lib/constants/SiteVariables';
+
+export default function SupportWidget() {
+  return (
+    <div className="px-3 p-2">
+      <div className="flex items-center gap-2 border-b border-primary-blue-hover/30 pb-3">
+        <FontAwesomeIcon
+          icon={faCircleQuestion}
+          className="text-primary-blue text-base lg:text-xl"
+        />
+
+        <p className="text-xl font-bold">Need Support?</p>
+      </div>
+      <div className="text-sm md:text-base my-6 space-y-4">
+        <div className="flex gap-1">
+          <p>Monday - Friday:</p>
+          <strong>9AM - 1PM & 2PM - 6PM CST</strong>
+        </div>
+        <div>
+          <p>Reach us at:</p>
+          <a
+            href="mailto: support@creditkey.com"
+            className="mr-1 hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover"
+          >
+            support@creditkey.com
+          </a>
+          or{' '}
+          <ZendeskChatLink className="hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover" />
+        </div>
+      </div>
+      <a
+        href={supportLink}
+        target="_blank"
+        className="flex items-center gap-1 font-medium group text-sm"
+      >
+        <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
+          Check out our Help Center for common questions
+        </span>
+        <FontAwesomeIcon icon={faChevronRight} className="text-[0.6rem] pt-0.5 font-bold group-hover:text-primary-blue-hover" />
+      </a>
+    </div>
+  );
+}
