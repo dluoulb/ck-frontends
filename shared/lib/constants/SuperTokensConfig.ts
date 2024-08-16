@@ -7,7 +7,7 @@ export function getApiDomain() {
 }
 
 export function getApiBasePath() {
-  return process.env.NEXT_PUBLIC_API_BASE_PATH || '/';
+  return process.env.NEXT_PUBLIC_SUPERTOKENS_API_BASEPATH || '/';
 }
 
 export function getWebsiteDomain() {

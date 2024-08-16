@@ -35,7 +35,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.ck-frontends.entrypoints: web
-      traefik.http.routers.ck-frontends.rule: "Host(`frontends.creditkey.localhost`, `reports.creditkey.localhost`, `borrower.creditkey.localhost`, `admin.creditkey.localhost`, `apply.creditkey.localhost`)"
+      traefik.http.routers.ck-frontends.rule: 'Host(`${VHOST_CK_FRONTENDS}`,`${VHOST_CK_BORROWER}`,`${VHOST_CK_REPORTS}`,`${VHOST_CK_ADMIN}`,`${VHOST_CK_APPLY}`)'
     networks:
       - ck-eco-net
     dns:
