@@ -23,6 +23,7 @@ module.exports = {
         'icon-error': '#7D1C1C',
         warning: '#907309',
         'background-warning': '#EBE3AD',
+        'primary-beige': '#e0bf9f',
       },
       fontFamily: { manrope: ['Manrope', 'sans-serif'] },
       width: {

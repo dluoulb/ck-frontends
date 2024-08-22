@@ -1,7 +1,7 @@
 import JsFileDownloader from 'js-file-downloader';
 
+import { PaymentMethodRecord } from '@lib/records/payment_method';
 import { addAuthorization, headers } from '@lib/utils/authorization';
-import { PaymentMethodRecord } from '@records/payment_method';
 
 const buildUrl = (type, resource) => {
   const controller = type === 'account' ? 'pi4/accounts' : 'companies';
@@ -46,9 +46,9 @@ export const getStats = async (api, entity) => {
   return stats.data;
 };
 
-export const getCompany = async (api, company_id) => {
+export const getCompany = async (api, company_id, filters) => {
   if (!company_id) return;
-  const foundCompany = await api.get(`/api/companies/${company_id}`);
+  const foundCompany = await api.get(`/api/companies/${company_id}?${filters}`);
   return {
     ...foundCompany.data.data.attributes,
     type: foundCompany.data.data.type,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import classNames from 'classnames';
 
@@ -6,10 +6,7 @@ import Notification from '@components/Notification';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function Stats({ entity, stats, errors }) {
-  const remainingCredit =
-    entity?.credit_line.remaining_amount < 0
-      ? 0
-      : entity?.credit_line.remaining_amount;
+  const remainingCredit = entity?.credit_line.amount - stats?.credit_utilized;
   let approvedUser = entity?.underwriting_status === 'approved';
 
   const entityData = [
@@ -20,11 +17,7 @@ export default function Stats({ entity, stats, errors }) {
     },
     {
       name: 'Credit in Use',
-      value: !approvedUser
-        ? '--'
-        : formatCurrency(
-            entity?.credit_line.amount - entity?.credit_line.remaining_amount
-          ),
+      value: !approvedUser ? '--' : formatCurrency(stats?.credit_utilized),
       className: 'text-tertiary-gray',
     },
     {

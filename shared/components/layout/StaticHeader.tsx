@@ -17,16 +17,16 @@ export default function StaticHeader() {
     <nav className="fixed top-0 w-full z-50 h-12 sm:h-16 py-4 sm:py-0 px-6 md:px-16 shadow-none flex justify-between items-center rounded-none border-solid border-b-[3px] border-border-gray bg-white">
       <div
         className={classNames('flex items-center', {
-          'w-full justify-center': !Session?.doesSessionExist(),
+          'w-full justify-center': !Session?.doesSessionExist,
         })}
       >
         <Image
           src={logo}
           alt="Credit Key Logo"
-          className={Session?.doesSessionExist() ? 'w-4/5' : 'w-1/8'}
+          className={Session?.doesSessionExist ? 'w-4/5' : 'w-1/8'}
         />
       </div>
-      {Session?.doesSessionExist() && (
+      {Session?.doesSessionExist && (
         <div className="flex items-center justify-around gap-2 text-primary-blue text-sm font-semibold hover:cursor-pointer hover:text-primary-blue-hover">
           <p
             onClick={async () => {

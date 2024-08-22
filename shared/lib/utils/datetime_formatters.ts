@@ -1,43 +1,21 @@
-import { DateTime } from "luxon";
-
-export const differenceOfDays = (start_date, end_date) => {
-  return Math.floor(
-    end_date.startOf("day").diff(start_date.startOf("day"), "days").values.days
-  );
-};
-
-export const differenceOfWeeks = (start_date, end_date) => {
-  return Math.floor(
-    end_date.startOf("week").diff(start_date.startOf("week"), "weeks").values
-      .weeks
-  );
-};
-
-export const differenceOfMonths = (start_date, end_date) => {
-  return Math.floor(
-    end_date.startOf("month").diff(start_date.startOf("month"), "months").values
-      .months
-  );
-};
+import { DateTime } from 'luxon';
 
 export const fromISO = (str) => {
   return DateTime.fromISO(str);
 };
 
-export const fromPreviousFormat = (str, previousFormat) => {
-  return DateTime.fromFormat(str, previousFormat);
-};
-
-export const sortDateTimes = (d1, d2) => {
+export const sortDateTimes = (date1, date2) => {
+  const d1 = fromISO(date1);
+  const d2 = fromISO(date2);
   return d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
 };
 
 export const toISO = (str) => {
-  return str?.replace(" ", "T");
+  return str?.replace(' ', 'T');
 };
 
-export const reformatDate = (date, returnDateTime = false, format = "") => {
-  if (!date) return "N/A";
+export const reformatDate = (date, returnDateTime = false, format = 'DateTime.DATE_SHORT') => {
+  if (!date) return 'N/A';
 
   return returnDateTime
     ? fromISO(toISO(date))

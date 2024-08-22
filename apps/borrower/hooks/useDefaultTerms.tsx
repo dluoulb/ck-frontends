@@ -61,7 +61,7 @@ function useDefaultTerms(company) {
       };
     });
 
-  const defaultTermSettings = defaultTermsList?.map((i) => {
+  const defaultTerms = defaultTermsList?.map((i) => {
     return {
       merchant_id: i.merchant_id,
       merchant_name: merchantList.find((m) => i.merchant_id === m.id)?.name,
@@ -74,7 +74,7 @@ function useDefaultTerms(company) {
     };
   });
 
-  return { isLoading, defaultTermSettings };
+  return { defaultTermsLoading: isLoading, defaultTerms };
 }
 
 export default useDefaultTerms;

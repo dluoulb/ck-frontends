@@ -6,19 +6,19 @@ import classNames from 'classnames';
 // import useModal from '../../../hooks/useModal';
 import useToast from '@hooks/useToast';
 
-// import { DefaultTermSettingsModal } from '../../modals';
+// import { DefaultTermsDisplayModal } from '../../modals';
 // import { loading } from '../../../store/actions/general';
 
-export default function DefaultTermSettings({
-  entity,
+export default function DefaultTermsDisplay({
+  entity = {},
   // companyActions,
-  defaultTermSettings,
+  defaultTerms = [],
 }) {
   const [loading, setLoading] = useState(false);
   const { makeToast } = useToast();
   // const { toggleModal, isModalActive, modalState, setModalState } = useModal(
   //   [],
-  //   defaultTermSettings[0],
+  //   DefaultTermsDisplay[0],
   // );
 
   // const updateRechargeTerm = (merchant_id, term) => {
@@ -68,17 +68,19 @@ export default function DefaultTermSettings({
     //   .finally(() => dispatch(loading(false)));
   };
 
+  if (!defaultTerms?.length) return;
+
   return (
-    <div className="flex flex-col divide-y gap-2 w-full">
-      {/* {defaultTermSettings && (
-        <DefaultTermSettingsModal
+    <div className="flex flex-col divide-y gap-2 w-full" role={DefaultTermsDisplay.role}>
+      {/* {DefaultTermsDisplay && (
+        <DefaultTermsDisplayModal
           modalState={modalState}
           onSave={onSave}
           isModalActive={isModalActive}
           toggleModal={toggleModal}
         />
       )} */}
-      {defaultTermSettings.map((s, idx) => {
+      {defaultTerms?.map((s, idx) => {
         return (
           <div
             key={idx}
@@ -94,9 +96,12 @@ export default function DefaultTermSettings({
                 <strong className="mx-1">{getTermDisplay(s)}</strong>
               </p>
               <FontAwesomeIcon
-                className={classNames('text-primary-blue cursor-pointer hover:text-primary-blue-hover', {
-                  'opacity-0': s?.default_term?.term_period === 'days',
-                })}
+                className={classNames(
+                  'text-primary-blue cursor-pointer hover:text-primary-blue-hover',
+                  {
+                    'opacity-0': s?.default_term?.term_period === 'days',
+                  }
+                )}
                 icon={faPenToSquare}
                 // onClick={() => {
                 //   setModalState(s);
@@ -111,4 +116,4 @@ export default function DefaultTermSettings({
   );
 }
 
-DefaultTermSettings.role = 'default-term-settings-component';
+DefaultTermsDisplay.role = 'default-term-display-component';

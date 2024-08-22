@@ -8,6 +8,7 @@ import {
   getPaymentMethods,
   getStats,
 } from '@lib/actions/entities';
+import useDefaultTerms from './useDefaultTerms';
 
 function useBorrowerDependencies(user) {
   let userProps;
@@ -31,7 +32,7 @@ function useBorrowerDependencies(user) {
     ],
     queryFn: () =>
       user?.company_id
-        ? getCompany(api, user?.company_id)
+        ? getCompany(api, user?.company_id, 'include=cta_banners')
         : getAccount(api, user?.account_id),
     ...fetchConfig,
   });
@@ -58,15 +59,27 @@ function useBorrowerDependencies(user) {
     retry: 1,
   });
 
+  const { defaultTerms, defaultTermsLoading } = useDefaultTerms(entity);
+
   useEffect(() => {
     if (entityError || statsError || paymentMethodsError) setHasErrors(true);
   }, [entityError]);
 
   useEffect(() => {
     setIsLoading(
-      !user || entityLoading || statsLoading || paymentMethodsLoading
+      !user ||
+        entityLoading ||
+        statsLoading ||
+        paymentMethodsLoading ||
+        defaultTermsLoading
     );
-  }, [user, entityLoading, statsLoading, paymentMethodsLoading]);
+  }, [
+    user,
+    entityLoading,
+    statsLoading,
+    paymentMethodsLoading,
+    defaultTermsLoading,
+  ]);
 
   const errors = { entityError, statsError, paymentMethodsError };
 
@@ -78,6 +91,7 @@ function useBorrowerDependencies(user) {
     hasErrors,
     isLoading,
     paymentMethods,
+    defaultTerms,
   };
 
   return { userProps };

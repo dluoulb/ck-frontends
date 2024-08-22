@@ -1,4 +1,4 @@
-import { removeNulls } from '../lib/utils/record_utils';
+import { removeNulls } from '../utils/record_utils';
 
 type PaymentMethodRecordData = {
   id: string | null;
@@ -6,10 +6,10 @@ type PaymentMethodRecordData = {
   account_id: string | null;
   payment_type: string;
   label: string;
-  account_holder: string;
-  bank_name: string;
-  bank_account: string;
-  bank_routing: string;
+  account_holder?: string;
+  bank_name?: string;
+  bank_account?: string;
+  bank_routing?: string;
   status: string;
   is_default: boolean;
 };
@@ -20,10 +20,10 @@ export class PaymentMethodRecord {
   account_id: string | null;
   payment_type: string;
   label: string;
-  account_holder: string;
-  bank_name: string;
-  bank_account: string;
-  bank_routing: string;
+  account_holder?: string;
+  bank_name?: string;
+  bank_account?: string;
+  bank_routing?: string;
   status: string;
   is_default: boolean;
 

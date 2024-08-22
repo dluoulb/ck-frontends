@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
-import useDefaultTerms from '@apps/borrower/hooks/useDefaultTerms';
 import usePaymentMethods from '@apps/borrower/hooks/usePaymentMethods';
-import DefaultTermSettings from './DefaultTermSettings';
+import DefaultTermsDisplay from './DefaultTermsDisplay';
 
-export default function DefaultSettings({ entity, paymentMethods }) {
-  const { defaultTermSettings } = useDefaultTerms(entity);
+export default function DefaultSettings({
+  entity,
+  paymentMethods,
+  defaultTerms,
+}) {
   const { defaultCard, defaultBank } = usePaymentMethods(paymentMethods);
   const [defaultPM, setDefaultPM] = useState(null);
 
@@ -23,7 +24,7 @@ export default function DefaultSettings({ entity, paymentMethods }) {
 
   return (
     <div className="px-3 p-2">
-      <div className="flex items-center gap-2 border-b border-primary-blue-hover/30 pb-3">
+      <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
         <FontAwesomeIcon
           icon={faInfoCircle}
           className="text-primary-blue text-base lg:text-xl"
@@ -54,12 +55,12 @@ export default function DefaultSettings({ entity, paymentMethods }) {
         </div>
         <div className="flex flex-col">
           <div className="font-semibold text-secondary-gray text-base md:text-lg">
-            {!defaultTermSettings.length ? null : <p>Default Terms</p>}
+            {!defaultTerms?.length ? null : <p>Default Terms</p>}
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            {defaultTermSettings && (
-              <DefaultTermSettings
-                defaultTermSettings={defaultTermSettings}
+            {defaultTerms && (
+              <DefaultTermsDisplay
+                defaultTerms={defaultTerms}
                 entity={entity}
               />
             )}

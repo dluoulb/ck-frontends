@@ -1,4 +1,5 @@
 import JsFileDownloader from 'js-file-downloader';
+
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 export const getOrder = async (api, id) => {
@@ -7,12 +8,13 @@ export const getOrder = async (api, id) => {
 };
 
 export const getOrders = async (api, entity, type, pageIndex) => {
+  const path =
+    `/api/orders?filter[${type}]=${entity?.id}` +
+    `&page=${pageIndex + 1}&per_page=25` +
+    `&include=virtual_card_details,payment_schedule`;
+
   if (entity) {
-    const orders = await api.get(
-      `/api/orders?filter[${type}]=${entity?.id}&page=${
-        pageIndex + 1
-      }&per_page=25&include=payment_schedule`
-    );
+    const orders = await api.get(path);
     return orders ? orders : [];
   }
 };

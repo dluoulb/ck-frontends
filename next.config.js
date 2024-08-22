@@ -9,8 +9,9 @@ module.exports = {
     config.resolve.alias['@contexts'] = path.join(__dirname, 'shared/contexts');
     config.resolve.alias['@hooks'] = path.join(__dirname, 'shared/hooks');
     config.resolve.alias['@lib'] = path.join(__dirname, 'shared/lib');
-    config.resolve.alias['@records'] = path.join(__dirname, 'shared/records');
+    config.resolve.alias['@records'] = path.join(__dirname, 'shared/lib/records');
     config.resolve.alias['@apps/reports'] = path.join(__dirname, 'apps/reports');
+    config.resolve.alias['@apps/borrower'] = path.join(__dirname, 'apps/borrower');
 
     return config;
   },

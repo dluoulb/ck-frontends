@@ -18,9 +18,11 @@ const config: Config = {
     '^@contexts$': '<rootDir>/shared/contexts',
     '^@hooks/(.*)$': '<rootDir>/shared/hooks/$1',
     '^@lib/(.*)$': '<rootDir>/shared/lib/$1',
-    '^@records/(.*)$': '<rootDir>/shared/records/$1',
+    '^@records/(.*)$': '<rootDir>/shared/lib/records/$1',
     '^@apps/reports/(.*)$': '<rootDir>/apps/reports/$1',
+    '^@apps/borrower/(.*)$': '<rootDir>/apps/borrower/$1',
     '^@pages/reports/(.*)$': '<rootDir>/pages/reports/$1',
+    '^@pages/borrower/(.*)$': '<rootDir>/pages/borrower/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {

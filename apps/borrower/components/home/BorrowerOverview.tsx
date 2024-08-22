@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Tooltip from '@components/Tooltip';
 
-export default function EntityOverview({ entity, type }) {
+export default function BorrowerOverview({ entity, type }) {
   let statusColor;
   const status =
     type === 'company' ? entity?.underwriting_status : entity?.status;
@@ -50,17 +50,17 @@ export default function EntityOverview({ entity, type }) {
               <p>
                 Base Rate:
                 <span className="mx-1 font-semibold">
-                  {entity.min_rate !== 'N/A' && approvedUser
-                    ? `${entity.min_rate}%`
+                  {entity?.min_rate !== 'N/A' && approvedUser
+                    ? `${entity?.min_rate}%`
                     : '--'}
                 </span>
-                {entity.min_rate !== 'N/A' && approvedUser && (
+                {entity?.min_rate !== 'N/A' && approvedUser && (
                   <Tooltip
                     tooltip_text={
                       <div>
                         Rate may range from
                         <p className="mx-1 font-bold">
-                          {entity.min_rate} - {entity.max_rate}%
+                          {entity?.min_rate} - {entity?.max_rate}%
                         </p>
                         based on term length selection
                       </div>
