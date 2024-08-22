@@ -3,14 +3,11 @@ import { faCircleInfo } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
-import useDefaultTerms from '@apps/borrower/hooks/useDefaultTerms';
-import Loading from '@components/Loading';
+import DefaultTermsDisplay from '@apps/borrower/components/home/widgets/default_settings/DefaultTermsDisplay';
 import Tooltip from '@components/Tooltip';
 import { formatCurrency } from '@lib/utils/formatters';
-import DefaultTermSettings from './DefaultTermSettings';
 
-export default function CompanyOverview({ company }) {
-  const { isLoading, defaultTermSettings } = useDefaultTerms(company);
+export default function CompanyOverview({ company, defaultTerms }) {
   const remainingCredit =
     company.credit_line.remaining_amount < 0
       ? 0
@@ -34,8 +31,6 @@ export default function CompanyOverview({ company }) {
       statusColor = 'bg-background-primary-blue text-primary-blue';
   }
 
-  if (isLoading) return <Loading className="w-14 h-14 my-16" />;
-  
   // this widget is only for Company data
   if (!company) return null;
 
@@ -122,13 +117,13 @@ export default function CompanyOverview({ company }) {
       </div>
       <div className="flex flex-col gap-2 pt-1.5 pb-5 px-6">
         <div className="font-semibold text-primary-blue-hover text-base md:text-lg">
-          {!defaultTermSettings.length ? null : <p>Default Terms</p>}
+          {!defaultTerms?.length ? null : <p>Default Terms</p>}
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          {defaultTermSettings && (
-            <DefaultTermSettings
-              defaultTermSettings={defaultTermSettings}
-              company={company}
+          {defaultTerms && (
+            <DefaultTermsDisplay
+              DefaultTermsDisplay={defaultTerms}
+              entity={company}
             />
           )}
         </div>

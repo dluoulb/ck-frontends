@@ -6,7 +6,7 @@
       "@contexts": ["shared/contexts"],
       "@hooks/*": ["shared/hooks/*"],
       "@lib/*": ["shared/lib/*"],
-      "@records/*": ["shared/records/*"],
+      "@records/*": ["shared/lib/records/*"],
       "@apps/reports/*": ["apps/reports/*"],
       "@apps/borrower/*": ["apps/borrower/*"],
       "@pages/reports/*": ["pages/reports/*"],

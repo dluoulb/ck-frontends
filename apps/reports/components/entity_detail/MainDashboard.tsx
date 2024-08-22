@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BaseGrid, BaseGridItem } from '@apps/reports/components/BaseGrid';
+import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import { Applications } from './widgets/Applications';
 import Attachments from './widgets/Attachments/Attachments';
 import EntityInfo from './widgets/EntityInfo';

@@ -26,7 +26,7 @@ export default function MainLayout({ children }) {
   });
 
   useEffect(() => {
-    if (Session.doesSessionExist()) {
+    if (Session.doesSessionExist) {
       Session.getAccessToken().then((token) => {
         getCurrentUser.mutate(parseUserJwt(token));
       });

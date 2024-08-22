@@ -8,8 +8,8 @@ import { supportLink } from '@lib/constants/SiteVariables';
 
 export default function SupportWidget() {
   return (
-    <div className="px-3 p-2">
-      <div className="flex items-center gap-2 border-b border-primary-blue-hover/30 pb-3">
+    <div className="px-3 p-2" role={SupportWidget.role}>
+      <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
         <FontAwesomeIcon
           icon={faCircleQuestion}
           className="text-primary-blue text-base lg:text-xl"
@@ -37,13 +37,18 @@ export default function SupportWidget() {
       <a
         href={supportLink}
         target="_blank"
-        className="flex items-center gap-1 font-medium group text-sm"
+        className="flex items-center gap-1 font-medium group text-sm max-w-max"
       >
         <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
           Check out our Help Center for common questions
         </span>
-        <FontAwesomeIcon icon={faChevronRight} className="text-[0.6rem] pt-0.5 font-bold group-hover:text-primary-blue-hover" />
+        <FontAwesomeIcon
+          icon={faChevronRight}
+          className="text-[0.6rem] pt-0.5 font-bold group-hover:text-primary-blue-hover"
+        />
       </a>
     </div>
   );
 }
+
+SupportWidget.role = 'support-widget';

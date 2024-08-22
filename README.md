@@ -34,7 +34,7 @@ Internal Admin Dashboard: [https://staging-admin.creditkey.com](https://staging-
 Instore Order Portal: [https://staging-merchant-instore.creditkey.com](https://staging-merchant-instore.creditkey.com)  
 Demo Checkout Store: [https://demo.creditkey.tech/](https://demo.creditkey.tech/)
 
-#### Development
+#### Development (w/ Docker)
 
 TPS Reporting Dashboard: [http://reports.creditkey.localhost](http://reports.creditkey.localhost)  
 Borrower Portal: [http://borrower.creditkey.localhost](http://borrower.creditkey.localhost)  
