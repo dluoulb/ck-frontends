@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { createContext, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
@@ -13,6 +14,7 @@ import SearchConfig from '@components/SearchConfig';
 import { QueryContext, UserContext } from '@contexts';
 import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
+import { rollbarConfig } from '@lib/utils/rollbar';
 
 config.autoAddCss = false;
 
@@ -28,22 +30,26 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SuperTokensWrapper>
-        <ApiContext.Provider value={api}>
-          <UserContext.Provider value={{ user, setUser }}>
-            <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
-              <MainLayout>
-                <SearchConfig>
-                  <Component {...pageProps} />
-                </SearchConfig>
-              </MainLayout>
-            </QueryContext.Provider>
-          </UserContext.Provider>
-        </ApiContext.Provider>
-      </SuperTokensWrapper>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <Provider config={rollbarConfig}>
+      <QueryClientProvider client={queryClient}>
+        <SuperTokensWrapper>
+          <ApiContext.Provider value={api}>
+            <UserContext.Provider value={{ user, setUser }}>
+              <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
+                <ErrorBoundary>
+                  <MainLayout>
+                    <SearchConfig>
+                      <Component {...pageProps} />
+                    </SearchConfig>
+                  </MainLayout>
+                </ErrorBoundary>
+              </QueryContext.Provider>
+            </UserContext.Provider>
+          </ApiContext.Provider>
+        </SuperTokensWrapper>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </Provider>
   );
 }
 export default App;
