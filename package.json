@@ -7,6 +7,7 @@
     "test": "jest --watch"
   },
   "dependencies": {
+    "@bharathvaj/fullstory-rollbar": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
@@ -14,7 +15,9 @@
     "@fortawesome/pro-regular-svg-icons": "^6.5.2",
     "@fortawesome/pro-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@fullstory/browser": "^2.0.5",
     "@headlessui/react": "^2.1.2",
+    "@rollbar/react": "^0.12.0-beta",
     "@tanstack/react-query": "^5.37.1",
     "@tanstack/react-query-devtools": "^5.37.1",
     "axios": "^1.7.2",
@@ -33,6 +36,7 @@
     "react-table": "^7.8.0",
     "react-verification-input": "^4.1.2",
     "regenerator-runtime": "^0.14.1",
+    "rollbar": "^2.26.4",
     "supertokens-auth-react": "^0.41.1",
     "typesense-instantsearch-adapter": "^2.8.0",
     "util": "^0.12.5"
