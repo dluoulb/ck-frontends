@@ -15,10 +15,10 @@ export default function SupportWidget() {
           className="text-primary-blue text-base lg:text-xl"
         />
 
-        <p className="text-xl font-bold">Need Support?</p>
+        <p className="text-lg md:text-xl font-bold">Need Support?</p>
       </div>
-      <div className="text-sm md:text-base my-6 space-y-4">
-        <div className="flex gap-1">
+      <div className="text-sm md:text-base my-3 md:my-6 space-y-4">
+        <div className="flex flex-col md:flex-row md:gap-1">
           <p>Monday - Friday:</p>
           <strong>9AM - 1PM & 2PM - 6PM CST</strong>
         </div>
@@ -37,7 +37,7 @@ export default function SupportWidget() {
       <a
         href={supportLink}
         target="_blank"
-        className="flex items-center gap-1 font-medium group text-sm max-w-max"
+        className="flex items-center gap-1 font-medium group text-xs md:text-sm max-w-max"
       >
         <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
           Check out our Help Center for common questions

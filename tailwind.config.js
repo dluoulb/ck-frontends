@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: '',
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './shared/**/*.{js,ts,jsx,tsx}',
     './apps/**/*.{js,ts,jsx,tsx}',
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}",
   ],
   theme: {
     extend: {
@@ -32,7 +34,7 @@ module.exports = {
         portal: 'calc(100vw - 5.5rem)',
       },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
-      screens: { xs: '480px', mid: '856px' },
+      screens: { '2xs': '375px', xs: '480px', mid: '856px' },
       zIndex: { 100: 100 },
       transitionDuration: { 1500: '1500ms' },
     },

@@ -50,10 +50,12 @@ export default function MainLayout({ children }) {
           reverseOrder={false}
           gutter={8}
           toastOptions={{
-            duration: 5000,
+            duration: 50000,
             style: {
               boxShadow: 'none',
-              minWidth: '30%',
+              maxWidth: '350px',
+              background: 'none',
+              display: 'auto'
             },
           }}
         />

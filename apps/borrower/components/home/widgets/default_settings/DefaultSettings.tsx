@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faInfoCircle,
+  faPenToSquare,
+} from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
@@ -30,9 +33,9 @@ export default function DefaultSettings({
           className="text-primary-blue text-base lg:text-xl"
         />
 
-        <p className="text-xl font-bold">Default Settings</p>
+        <p className="text-lg md:text-xl font-bold">Default Settings</p>
       </div>
-      <div className="space-y-7 mt-6">
+      <div className="space-y-4 md:space-y-7 mt-3 md:mt-6">
         <div className="flex flex-col">
           <div className="font-semibold text-secondary-gray text-base md:text-lg">
             Primary Payment Method
@@ -49,7 +52,13 @@ export default function DefaultSettings({
               href="/borrower/payment-methods"
               className="font-semibold text-primary-blue-hover flex gap-1 hover:text-blue-900 hover:border-b hover:border-primary-blue-hover"
             >
-              Change
+              <span className="hidden xs:inline">Change</span>
+              <span>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  className="inline xs:hidden"
+                />
+              </span>
             </Link>
           </div>
         </div>

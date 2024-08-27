@@ -13,20 +13,20 @@ export default function CreditKeyAnywhere() {
           icon={faFileInvoiceDollar}
           className="text-primary-blue text-base lg:text-xl"
         />
-        <p className="text-xl font-bold">Credit Key Anywhere</p>
+        <p className="text-lg md:text-xl font-bold">Credit Key Anywhere</p>
       </div>
-      <div className="text-sm md:text-base h-full mt-6 mb-2 space-y-2">
+      <div className="text-sm md:text-base h-full mt-3 md:mt-6 mb-2 space-y-2">
         <p className="font-medium">
           Pay your invoices with Credit Key Anywhere!
         </p>
-        <p className="text-sm min-h-32 max-h-36">
+        <p className="text-sm md:min-h-32 md:max-h-36">
           Submit your unpaid invoice and we'll connect with the vendor to pay it
           for you using your existing line of credit.
         </p>
         <a
           href={ckaLink}
           target="_blank"
-          className="flex items-center gap-1 cursor-pointer hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+          className="flex items-center gap-1 cursor-pointer hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
         >
           <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
             Submit New Invoice

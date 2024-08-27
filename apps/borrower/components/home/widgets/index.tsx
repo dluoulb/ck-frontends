@@ -14,7 +14,7 @@ export default function Widgets({ entity, paymentMethods, defaultTerms }) {
 
   return (
     <>
-      <BaseGridItem gridConfig="col-span-2 !bg-primary-blue/10 ml-3 mr-1.5">
+      <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-primary-blue/10 mx-1 md:ml-3 md:mr-1.5">
         <DefaultSettings
           entity={entity}
           paymentMethods={paymentMethods}
@@ -22,14 +22,14 @@ export default function Widgets({ entity, paymentMethods, defaultTerms }) {
         />
       </BaseGridItem>
 
-      <BaseGridItem gridConfig="col-span-2 !bg-tertiary-gray/20 mr-3 ml-1.5">
+      <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-tertiary-gray/20 mx-1 md:mr-3 md:ml-1.5">
         <SupportWidget />
       </BaseGridItem>
       <BaseGridItem
         gridConfig={
           vcEnabled
-            ? 'col-span-2 !bg-primary-beige/20 ml-3 mr-1.5'
-            : 'col-span-5 !bg-primary-beige/20 mx-3'
+            ? 'col-span-5 md:col-span-2 !bg-primary-beige/20 mx-1 md:ml-3 md:mr-1.5'
+            : 'col-span-5 !bg-primary-beige/20 mx-1 md:mx-3'
         }
       >
         <CreditKeyAnywhere />
@@ -37,7 +37,7 @@ export default function Widgets({ entity, paymentMethods, defaultTerms }) {
 
       {/* // TODO: FIGURE OUT WHAT THE QOLO VC WIDGET IS */}
       {vcEnabled && (
-        <BaseGridItem gridConfig="col-span-2 !bg-background-success/60 mr-3 ml-1.5">
+        <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-background-success/60 mx-1 md:mr-3 md:ml-1.5">
           <VirtualCard entity={entity} />
         </BaseGridItem>
       )}

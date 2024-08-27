@@ -121,10 +121,7 @@ export default function CompanyOverview({ company, defaultTerms }) {
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           {defaultTerms && (
-            <DefaultTermsDisplay
-              DefaultTermsDisplay={defaultTerms}
-              entity={company}
-            />
+            <DefaultTermsDisplay defaultTerms={defaultTerms} entity={company} />
           )}
         </div>
       </div>

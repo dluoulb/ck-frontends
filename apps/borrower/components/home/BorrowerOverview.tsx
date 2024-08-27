@@ -36,7 +36,7 @@ export default function BorrowerOverview({ entity, type }) {
           <div className="text-sm md:text-base">
             <p
               data-testid="entity_name"
-              className="text-xl md:text-3xl font-bold text-primary-blue-hover"
+              className="text-2xl md:text-3xl font-bold text-primary-blue-hover"
             >
               {entity?.name}
             </p>
@@ -74,7 +74,7 @@ export default function BorrowerOverview({ entity, type }) {
               </p>
             )}
           </div>
-          <div className="flex flex-col-reverse sm:flex-col sm:items-end gap-1 sm:gap-2">
+          <div className="flex flex-col-reverse sm:flex-col sm:items-end gap-1 sm:gap-2 mt-4 md:mt-0">
             <span
               role="status"
               className={classNames(
