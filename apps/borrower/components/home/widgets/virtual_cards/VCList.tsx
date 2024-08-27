@@ -16,7 +16,7 @@ export default function VCList({ vc_orders }) {
       <div className="min-w-full divide-y">
         {sortedCards?.map((vc) => (
           <div
-            className="text-sm flex items-center justify-between py-1.5"
+            className="text-sm flex flex-col md:flex-row md:items-center justify-between py-1.5"
             key={vc.id}
           >
             <div>

@@ -1,10 +1,10 @@
-import toast from 'react-hot-toast';
 import {
   faCircleCheck,
   faCircleXmark,
 } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+import toast from 'react-hot-toast';
 
 export default function useToast() {
   const makeToast = (msg, type) => {
@@ -18,10 +18,8 @@ export default function useToast() {
       >
         <div
           className={classNames(
-            'flex justify-between items-center p-3 rounded-md',
-            type === 'success'
-              ? 'bg-background-success border-success'
-              : 'bg-background-error border-error'
+            'flex justify-between items-center p-3 rounded-md shadow-xl',
+            type === 'success' ? 'bg-background-success' : 'bg-background-error'
           )}
         >
           <div className="flex items-start gap-2">

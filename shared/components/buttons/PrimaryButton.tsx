@@ -8,6 +8,7 @@ interface PrimaryButtonProps {
   buttonText: string;
   buttonColor: string;
   hoverClass: string;
+  containerClass?: string;
   icon?: any;
   disabled?: boolean;
   isLoading?: boolean;
@@ -20,6 +21,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
   buttonText,
   buttonColor,
   hoverClass,
+  containerClass,
   icon,
   disabled,
   isLoading,
@@ -27,7 +29,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
   isSmall,
 }) => {
   return (
-    <div className="flex w-full">
+    <div className={classNames('flex w-full', containerClass)}>
       <button
         aria-label={ariaLabel}
         className={classNames(
@@ -36,8 +38,8 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
           isSmall
             ? 'py-2 px-3 text-xs'
             : 'py-2 sm:py-3 px-4 text-xs md:text-sm',
-          { 'cursor-not-allowed bg-disabled': disabled },
-          !isLoading && !disabled && hoverClass
+          { '!cursor-not-allowed !bg-disabled': disabled },
+          !isLoading && !disabled ? hoverClass : ''
         )}
         type="submit"
         role="submit"

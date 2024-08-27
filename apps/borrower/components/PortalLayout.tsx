@@ -42,7 +42,7 @@ export default function PortalLayout({ children }) {
   return (
     <div className="flex" role={PortalLayout.role}>
       <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full md:w-portal">{children}</div>
+      <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">{children}</div>
     </div>
   );
 }

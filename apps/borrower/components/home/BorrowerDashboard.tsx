@@ -9,6 +9,7 @@ import NoDataError from '@apps/reports/components/NoDataError';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
 import { UserContext } from '@contexts';
+import ExportPaymentHistory from './ExportPaymentHistory';
 import Widgets from './widgets';
 
 export default function BorrowerDashboard() {
@@ -55,9 +56,9 @@ export default function BorrowerDashboard() {
         </p>
         <div className="relative rounded-t-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8 sm:pb-16">
           <BorrowerOverview entity={entity} type={type} />
-          <div className="relative my-6 sm:pb-16">
+          <div className="relative my-4 md:my-6 sm:pb-16">
             <BaseGrid>
-              <BaseGridItem gridConfig="col-span-4 row-span-1 !border-gray-200 !border-x-0 !rounded-none">
+              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-4 row-span-1 !border-gray-200 !border-x-0 !rounded-none">
                 <Stats entity={entity} stats={stats} errors={errors} />
               </BaseGridItem>
 
@@ -67,11 +68,10 @@ export default function BorrowerDashboard() {
                 defaultTerms={defaultTerms}
               />
 
-              <BaseGridItem gridConfig="md:col-span-5">
-                {/* <Attachments props={props} /> */}
-                export payment history
+              <BaseGridItem gridConfig="col-span-5 mx-1 md:mx-3 !py-1 !px-2">
+                <ExportPaymentHistory />
               </BaseGridItem>
-              <BaseGridItem gridConfig="md:col-span-5 md:row-span-4">
+              <BaseGridItem gridConfig="col-span-5 md:row-span-4 mx-3">
                 {/* <Applications props={props} /> */}
                 active orders
               </BaseGridItem>
