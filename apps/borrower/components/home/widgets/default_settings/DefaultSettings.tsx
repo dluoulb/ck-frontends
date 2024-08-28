@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  faExclamationTriangle,
   faInfoCircle,
   faPenToSquare,
 } from '@fortawesome/pro-regular-svg-icons';
@@ -7,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
 import usePaymentMethods from '@apps/borrower/hooks/usePaymentMethods';
+import Notification from '@components/Notification';
 import DefaultTermsDisplay from './DefaultTermsDisplay';
 
 export default function DefaultSettings({
@@ -50,7 +52,7 @@ export default function DefaultSettings({
             </div>
             <Link
               href="/borrower/payment-methods"
-              className="font-semibold text-primary-blue-hover flex gap-1 hover:text-blue-900 hover:border-b hover:border-primary-blue-hover"
+              className="font-semibold text-primary-blue-hover flex gap-1 hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover"
             >
               <span className="hidden xs:inline">Change</span>
               <span>

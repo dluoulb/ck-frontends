@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { useRouter } from 'next/router';
 import {
   useAsyncDebounce,
   useFilters,
@@ -21,7 +20,6 @@ export default function OrdersTable({
   totalRows,
   pageSize,
 }) {
-  const router = useRouter();
   const data = useMemo(() => orders, [orders?.length]);
   const columns = useMemo(() => tableColumns, []);
   const instance = useTable(

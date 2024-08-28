@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import Link from 'next/link';
 
-import { routes } from './routes';
+import { routes } from '../shared/routes';
 
 export default function Home() {
   return (

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
+import useOrders from '@hooks/useOrders';
 import {
   getAccount,
   getCompany,
@@ -37,61 +38,77 @@ function useBorrowerDependencies(user) {
     ...fetchConfig,
   });
 
-  const {
-    data: stats,
-    error: statsError,
-    isLoading: statsLoading,
-  } = useQuery({
-    queryKey: ['stats', entity?.id],
-    queryFn: () => getStats(api, entity),
-    enabled: !!entity,
-    retry: 1,
-  });
+  // const {
+  //   data: stats,
+  //   error: statsError,
+  //   isLoading: statsLoading,
+  // } = useQuery({
+  //   queryKey: ['stats', entity?.id],
+  //   queryFn: () => getStats(api, entity),
+  //   enabled: !!entity,
+  //   retry: 1,
+  // });
 
-  const {
-    data: paymentMethods,
-    error: paymentMethodsError,
-    isLoading: paymentMethodsLoading,
-  } = useQuery({
-    queryKey: ['payment_methods', entity?.id],
-    queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
-    enabled: !!entity,
-    retry: 1,
-  });
+  // const {
+  //   data: paymentMethods,
+  //   error: paymentMethodsError,
+  //   isLoading: paymentMethodsLoading,
+  // } = useQuery({
+  //   queryKey: ['payment_methods', entity?.id],
+  //   queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
+  //   enabled: !!entity,
+  //   retry: 1,
+  // });
 
-  const { defaultTerms, defaultTermsLoading } = useDefaultTerms(entity);
+  // const { defaultTerms, defaultTermsLoading } = useDefaultTerms(entity);
+
+  const { orders, ordersLoading, ordersError } = useOrders(
+    {
+      type: entity?.type,
+      entity,
+    },
+    0,
+    isLoading
+  );
 
   useEffect(() => {
-    if (entityError || statsError || paymentMethodsError) setHasErrors(true);
-  }, [entityError]);
+    if (entityError || ordersError)
+    // if (entityError || statsError || paymentMethodsError || ordersError)
+      setHasErrors(true);
+  }, [entityError, ordersError]);
+  // }, [entityError, statsError, paymentMethodsError, ordersError]);
 
   useEffect(() => {
     setIsLoading(
       !user ||
-        entityLoading ||
-        statsLoading ||
-        paymentMethodsLoading ||
-        defaultTermsLoading
+        entityLoading 
+        // ||
+        // statsLoading ||
+        // paymentMethodsLoading ||
+        // defaultTermsLoading
     );
   }, [
     user,
     entityLoading,
-    statsLoading,
-    paymentMethodsLoading,
-    defaultTermsLoading,
+    // statsLoading,
+    // paymentMethodsLoading,
+    // defaultTermsLoading,
   ]);
 
-  const errors = { entityError, statsError, paymentMethodsError };
+  const errors = { entityError, ordersError };
+  // const errors = { entityError, statsError, paymentMethodsError, ordersError };
 
   userProps = {
     type: user?.company_id ? 'company' : 'account',
-    stats,
+    // stats,
     entity,
     errors,
     hasErrors,
     isLoading,
-    paymentMethods,
-    defaultTerms,
+    // paymentMethods,
+    // defaultTerms,
+    orders,
+    ordersLoading,
   };
 
   return { userProps };

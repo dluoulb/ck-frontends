@@ -14,10 +14,18 @@ export const toISO = (str) => {
   return str?.replace(' ', 'T');
 };
 
-export const reformatDate = (date, returnDateTime = false, format = 'DateTime.DATE_SHORT') => {
+export const reformatDate = (
+  date,
+  returnDateTime = false,
+  format = 'DateTime.DATE_SHORT'
+) => {
   if (!date) return 'N/A';
 
   return returnDateTime
     ? fromISO(toISO(date))
     : fromISO(toISO(date)).toLocaleString(format);
+};
+
+export const differenceOfDays = (start_date, end_date) => {
+  return Math.floor(start_date.diff(end_date, 'days').toObject().days);
 };

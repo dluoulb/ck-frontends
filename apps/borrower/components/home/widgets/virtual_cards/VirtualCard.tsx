@@ -8,12 +8,7 @@ import useOrders from '@hooks/useOrders';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import VCList from './VCList';
 
-export default function VirtualCard({ entity }) {
-  const { orders, ordersLoading, ordersError } = useOrders({
-    type: entity?.type,
-    entity,
-  });
-
+export default function VirtualCard({ errors, orders, ordersLoading }) {
   const virtualCardOrders = orders.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details
   );
@@ -24,7 +19,7 @@ export default function VirtualCard({ entity }) {
   // TODO: SHOULD VIRTUAL CARDS BE MOVED TO ITS OWN PAGE??
   return (
     <div className="px-3 p-2 h-full">
-      {(!virtualCardOrders?.length || ordersError) && !ordersLoading ? (
+      {(!virtualCardOrders?.length || errors?.ordersError) && !ordersLoading ? (
         <>
           <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
             <FontAwesomeIcon
@@ -45,14 +40,12 @@ export default function VirtualCard({ entity }) {
               href={virtualCardLink}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1 pt-6 cursor-pointer hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+              className="flex items-center gap-1 pt-6 cursor-pointer hover:text-blue-900 border-b border-transparent  hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
             >
-              <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
-                Learn More
-              </span>
+              <span>Learn More</span>
               <FontAwesomeIcon
                 icon={faChevronRight}
-                className="text-[0.6rem] mt-[0.175rem] font-bold group-hover:text-primary-blue-hover"
+                className="text-[0.6rem] mt-[0.175rem] font-bold"
               />
             </a>
           </div>
@@ -78,14 +71,12 @@ export default function VirtualCard({ entity }) {
               href={virtualCardLink}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1 cursor-pointer hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+              className="flex items-center gap-1 cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
             >
-              <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
-                View More Details
-              </span>
+              <span>View More Details</span>
               <FontAwesomeIcon
                 icon={faChevronRight}
-                className="text-[0.6rem] mt-[0.175rem] font-bold group-hover:text-primary-blue-hover"
+                className="text-[0.6rem] mt-[0.175rem] font-bold"
               />
             </a>
           </div>

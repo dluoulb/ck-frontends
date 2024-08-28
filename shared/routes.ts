@@ -16,6 +16,7 @@ export const routes = [
     iconBackground: 'bg-background-success',
     divClass: 'rounded-t-lg sm:rounded-tl-lg',
     disabled: false,
+    approvedRoles: ['feb', 'external', 'superadmin'],
     description:
       'Search and review company, order, and application data for all TPS orders and loans. Includes ability to export company documents and download loan and payment plan agreements.',
   },
@@ -27,6 +28,7 @@ export const routes = [
     iconBackground: 'bg-purple-50',
     divClass: 'rounded-tr-lg',
     disabled: true,
+    approvedRoles: ['superadmin'],
     description:
       'Real-time KPI data dashboard including origination and conversion metrics for all merchants. UI also includes collection and pending application queues for internal operation functions.',
   },
@@ -38,6 +40,7 @@ export const routes = [
     iconBackground: 'bg-secondary-blue',
     divClass: '',
     disabled: false,
+    approvedRoles: ['purchaser', 'borrower', 'staff', 'admin', 'superadmin'],
     description:
       'View and manage borrower specific data dashboard like orders, payment methods, payment schedules, and general company or consumer details.',
   },
@@ -49,6 +52,7 @@ export const routes = [
     iconBackground: 'bg-background-warning',
     divClass: '',
     disabled: true,
+    approvedRoles: ['instore', 'merchant', 'staff', 'admin', 'superadmin'],
     description:
       'Create/send instore orders to borrowers for automatic approval, processing, and shipment.',
   },
@@ -60,6 +64,7 @@ export const routes = [
     iconBackground: 'bg-background-error',
     divClass: 'rounded-bl-lg',
     disabled: true,
+    approvedRoles: ['merchant', 'staff', 'admin', 'superadmin'],
     description:
       'React-based UI that allows internal team members to run applications and checkout flows for demos or testing purposes.',
   },
@@ -71,6 +76,17 @@ export const routes = [
     iconBackground: 'bg-indigo-50',
     divClass: 'rounded-b-lg sm:rounded-br-lg',
     disabled: true,
+    approvedRoles: [
+      'purchaser',
+      'borrower',
+      'feb',
+      'external',
+      'instore',
+      'merchant',
+      'staff',
+      'admin',
+      'superadmin',
+    ],
     description:
       'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.',
   },

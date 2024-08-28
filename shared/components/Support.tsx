@@ -9,14 +9,19 @@ import {
 interface SupportProps {
   asText?: string;
   declined?: string;
+  containerClass?: string;
 }
 
-const Support: FC<SupportProps> = ({ asText, declined }) => {
+const Support: FC<SupportProps> = ({ asText, declined, containerClass }) => {
   return (
     <div
-      className={classNames('mb-2 sm:my-2 text-sm modal:text-base', {
-        'p-3 px-4 sm:p-6 border border-tertiary-gray rounded-lg': !asText,
-      })}
+      className={classNames(
+        'mb-2 sm:my-2 text-sm modal:text-base',
+        containerClass,
+        {
+          'p-3 px-4 sm:p-6 border border-tertiary-gray rounded-lg': !asText,
+        }
+      )}
     >
       <div
         className={classNames(
@@ -27,16 +32,18 @@ const Support: FC<SupportProps> = ({ asText, declined }) => {
         Any questions or issues?
       </div>
       Contact Credit Key Support at
-      <a
-        href="mailto: support@creditkey.com"
-        className="mx-1 text-primary-blue hover:text-primary-blue-hover"
-      >
-        support@creditkey.com
-      </a>
-      or{' '}
-      <span className="sm:block text-primary-blue">
-        {declined ? declinedSupportPhone : supportPhone}
-      </span>
+      <div>
+        <a
+          href="mailto: support@creditkey.com"
+          className="mx-1 text-primary-blue hover:text-primary-blue-hover"
+        >
+          support@creditkey.com
+        </a>
+        or{' '}
+        <span className="text-primary-blue">
+          {declined ? declinedSupportPhone : supportPhone}
+        </span>
+      </div>
     </div>
   );
 };

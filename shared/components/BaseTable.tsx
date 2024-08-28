@@ -102,35 +102,31 @@ export default function BaseTable({
   return (
     <>
       <table {...getTableProps()} className={`min-w-full ${tableClass}`}>
-        <thead>
+        <thead className='h-full'>
           {headerGroups.map((headerGroup) => (
             <tr
               {...headerGroup.getHeaderGroupProps()}
-              className="border-b sticky top-0"
+              className="border-b sticky top-0 h-full"
             >
               {headerGroup.headers.map((column) => (
                 <th
                   scope="col"
                   className={classNames(
                     'py-4 text-left text-sm text-primary bg-secondary-blue',
-                    column.isSorted ? 'px-4 sm:px-8' : 'px-6 sm:px-8',
+                    column.isSorted
+                      ? 'flex items-center gap-1 px-4 sm:px-6 h-full'
+                      : 'px-6 sm:px-8',
                     headerClass
                   )}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   {column.render('Header')}
-                  <span>
+                  <span className="text-primary">
                     {column.isSorted ? (
                       column.isSortedDesc ? (
-                        <FontAwesomeIcon
-                          icon={faAngleDown}
-                          className="text-primary ml-1"
-                        />
+                        <FontAwesomeIcon icon={faAngleDown} />
                       ) : (
-                        <FontAwesomeIcon
-                          icon={faAngleUp}
-                          className="text-primary ml-1"
-                        />
+                        <FontAwesomeIcon icon={faAngleUp} />
                       )
                     ) : (
                       ' '

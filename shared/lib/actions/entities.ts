@@ -1,6 +1,7 @@
 import JsFileDownloader from 'js-file-downloader';
 
-import { PaymentMethodRecord } from '@lib/records/payment_method';
+import MerchantRecord from '@lib/records/merchant';
+import PaymentMethodRecord from '@lib/records/payment_method';
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 const buildUrl = (type, resource) => {
@@ -58,7 +59,7 @@ export const getCompany = async (api, company_id, filters) => {
 export const getMerchant = async (api, merchant_id) => {
   if (!merchant_id) return;
   const merchant = await api.get(`/api/merchants/${merchant_id}`);
-  return merchant.data.data.attributes;
+  return new MerchantRecord(merchant.data.data.attributes);
 };
 
 export const getApprovedTerms = async (api, company_id, merchant_id) => {

@@ -11,7 +11,7 @@ export default function NoDataError({ tag }) {
         Please contact Credit Key support.
       </p>
       <div
-        onClick={() => (window.location.href = `/`)}
+        onClick={() => (window.location.href = `/reports`)}
         className="text-primary-blue cursor-pointer"
       >
         <button
