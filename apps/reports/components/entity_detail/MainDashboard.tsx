@@ -9,7 +9,7 @@ import OwnerInfo from './widgets/OwnerInfo';
 export default function MainDashboard({ props }) {
   return (
     <div className="p-2.5" role={MainDashboard.role}>
-      <BaseGrid>
+      <BaseGrid gridContainerClass="gap-x-1.5 md:gap-x-3">
         <BaseGridItem gridConfig="md:col-span-2 md:row-span-2">
           <EntityInfo props={props} />
         </BaseGridItem>

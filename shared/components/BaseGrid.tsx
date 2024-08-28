@@ -14,10 +14,13 @@ function BaseGridItem({ children, gridConfig, ...config }) {
   );
 }
 
-function BaseGrid({ children }) {
+function BaseGrid({ children, gridContainerClass = '' }) {
   return (
     <div
-      className="grid grid-cols-1 md:grid-cols-4 gap-y-1.5 md:gap-y-3"
+      className={classNames(
+        'grid grid-cols-1 md:grid-cols-4 gap-y-1.5 md:gap-y-3',
+        gridContainerClass
+      )}
       role={BaseGrid.role}
     >
       {children}

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Notification from '@components/Notification';
 import { formatCurrency } from '@lib/utils/formatters';
 
-export default function Stats({ entity, stats, errors }) {
+export default function Stats({ entity, stats, errors, isLoading }) {
   const remainingCredit = entity?.credit_line.amount - stats?.credit_utilized;
   let approvedUser = entity?.underwriting_status === 'approved';
 
@@ -32,14 +32,13 @@ export default function Stats({ entity, stats, errors }) {
     },
   ];
 
-  if (errors?.statsError)
+  if (!isLoading && (!stats || errors?.statsError))
     return (
       <Notification
         icon={faExclamationTriangle}
         textColor="text-error"
         bgColor="bg-error/20"
         headline="An Error Occurred"
-        supportLink={true}
         message={`Unable to collect available ${entity?.type} credit and order data. Please contact Credit Key Support for assistance.`}
       />
     );

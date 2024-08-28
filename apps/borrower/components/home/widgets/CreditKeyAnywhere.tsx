@@ -26,14 +26,12 @@ export default function CreditKeyAnywhere() {
         <a
           href={ckaLink}
           target="_blank"
-          className="flex items-center gap-1 cursor-pointer hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
+          className="flex items-center gap-1 cursor-pointer hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
         >
-          <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
-            Submit New Invoice
-          </span>
+          <span>Submit New Invoice</span>
           <FontAwesomeIcon
             icon={faChevronRight}
-            className="text-[0.6rem] mt-[0.175rem] font-bold group-hover:text-primary-blue-hover"
+            className="text-[0.6rem] mt-[0.175rem] font-bold"
           />
         </a>
       </div>

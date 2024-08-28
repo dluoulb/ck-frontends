@@ -1,10 +1,11 @@
 import JsFileDownloader from 'js-file-downloader';
 
+import OrderRecord from '@lib/records/order';
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 export const getOrder = async (api, id) => {
   const order = await api.get(`/api/orders/${id}`);
-  return order?.data.data.attributes;
+  return new OrderRecord(order?.data.data.attributes);
 };
 
 export const getOrders = async (api, entity, type, pageIndex) => {

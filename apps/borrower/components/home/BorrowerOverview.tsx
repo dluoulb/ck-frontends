@@ -27,7 +27,7 @@ export default function BorrowerOverview({ entity, type }) {
       statusColor = 'bg-background-error text-error';
       break;
     default:
-      statusColor = 'bg-background-primary-blue text-primary-blue';
+      statusColor = 'bg-secondary-blue text-primary-blue';
   }
   return (
     <div className="px-6 pt-6">

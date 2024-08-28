@@ -10,6 +10,7 @@ import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
 import { UserContext } from '@contexts';
 import ExportPaymentHistory from './ExportPaymentHistory';
+import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
 
 export default function BorrowerDashboard() {
@@ -29,6 +30,8 @@ export default function BorrowerDashboard() {
       paymentMethods,
       defaultTerms,
       isLoading,
+      orders,
+      ordersLoading,
     },
   } = useBorrowerDependencies(user);
 
@@ -50,31 +53,40 @@ export default function BorrowerDashboard() {
       className="my-4 md:my-6 mx-auto h-full"
       role={BorrowerDashboard.role}
     >
-      <div className="mx-2 md:max-w-[90%] md:mx-auto">
+      <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           Borrower Dashboard
         </p>
-        <div className="relative rounded-t-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8 sm:pb-16">
+        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <BorrowerOverview entity={entity} type={type} />
-          <div className="relative my-4 md:my-6 sm:pb-16">
+          <div className="relative my-4 md:my-6">
             <BaseGrid>
-              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-4 row-span-1 !border-gray-200 !border-x-0 !rounded-none">
-                <Stats entity={entity} stats={stats} errors={errors} />
+              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-4 row-span-1 !border-gray-200 !border-x-0 !rounded-none !px-2 md:!px-3">
+                <Stats
+                  entity={entity}
+                  stats={stats}
+                  errors={errors}
+                  isLoading={isLoading}
+                />
               </BaseGridItem>
 
               <Widgets
-                entity={entity}
-                paymentMethods={paymentMethods}
                 defaultTerms={defaultTerms}
+                isLoading={isLoading}
+                entity={entity}
+                errors={errors}
+                orders={orders}
+                ordersLoading={ordersLoading}
+                paymentMethods={paymentMethods}
               />
 
-              <BaseGridItem gridConfig="col-span-5 mx-1 md:mx-3 !py-1 !px-2">
+              <BaseGridItem gridConfig="col-span-5 mx-2 md:mx-3 !py-1 !px-2">
                 <ExportPaymentHistory />
               </BaseGridItem>
-              <BaseGridItem gridConfig="col-span-5 md:row-span-4 mx-3">
-                {/* <Applications props={props} /> */}
-                active orders
-              </BaseGridItem>
+              <ActiveOrdersTable
+                orders={orders}
+                ordersLoading={ordersLoading}
+              />
             </BaseGrid>
           </div>
         </div>

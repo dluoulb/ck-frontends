@@ -1,6 +1,34 @@
 import classNames from 'classnames';
 
-export const VERSION = '1.0.0';
+const protocol = 'https://';
+const rootURI = 'creditkey.com';
+
+export const USE_SUPERTOKENS = process.env.REACT_APP_USE_SUPERTOKENS === 'true';
+
+export const platform = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    return 'development';
+  } else if (window.location && window.location.hostname.match(/staging/i)) {
+    return 'staging';
+  }
+
+  return 'production';
+};
+
+export const server = (api = true) => {
+  if (process.env && process.env.NODE_ENV !== 'production') {
+    return process.env.REACT_APP_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100';
+  }
+
+  let subDomain = 'www';
+  if (window.location && window.location.hostname.match(/staging/i)) {
+    subDomain = 'staging';
+  }
+
+  const baseURI = protocol + subDomain + '.' + rootURI;
+
+  return api ? `${baseURI}/app` : baseURI;
+};
 
 export const supportPhone = '+1 (844) 334-3636';
 export const declinedSupportPhone = '+1 (844) 900-3330';

@@ -39,7 +39,7 @@ export default function SupportWidget() {
         target="_blank"
         className="flex items-center gap-1 font-medium group text-xs md:text-sm max-w-max"
       >
-        <span className="group-hover:text-primary-blue-hover group-hover:border-b group-hover:border-primary-blue-hover">
+        <span className="group-hover:text-primary-blue-hover border-b border-transparent group-hover:border-primary-blue-hover">
           Check out our Help Center for common questions
         </span>
         <FontAwesomeIcon

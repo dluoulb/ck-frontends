@@ -1,20 +1,6 @@
 import { removeNulls } from '../utils/record_utils';
 
-type PaymentMethodRecordData = {
-  id: string | null;
-  user_id: string | null;
-  account_id: string | null;
-  payment_type: string;
-  label: string;
-  account_holder?: string;
-  bank_name?: string;
-  bank_account?: string;
-  bank_routing?: string;
-  status: string;
-  is_default: boolean;
-};
-
-export class PaymentMethodRecord {
+export default class PaymentMethodRecord {
   id: string | null;
   user_id: string | null;
   account_id: string | null;
@@ -27,7 +13,7 @@ export class PaymentMethodRecord {
   status: string;
   is_default: boolean;
 
-  constructor(data: PaymentMethodRecordData) {
+  constructor(data) {
     Object.assign(this, removeNulls(data));
   }
 
