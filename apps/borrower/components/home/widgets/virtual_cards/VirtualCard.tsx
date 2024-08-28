@@ -4,12 +4,11 @@ import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Loading from '@components/Loading';
-import useOrders from '@hooks/useOrders';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import VCList from './VCList';
 
 export default function VirtualCard({ errors, orders, ordersLoading }) {
-  const virtualCardOrders = orders.filter(
+  const virtualCardOrders = orders?.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details
   );
 
