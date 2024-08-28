@@ -45,7 +45,7 @@ export default function ActiveOrdersTable({ orders, ordersLoading }) {
   return (
     <div
       role={ActiveOrdersTable.role}
-      className="col-span-5 md:row-span-4 mx-2 rounded-lg border border-gray-300 overflow-x-scroll mb-10"
+      className="col-span-5 md:row-span-4 mx-2 md:mx-3 rounded-lg border border-gray-300 overflow-x-scroll mb-10"
     >
       <div className="flex items-center gap-2.5 p-4">
         <FontAwesomeIcon

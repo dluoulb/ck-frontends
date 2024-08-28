@@ -38,29 +38,29 @@ function useBorrowerDependencies(user) {
     ...fetchConfig,
   });
 
-  // const {
-  //   data: stats,
-  //   error: statsError,
-  //   isLoading: statsLoading,
-  // } = useQuery({
-  //   queryKey: ['stats', entity?.id],
-  //   queryFn: () => getStats(api, entity),
-  //   enabled: !!entity,
-  //   retry: 1,
-  // });
+  const {
+    data: stats,
+    error: statsError,
+    isLoading: statsLoading,
+  } = useQuery({
+    queryKey: ['stats', entity?.id],
+    queryFn: () => getStats(api, entity),
+    enabled: !!entity,
+    retry: 1,
+  });
 
-  // const {
-  //   data: paymentMethods,
-  //   error: paymentMethodsError,
-  //   isLoading: paymentMethodsLoading,
-  // } = useQuery({
-  //   queryKey: ['payment_methods', entity?.id],
-  //   queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
-  //   enabled: !!entity,
-  //   retry: 1,
-  // });
+  const {
+    data: paymentMethods,
+    error: paymentMethodsError,
+    isLoading: paymentMethodsLoading,
+  } = useQuery({
+    queryKey: ['payment_methods', entity?.id],
+    queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
+    enabled: !!entity,
+    retry: 1,
+  });
 
-  // const { defaultTerms, defaultTermsLoading } = useDefaultTerms(entity);
+  const { defaultTerms, defaultTermsLoading } = useDefaultTerms(entity);
 
   const { orders, ordersLoading, ordersError } = useOrders(
     {
@@ -72,41 +72,37 @@ function useBorrowerDependencies(user) {
   );
 
   useEffect(() => {
-    if (entityError || ordersError)
-    // if (entityError || statsError || paymentMethodsError || ordersError)
+    if (entityError || statsError || paymentMethodsError || ordersError)
       setHasErrors(true);
-  }, [entityError, ordersError]);
-  // }, [entityError, statsError, paymentMethodsError, ordersError]);
+  }, [entityError, statsError, paymentMethodsError, ordersError]);
 
   useEffect(() => {
     setIsLoading(
       !user ||
-        entityLoading 
-        // ||
-        // statsLoading ||
-        // paymentMethodsLoading ||
-        // defaultTermsLoading
+        entityLoading ||
+        statsLoading ||
+        paymentMethodsLoading ||
+        defaultTermsLoading
     );
   }, [
     user,
     entityLoading,
-    // statsLoading,
-    // paymentMethodsLoading,
-    // defaultTermsLoading,
+    statsLoading,
+    paymentMethodsLoading,
+    defaultTermsLoading,
   ]);
 
-  const errors = { entityError, ordersError };
-  // const errors = { entityError, statsError, paymentMethodsError, ordersError };
+  const errors = { entityError, statsError, paymentMethodsError, ordersError };
 
   userProps = {
     type: user?.company_id ? 'company' : 'account',
-    // stats,
+    stats,
     entity,
     errors,
     hasErrors,
     isLoading,
-    // paymentMethods,
-    // defaultTerms,
+    paymentMethods,
+    defaultTerms,
     orders,
     ordersLoading,
   };
