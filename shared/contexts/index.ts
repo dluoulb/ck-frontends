@@ -1,6 +1,15 @@
-import { ApiContext } from "pages/_app";
-import { AuthContext } from "./AuthContext";
-import { UserContext } from "./UserContext";
-import { QueryContext } from "./QueryContext";
+import { ApiContext } from 'pages/_app';
 
-export { ApiContext, AuthContext, UserContext, QueryContext };
+import { AuthContext } from './AuthContext';
+import { EntitiesProvider, useBorrowerDeps } from './EntitiesContext';
+import { QueryContext } from './QueryContext';
+import { UserContext } from './UserContext';
+
+export {
+  ApiContext,
+  AuthContext,
+  UserContext,
+  QueryContext,
+  EntitiesProvider,
+  useBorrowerDeps,
+};

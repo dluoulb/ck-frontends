@@ -23,7 +23,7 @@ export default function Applications({ props }) {
     errors: { applicationsError },
   } = props;
   const defaultContentId = applications && applications[0]?.id;
-  const { contentItems, setContent } = useDropdown(defaultContentId);
+  const { contentId, setContent } = useDropdown(defaultContentId);
 
   const getApprovedAmount = (app) => {
     if (type === 'account' && app?.modelshop_decision) {
@@ -75,12 +75,12 @@ export default function Applications({ props }) {
         </div>
         <ApplicationDropdown
           listOptions={listOptions(applications)}
-          contentItems={contentItems}
+          contentId={contentId}
           setContent={setContent}
         />
       </div>
       <section>
-        {findApp(contentItems, applications)?.map((app) => {
+        {findApp(contentId, applications)?.map((app) => {
           return (
             <div
               key={app?.id}

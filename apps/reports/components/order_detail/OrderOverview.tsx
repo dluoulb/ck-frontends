@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { DateTime } from 'luxon';
 
 import Loading from '@components/Loading';
-import { UserContext } from '@contexts';
+import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import DownloadAgreement from './DownloadAgreement';
 
 export default function OrderOverview({ order, product }) {
   let statusColor;
   let statusText;
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   const status = isPaymentPlan

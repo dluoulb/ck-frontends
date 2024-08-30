@@ -47,14 +47,6 @@ export const getStats = async (api, entity) => {
   return stats.data;
 };
 
-export const getCompany = async (api, company_id, filters) => {
-  if (!company_id) return;
-  const foundCompany = await api.get(`/api/companies/${company_id}?${filters}`);
-  return {
-    ...foundCompany.data.data.attributes,
-    type: foundCompany.data.data.type,
-  };
-};
 
 export const getMerchant = async (api, merchant_id) => {
   if (!merchant_id) return;

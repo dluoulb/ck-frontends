@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 
 function useDropdown(defaultContentId = '') {
-  const [contentItems, setContentItems] = useState(defaultContentId);
-  const setContent = (id) => setContentItems(id);
+  const [contentId, setContentId] = useState(defaultContentId);
+  const setContent = (id) => setContentId(id);
   
   useEffect(() => {
-    setContentItems(defaultContentId);
+    setContentId(defaultContentId);
   },[defaultContentId])
 
   return {
-    contentItems,
-    setContentItems,
+    contentId,
+    setContentId,
     setContent,
   };
 }

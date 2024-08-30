@@ -7,7 +7,8 @@ import NoDataError from '@apps/reports/components/NoDataError';
 import useEntityDependencies from '@apps/reports/hooks/useEntityDependencies';
 import Loading from '@components/Loading';
 import useApi from '@hooks/useApi';
-import { getAccount, getCompany } from '@lib/actions/entities';
+import { getCompany } from '@lib/actions/companies';
+import { getAccount } from '@lib/actions/entities';
 
 export default function EntityIndex() {
   const api = useApi();

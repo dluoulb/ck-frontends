@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
-import { getAccount, getCompany } from '@lib/actions/entities';
+import { getCompany } from '@lib/actions/companies';
+import { getAccount } from '@lib/actions/entities';
 import { getPaymentSchedule, getTransactions } from '@lib/actions/orders';
 
 function useOrderDependencies(order) {
