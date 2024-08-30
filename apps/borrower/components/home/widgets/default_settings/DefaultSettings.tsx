@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  faExclamationTriangle,
   faInfoCircle,
   faPenToSquare,
 } from '@fortawesome/pro-regular-svg-icons';
@@ -8,14 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
 import usePaymentMethods from '@apps/borrower/hooks/usePaymentMethods';
-import Notification from '@components/Notification';
+import { useBorrowerDeps } from '@contexts';
 import DefaultTermsDisplay from './DefaultTermsDisplay';
 
-export default function DefaultSettings({
-  entity,
-  paymentMethods,
-  defaultTerms,
-}) {
+export default function DefaultSettings() {
+  const { entity, paymentMethods, defaultTerms } = useBorrowerDeps();
   const { defaultCard, defaultBank } = usePaymentMethods(paymentMethods);
   const [defaultPM, setDefaultPM] = useState(null);
 
@@ -69,12 +65,7 @@ export default function DefaultSettings({
             {!defaultTerms?.length ? null : <p>Default Terms</p>}
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            {defaultTerms && (
-              <DefaultTermsDisplay
-                defaultTerms={defaultTerms}
-                entity={entity}
-              />
-            )}
+            {defaultTerms && <DefaultTermsDisplay />}
           </div>
         </div>
       </div>

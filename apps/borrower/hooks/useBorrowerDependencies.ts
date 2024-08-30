@@ -3,12 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
 import useOrders from '@hooks/useOrders';
-import {
-  getAccount,
-  getCompany,
-  getPaymentMethods,
-  getStats,
-} from '@lib/actions/entities';
+import { getCompany } from '@lib/actions/companies';
+import { getAccount, getPaymentMethods, getStats } from '@lib/actions/entities';
 import useDefaultTerms from './useDefaultTerms';
 
 function useBorrowerDependencies(user) {
@@ -17,15 +13,13 @@ function useBorrowerDependencies(user) {
   const [hasErrors, setHasErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   let encodedEmail = encodeURIComponent(user?.email);
-  const fetchConfig = {
-    enabled: !!user && !userProps,
-    retry: false,
-  };
 
   const {
     data: entity,
     error: entityError,
+    isRefetching: entityRefetching,
     isLoading: entityLoading,
+    refetch: refetchEntity,
   } = useQuery({
     queryKey: [
       user?.company_id ? 'company' : 'account',
@@ -35,7 +29,8 @@ function useBorrowerDependencies(user) {
       user?.company_id
         ? getCompany(api, user?.company_id, 'include=cta_banners')
         : getAccount(api, user?.account_id),
-    ...fetchConfig,
+    enabled: !!user && !userProps,
+    retry: false,
   });
 
   const {
@@ -98,6 +93,8 @@ function useBorrowerDependencies(user) {
     type: user?.company_id ? 'company' : 'account',
     stats,
     entity,
+    entityRefetching,
+    refetchEntity,
     errors,
     hasErrors,
     isLoading,

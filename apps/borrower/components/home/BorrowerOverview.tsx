@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 import Tooltip from '@components/Tooltip';
+import { useBorrowerDeps } from '@contexts';
 
-export default function BorrowerOverview({ entity, type }) {
+export default function BorrowerOverview() {
+  const { type, entity } = useBorrowerDeps();
   let statusColor;
   const status =
     type === 'company' ? entity?.underwriting_status : entity?.status;

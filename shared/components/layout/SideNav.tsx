@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   faBars,
   faChevronLeft,
@@ -8,11 +8,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import Link from 'next/link';
 
-import { UserContext } from '@contexts';
+import useUser from '@hooks/useUser';
 
 export default function SideNav({ primaryRoutes }) {
   const [extend, setExtend] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
 
   const toggleExtend = () => {
     setExtend(!extend);

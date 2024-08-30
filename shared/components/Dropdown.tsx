@@ -10,6 +10,7 @@ import {
   MenuItems,
   Transition,
 } from '@headlessui/react';
+import classNames from 'classnames';
 
 export const Dropdown = ({ button, children }) => {
   return (
@@ -41,11 +42,12 @@ export const ListBox = ({
   buttonText,
   handleChange,
   listBoxClass,
+  optionsContainerClass,
   children,
 }) => {
   return (
-    <Listbox value={value || initialValue} onChange={handleChange}>
-      <div className={`${listBoxClass} relative mt-1 rounded-lg text-sm`}>
+    <Listbox as="div" value={value || initialValue} onChange={handleChange}>
+      <div className={`${listBoxClass} relative rounded-lg text-sm`}>
         <ListboxButton className="relative w-full cursor-pointer py-2 px-4 text-left z-20">
           <span className="block truncate capitalize pl-2 pr-6">
             {buttonText}
@@ -54,16 +56,15 @@ export const ListBox = ({
             <FontAwesomeIcon icon={faAngleDown} className="mx-4" />
           </span>
         </ListboxButton>
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+
+        <ListboxOptions
+          className={classNames(
+            'text-sm absolute z-10 w-full overflow-auto rounded-b-md bg-white border shadow-lg',
+            optionsContainerClass
+          )}
         >
-          <ListboxOptions className="text-sm absolute mt-[0.25] z-1 max-h-60 w-full overflow-auto rounded-md bg-white border border-primary-blue-hover border-opacity-30">
-            {children}
-          </ListboxOptions>
-        </Transition>
+          {children}
+        </ListboxOptions>
       </div>
     </Listbox>
   );

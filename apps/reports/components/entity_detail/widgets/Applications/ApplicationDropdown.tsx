@@ -7,12 +7,12 @@ import Loading from '@components/Loading';
 
 export default function ApplicationDropdown({
   listOptions,
-  contentItems,
+  contentId,
   setContent,
 }) {
   if (!listOptions) return <Loading className="w-5 md:w-7 h-5 md:h-7 px-3" />;
 
-  const selected = listOptions.find((o) => o.id === contentItems);
+  const selected = listOptions.find((o) => o.id === contentId);
   const mostRecent = selected === listOptions[0];
 
   return (
@@ -22,8 +22,9 @@ export default function ApplicationDropdown({
           initialValue={listOptions[0]?.id}
           buttonText={`${mostRecent ? 'Most Recent:' : ''} ${selected?.text}`}
           handleChange={(e) => setContent(e)}
-          listBoxClass="my-3 relative bg-secondary-blue"
-          value={contentItems}
+          listBoxClass="my-3 relative bg-secondary-blue mt-1"
+          optionsContainerClass="border-primary-blue-hover border-opacity-30"
+          value={contentId}
         >
           {listOptions.map((op) => (
             <ListboxOption

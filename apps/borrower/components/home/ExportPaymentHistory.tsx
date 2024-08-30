@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import Datepicker from 'react-tailwindcss-datepicker';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
-import { UserContext } from '@contexts';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
+import useUser from '@hooks/useUser';
 import { exportPaymentHistory } from '@lib/actions/payments';
 
 export default function ExportPaymentHistory() {
   const api = useApi();
   const { makeToast } = useToast();
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
 
   const format = (d) => DateTime.fromJSDate(d).toFormat('yyyy-M-d');

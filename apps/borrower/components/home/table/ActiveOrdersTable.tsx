@@ -12,9 +12,12 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import { useBorrowerDeps } from '@contexts';
 import { DashboardTableColumns } from './DashboardTableColumns';
 
-export default function ActiveOrdersTable({ orders, ordersLoading }) {
+export default function ActiveOrdersTable() {
+  const { orders, ordersLoading } = useBorrowerDeps();
+
   const router = useRouter();
   const activeOrders = orders.filter((i) =>
     ['active', 'funded', 'created'].includes(i.product.status)

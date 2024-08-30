@@ -1,24 +1,22 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
-import { routes } from 'shared/routes';
 import Session from 'supertokens-auth-react/recipe/session';
 
+import Loading from '@components/Loading';
 import Title from '@components/Title';
-import { UserContext } from '@contexts';
 import useApi from '@hooks/useApi';
+import useUser from '@hooks/useUser';
 import { getUser } from '@lib/actions/users';
 import { parseUserJwt } from '@lib/utils/authorization';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
-import { usePathname } from 'next/navigation';
 
 export default function MainLayout({ children }) {
-  const pathname = usePathname();
   const router = useRouter();
   const api = useApi();
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUser();
 
   const getCurrentUser = useMutation({
     mutationFn: (id: string) => getUser(api, id),
@@ -36,13 +34,7 @@ export default function MainLayout({ children }) {
     }
   }, [Session]);
 
-  useEffect(() => {
-    if (user && !['/', '/unauthorized'].includes(pathname)) {
-      const route = routes.find((r) => (r.href === pathname));
-      if (!route?.approvedRoles?.includes(user?.role))
-        router.push('/unauthorized');
-    }
-  }, [user, router]);
+  if (!user || !Session.doesSessionExist) return <Loading className="w-14 h-14 my-36" />;
 
   return (
     <div className="flex flex-col min-h-screen font-manrope relative">
@@ -59,10 +51,10 @@ export default function MainLayout({ children }) {
         reverseOrder={false}
         gutter={8}
         toastOptions={{
-          duration: 50000,
+          duration: 5000,
           style: {
             boxShadow: 'none',
-            maxWidth: '350px',
+            maxWidth: '375px',
             background: 'none',
             display: 'auto',
           },
