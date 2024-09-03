@@ -42,30 +42,28 @@ export const ListBox = ({
   buttonText,
   handleChange,
   listBoxClass,
-  optionsContainerClass,
   children,
 }) => {
   return (
     <Listbox as="div" value={value || initialValue} onChange={handleChange}>
-      <div className={`${listBoxClass} relative rounded-lg text-sm`}>
-        <ListboxButton className="relative w-full cursor-pointer py-2 px-4 text-left z-20">
-          <span className="block truncate capitalize pl-2 pr-6">
-            {buttonText}
-          </span>
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-            <FontAwesomeIcon icon={faAngleDown} className="mx-4" />
-          </span>
-        </ListboxButton>
-
-        <ListboxOptions
-          className={classNames(
-            'text-sm absolute z-10 w-full overflow-auto rounded-b-md bg-white border shadow-lg',
-            optionsContainerClass
-          )}
-        >
-          {children}
-        </ListboxOptions>
-      </div>
+      <ListboxButton
+        className={classNames(
+          'relative block w-full rounded-lg py-1.5 pr-8 pl-3 text-left text-sm/6 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
+          listBoxClass
+        )}
+      >
+        {buttonText}
+        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
+          <FontAwesomeIcon icon={faAngleDown} className="mx-4" />
+        </span>
+      </ListboxButton>
+      <ListboxOptions
+        anchor="bottom"
+        transition
+        className="w-[var(--button-width)] rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0"
+      >
+        {children}
+      </ListboxOptions>
     </Listbox>
   );
 };

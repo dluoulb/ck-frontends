@@ -64,7 +64,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="fixed inset-0 w-screen overflow-y-auto">
                 <div className="flex min-h-full items-end justify-center text-center sm:items-center">
                   <DialogPanel
                     transition
@@ -103,7 +103,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     </div>
                     <div
                       className={classNames(
-                        'px-4 sm:px-6 sm:py-3 overflow-y-scroll',
+                        'px-4 sm:px-6 sm:py-3 overflow-y-scroll z-10',
                         modalHeight ? modalHeight : 'max-h-modal'
                       )}
                     >

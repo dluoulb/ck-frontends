@@ -64,10 +64,7 @@ export default function DefaultTermsDisplay() {
   if (!defaultTerms?.length) return;
 
   return (
-    <div
-      className="flex flex-col divide-y gap-2 w-full"
-      role={DefaultTermsDisplay.role}
-    >
+    <div className="w-full" role={DefaultTermsDisplay.role}>
       {DefaultTermsDisplay && (
         <DefaultTermSettingsModal
           modalState={modalState}
@@ -77,42 +74,44 @@ export default function DefaultTermsDisplay() {
           loading={loading}
         />
       )}
-      {defaultTerms?.map((s, idx) => {
-        return (
-          <div
-            key={idx}
-            className="flex flex-col xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
-          >
-            {entityRefetching ? (
-              <Loading className="w-5 h-5 my-2" />
-            ) : (
-              <>
-                <p className="text-sm">
-                  Merchant Name:
-                  <strong className="mx-1">{s.merchant_name}</strong>
-                </p>
-                <div className="text-sm flex items-center gap-1">
-                  <p>Default Term:</p>
-                  <strong className="mx-1">{getTermDisplay(s)}</strong>
-                  <FontAwesomeIcon
-                    className={classNames(
-                      'text-primary-blue cursor-pointer hover:text-primary-blue-hover',
-                      {
-                        'opacity-0': s?.default_term?.term_period === 'days',
-                      }
-                    )}
-                    icon={faPenToSquare}
-                    onClick={() => {
-                      setModalState(s);
-                      toggleModal();
-                    }}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        );
-      })}
+      <div className="flex flex-col gap-2 divide-y">
+        {defaultTerms?.map((s, idx) => {
+          return (
+            <div
+              key={idx}
+              className="flex flex-col xs:flex-row xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
+            >
+              {entityRefetching ? (
+                <Loading className="w-5 h-5 my-2" />
+              ) : (
+                <>
+                  <p className="text-sm">
+                    Merchant Name:
+                    <strong className="mx-1">{s.merchant_name}</strong>
+                  </p>
+                  <div className="text-sm flex items-center gap-1">
+                    <p>Default Term:</p>
+                    <strong className="mx-1">{getTermDisplay(s)}</strong>
+                    <FontAwesomeIcon
+                      className={classNames(
+                        'text-primary-blue cursor-pointer hover:text-primary-blue-hover',
+                        {
+                          'opacity-0': s?.default_term?.term_period === 'days',
+                        }
+                      )}
+                      icon={faPenToSquare}
+                      onClick={() => {
+                        setModalState(s);
+                        toggleModal();
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

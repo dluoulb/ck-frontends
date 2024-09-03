@@ -34,55 +34,50 @@ export default function DefaultTermSettingsModal({
       header="Edit Default Terms"
       headerIcon={faPenToSquare}
     >
-      <div className="text-center">
-        {!modalState?.term_options ? (
-          <Loading className="w-14 h-14" />
-        ) : (
-          <>
-            <div className="my-6 space-y-8">
-              <div className="space-y-2">
-                <p className="text-xl font-semibold">
-                  Default Terms for {modalState?.merchant_name}
-                </p>
-                <p>
-                  Change the default term length for future in-store or
-                  replenishment purchases.
-                </p>
-              </div>
-              <div>
-                <h1>Adjust Number of Months</h1>
-                <ListBox
-                  initialValue={modalState?.default_term?.term}
-                  buttonText={term?.term}
-                  handleChange={handleChange}
-                  value={term}
-                  optionsContainerClass="border-primary-blue-hover border-opacity-30"
-                  listBoxClass="w-4/5 mx-auto my-3 rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
-                >
-                  {modalState?.term_options?.map((op) => (
-                    <ListboxOption
-                      key={op.term}
-                      value={op}
-                      className={classNames(
-                        'capitalize cursor-pointer p-2 hover:bg-secondary-blue hover:primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover border-opacity-30',
-                        {
-                          'border-b':
-                            op !==
-                            modalState?.term_options[
-                              modalState?.term_options.length - 1
-                            ],
-                        }
-                      )}
-                    >
-                      {op.term}
-                    </ListboxOption>
-                  ))}
-                </ListBox>
-              </div>
+      {!modalState?.term_options ? (
+        <Loading className="w-14 h-14" />
+      ) : (
+        <>
+          <div className="my-6 space-y-4">
+            <div className="space-y-2 text-center">
+              <p className="text-xl font-semibold">
+                Default Terms for {modalState?.merchant_name}
+              </p>
+              <p>
+                Change the default term length for future in-store or
+                replenishment purchases.
+              </p>
             </div>
-          </>
-        )}
-      </div>
+            <h1 className="font-medium text-center">Adjust Number of Months</h1>
+            <ListBox
+              initialValue={modalState?.default_term?.term}
+              buttonText={term?.term}
+              handleChange={handleChange}
+              value={term}
+              listBoxClass="!w-4/5 mx-auto my-3 rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
+            >
+              {modalState?.term_options?.map((op) => (
+                <ListboxOption
+                  key={op.term}
+                  value={op}
+                  className={classNames(
+                    'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue last:hover:rounded-b-md',
+                    {
+                      'border-b':
+                        op !==
+                        modalState?.term_options[
+                          modalState?.term_options.length - 1
+                        ],
+                    }
+                  )}
+                >
+                  {op.term}
+                </ListboxOption>
+              ))}
+            </ListBox>
+          </div>
+        </>
+      )}
       <div className="w-full mt-10 flex justify-center items-center gap-3">
         <PrimaryButton
           ariaLabel="save-default-terms-button"
