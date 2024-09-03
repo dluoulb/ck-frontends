@@ -4,7 +4,7 @@ import { getOrders } from '@lib/actions/orders';
 import OrderRecord from '@lib/records/order';
 import useApi from './useApi';
 
-function useOrders(props, pageIndex = 0, depsLoading = false) {
+function useOrders(props, pageIndex = 0, depsLoading = false, shouldFetch = false) {
   const api = useApi();
   const { type, entity } = props;
   const [orders, setOrders] = useState([]);
@@ -28,7 +28,7 @@ function useOrders(props, pageIndex = 0, depsLoading = false) {
   };
 
   useEffect(() => {
-    if (entity && !ordersLoading && !depsLoading) {
+    if (entity && !ordersLoading && !depsLoading && shouldFetch) {
       fetchData({ pageIndex });
     }
   }, [entity, depsLoading]);

@@ -10,7 +10,7 @@ interface NotificationProps {
   textColor: string;
   bgColor: string;
   headline?: string;
-  message: string;
+  message: any;
   ctaButton?: any;
   isWidget?: boolean;
 }
@@ -43,12 +43,14 @@ const Notification: FC<NotificationProps> = ({
             {ctaButton ? (
               ctaButton
             ) : (
-              <ZendeskChatLink
-                msg="Contact Credit Key Support"
-                className="text-sm font-medium"
-              />
+              <>
+                <ZendeskChatLink
+                  msg="Contact Credit Key Support"
+                  className="text-sm font-medium"
+                />
+                <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />
+              </>
             )}
-            <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />
           </div>
         </div>
       </div>

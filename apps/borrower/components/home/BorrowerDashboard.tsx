@@ -21,6 +21,7 @@ export default function BorrowerDashboard() {
     }
   }, []);
 
+  // TODO: TEST WITH A CONSUMER!
   // const getPrimaryWidget = () => {
   //   return type === 'company' ? (
   //     <CompanyOverview company={entity} defaultTerms={defaultTerms} />

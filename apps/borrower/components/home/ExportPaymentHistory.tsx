@@ -75,7 +75,7 @@ export default function ExportPaymentHistory() {
         <PrimaryButton
           ariaLabel="export-payment-history"
           buttonText="Export"
-          buttonColor=" bg-primary-blue-hover !font-normal !md:px-8 xs:!my-2 md:!py-2.5"
+          buttonColor="bg-primary-blue-hover !font-normal py-2 sm:py-3 px-4 !md:px-8 xs:!my-2 md:!py-2.5"
           hoverClass="hover:bg-primary-blue-hover/80"
           containerClass="2xs:max-w-max md:max-w-auto"
           onClick={handleSubmit}

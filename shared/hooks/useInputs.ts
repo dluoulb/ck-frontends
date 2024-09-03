@@ -29,14 +29,15 @@ function useInputs(props) {
     ? touched[fieldName] && error[fieldName]
     : touched && error;
 
-  const hasColumnError =
-    multi || multi === 'true' ? multiColumnError : touched && error;
+  const hasColumnError = multi ? multiColumnError : touched && error;
 
   useEffect(() => {
     if (values) {
-      setFieldComplete(
-        nestedField ? values[nestedField[0]][nestedField[1]] : values[id],
-      );
+      const fieldValue = nestedField
+        ? values[nestedField[0]][nestedField[1]]
+        : values[id];
+
+      setFieldComplete(fieldValue === '' ? null : fieldValue);
     }
   }, [id, values, nestedField]);
 
@@ -46,7 +47,7 @@ function useInputs(props) {
     fieldErrMsg,
     hasColumnError,
     hasFieldError,
-    multi: multi === 'true',
+    multi,
   };
 }
 

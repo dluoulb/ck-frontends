@@ -12,7 +12,7 @@ const primaryRoutes = [
   },
   {
     name: 'Payment Methods',
-    url: '/borrower/payment-methods',
+    url: '/borrower/payment_methods',
   },
   {
     name: 'My Profile',

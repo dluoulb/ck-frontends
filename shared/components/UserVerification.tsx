@@ -65,7 +65,7 @@ export default function UserVerification({
             <PrimaryButton
               ariaLabel="login-button"
               buttonText={buttonText}
-              buttonColor="bg-primary-blue"
+              buttonColor="bg-primary-blue py-2 sm:py-3 px-4"
               hoverClass="hover:bg-primary-blue-hover"
               icon={faLockAlt}
               disabled={!valid || loading}

@@ -1,5 +1,9 @@
 import React from 'react';
-import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faArrowRightLong,
+  faExclamationTriangle,
+} from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
 import { BaseGridItem } from '@components/BaseGrid';
@@ -35,9 +39,12 @@ export default function SettingsWidget() {
           message={`Please connect a payment method immediately.`}
           isWidget={true}
           ctaButton={
-            <Link href="/borrower/payment_methods" className="font-medium">
-              Connect Payment Method
-            </Link>
+            <>
+              <Link href="/borrower/payment_methods" className="font-medium">
+                Connect Payment Method
+              </Link>
+              <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />
+            </>
           }
         />
       </BaseGridItem>

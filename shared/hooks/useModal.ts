@@ -1,9 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-export default function useModal(
-  availableScreens = [],
-  initialModalState = undefined
-) {
+export default function useModal(initialModalState = undefined) {
   const [isModalActive, setIsModalActive] = useState(false);
   const [modalState, setModalState] = useState(initialModalState);
 

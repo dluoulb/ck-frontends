@@ -26,7 +26,7 @@ export default class PaymentMethodRecord {
   }
 
   get credit_card_masked() {
-    return `x${this.label.slice(-4)}`;
+    return `•••• •••• •••• ${this.label.slice(-4)}`;
   }
 
   get credit_card_type() {
@@ -35,7 +35,7 @@ export default class PaymentMethodRecord {
 
   get account_number_masked() {
     return (
-      this.bank_account.slice(0, -4).replace(/./g, '*') +
+      this.bank_account.slice(0, -4).replace(/./g, '•') +
       this.payment_method_last_4
     );
   }

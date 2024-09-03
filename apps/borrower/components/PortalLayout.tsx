@@ -7,6 +7,7 @@ import {
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import SideNav from '@components/layout/SideNav';
+import Scripts from '@components/Scripts';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 const primaryRoutes = [
@@ -41,8 +42,11 @@ const primaryRoutes = [
 export default function PortalLayout({ children }) {
   return (
     <div className="flex" role={PortalLayout.role}>
+      <Scripts />
       <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">{children}</div>
+      <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">
+        {children}
+      </div>
     </div>
   );
 }
