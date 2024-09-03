@@ -102,40 +102,52 @@ export default function BaseTable({
   return (
     <>
       <table {...getTableProps()} className={`min-w-full ${tableClass}`}>
-        <thead className='h-full'>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              className="border-b sticky top-0 h-full"
-            >
-              {headerGroup.headers.map((column) => (
-                <th
-                  scope="col"
-                  className={classNames(
-                    'py-4 text-left text-sm text-primary bg-secondary-blue',
-                    column.isSorted
-                      ? 'flex items-center gap-1 px-4 sm:px-6 h-full'
-                      : 'px-6 sm:px-8',
-                    headerClass
-                  )}
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                >
-                  {column.render('Header')}
-                  <span className="text-primary">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <FontAwesomeIcon icon={faAngleDown} />
-                      ) : (
-                        <FontAwesomeIcon icon={faAngleUp} />
-                      )
-                    ) : (
-                      ' '
-                    )}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
+        <thead className="h-full">
+          {headerGroups.map((headerGroup) => {
+            const { key, ...headerGroupProps } =
+              headerGroup.getHeaderGroupProps();
+
+            return (
+              <tr
+                key={key}
+                {...headerGroupProps}
+                className="border-b sticky top-0 h-full"
+              >
+                {headerGroup.headers.map((column) => {
+                  const { key: columnKey, ...columnProps } =
+                    column.getHeaderProps(column.getSortByToggleProps());
+
+                  return (
+                    <th
+                      key={columnKey}
+                      {...columnProps}
+                      scope="col"
+                      className={classNames(
+                        'py-4 text-left text-sm text-primary bg-secondary-blue',
+                        column.isSorted
+                          ? 'flex items-center gap-1 px-4 sm:px-6 h-full'
+                          : 'px-6 sm:px-8',
+                        headerClass
+                      )}
+                    >
+                      {column.render('Header')}
+                      <span className="text-primary">
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <FontAwesomeIcon icon={faAngleDown} />
+                          ) : (
+                            <FontAwesomeIcon icon={faAngleUp} />
+                          )
+                        ) : (
+                          ' '
+                        )}
+                      </span>
+                    </th>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </thead>
 
         <tbody
@@ -145,14 +157,15 @@ export default function BaseTable({
           {rows.length > 0 ? (
             rowList.map((row, i) => {
               prepareRow(row);
-              const expandedRowProps = expandedRow
+              const { key, ...rowProps } = expandedRow
                 ? row.getRowProps(row.getToggleRowExpandedProps())
-                : {};
+                : row.getRowProps();
 
               return (
-                <Fragment key={i}>
+                <Fragment key={key}>
                   <tr
-                    {...expandedRowProps}
+                    key={key}
+                    {...rowProps}
                     onClick={() =>
                       onClickHandler ? onClickHandler(row.original) : {}
                     }
@@ -169,18 +182,19 @@ export default function BaseTable({
                     )}
                   >
                     {row.cells.map((cell) => {
+                      const { key: cellKey, ...cellProps } = cell.getCellProps({
+                        className: classNames(
+                          'py-4 whitespace-nowrap',
+                          rowClass,
+                          cell.column.className,
+                          cell.column.isSorted ? 'px-5 sm:px-8' : 'px-6 sm:px-8'
+                        ),
+                      });
+
                       return (
                         <td
-                          {...cell.getCellProps({
-                            className: classNames(
-                              'py-4 whitespace-nowrap',
-                              rowClass,
-                              cell.column.className,
-                              cell.column.isSorted
-                                ? 'px-5 sm:px-8'
-                                : 'px-6 sm:px-8'
-                            ),
-                          })}
+                          key={cellKey}
+                          {...cellProps}
                         >
                           {cell.render('Cell')}
                         </td>

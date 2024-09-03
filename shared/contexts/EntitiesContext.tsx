@@ -4,8 +4,22 @@ import useBorrowerDependencies from '@apps/borrower/hooks/useBorrowerDependencie
 
 const EntitiesContext = createContext(null);
 
-export const EntitiesProvider = ({ children, user }) => {
-  const { userProps } = useBorrowerDependencies(user);
+export const EntitiesProvider = ({
+  children,
+  user,
+  fetchConfig,
+}: {
+  children: React.ReactNode;
+  user: any;
+  fetchConfig: {
+    entity?: boolean;
+    stats?: boolean;
+    payment_methods?: boolean;
+    default_terms?: boolean;
+    orders?: boolean;
+  };
+}) => {
+  const { userProps } = useBorrowerDependencies(user, fetchConfig);
 
   return (
     <EntitiesContext.Provider value={userProps}>

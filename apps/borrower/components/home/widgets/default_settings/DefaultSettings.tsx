@@ -47,7 +47,7 @@ export default function DefaultSettings() {
               </strong>
             </div>
             <Link
-              href="/borrower/payment-methods"
+              href="/borrower/payment_methods"
               className="font-semibold text-primary-blue-hover flex gap-1 hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover"
             >
               <span className="hidden xs:inline">Change</span>

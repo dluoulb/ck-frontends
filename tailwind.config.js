@@ -33,6 +33,10 @@ module.exports = {
         sidenav: '5.5rem',
         portal: 'calc(100vw - 5.5rem)',
       },
+      maxHeight: {
+        modal: '70vh',
+        recharge: '45vh',
+      },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
       screens: { '2xs': '375px', xs: '480px', mid: '856px' },
       zIndex: { 100: 100 },

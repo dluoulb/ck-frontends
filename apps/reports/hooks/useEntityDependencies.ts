@@ -79,7 +79,7 @@ function useEntityDependencies(entity, content) {
   entityProps = {
     type: type === 'accounts' ? 'account' : 'company',
     entity,
-    ownerAddress: user?.attributes?.address,
+    ownerAddress: user?.address,
     applications: applications?.map((app) => app.attributes),
     stats: stats,
     documents,

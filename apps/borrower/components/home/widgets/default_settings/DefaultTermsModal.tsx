@@ -7,7 +7,7 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ListBox } from '@components/Dropdown';
 import Loading from '@components/Loading';
-import ModalWrapper from '@components/ModalWrapper';
+import ModalWrapper from '@components/modals/ModalWrapper';
 
 export default function DefaultTermSettingsModal({
   loading,
@@ -87,7 +87,7 @@ export default function DefaultTermSettingsModal({
         <PrimaryButton
           ariaLabel="save-default-terms-button"
           buttonText="Save"
-          buttonColor="bg-primary-blue !px-3 !py-2"
+          buttonColor="bg-primary-blue"
           hoverClass="hover:bg-primary-blue-hover"
           icon={faLockAlt}
           disabled={loading}
@@ -97,7 +97,7 @@ export default function DefaultTermSettingsModal({
         <OutlineButton
           ariaLabel="Close"
           buttonText="Cancel"
-          buttonColor="border-primary-blue text-primary-blue !px-3 !py-2"
+          buttonColor="border-primary-blue text-primary-blue"
           hoverClass=" hover:text-primary-blue-hover hover:border-primary-blue-hover"
           onClick={toggleModal}
           disabled={loading}

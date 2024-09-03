@@ -1,7 +1,6 @@
 import JsFileDownloader from 'js-file-downloader';
 
 import MerchantRecord from '@lib/records/merchant';
-import PaymentMethodRecord from '@lib/records/payment_method';
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 const buildUrl = (type, resource) => {
@@ -68,9 +67,4 @@ export const getAccount = async (api, accountID) => {
   return { ...account.data.data.attributes, type: account.data.data.type };
 };
 
-export const getPaymentMethods = async (api, filters = '') => {
-  const pms = await api.get(`/api/payment_methods?${filters}`);
-  return pms?.data.data.map((p) => {
-    return new PaymentMethodRecord(p.attributes);
-  });
-};
+

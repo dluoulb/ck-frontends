@@ -18,7 +18,6 @@ export default function DefaultTermsDisplay() {
     useBorrowerDeps();
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
-    [],
     defaultTerms[0]
   );
 
@@ -82,7 +81,7 @@ export default function DefaultTermsDisplay() {
         return (
           <div
             key={idx}
-            className="flex flex-col xs:flex-row xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
+            className="flex flex-col xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
           >
             {entityRefetching ? (
               <Loading className="w-5 h-5 my-2" />

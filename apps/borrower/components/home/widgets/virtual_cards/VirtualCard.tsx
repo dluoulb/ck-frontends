@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts';
+import useModal from '@hooks/useModal';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
+import { VCModalWrapper } from './vc_modal';
 import VCList from './VCList';
 
 export default function VirtualCard() {
+  const { isModalActive, toggleModal } = useModal();
   const { errors, orders, ordersLoading } = useBorrowerDeps();
   const virtualCardOrders = orders?.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details
@@ -18,6 +21,7 @@ export default function VirtualCard() {
     return <Loading className="w-14 h-14 my-20 !text-primary" />;
 
   // TODO: SHOULD VIRTUAL CARDS BE MOVED TO ITS OWN PAGE??
+  // Currently does not display or have 'hide' functionality for security code
   return (
     <div className="px-3 p-2 h-full">
       {(!virtualCardOrders?.length || errors?.ordersError) && !ordersLoading ? (
@@ -68,6 +72,7 @@ export default function VirtualCard() {
               <p className="text-xs">Scroll for More</p>
             </div>
             <VCList vc_orders={virtualCardOrders} />
+            {/* // TODO: SHOULD THIS LINK TO A VIRTUAL CARDS PAGE??
             <a
               href={virtualCardLink}
               target="_blank"
@@ -79,10 +84,17 @@ export default function VirtualCard() {
                 icon={faChevronRight}
                 className="text-[0.6rem] mt-[0.175rem] font-bold"
               />
-            </a>
+            </a> */}
+            <button
+              onClick={toggleModal}
+              className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+            >
+              Request New Card
+            </button>
           </div>
         </>
       )}
+      <VCModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
     </div>
   );
 }
