@@ -24,7 +24,7 @@ const primaryRoutes = [
   {
     icon: faMoneyBillTransfer,
     name: 'Payment Methods',
-    url: '/borrower/payment-methods',
+    url: '/borrower/payment_methods',
   },
   {
     icon: faUser,

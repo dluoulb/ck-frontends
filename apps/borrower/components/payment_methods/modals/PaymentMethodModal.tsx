@@ -4,6 +4,7 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/react';
+import classNames from 'classnames';
 import Image from 'next/image';
 
 import { ListBox } from '@components/Dropdown';
@@ -11,8 +12,7 @@ import { useBorrowerDeps } from '@contexts';
 import useDropdown from '@hooks/useDropdown';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
-
-// import { BankForm, CreditCardForm } from '../../forms';
+import CreditCardForm from '../forms/CreditCardForm';
 
 export default function PaymentMethodModal({
   hasAlert,
@@ -39,7 +39,7 @@ export default function PaymentMethodModal({
     <>
       <div>
         <div className="text-center">
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-2xl font-bold">New Payment Method</p>
             <div className="my-2">
               <p>
@@ -64,7 +64,11 @@ export default function PaymentMethodModal({
             </div>
           </div>
 
-          {entity?.type === 'company' && hasPi4Orders && (
+          {/* {entity?.type === 'company' && hasPi4Orders && ( */}
+          <div className="mt-3 mb-6">
+            <p className="text-sm text-secondary-gray my-2">
+              Select Payment Method Type
+            </p>
             <ListBox
               initialValue={defaultContentId}
               value={listOptions[0]}
@@ -72,20 +76,25 @@ export default function PaymentMethodModal({
                 contentId === 'ach' ? listOptions[0].text : listOptions[1].text
               }
               handleChange={setContent}
-              listBoxClass="w-4/5 xs:w-1/2 my-3 relative"
-              optionsContainerClass=""
+              listBoxClass="!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
             >
               {listOptions.map((op) => (
                 <ListboxOption
                   key={op.id}
                   value={op.id}
-                  className="cursor-pointer p-2 hover:bg-gray-500 hover:text-white last:hover:rounded-b-md"
+                  className={classNames(
+                    'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
+                    {
+                      'border-b': op !== listOptions[listOptions.length - 1],
+                    }
+                  )}
                 >
                   {op.text}
                 </ListboxOption>
               ))}
             </ListBox>
-          )}
+          </div>
+          {/* // )} */}
         </div>
         <div className="layer" />
       </div>
@@ -93,18 +102,12 @@ export default function PaymentMethodModal({
         {contentId === 'ach' ? (
           <BankForm
             hasAlert={hasAlert}
-            // isLoading={isLoading}
             next={next}
             toggleModal={toggleModal}
             setHasAlert={setHasAlert}
           />
         ) : (
-          <div />
-          // <CreditCardForm
-          //   hasAlert={hasAlert}
-          //   next={next}
-          //   toggleModal={toggleModal}
-          // />
+          <CreditCardForm toggleModal={toggleModal} />
         )}
       </section>
     </>

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -48,7 +48,7 @@ export const ListBox = ({
     <Listbox as="div" value={value || initialValue} onChange={handleChange}>
       <ListboxButton
         className={classNames(
-          'relative block w-full rounded-lg py-1.5 pr-8 pl-3 text-left text-sm/6 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
+          'relative block w-full font-medium rounded-lg py-1.5 pr-8 pl-3 text-left text-sm/6 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
           listBoxClass
         )}
       >
