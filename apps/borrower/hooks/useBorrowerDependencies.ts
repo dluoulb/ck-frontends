@@ -72,15 +72,16 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
     !!fetchConfig?.default_terms
   );
 
-  const { orders, ordersLoading, ordersError } = useOrders(
-    {
-      type: entity?.type,
-      entity,
-    },
-    0,
-    isLoading,
-    !!fetchConfig?.orders
-  );
+  const { orders, ordersLoading, ordersError, pageCount, fetchData } =
+    useOrders(
+      {
+        type: entity?.type,
+        entity,
+      },
+      0,
+      isLoading,
+      !!fetchConfig?.orders
+    );
 
   useEffect(() => {
     if (entityError || statsError || paymentMethodsError || ordersError)
@@ -124,6 +125,8 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
     defaultTerms: fetchConfig?.default_terms ? defaultTerms : undefined,
     orders: fetchConfig?.orders ? orders : undefined,
     ordersLoading,
+    pageCount,
+    fetchData,
   };
 
   return { userProps };

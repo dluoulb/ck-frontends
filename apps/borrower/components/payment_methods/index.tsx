@@ -51,16 +51,16 @@ export default function PaymentMethods() {
         toggleModal={toggleModal}
       />
       <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Payment Methods
-        </p>
-        <div className="flex justify-end w-full">
+        <div className="flex justify-between items-center w-full my-8">
+          <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
+            Payment Methods
+          </p>
           <PrimaryButton
             ariaLabel="add_payment_method_button"
             buttonText="Add new payment method"
             buttonColor="bg-primary-blue"
             hoverClass="hover:bg-primary-blue-hover"
-            containerClass="max-w-max my-2"
+            containerClass="max-w-max"
             onClick={toggleModal}
             icon={faPlus}
             isSmall={true}
@@ -69,7 +69,7 @@ export default function PaymentMethods() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm">
           <div className="flex-1">
             <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 border-b border-primary-border-gray pb-3 py-4 px-6">
+              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-border-gray pb-3 py-4 px-6">
                 <FontAwesomeIcon
                   icon={faBuildingColumns}
                   className="text-primary-blue text-base lg:text-xl"
@@ -129,7 +129,7 @@ export default function PaymentMethods() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <div className="flex-1">
             <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 border-b border-primary-border-gray pb-3 py-4 px-6">
+              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-border-gray pb-3 py-4 px-6">
                 <FontAwesomeIcon
                   icon={faCreditCard}
                   className="text-primary-blue text-base lg:text-xl"
