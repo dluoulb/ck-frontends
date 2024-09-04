@@ -19,11 +19,11 @@ export default function ActiveOrdersTable() {
   const { orders, ordersLoading } = useBorrowerDeps();
 
   const router = useRouter();
-  const activeOrders = orders.filter((i) =>
+  const activeOrders = orders?.filter((i) =>
     ['active', 'funded', 'created'].includes(i.product.status)
   );
 
-  const data = useMemo(() => activeOrders, [ordersLoading]);
+  const data = useMemo(() => activeOrders || [], [ordersLoading]);
   const columns = useMemo(() => DashboardTableColumns, []);
   const instance = useTable(
     {

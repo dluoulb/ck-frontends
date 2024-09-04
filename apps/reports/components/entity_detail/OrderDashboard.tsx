@@ -1,11 +1,16 @@
 import React from 'react';
 
-import OrdersTable from '@components/OrdersTable';
+import OrdersTable from '@components/orders_table/OrdersTable';
 import useOrders from '@hooks/useOrders';
 import { TableColumns } from './order_table/TableColumns';
 
 export default function OrderDashboard({ props }) {
-  const { orders, ordersLoading, pageCount, fetchData } = useOrders(props);
+  const { orders, ordersLoading, pageCount, fetchData } = useOrders(
+    props,
+    0,
+    false,
+    true
+  );
   const totalRows = props?.stats?.active + props?.stats?.closed;
 
   return (

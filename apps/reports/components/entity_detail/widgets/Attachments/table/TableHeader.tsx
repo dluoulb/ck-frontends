@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { startCase } from 'lodash';
 
-import GlobalFilter from '@components/GlobalFilter';
+import GlobalFilter from '@components/orders_table/GlobalFilter';
 
 export default function TableHeader({
   tableInstance,

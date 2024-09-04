@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   useAsyncDebounce,
   useFilters,
@@ -10,6 +10,7 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import TableHeader from './TableHeader';
 
 export default function OrdersTable({
   orders,
@@ -18,9 +19,12 @@ export default function OrdersTable({
   fetchData,
   tableColumns,
   totalRows,
+  rowClass,
   pageSize,
+  withHeader,
 }) {
-  const data = useMemo(() => orders, [orders?.length]);
+  const [active, setActive] = useState('all');
+  const data = useMemo(() => orders || [], [orders?.length]);
   const columns = useMemo(() => tableColumns, []);
   const instance = useTable(
     {
@@ -62,10 +66,18 @@ export default function OrdersTable({
       role={OrdersTable.role}
       className="col-span-full rounded-lg border border-primary-border-gray overflow-x-scroll"
     >
+      {withHeader && (
+        <TableHeader
+          tableInstance={instance}
+          active={active}
+          setActive={setActive}
+        />
+      )}
       <BaseTable
         tableInstance={instance}
         noDataFoundWarning="No Orders Found."
         totalRows={totalRows}
+        rowClass={rowClass}
       />
     </div>
   );

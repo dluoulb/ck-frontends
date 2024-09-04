@@ -5,8 +5,8 @@ export default function GlobalFilter({
   globalFilter,
   setGlobalFilter,
   defaultPlaceholder,
-  containerClass,
-  inputClass,
+  containerClass = '',
+  inputClass = '',
 }) {
   return (
     <div className={containerClass}>
