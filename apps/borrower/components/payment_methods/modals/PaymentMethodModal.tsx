@@ -64,37 +64,39 @@ export default function PaymentMethodModal({
             </div>
           </div>
 
-          {/* {entity?.type === 'company' && hasPi4Orders && ( */}
-          <div className="mt-3 mb-6">
-            <p className="text-sm text-secondary-gray my-2">
-              Select Payment Method Type
-            </p>
-            <ListBox
-              initialValue={defaultContentId}
-              value={listOptions[0]}
-              buttonText={
-                contentId === 'ach' ? listOptions[0].text : listOptions[1].text
-              }
-              handleChange={setContent}
-              listBoxClass="!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
-            >
-              {listOptions.map((op) => (
-                <ListboxOption
-                  key={op.id}
-                  value={op.id}
-                  className={classNames(
-                    'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
-                    {
-                      'border-b': op !== listOptions[listOptions.length - 1],
-                    }
-                  )}
-                >
-                  {op.text}
-                </ListboxOption>
-              ))}
-            </ListBox>
-          </div>
-          {/* // )} */}
+          {entity?.type === 'company' && hasPi4Orders && (
+            <div className="mt-3 mb-6">
+              <p className="text-sm text-secondary-gray my-2">
+                Select Payment Method Type
+              </p>
+              <ListBox
+                initialValue={defaultContentId}
+                value={listOptions[0]}
+                buttonText={
+                  contentId === 'ach'
+                    ? listOptions[0].text
+                    : listOptions[1].text
+                }
+                handleChange={setContent}
+                listBoxClass="!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
+              >
+                {listOptions.map((op) => (
+                  <ListboxOption
+                    key={op.id}
+                    value={op.id}
+                    className={classNames(
+                      'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
+                      {
+                        'border-b': op !== listOptions[listOptions.length - 1],
+                      }
+                    )}
+                  >
+                    {op.text}
+                  </ListboxOption>
+                ))}
+              </ListBox>
+            </div>
+          )}
         </div>
         <div className="layer" />
       </div>
@@ -107,7 +109,9 @@ export default function PaymentMethodModal({
             setHasAlert={setHasAlert}
           />
         ) : (
-          <CreditCardForm toggleModal={toggleModal} />
+          <div className="mx-12">
+            <CreditCardForm toggleModal={toggleModal} />
+          </div>
         )}
       </section>
     </>

@@ -22,7 +22,11 @@ export default class PaymentMethodRecord {
   }
 
   get payment_method_last_4() {
-    return this.bank_account.slice(-4) || this.label.slice(-4);
+    if (this.bank_account) {
+      return this.bank_account.slice(-4);
+    } else {
+      return this.label.slice(-4);
+    }
   }
 
   get credit_card_masked() {

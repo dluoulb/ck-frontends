@@ -5,10 +5,7 @@ export default function CreditCardValidationMessages({ cardErrors }) {
 
   const getMsg = () => {
     if (!cardErrors) return null;
-    let error =
-      Object.prototype.toString.call(cardErrors) === '[object Array]'
-        ? cardErrors[0]
-        : cardErrors;
+    let error = cardErrors[0];
 
     switch (error) {
       case 'Card Number Required':
@@ -28,15 +25,14 @@ export default function CreditCardValidationMessages({ cardErrors }) {
         break;
       case 'Expiration is required':
       case 'Expiration must be in the future':
+      case 'Invalid expiration month':
         msg = 'Please provide a valid expiration date.';
         break;
+      default:
+        error;
     }
     return msg;
   };
 
-  return (
-    <div className="text-negative-red text-center mb-2 font-avenir-medium">
-      {getMsg()}
-    </div>
-  );
+  return <div className="text-error mb-2 font-medium">{getMsg()}</div>;
 }

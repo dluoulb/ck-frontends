@@ -1,31 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import Loading from '@components/Loading';
+
 const commonStyles = `
-      border-color: #abb4be !important;
+      border-color: #E5E7EB !important;
       border-radius: 6px;
       border: 1px solid transparent;
-      color: #182b3e !important;
-      color: #363636;
-      font-family: "Manrope", sans-serif;
+      color: #15191F !important;
+      font-family: Manrope, sans-serif !important;
       font-size: 1rem;
-      height: 2.5em;
+      height: 1.5em;
       line-height: 1.5;
-      padding-bottom: calc(0.5em - 1px);
-      padding-left: calc(0.75em - 1px);
-      padding-right: calc(0.75em - 1px);
-      padding-top: calc(0.5em - 1px);
+      padding-bottom: 0.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
     `;
 const styles = {
-  container: 'height: 500px; width: 90%; margin: 0 auto',
-  card: commonStyles + 'width: 94.5%; margin-bottom: 10px;',
-  expiryMonth: commonStyles + 'width: 10%;',
-  expiryYear: commonStyles + 'width: 10%;',
+  container: 'height: 100%; width: 90%; margin: 0 !important',
+  card: commonStyles + 'width: 83%; margin-bottom: 10px;',
+  expiryMonth: commonStyles + 'width: 8.5%;',
+  expiryYear: commonStyles + 'width: 8.5%;',
   cvv2: commonStyles + 'width: 18%;',
-  avsZip: commonStyles + 'width: 31%;',
+  avsZip: commonStyles + 'width: 18%;',
 };
 
 async function appendScript(src) {
+  if (window.HostedTokenization) {
+    return console.warn(
+      'HostedTokenization is already defined. Skipping script load.'
+    );
+  }
   const script = document.createElement('script');
   script.src = src;
   script.async = true;
@@ -41,9 +47,8 @@ export default function AcceptBlueHostedForm({
   const router = useRouter();
   const [waitTick, setWaitTick] = useState(0);
   const [startTime, setStartTime] = useState(new Date().getTime());
-  const token = process.env.REACT_APP_ACCEPT_BLUE_TOKEN;
-  const polyfill = process.env.REACT_APP_ACCEPT_BLUE_POLYFILL_SOURCE;
-  const src = process.env.REACT_APP_ACCEPT_BLUE_SOURCE;
+  const token = process.env.NEXT_PUBLIC_ACCEPT_BLUE_TOKEN;
+  const src = process.env.NEXT_PUBLIC_ACCEPT_BLUE_SOURCE;
 
   const acceptBlueEvent = (event) => {
     setCardErrors([]);
@@ -52,7 +57,6 @@ export default function AcceptBlueHostedForm({
   };
 
   const setup = async () => {
-    await appendScript(polyfill);
     await appendScript(src);
     setWaitTick(1);
   };
@@ -70,11 +74,27 @@ export default function AcceptBlueHostedForm({
     }
 
     if (window.HostedTokenization && !cardForm) {
-      const form = window.HostedTokenization(token).create('card-form');
-      setCardForm(form);
+      const hostedTokenization = new window.HostedTokenization(token);
+      const form = hostedTokenization.create('card-form');
 
-      form.mount('#accept-blue').on('change', acceptBlueEvent);
-      form.setStyles(styles);
+      const existingForm = document.getElementById('tokenization-iframe');
+
+      if (existingForm) {
+        setCardForm(existingForm);
+      } else {
+        setCardForm(form);
+
+        form
+          .mount('#accept-blue', {
+            fields: {
+              zip: true,
+              requireCvv2: true,
+            },
+          })
+          .on('change', acceptBlueEvent);
+
+        form.setStyles(styles);
+      }
     }
   };
 
@@ -86,5 +106,12 @@ export default function AcceptBlueHostedForm({
     createForm();
   }, [waitTick]);
 
-  return <div>AcceptBlueHostedForm</div>;
+  return (
+    <div role={AcceptBlueHostedForm.role}>
+      {!cardForm && <Loading className="w-10 h-10 my-2" />}
+      <div id="accept-blue" className="min-w-accept-blue h-32" />
+    </div>
+  );
 }
+
+AcceptBlueHostedForm.role = 'accept-blue-hosted-form-component';

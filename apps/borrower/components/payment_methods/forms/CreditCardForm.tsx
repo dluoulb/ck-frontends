@@ -19,28 +19,46 @@ function CreditCardForm({ toggleModal }) {
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
 
+  //TODO: Test Pi4 card creation
+  // Needs supertokens auth changes for pi4 controller
   const onContinue = async () => {
     setSubmitting(true);
-    const processor_data = await cardForm.getNonceToken();
-
-    createPaymentMethodPi4Card(api, {
-      processor_data,
-      user_id: user.id,
-    })
-      .then(() => {
-        refetchPaymentMethods();
-        makeToast('Payment Method Successfully Created', 'success');
-        toggleModal();
+    await cardForm
+      ?.getNonceToken()
+      .then(async (res) => {
+        await createPaymentMethodPi4Card(api, {
+          processor_data: res,
+          user_id: user.id,
+        })
+          .then(() => {
+            refetchPaymentMethods();
+            makeToast('Payment Method Successfully Created', 'success');
+            toggleModal();
+          })
+          .catch((err) => {
+            makeToast(
+              'An error occurred. Please try again or contact our support team.',
+              'error'
+            );
+            setSubmitting(false);
+            toggleModal();
+          });
       })
       .catch((err) => {
         // Error from API
-        if (err.json) {
-          err.json().then((data) => setCardErrors(data.error));
+        if (err.response?.status !== 401) {
+          setCardErrors([
+            err.response.data.message ||
+              'Unknown API error. Please contact Credit Key Support.',
+          ]);
+        } else {
+          makeToast(
+            'An error occurred. Please try again or contact our support team.',
+            'error'
+          );
+          setSubmitting(false);
+          toggleModal();
         }
-
-        // Error from hosted form
-        if (err.message) setCardErrors(err.message);
-        setSubmitting(false);
       })
       .finally(() => {
         setSubmitting(false);

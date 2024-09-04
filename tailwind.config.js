@@ -5,7 +5,7 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './shared/**/*.{js,ts,jsx,tsx}',
     './apps/**/*.{js,ts,jsx,tsx}',
-    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}",
+    './node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}',
   ],
   theme: {
     extend: {
@@ -36,6 +36,10 @@ module.exports = {
       maxHeight: {
         modal: '70vh',
         recharge: '45vh',
+      },
+      minWidth: {
+        lg: '32rem',
+        'accept-blue': '24rem',
       },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
       screens: { '2xs': '375px', xs: '480px', mid: '856px' },
