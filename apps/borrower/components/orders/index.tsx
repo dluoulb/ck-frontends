@@ -18,7 +18,7 @@ export default function Orders() {
     >
       <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Orders
+          My Orders
         </p>
         <div className="my-4">
           <OrdersTable

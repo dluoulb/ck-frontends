@@ -28,7 +28,7 @@ export default function Pagination({
   const startIndex = endIndex - page?.length + 1;
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-2 sm:px-12" role={Pagination.role}>
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-2 sm:px-8" role={Pagination.role}>
       <div className="w-full sm:w-auto flex flex-col sm:flex-1 sm:flex-row gap-2 sm:gap-0 items-center justify-between">
         <div>
           <p className="text-sm text-gray-700">

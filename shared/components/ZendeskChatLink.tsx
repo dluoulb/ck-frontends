@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default function ZendeskChatLink({
-  msg = '',
+  msg = 'Connect with live chat',
   className = '',
   onClick = () => {},
 }) {
@@ -18,11 +18,6 @@ export default function ZendeskChatLink({
     }
   };
 
-  const chatText = () => {
-    let text = msg || 'Connect with live chat';
-    return text;
-  };
-
   return (
     <span
       onClick={() => {
@@ -31,7 +26,7 @@ export default function ZendeskChatLink({
       }}
       className={classNames('cursor-pointer', className)}
     >
-      {chatText()}
+      {msg}
     </span>
   );
 }

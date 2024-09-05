@@ -17,6 +17,7 @@ export const EntitiesProvider = ({
     payment_methods?: boolean;
     default_terms?: boolean;
     orders?: boolean;
+    company_users?: boolean;
   };
 }) => {
   const { userProps } = useBorrowerDependencies(user, fetchConfig);

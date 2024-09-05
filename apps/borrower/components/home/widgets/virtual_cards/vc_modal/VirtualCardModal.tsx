@@ -10,6 +10,15 @@ import { buildRequestPayload, startVirtualCardOrder } from '@lib/actions/ecomm';
 import { formatCurrency } from '@lib/utils/formatters';
 import VirtualCardForm from './VirtualCardForm';
 
+type FormValues = {
+  merchant_name: string;
+  merchant_url: string;
+  order_amount: string;
+  promo_id: string;
+  bypass: boolean;
+};
+
+type FormErrors = Partial<Record<keyof FormValues, string>>;
 export default function VirtualCardModal({ next, setModalState }) {
   const api = useApi();
   const { user } = useUser();
@@ -47,11 +56,7 @@ export default function VirtualCardModal({ next, setModalState }) {
           bypass: false,
         }}
         validate={async (values) => {
-          const errors = {
-            merchant_name: null,
-            merchant_url: null,
-            order_amount: null,
-          };
+          const errors: FormErrors = {};
 
           if (!values.merchant_name) errors.merchant_name = '* Required';
           if (!values.merchant_url) errors.merchant_url = '* Required';

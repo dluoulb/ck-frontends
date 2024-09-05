@@ -19,9 +19,9 @@ export default function OrdersTable({
   fetchData,
   tableColumns,
   totalRows,
-  rowClass,
+  rowClass = '',
   pageSize,
-  withHeader,
+  withHeader = false,
 }) {
   const [active, setActive] = useState('all');
   const data = useMemo(() => orders || [], [orders?.length]);
