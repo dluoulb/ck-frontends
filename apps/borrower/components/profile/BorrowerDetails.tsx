@@ -19,11 +19,6 @@ export default function BorrowerDetails() {
   return (
     <div className="flex flex-col pt-6">
       <div className="border-b border-primary-gray-border px-8 pb-6">
-        <div className="font-bold text-xl flex items-center gap-2">
-          <p className="text-primary-blue-hover">
-            {entity?.type === 'company' ? 'Company' : 'User'} Details
-          </p>
-        </div>
         <div className="text-sm font-medium flex items-center justify-between">
           <div className="text-tertiary-gray">
             <p>View your {entity?.type} details below.</p>

@@ -20,10 +20,10 @@ export const EntitiesProvider = ({
     company_users?: boolean;
   };
 }) => {
-  const { userProps } = useBorrowerDependencies(user, fetchConfig);
+  const { dependencies } = useBorrowerDependencies(user, fetchConfig);
 
   return (
-    <EntitiesContext.Provider value={userProps}>
+    <EntitiesContext.Provider value={dependencies}>
       {children}
     </EntitiesContext.Provider>
   );

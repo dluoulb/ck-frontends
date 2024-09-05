@@ -1,5 +1,26 @@
-function usePaymentMethods(payment_methods) {
-  const activePaymentMethods = payment_methods?.filter(
+import { useQuery } from '@tanstack/react-query';
+
+import useApi from '@hooks/useApi';
+import { getPaymentMethods } from '@lib/actions/payment_methods';
+
+function usePaymentMethods(user, entity, shouldFetch = false) {
+  const api = useApi();
+  let encodedEmail = encodeURIComponent(user?.email);
+
+  const {
+    data: paymentMethods,
+    error: paymentMethodsError,
+    isRefetching: paymentMethodsRefetching,
+    isLoading: paymentMethodsLoading,
+    refetch: refetchPaymentMethods,
+  } = useQuery({
+    queryKey: ['payment_methods', entity?.id],
+    queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
+    enabled: !!entity && shouldFetch,
+    retry: 1,
+  });
+
+  const activePaymentMethods = paymentMethods?.filter(
     (pm) => pm.status !== 'removed'
   );
 
@@ -24,10 +45,15 @@ function usePaymentMethods(payment_methods) {
 
   return {
     activePaymentMethods,
-    defaultBankLabel,
-    defaultCardLabel,
-    defaultCard,
     defaultBank,
+    defaultBankLabel,
+    defaultCard,
+    defaultCardLabel,
+    paymentMethods,
+    paymentMethodsError,
+    paymentMethodsLoading,
+    paymentMethodsRefetching,
+    refetchPaymentMethods,
   };
 }
 

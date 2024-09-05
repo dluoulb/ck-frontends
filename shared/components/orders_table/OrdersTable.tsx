@@ -18,6 +18,7 @@ export default function OrdersTable({
   pageCount,
   fetchData,
   tableColumns,
+  onClickHandler = null,
   totalRows,
   rowClass = '',
   pageSize,
@@ -76,6 +77,7 @@ export default function OrdersTable({
       <BaseTable
         tableInstance={instance}
         noDataFoundWarning="No Orders Found."
+        onClickHandler={onClickHandler}
         totalRows={totalRows}
         rowClass={rowClass}
       />

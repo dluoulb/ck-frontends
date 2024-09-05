@@ -141,7 +141,7 @@ export default function AddUserForm({ company, close }) {
                 ariaLabel="save-purchaser-user"
                 buttonText="Add Purchaser User"
                 buttonColor="bg-primary-blue"
-                containerClass="max-w-[30%]"
+                containerClass="min-w-[30%] max-w-max"
                 hoverClass="hover:bg-primary-blue-hover"
                 disabled={loading}
                 isLoading={loading}
@@ -151,7 +151,7 @@ export default function AddUserForm({ company, close }) {
                 ariaLabel="Close"
                 buttonText="Cancel"
                 buttonColor="border-primary-blue text-primary-blue"
-                containerClass="max-w-[30%]"
+                containerClass="min-w-[30%] max-w-max"
                 hoverClass=" hover:text-primary-blue-hover hover:border-primary-blue-hover"
                 onClick={close}
                 disabled={loading}
