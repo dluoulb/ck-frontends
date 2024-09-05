@@ -6,6 +6,7 @@ import useOrders from '@hooks/useOrders';
 import { getCompany } from '@lib/actions/companies';
 import { getAccount, getStats } from '@lib/actions/entities';
 import { getPaymentMethods } from '@lib/actions/payment_methods';
+import { getCompanyUsers } from '@lib/actions/users';
 import useDefaultTerms from './useDefaultTerms';
 
 type FetchConfig = {
@@ -14,6 +15,7 @@ type FetchConfig = {
   payment_methods?: boolean;
   default_terms?: boolean;
   orders?: boolean;
+  company_users?: boolean;
 };
 
 function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
@@ -54,6 +56,19 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
   });
 
   const {
+    data: companyUsers,
+    error: companyUsersError,
+    isLoading: companyUsersLoading,
+    isRefetching: companyUsersRefetching,
+    refetch: refetchCompanyUsers,
+  } = useQuery({
+    queryKey: ['company_users', entity?.id],
+    queryFn: () => getCompanyUsers(api, entity?.id),
+    enabled: !!entity && !!fetchConfig?.company_users,
+    retry: 1,
+  });
+
+  const {
     data: paymentMethods,
     error: paymentMethodsError,
     isRefetching: paymentMethodsRefetching,
@@ -84,30 +99,47 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
     );
 
   useEffect(() => {
-    if (entityError || statsError || paymentMethodsError || ordersError)
+    if (
+      entityError ||
+      statsError ||
+      paymentMethodsError ||
+      ordersError ||
+      companyUsersError
+    )
       setHasErrors(true);
-  }, [entityError, statsError, paymentMethodsError, ordersError]);
+  }, [
+    entityError,
+    statsError,
+    paymentMethodsError,
+    ordersError,
+    companyUsersError,
+  ]);
 
   useEffect(() => {
     setIsLoading(
       !user ||
-        (fetchConfig?.entity && entityLoading) ||
-        (fetchConfig?.stats && statsLoading) ||
-        (fetchConfig?.payment_methods && paymentMethodsLoading) ||
-        defaultTermsLoading
+        entityLoading ||
+        statsLoading ||
+        defaultTermsLoading ||
+        paymentMethodsLoading ||
+        companyUsersLoading
     );
   }, [
     user,
-    fetchConfig?.entity,
     entityLoading,
-    fetchConfig?.stats,
     statsLoading,
-    fetchConfig?.payment_methods,
-    paymentMethodsLoading,
     defaultTermsLoading,
+    paymentMethodsLoading,
+    companyUsersLoading,
   ]);
 
-  const errors = { entityError, statsError, paymentMethodsError, ordersError };
+  const errors = {
+    entityError,
+    statsError,
+    paymentMethodsError,
+    ordersError,
+    companyUsersError,
+  };
 
   userProps = {
     type: user?.company_id ? 'company' : 'account',
@@ -115,9 +147,6 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
     entity: fetchConfig?.entity ? entity : undefined,
     entityRefetching,
     refetchEntity,
-    errors,
-    hasErrors,
-    isLoading,
     paymentMethods: fetchConfig?.payment_methods ? paymentMethods : undefined,
     paymentMethodsLoading,
     refetchPaymentMethods,
@@ -127,6 +156,13 @@ function useBorrowerDependencies(user: any, fetchConfig: FetchConfig = {}) {
     ordersLoading,
     pageCount,
     fetchData,
+    companyUsers: fetchConfig?.company_users ? companyUsers : undefined,
+    companyUsersLoading,
+    companyUsersRefetching,
+    refetchCompanyUsers,
+    errors,
+    hasErrors,
+    isLoading,
   };
 
   return { userProps };

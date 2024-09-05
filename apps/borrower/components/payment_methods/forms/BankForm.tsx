@@ -16,7 +16,6 @@ import {
   generateBankAgreement,
 } from '@lib/actions/payment_methods';
 import PaymentMethodRecord from '@lib/records/payment_method';
-// import { getCompany } from '../../../store/actions/companies';
 import ErrorAlert from '../modals/ErrorAlert';
 
 type FormValues = {

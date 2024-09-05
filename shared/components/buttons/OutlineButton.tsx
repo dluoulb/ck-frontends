@@ -8,6 +8,7 @@ interface OutlineButtonProps {
   buttonText: string;
   buttonColor: string;
   hoverClass: string;
+  containerClass?: string;
   icon?: any;
   disabled?: boolean;
   isLoading?: boolean;
@@ -20,6 +21,7 @@ const OutlineButton: FC<OutlineButtonProps> = ({
   buttonText,
   buttonColor,
   hoverClass,
+  containerClass,
   icon,
   disabled,
   isLoading,
@@ -27,11 +29,11 @@ const OutlineButton: FC<OutlineButtonProps> = ({
   isSmall,
 }) => {
   return (
-    <div className="flex w-full">
+    <div className={classNames('flex w-full', containerClass)}>
       <button
         aria-label={ariaLabel}
         className={classNames(
-          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block mx-auto my-1 sm:my-2 tracking-wider rounded-lg flex justify-center items-center py-2 px-3',
+          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block border mx-auto my-1 sm:my-2 tracking-wider rounded-lg flex justify-center items-center py-2 px-3',
           buttonColor,
           isSmall ? 'text-xs' : 'text-xs md:text-sm',
           {
