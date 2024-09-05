@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
@@ -6,6 +7,7 @@ import { useBorrowerDeps } from '@contexts';
 import { TableColumns } from './TableColumns';
 
 export default function Orders() {
+  const router = useRouter();
   const { orders, ordersLoading, pageCount, fetchData } = useBorrowerDeps();
 
   if (!orders && ordersLoading) return <Loading className="w-14 h-14 my-20" />;
@@ -31,6 +33,9 @@ export default function Orders() {
             pageSize={25}
             rowClass="text-sm"
             withHeader={true}
+            onClickHandler={(value) =>
+              router.push(`borrower/orders/${value.id}`)
+            }
           />
         </div>
       </div>

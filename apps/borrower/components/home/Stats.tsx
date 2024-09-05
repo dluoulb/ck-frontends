@@ -7,7 +7,7 @@ import { useBorrowerDeps } from '@contexts';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function Stats() {
-  const { entity, stats, errors, isLoading } = useBorrowerDeps();
+  const { entity, stats, statsError, isLoading } = useBorrowerDeps();
 
   const remainingCredit = entity?.credit_line.amount - stats?.credit_utilized;
   let approvedUser = entity?.underwriting_status === 'approved';
@@ -35,7 +35,7 @@ export default function Stats() {
     },
   ];
 
-  if (!isLoading && (!stats || errors?.statsError))
+  if (!isLoading && (!stats || statsError))
     return (
       <Notification
         icon={faExclamationTriangle}

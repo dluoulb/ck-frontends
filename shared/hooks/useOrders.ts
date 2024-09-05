@@ -6,9 +6,9 @@ import useApi from './useApi';
 
 function useOrders(
   props,
-  pageIndex = 0,
   depsLoading = false,
-  shouldFetch = false
+  shouldFetch = false,
+  pageIndex = 0,
 ) {
   const api = useApi();
   const { type, entity } = props;
