@@ -16,9 +16,13 @@ export default function PendReasons({ app }) {
       <div>
         <span className="mr-1 font-normal">Pending/Decline Reasons:</span>
         <Tooltip
-          tooltip_text={`Original Reasons: ${reasonDisplay()}`}
+          tooltip_text={
+            !app.reasons.length
+              ? 'None - NetX applicants are auto-declined'
+              : `Original Reasons: ${reasonDisplay()}`
+          }
           trigger_class="cursor-pointer ml-1.5 font-avenir-book"
-          container_class="text-center p-4 px-6 text-sm max-w-sm capitalize font-avenir-book"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
         >
           N/A - NetX Applicant
         </Tooltip>

@@ -68,11 +68,9 @@ export const TableColumns = [
     hideColumn: 856,
     accessor: 'id',
     Cell: ({ row: { original } }) => (
-      //TODO: CHECK/TEST THIS DocumentLink CHANGE!
       <DocumentLink
         buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center"
         order={original}
-        isTable={true}
         type="agreement"
         buttonText='Download'
       />

@@ -34,7 +34,7 @@ export default function OrderInfo({ order, product }) {
         <Tooltip
           tooltip_text="Unpaid balance including principal & expected financing fees"
           trigger_class="cursor-pointer text-tertiary-gray mr-2 font-normal"
-          container_class="text-center p-2 px-4 text-sm text-primary bg-secondary-blue max-w-xs"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
         >
           Remaining Balance
         </Tooltip>

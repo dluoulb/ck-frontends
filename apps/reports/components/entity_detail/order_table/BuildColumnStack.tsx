@@ -39,7 +39,7 @@ export const BuildStack = ({ original }) => {
         <Tooltip
           tooltip_text="Principal loan amount not including interest & fees"
           trigger_class="cursor-pointer"
-          container_class="text-center p-2 sm:p-4 px-6 text-sm bg-secondary-blue font-normal w-3/4"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue w-3/4"
         >
           {formatCurrency(original.amount)}
         </Tooltip>

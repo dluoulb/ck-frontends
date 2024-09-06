@@ -26,7 +26,7 @@ export default function Tooltip({
         <div
           ref={setTooltipRef}
           {...getTooltipProps({
-            className: `shadow-md p-2 rounded-md z-10 block break-words whitespace-normal ${container_class}`,
+            className: `shadow-md p-2 rounded-md z-10 block break-words whitespace-normal font-normal normal-case ${container_class}`,
           })}
         >
           {tooltip_text}

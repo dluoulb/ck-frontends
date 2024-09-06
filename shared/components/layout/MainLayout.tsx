@@ -19,7 +19,7 @@ export default function MainLayout({ children }) {
   const { user, setUser } = useUser();
 
   const getCurrentUser = useMutation({
-    mutationFn: (id: string) => getUser(api, id),
+    mutationFn: (id: string) => getUser(api, null, id),
     onSuccess: (data) => setUser(data),
     onError: (error) =>
       console.log('Error occurred fetching current user', { error }),

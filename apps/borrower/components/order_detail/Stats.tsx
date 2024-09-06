@@ -26,7 +26,7 @@ export default function Stats({ order }) {
         <Tooltip
           tooltip_text="This notates fees processed at the time of the order. Any additional fees can be found in the fee breakdown below."
           trigger_class="cursor-pointer flex items-start max-w-max"
-          container_class="font-normal text-center p-4 px-6 text-sm bg-secondary-blue text-primary-blue-hover w-1/3 tracking-wide"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           {formatCurrency(order?.processing_fee_amount)}
           <span className="text-sm ml-0.5">*</span>
