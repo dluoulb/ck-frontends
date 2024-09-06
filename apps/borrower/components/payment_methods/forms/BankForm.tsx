@@ -150,7 +150,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
                   values={values}
                 />
               </ColumnInput>
-              <div className="form-control block w-full p-3 text-sm font-normal text-secondary-gray bg-white bg-clip-padding border border-solid border-primary-border-gray rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
+              <div className="form-control block w-full p-3 text-sm font-normal text-secondary-gray bg-white bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
                 {agreementLoading ? (
                   <Loading className="w-5 h-5 my-2 !text-primary" />
                 ) : (

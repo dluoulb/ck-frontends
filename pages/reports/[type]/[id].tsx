@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
 import EntityDetail from '@apps/reports/components/entity_detail/EntityDetail';
-import NoDataError from '@apps/reports/components/NoDataError';
 import useEntityDependencies from '@apps/reports/hooks/useEntityDependencies';
 import Loading from '@components/Loading';
+import NoDataError from '@components/NoDataError';
 import useApi from '@hooks/useApi';
 import { getCompany } from '@lib/actions/companies';
 import { getAccount } from '@lib/actions/entities';
@@ -44,7 +44,12 @@ export default function EntityIndex() {
   }, [content]);
 
   if ((!entity && !entityLoading) || entityError) {
-    return <NoDataError tag={type === 'accounts' ? 'Account' : 'Company'} />;
+    return (
+      <NoDataError
+        tag={type === 'accounts' ? 'Account' : 'Company'}
+        withButton={true}
+      />
+    );
   }
 
   if (entityLoading || isLoading) {

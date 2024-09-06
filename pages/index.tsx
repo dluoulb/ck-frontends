@@ -12,7 +12,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-primary my-6">
           Welcome to Credit Key
         </h1>
-        <div className="border border-primary-border-gray rounded-lg bg-slate-50 mb-16">
+        <div className="border border-primary-gray-border rounded-lg bg-slate-50 mb-16">
           <div className="overflow-hidden grid grid-cols-1 sm:grid-cols-2 sm:gap-px">
             {routes.map((route, routeIdx) => (
               <Link

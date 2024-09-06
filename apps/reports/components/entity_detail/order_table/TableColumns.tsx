@@ -1,8 +1,8 @@
-import DownloadAgreement from 'apps/reports/components/order_detail/DownloadAgreement';
-import { formatCurrency } from '@lib/utils/formatters';
 import Link from 'next/link';
 
+import DocumentLink from '@components/DocumentLink';
 import Tooltip from '@components/Tooltip';
+import { formatCurrency } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import OrderStatus from './OrderStatus';
 
@@ -68,10 +68,13 @@ export const TableColumns = [
     hideColumn: 856,
     accessor: 'id',
     Cell: ({ row: { original } }) => (
-      <DownloadAgreement
+      //TODO: CHECK/TEST THIS DocumentLink CHANGE!
+      <DocumentLink
         buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center"
         order={original}
         isTable={true}
+        type="agreement"
+        buttonText='Download'
       />
     ),
   },

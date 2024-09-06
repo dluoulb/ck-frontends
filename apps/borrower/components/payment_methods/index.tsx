@@ -69,7 +69,7 @@ export default function PaymentMethods() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm">
           <div className="flex-1">
             <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-border-gray pb-3 py-4 px-6">
+              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
                 <FontAwesomeIcon
                   icon={faBuildingColumns}
                   className="text-primary-blue text-base lg:text-xl"
@@ -129,7 +129,7 @@ export default function PaymentMethods() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <div className="flex-1">
             <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-border-gray pb-3 py-4 px-6">
+              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
                 <FontAwesomeIcon
                   icon={faCreditCard}
                   className="text-primary-blue text-base lg:text-xl"

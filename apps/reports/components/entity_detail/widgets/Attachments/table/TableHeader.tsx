@@ -17,7 +17,7 @@ export default function TableHeader({
   } = tableInstance;
 
   return (
-    <div className="border-b border-primary-border-gray">
+    <div className="border-b border-primary-gray-border">
       <ul className="flex justify-between md:items-center -mb-px text-sm text-center">
         <div className="hidden lg:flex justify-between md:justify-start overflow-x-scroll">
           {statusTabs.map((s, idx) => {

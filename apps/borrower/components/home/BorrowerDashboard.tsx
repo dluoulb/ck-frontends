@@ -4,9 +4,9 @@ import AccountDetails from '@apps/borrower/components/home/AccountDetails';
 import BorrowerOverview from '@apps/borrower/components/home/BorrowerOverview';
 import CompanyOverview from '@apps/borrower/components/home/CompanyOverview';
 import Stats from '@apps/borrower/components/home/Stats';
-import NoDataError from '@apps/reports/components/NoDataError';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
+import NoDataError from '@components/NoDataError';
 import { useBorrowerDeps } from '@contexts';
 import ExportPaymentHistory from './ExportPaymentHistory';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
@@ -32,7 +32,7 @@ export default function BorrowerDashboard() {
 
   if (isLoading) return <Loading className="w-14 h-14 my-36" />;
 
-  if (errors.entityError) return <NoDataError tag={type} />;
+  if (errors.entityError) return <NoDataError tag={type} withButton={true} />;
 
   return (
     <div

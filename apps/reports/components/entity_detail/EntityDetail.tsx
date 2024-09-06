@@ -19,7 +19,7 @@ export default function EntityDetail({ props, content, setContent }) {
         <div className="px-6 pt-6">
           <EntityOverview props={props} />
         </div>
-        <div className="border-b border-primary-border-gray mt-6 md:mt-0">
+        <div className="border-b border-primary-gray-border mt-6 md:mt-0">
           <nav
             className="-mb-px flex space-x-8 cursor-pointer max-w-max mx-6"
             aria-label="Tabs"

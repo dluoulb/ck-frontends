@@ -22,7 +22,7 @@ export default function OrderStatus({ order, isTable }) {
     case 'paid':
     case 'void':
       statusColor = 'text-secondary-gray';
-      bgColor = 'bg-primary-border-gray text';
+      bgColor = 'bg-primary-gray-border text';
       break;
     case 'canceled':
       statusColor = ' text-error';

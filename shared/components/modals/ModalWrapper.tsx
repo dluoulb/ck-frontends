@@ -16,7 +16,7 @@ interface ModalWrapperProps {
   isModalActive: boolean;
   toggleModal: () => void;
   modalHeight?: string;
-  header?: string;
+  header?: any;
   headerIcon?: any;
 }
 
@@ -71,7 +71,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     className=" relative transform overflow-hidden rounded-lg bg-white text-left sm:max-w-lg p-4 shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
                   >
                     {header && (
-                      <div className="flex items-center gap-2 border-b border-primary-border-gray pb-2">
+                      <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
                         <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
                           <FontAwesomeIcon
                             icon={faSquare}
@@ -83,9 +83,9 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                           />
                         </span>
 
-                        <p className="font-semibold tracking-wide text-primary-blue-hover md:text-lg lg:text-xl">
+                        <div className="font-semibold tracking-wide text-primary-blue-hover md:text-lg lg:text-xl">
                           {header}
-                        </p>
+                        </div>
                       </div>
                     )}
                     <div className="absolute right-0 top-0 hidden pr-5 pt-4 sm:block">

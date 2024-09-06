@@ -84,7 +84,7 @@ export default function CompanyOverview({ company, defaultTerms }) {
         </div>
       </div>
       {/* <!-- Rate --> */}
-      <div className="py-3 my-3 border-t border-b border-primary-border-gray">
+      <div className="py-3 my-3 border-t border-b border-primary-gray-border">
         <div className="flex justify-between px-6">
           <div className="flex items-center">
             <div className="text-sm flex items-center">
@@ -120,9 +120,7 @@ export default function CompanyOverview({ company, defaultTerms }) {
           {!defaultTerms?.length ? null : <p>Default Terms</p>}
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          {defaultTerms && (
-            <DefaultTermsDisplay />
-          )}
+          {defaultTerms && <DefaultTermsDisplay />}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
-import DownloadAgreement from 'apps/reports/components/order_detail/DownloadAgreement';
 import Link from 'next/link';
 
+import DocumentLink from '@components/DocumentLink';
 import Tooltip from '@components/Tooltip';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
@@ -55,12 +55,14 @@ export const BuildStack = ({ original }) => {
         />
       </p>
       <div className="block mid:hidden">
-        <DownloadAgreement
+        {/* // TODO: TEST/CHECK THIS DocumentLink CHANGE!! */}
+        <DocumentLink
           buttonText={
             original.product_type ? 'Payment Plan Agreement' : 'Loan Agreement'
           }
           buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover font-medium flex items-center"
           order={original}
+          type="agreement"
         />
       </div>
     </>

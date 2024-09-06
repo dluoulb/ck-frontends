@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import { DateTime } from 'luxon';
 
+import DocumentLink from '@components/DocumentLink';
 import Loading from '@components/Loading';
 import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';
-import DownloadAgreement from './DownloadAgreement';
 
 export default function OrderOverview({ order, product }) {
   let statusColor;
@@ -77,13 +77,14 @@ export default function OrderOverview({ order, product }) {
           >
             {statusText}
           </span>
-          <DownloadAgreement
+          {/* // TODO: Check/test this change!! */}
+          <DocumentLink
             buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover font-medium flex items-center"
             buttonText={
               isPaymentPlan ? 'Payment Plan Agreement' : 'Loan Agreement'
             }
             order={order}
-            isTable={false}
+            type="agreement"
           />
         </div>
       </div>

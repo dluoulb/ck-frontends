@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-import NoDataError from '@apps/reports/components/NoDataError';
 import AdditionalInfo from '@apps/reports/components/order_detail/AdditionalInfo';
 import OrderOverview from '@apps/reports/components/order_detail/OrderOverview';
 import BorrowerInfo from '@apps/reports/components/order_detail/overview/BorrowerInfo';
@@ -13,6 +12,7 @@ import TransactionsTable from '@apps/reports/components/order_detail/transaction
 import PageNavigation from '@apps/reports/components/PageNavigation';
 import useOrderDependencies from '@apps/reports/hooks/useOrderDependencies';
 import Loading from '@components/Loading';
+import NoDataError from '@components/NoDataError';
 import useApi from '@hooks/useApi';
 import { getOrder } from '@lib/actions/orders';
 
@@ -26,7 +26,7 @@ const OrderIndex = () => {
     error: orderError,
     isLoading: orderLoading,
   } = useQuery({
-    queryKey: ['orders', id],
+    queryKey: ['order', id],
     queryFn: () => getOrder(api, id),
     enabled: !!id,
     retry: 1,
@@ -44,9 +44,9 @@ const OrderIndex = () => {
     },
   } = useOrderDependencies(order);
 
-  if (orderError) return <NoDataError tag="Order" />;
+  if (orderError) return <NoDataError tag="Order" withButton={true} />;
 
-  if (errors.entityError) return <NoDataError tag="User" />;
+  if (errors.entityError) return <NoDataError tag="User" withButton={true} />;
 
   return (
     <div role={OrderIndex.role}>
@@ -90,4 +90,4 @@ const OrderIndex = () => {
 
 export default OrderIndex;
 
-OrderIndex.role = 'order-index-component'
+OrderIndex.role = 'order-index-component';

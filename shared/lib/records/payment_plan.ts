@@ -58,7 +58,7 @@ export default class PaymentPlanRecord {
   get paid_amount() {
     let sum = 0;
     this.payment_schedule.forEach((schedule) => {
-      if (['paid', 'pending'].includes(schedule.status)) {
+      if (['paid', 'pending', 'partial/pending'].includes(schedule.status)) {
         sum += parseFloat(schedule.amount);
       }
     });

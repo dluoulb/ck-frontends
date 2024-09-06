@@ -4,7 +4,7 @@ import OrderRecord from '@lib/records/order';
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 export const getOrder = async (api, id) => {
-  const order = await api.get(`/api/orders/${id}`);
+  const order = await api.get(`/api/orders/${id}?include=payment_schedule`);
   return new OrderRecord(order?.data.data.attributes);
 };
 
@@ -18,6 +18,21 @@ export const getOrders = async (api, entity, type, pageIndex) => {
     const orders = await api.get(path);
     return orders ? orders : [];
   }
+};
+
+export const getTransactions = async (api, id) => {
+  const transactions = await api.get(`/api/orders/${id}/transactions`);
+  return transactions?.data?.transactions;
+};
+
+export const getPaymentSchedule = async (api, id) => {
+  const schedule = await api.get(`/api/orders/${id}/schedule`);
+  return schedule?.data.payment_schedule;
+};
+
+export const getDocuments = async (api, order) => {
+  const documents = await api.get(`/api/orders/${order.id}/documents`);
+  return documents.data.data;
 };
 
 export const getAgreement = async (order) => {
@@ -34,12 +49,16 @@ export const getAgreement = async (order) => {
   return agreementDownload;
 };
 
-export const getTransactions = async (api, id) => {
-  const transactions = await api.get(`/api/orders/${id}/transactions`);
-  return transactions?.data?.transactions;
-};
+export const getInvoice = async (order, documentID) => {
+  const fileUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${order.id}/documents/${documentID}`;
+  const options = await addAuthorization({ headers: {} });
 
-export const getPaymentSchedule = async (api, id) => {
-  const schedule = await api.get(`/api/orders/${id}/schedule`);
-  return schedule?.data.payment_schedule;
+  const invoiceDownload = new JsFileDownloader({
+    url: fileUrl,
+    autoStart: false,
+    contentType: 'application/json',
+    headers: headers(options),
+  });
+
+  return invoiceDownload;
 };

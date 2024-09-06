@@ -1,3 +1,11 @@
+export const createLoanPayment = (api, payment) => {
+  return api.post('/api/payments', { payment });
+};
+
+export const createPaymentPlanPayment = (api, payment) => {
+  return api.post('/api/pi4/payments', { payment });
+};
+
 export const exportPaymentHistory = async ({
   api,
   userId,

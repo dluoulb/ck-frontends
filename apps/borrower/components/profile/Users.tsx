@@ -28,7 +28,7 @@ export default function Users() {
 
   return (
     <div>
-      <div className="border-y border-primary-border-gray px-8 py-6">
+      <div className="border-y border-primary-gray-border px-8 py-6">
         <div className="text-sm font-medium text-tertiary-gray">
           <p>View your {entity?.type}'s list of users below.</p>
           <p>

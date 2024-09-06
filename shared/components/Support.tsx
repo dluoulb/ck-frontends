@@ -7,7 +7,7 @@ import {
 } from '@lib/constants/SiteVariables';
 
 interface SupportProps {
-  asText?: string;
+  asText?: boolean;
   declined?: string;
   containerClass?: string;
 }
