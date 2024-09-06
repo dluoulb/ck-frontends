@@ -10,10 +10,9 @@ import { getAgreement, getInvoice } from '@lib/actions/orders';
 export default function DocumentLink({
   type,
   order,
-  buttonText,
+  buttonText = '',
   buttonClass = '',
   invoice_id = '',
-  isTable = false,
 }) {
   const [loading, setLoading] = useState(false);
   const { makeToast } = useToast();

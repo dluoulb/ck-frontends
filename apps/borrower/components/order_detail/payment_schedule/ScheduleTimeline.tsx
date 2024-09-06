@@ -53,7 +53,7 @@ export const NoScheduleTimeline = () => {
           <Tooltip
             tooltip_text="If your order is still pending, your payments will be scheduled when your order is shipped."
             trigger_class="cursor-pointer flex items-start max-w-max text-base"
-            container_class="font-normal text-center p-4 px-6 text-sm bg-secondary-blue text-primary-blue-hover w-1/3 tracking-wide"
+            container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
           >
             No Upcoming Payments
             <span className="text-sm ml-0.5">*</span>

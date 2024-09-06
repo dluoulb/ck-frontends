@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 import Support from '@components/Support';
 
@@ -13,17 +14,14 @@ export default function NoDataError({ tag, withButton }) {
         Please contact Credit Key support.
       </p>
       {withButton && (
-        <div
-          onClick={() => (window.location.href = `/reports`)}
-          className="text-primary-blue cursor-pointer"
-        >
+        <Link href="/reports" className="text-primary-blue cursor-pointer">
           <button
             type="button"
             className="rounded bg-secondary-blue py-2 px-3 text-sm font-semibold text-primary-blue shadow-sm hover:bg-primary-blue-hover hover:text-white"
           >
             <p>Back to Search</p>
           </button>
-        </div>
+        </Link>
       )}
       <div className="max-w-max mx-auto">
         <Support asText={true} />

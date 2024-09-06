@@ -22,8 +22,7 @@ export default function ApplicationDropdown({
           initialValue={listOptions[0]?.id}
           buttonText={`${mostRecent ? 'Most Recent:' : ''} ${selected?.text}`}
           handleChange={(e) => setContent(e)}
-          listBoxClass="my-3 relative bg-secondary-blue mt-1"
-          optionsContainerClass="border-primary-blue-hover border-opacity-30"
+          listBoxClass="my-3 relative capitalize bg-secondary-blue mt-1"
           value={contentId}
         >
           {listOptions.map((op) => (

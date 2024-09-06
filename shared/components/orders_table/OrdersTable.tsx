@@ -9,14 +9,11 @@ import {
 } from 'react-table';
 
 import BaseTable from '@components/BaseTable';
-import Loading from '@components/Loading';
 import TableHeader from './TableHeader';
 
 export default function OrdersTable({
   orders,
-  ordersLoading,
   pageCount,
-  fetchData,
   tableColumns,
   onClickHandler = null,
   totalRows,
@@ -50,17 +47,11 @@ export default function OrdersTable({
 
   const { pageIndex } = instance.state;
 
-  const onFetchDataDebounced = useAsyncDebounce(fetchData, 250);
+  const onFetchDataDebounced = useAsyncDebounce(() => {}, 250);
 
-  // If provided with a data fetching function for any server side pagination / filtering etc,
-  // listen for related changes and load new page data.
   useEffect(() => {
-    if (!fetchData) return;
-
-    onFetchDataDebounced({ pageIndex });
-  }, [pageIndex]);
-
-  if (!orders || ordersLoading) return <Loading className="w-14 h-14 my-16" />;
+    onFetchDataDebounced();
+  }, [pageIndex, onFetchDataDebounced]);
 
   return (
     <div

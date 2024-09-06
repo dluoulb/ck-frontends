@@ -15,7 +15,7 @@ export default function EntityDetail({ props, content, setContent }) {
       <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
         {type} Details
       </p>
-      <div className="relative rounded-t-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8 sm:pb-16">
+      <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8 sm:pb-16 min-h-full">
         <div className="px-6 pt-6">
           <EntityOverview props={props} />
         </div>

@@ -53,7 +53,7 @@ export const getFeeTitle = (type) => {
           <Tooltip
             tooltip_text="Non-Sufficient Funds fees are applied for failed payment attempts"
             trigger_class="cursor-pointer border-b border-dashed border-navy-blue"
-            container_class="z-50 text-center p-4 text-sm text-navy-blue bg-light-blue max-w-xs font-avenir-book"
+            container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
           >
             NSF Fee
           </Tooltip>

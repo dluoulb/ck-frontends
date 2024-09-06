@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import { getOrders } from '@lib/actions/orders';
 import OrderRecord from '@lib/records/order';
@@ -8,40 +13,45 @@ function useOrders(
   props,
   depsLoading = false,
   shouldFetch = false,
-  pageIndex = 0,
+  pageIndex = 0
 ) {
   const api = useApi();
   const { type, entity } = props;
-  const [orders, setOrders] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [ordersError, setOrdersError] = useState();
-  const [ordersLoading, setOrdersLoading] = useState(false);
+  const queryClient = useQueryClient();
 
-  const fetchData = useCallback(
-    ({ pageIndex }) => {
-      setOrdersLoading(true);
-      setOrders([]);
-      getOrders(api, entity, type, pageIndex)
-        .then((res) => {
-          setOrders(res?.data?.data?.map((o) => new OrderRecord(o.attributes)));
-          setPageCount(res.data.metadata.total_pages);
-        })
-        .catch((err) => {
-          console.log('An error occurred when trying to GET orders.', err);
-          setOrdersError(err);
-        })
-        .finally(() => setOrdersLoading(false));
-    },
-    [api, entity, type]
-  );
+  const {
+    data,
+    error: ordersError,
+    isLoading: ordersLoading,
+    isFetching,
+    isPlaceholderData,
+  } = useQuery({
+    queryKey: ['orders', entity, type, pageIndex],
+    queryFn: () => getOrders(api, entity, type, pageIndex),
+    enabled: !!entity && !depsLoading && shouldFetch,
+    placeholderData: keepPreviousData,
+  });
 
   useEffect(() => {
-    if (entity && !ordersLoading && !depsLoading && shouldFetch) {
-      fetchData({ pageIndex });
+    if (!isPlaceholderData && data?.hasMore) {
+      queryClient.prefetchQuery({
+        queryKey: ['projects', pageIndex + 1],
+        queryFn: () => getOrders(api, entity, type, pageIndex + 1),
+      });
     }
-  }, [entity, depsLoading, shouldFetch, fetchData, pageIndex]);
+  }, [data, isPlaceholderData, pageIndex, queryClient]);
 
-  return { orders, ordersLoading, ordersError, pageCount, fetchData };
+  const orders =
+    data?.data?.data?.map((o) => new OrderRecord(o.attributes)) || [];
+  const pageCount = data?.data?.metadata?.total_pages || 0;
+
+  return {
+    orders,
+    ordersLoading,
+    isFetching,
+    ordersError,
+    pageCount,
+  };
 }
 
 export default useOrders;

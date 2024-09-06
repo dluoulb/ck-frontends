@@ -68,7 +68,7 @@ export default function BorrowerOverview() {
                       </div>
                     }
                     trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray"
-                    container_class="font-normal text-center p-4 px-6 text-sm bg-secondary-blue text-primary-blue-hover"
+                    container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
                   >
                     <FontAwesomeIcon icon={faCircleInfo} />
                   </Tooltip>

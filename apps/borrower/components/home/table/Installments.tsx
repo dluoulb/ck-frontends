@@ -28,7 +28,7 @@ export default function Installments({ order }) {
         <Tooltip
           tooltip_text={tooltip}
           trigger_class="hover:text-primary-blue cursor-pointer"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue text-primary-blue-hover"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           {getTerm()}
         </Tooltip>

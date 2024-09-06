@@ -108,7 +108,7 @@ export default function PaymentMethods() {
                           </>
                         }
                         trigger_class="pb-2 cursor-pointer"
-                        container_class="text-center py-4 px-8 text-sm bg-secondary-blue text-primary-blue-hover font-normal"
+                        container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
                       >
                         <span>
                           In order to make payments online, please set a default{' '}
