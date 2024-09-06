@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 
-import AccountDetails from '@apps/borrower/components/home/AccountDetails';
 import BorrowerOverview from '@apps/borrower/components/home/BorrowerOverview';
-import CompanyOverview from '@apps/borrower/components/home/CompanyOverview';
 import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
@@ -13,7 +11,7 @@ import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
 
 export default function BorrowerDashboard() {
-  const { type, errors, isLoading } = useBorrowerDeps();
+  const { type, entityError, isLoading } = useBorrowerDeps();
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ENV !== 'development') {
@@ -21,18 +19,9 @@ export default function BorrowerDashboard() {
     }
   }, []);
 
-  // TODO: TEST WITH A CONSUMER!
-  // const getPrimaryWidget = () => {
-  //   return type === 'company' ? (
-  //     <CompanyOverview company={entity} defaultTerms={defaultTerms} />
-  //   ) : (
-  //     <AccountDetails account={entity} />
-  //   );
-  // };
-
   if (isLoading) return <Loading className="w-14 h-14 my-36" />;
 
-  if (errors.entityError) return <NoDataError tag={type} withButton={true} />;
+  if (entityError) return <NoDataError tag={type} withButton={false} />;
 
   return (
     <div

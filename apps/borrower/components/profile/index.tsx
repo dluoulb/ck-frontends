@@ -26,7 +26,11 @@ export default function ProfileIndex() {
       icon: faCircleInfo,
       tag: 'details',
     },
-    { title: 'Users', icon: faUsers, tag: 'users' },
+    entity?.type === 'company' && {
+      title: 'Users',
+      icon: faUsers,
+      tag: 'users',
+    },
   ];
 
   if (!entity || companyUsersLoading)
@@ -68,6 +72,7 @@ export default function ProfileIndex() {
           </div>
           <div className="border-b border-gray-200 -mb-px flex w-full">
             {tabs.map((tab) => {
+              if (!tab) return;
               return (
                 <div
                   onClick={() => setContent(tab.tag)}

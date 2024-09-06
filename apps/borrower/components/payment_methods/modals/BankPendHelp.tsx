@@ -3,8 +3,8 @@ import React from 'react';
 export default function BankPendHelp() {
   return (
     <div>
-      <section className="text-center py-6">
-        <h3 className="font-avenir-medium text-lg text-primary-blue">
+      <section className="text-center p-6">
+        <h3 className="font-medium text-lg text-primary-blue-hover">
           Connecting you with Credit Key support...
         </h3>
         <h4 className="text-base my-2">

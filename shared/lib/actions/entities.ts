@@ -46,7 +46,6 @@ export const getStats = async (api, entity) => {
   return stats.data;
 };
 
-
 export const getMerchant = async (api, merchant_id) => {
   if (!merchant_id) return;
   const merchant = await api.get(`/api/merchants/${merchant_id}`);
@@ -60,11 +59,3 @@ export const getApprovedTerms = async (api, company_id, merchant_id) => {
   });
   return terms?.data?.data?.attributes;
 };
-
-export const getAccount = async (api, accountID) => {
-  if (!accountID) return;
-  const account = await api.get(`/api/pi4/accounts/${accountID}`);
-  return { ...account.data.data.attributes, type: account.data.data.type };
-};
-
-

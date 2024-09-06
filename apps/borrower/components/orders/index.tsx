@@ -8,9 +8,10 @@ import { TableColumns } from './TableColumns';
 
 export default function Orders() {
   const router = useRouter();
-  const { orders, ordersLoading, pageCount, fetchData } = useBorrowerDeps();
+  const { orders, ordersLoading, isLoading, pageCount } = useBorrowerDeps();
 
-  if (!orders && ordersLoading) return <Loading className="w-14 h-14 my-20" />;
+  if (isLoading || ordersLoading)
+    return <Loading className="w-14 h-14 my-20" />;
 
   return (
     <div
@@ -25,9 +26,7 @@ export default function Orders() {
         <div className="my-4">
           <OrdersTable
             orders={orders}
-            ordersLoading={ordersLoading}
             pageCount={pageCount}
-            fetchData={fetchData}
             tableColumns={TableColumns}
             totalRows={orders?.length}
             pageSize={25}

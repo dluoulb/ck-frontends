@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
+import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
-import { getAccount } from '@lib/actions/entities';
+import AccountRecord from '@lib/records/account';
+import CompanyRecord from '@lib/records/company';
+
+type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
 function useEntity(user, shouldFetch = false) {
   const api = useApi();
@@ -13,7 +17,7 @@ function useEntity(user, shouldFetch = false) {
     isRefetching: entityRefetching,
     isLoading: entityLoading,
     refetch: refetchEntity,
-  } = useQuery({
+  } = useQuery<CompanyOrAccountRecord>({
     queryKey: [
       user?.company_id ? 'company' : 'account',
       user?.company_id ? user?.company_id : user?.account_id,

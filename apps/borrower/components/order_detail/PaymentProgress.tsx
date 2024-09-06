@@ -16,7 +16,7 @@ export default function PaymentProgress({
 
   if (order?.product.isPastDue) {
     progressColor = 'bg-error';
-  } else if (active && order?.progress < 100) {
+  } else if (active && order?.product?.progress < 100) {
     progressColor = 'bg-success';
   } else {
     progressColor = 'bg-secondary-gray';
@@ -28,7 +28,7 @@ export default function PaymentProgress({
       <div className="flex items-center justify-between">
         <p className="text-lg font-bold">Payment Progress</p>
         {active &&
-          order?.progress < 100 &&
+          order.product.next_payment_due_amount &&
           (!paymentMethods?.length ? (
             <PrimaryButton
               ariaLabel="link-to-payment-methods-page-button"

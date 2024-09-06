@@ -22,7 +22,7 @@ export const ScheduleTimeline = ({ order }) => {
                 iconClass
               )}
             >
-              <div className="text-white font-bold text-sm">{scheduleIcon}</div>
+              <div className="text-white font-bold text-sm ml-px">{scheduleIcon}</div>
             </span>
             <div className="space-y-1">
               <h3 className="flex items-center text-lg font-semibold">

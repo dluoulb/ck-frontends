@@ -35,7 +35,7 @@ export const getIcon = (status) => {
 
     case 'paid':
       scheduleIcon = <FontAwesomeIcon icon={faDollarSign} />;
-      iconClass = 'primary-blue';
+      iconClass = 'bg-primary-blue';
       break;
 
     case 'refunded':

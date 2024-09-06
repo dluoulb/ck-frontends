@@ -9,13 +9,13 @@ import { formatCurrency } from '@lib/utils/formatters';
 export default function Stats() {
   const { entity, stats, statsError, isLoading } = useBorrowerDeps();
 
-  const remainingCredit = entity?.credit_line.amount - stats?.credit_utilized;
-  let approvedUser = entity?.underwriting_status === 'approved';
+  const remainingCredit = entity?.max_purchase_amount - stats?.credit_utilized;
+  let approvedUser = entity?.status === 'approved';
 
   const entityData = [
     {
       name: 'Maximum Credit',
-      value: !approvedUser ? '--' : formatCurrency(entity?.credit_line.amount),
+      value: !approvedUser ? '--' : formatCurrency(entity?.max_purchase_amount),
       className: 'text-primary-blue-hover',
     },
     {
