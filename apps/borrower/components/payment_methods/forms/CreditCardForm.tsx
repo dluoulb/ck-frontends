@@ -20,7 +20,7 @@ function CreditCardForm({ toggleModal }) {
   const { refetchPaymentMethods } = useBorrowerDeps();
 
   //TODO: Test Pi4 card creation
-  // Needs supertokens auth changes for pi4 controller
+  // GETTING 500 ON ACCEPT BLUE EXECUTE
   const onContinue = async () => {
     setSubmitting(true);
     await cardForm

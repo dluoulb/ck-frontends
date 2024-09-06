@@ -46,7 +46,7 @@ export default function PaymentMethodModalWrapper({
       toggleModal={toggleModal}
       isModalActive={isModalActive}
       header="Create New Payment Method"
-      modalHeight='!px-2 max-h-modal'
+      modalHeight="!px-2 max-h-modal"
       headerIcon={faPlusCircle}
     >
       {orderedScreens.map((step) =>

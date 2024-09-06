@@ -69,18 +69,22 @@ export default function PaymentMethods() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm">
           <div className="flex-1">
             <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
-                <FontAwesomeIcon
-                  icon={faBuildingColumns}
-                  className="text-primary-blue text-base lg:text-xl"
-                />
-
-                <p className="text-lg md:text-xl font-bold">Bank Accounts</p>
-              </div>
               {entity?.type === 'company' && (
-                <div className="divide-y">
-                  <PaymentMethodList payment_methods={bank_accounts} />
-                </div>
+                <>
+                  <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
+                    <FontAwesomeIcon
+                      icon={faBuildingColumns}
+                      className="text-primary-blue text-base lg:text-xl"
+                    />
+
+                    <p className="text-lg md:text-xl font-bold">
+                      Bank Accounts
+                    </p>
+                  </div>
+                  <div className="divide-y">
+                    <PaymentMethodList payment_methods={bank_accounts} />
+                  </div>
+                </>
               )}
               {checkIsDefault && (
                 <div className="mt-8 md:mt-12 px-7">

@@ -14,7 +14,10 @@ import {
 
 export default function BorrowerDetails() {
   const { entity, companyUsers } = useBorrowerDeps();
-  const owner = companyUsers?.find((u) => u.role === 'borrower');
+  const owner =
+    entity?.type === 'company'
+      ? companyUsers?.find((u) => u.role === 'borrower')
+      : entity?.user;
 
   return (
     <div className="flex flex-col pt-6">

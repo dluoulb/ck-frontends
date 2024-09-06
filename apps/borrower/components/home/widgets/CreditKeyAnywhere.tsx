@@ -2,10 +2,11 @@ import React from 'react';
 import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 
 import { ckaLink } from '@lib/constants/SiteVariables';
 
-export default function CreditKeyAnywhere() {
+export default function CreditKeyAnywhere({ vcEnabled }) {
   return (
     <div className="px-3 p-2 h-full" role={CreditKeyAnywhere.role}>
       <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
@@ -19,7 +20,12 @@ export default function CreditKeyAnywhere() {
         <p className="font-medium">
           Pay your invoices with Credit Key Anywhere!
         </p>
-        <p className="text-sm md:min-h-32 md:max-h-36">
+        <p
+          className={classNames(
+            'text-sm',
+            vcEnabled ? 'md:min-h-32 md:max-h-36' : '!mt-1 !mb-6'
+          )}
+        >
           Submit your unpaid invoice and we'll connect with the vendor to pay it
           for you using your existing line of credit.
         </p>

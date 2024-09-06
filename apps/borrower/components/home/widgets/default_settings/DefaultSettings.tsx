@@ -6,13 +6,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
-import usePaymentMethods from '@apps/borrower/hooks/usePaymentMethods';
 import { useBorrowerDeps } from '@contexts';
 import DefaultTermsDisplay from './DefaultTermsDisplay';
 
 export default function DefaultSettings() {
-  const { entity, paymentMethods, defaultTerms } = useBorrowerDeps();
-  const { defaultCard, defaultBank } = usePaymentMethods(paymentMethods);
+  const { entity, paymentMethods, defaultTerms, defaultCard, defaultBank } =
+    useBorrowerDeps();
   const [defaultPM, setDefaultPM] = useState(null);
 
   useEffect(() => {

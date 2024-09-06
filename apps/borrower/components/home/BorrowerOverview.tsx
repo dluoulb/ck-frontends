@@ -9,14 +9,9 @@ import { useBorrowerDeps } from '@contexts';
 export default function BorrowerOverview() {
   const { type, entity } = useBorrowerDeps();
   let statusColor;
-  const status =
-    type === 'company' ? entity?.underwriting_status : entity?.status;
-  const approvedUser =
-    type === 'company'
-      ? entity?.underwriting_status === 'approved'
-      : entity?.status === 'approved';
+  const approvedUser = entity?.status === 'approved';
 
-  switch (status) {
+  switch (entity?.status) {
     case 'pending':
     case 'hold':
       statusColor = 'bg-background-warning text-warning';
@@ -84,7 +79,7 @@ export default function BorrowerOverview() {
                 statusColor
               )}
             >
-              {status}
+              {entity?.status}
             </span>
           </div>
         </div>

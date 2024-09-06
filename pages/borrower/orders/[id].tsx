@@ -26,6 +26,8 @@ export default function OrderIDIndex() {
     queryFn: () => getOrder(api, id),
     enabled: !!id,
     retry: 1,
+
+    // TODO: TAKE THESE OUT!
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -33,7 +35,10 @@ export default function OrderIDIndex() {
 
   return (
     <PortalLayout>
-      <EntitiesProvider user={user} fetchConfig={{ payment_methods: true }}>
+      <EntitiesProvider
+        user={user}
+        fetchConfig={{ entity: true, payment_methods: true }}
+      >
         <OrderDetail
           order={order}
           orderError={orderError}
