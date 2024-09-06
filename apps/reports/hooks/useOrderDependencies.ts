@@ -1,9 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
+import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
-import { getAccount } from '@lib/actions/entities';
 import { getPaymentSchedule, getTransactions } from '@lib/actions/orders';
+import AccountRecord from '@lib/records/account';
+import CompanyRecord from '@lib/records/company';
+
+type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
 function useOrderDependencies(order) {
   let orderProps;
@@ -17,7 +21,7 @@ function useOrderDependencies(order) {
     data: entity,
     error: entityError,
     isLoading: entityLoading,
-  } = useQuery({
+  } = useQuery<CompanyOrAccountRecord>({
     queryKey: ['entity', order?.entity_id],
     queryFn: () =>
       order?.entity_type === 'company'

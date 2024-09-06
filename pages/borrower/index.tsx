@@ -1,6 +1,6 @@
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { EntitiesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts';
 import useUser from '@hooks/useUser';
 
 export default function BorrowerIndex() {
@@ -8,10 +8,9 @@ export default function BorrowerIndex() {
 
   return (
     <PortalLayout>
-      <EntitiesProvider
+      <DependenciesProvider
         user={user}
         fetchConfig={{
-          entity: true,
           stats: true,
           orders: true,
           default_terms: true,
@@ -19,7 +18,7 @@ export default function BorrowerIndex() {
         }}
       >
         <BorrowerDashboard />
-      </EntitiesProvider>
+      </DependenciesProvider>
     </PortalLayout>
   );
 }

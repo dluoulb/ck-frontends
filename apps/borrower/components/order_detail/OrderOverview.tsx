@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Loading from '@components/Loading';
+import { useBorrowerDeps } from '@contexts';
 import useModal from '@hooks/useModal';
 import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';
@@ -12,8 +13,9 @@ export default function OrderOverview({ order, product, documents }) {
   let statusColor;
   let statusText;
   const { user } = useUser();
-  const isPaymentPlan = order?.product_type !== 'mambu_loan';
   const { isModalActive, toggleModal } = useModal();
+  const { defaultBankLabel, defaultCardLabel } = useBorrowerDeps();
+  const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   const status = isPaymentPlan
     ? product?.payment_plan_status.toLowerCase()
@@ -90,6 +92,16 @@ export default function OrderOverview({ order, product, documents }) {
                 false
               )}
             </p>
+            {(defaultBankLabel || defaultCardLabel) && (
+              <p className="font-semibold">
+                <span className="font-normal text-secondary-gray mr-1">
+                  Paying from:
+                </span>
+                {order.entity_type !== 'account'
+                  ? defaultBankLabel
+                  : defaultCardLabel}
+              </p>
+            )}
           </div>
           <div className="text-right flex flex-col items-end gap-1">
             {['superadmin', 'admin'].includes(user?.role) && (

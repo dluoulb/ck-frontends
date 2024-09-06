@@ -11,7 +11,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import Loading from '@components/Loading';
 import Notification from '@components/Notification';
 import Tooltip from '@components/Tooltip';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useModal from '@hooks/useModal';
 import useUser from '@hooks/useUser';
 import PaymentMethodModalWrapper from './modals/PaymentMethodModalWrapper';
@@ -19,13 +19,10 @@ import PaymentMethodList from './PaymentMethodList';
 
 export default function PaymentMethods() {
   const { user } = useUser();
+  const { entity } = useEntity();
   const { isModalActive, toggleModal } = useModal();
-  const {
-    entity,
-    paymentMethods,
-    paymentMethodsLoading,
-    paymentMethodsRefetching,
-  } = useBorrowerDeps();
+  const { paymentMethods, paymentMethodsLoading, paymentMethodsRefetching } =
+    useBorrowerDeps();
 
   const bank_accounts = paymentMethods?.filter(
     (pm) => pm.payment_type === 'bank_account'

@@ -3,11 +3,12 @@ import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import classNames from 'classnames';
 
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function Stats() {
-  const { entity, stats, statsError, isLoading } = useBorrowerDeps();
+  const { entity } = useEntity();
+  const { stats, statsError, isLoading } = useBorrowerDeps();
 
   const remainingCredit = entity?.max_purchase_amount - stats?.credit_utilized;
   let approvedUser = entity?.status === 'approved';

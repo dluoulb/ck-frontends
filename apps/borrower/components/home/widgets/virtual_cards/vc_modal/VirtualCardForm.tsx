@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
-import { useBorrowerDeps } from '@contexts';
+import { useEntity } from '@contexts';
 import vc from '@lib/images/vc-image.png';
 import { formatCurrency } from '@lib/utils/formatters';
 
@@ -17,7 +17,7 @@ export default function VirtualCardForm({
   setFieldValue,
   onSubmit,
 }) {
-  const { entity } = useBorrowerDeps();
+  const { entity } = useEntity();
 
   const sublimits = {
     max: parseInt(entity?.vc_sub_limits?.limit_amount),

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 import Tooltip from '@components/Tooltip';
-import { useBorrowerDeps } from '@contexts';
+import { useEntity } from '@contexts';
 
 export default function BorrowerOverview() {
-  const { type, entity } = useBorrowerDeps();
+  const { entity } = useEntity();
+
   let statusColor;
   const approvedUser = entity?.status === 'approved';
 
@@ -43,7 +44,7 @@ export default function BorrowerOverview() {
                 ? entity?.tier.replace('_', ' ')
                 : entity?.tier}
             </p>
-            {type === 'company' && (
+            {entity?.type === 'company' && (
               <p>
                 Base Rate:
                 <span className="mx-1 font-semibold">

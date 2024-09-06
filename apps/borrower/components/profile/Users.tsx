@@ -3,12 +3,13 @@ import { usePagination, useSortBy, useTable } from 'react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import AddNewUser from './AddNewUser';
 import { UserTableColumns } from './table/UserTableColumns';
 
 export default function Users() {
-  const { entity, companyUsers, companyUsersLoading, companyUsersRefetching } =
+  const { entity } = useEntity();
+  const { companyUsers, companyUsersLoading, companyUsersRefetching } =
     useBorrowerDeps();
 
   const data = useMemo(() => companyUsers || [], [companyUsers?.length]);

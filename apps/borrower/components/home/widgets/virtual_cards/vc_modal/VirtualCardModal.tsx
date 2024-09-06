@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { useSearchParams } from 'next/navigation';
 
-import { useBorrowerDeps } from '@contexts';
+import { useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import usePromo from '@hooks/usePromo';
 import useUser from '@hooks/useUser';
@@ -22,7 +22,7 @@ type FormErrors = Partial<Record<keyof FormValues, string>>;
 export default function VirtualCardModal({ next, setModalState }) {
   const api = useApi();
   const { user } = useUser();
-  const { entity } = useBorrowerDeps();
+  const { entity } = useEntity();
   const searchParams = useSearchParams();
 
   const { getPromoFromMerchant } = usePromo();

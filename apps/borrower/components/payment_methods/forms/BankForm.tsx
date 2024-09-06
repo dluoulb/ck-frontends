@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { faLockAlt, faSpinnerThird } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import useUser from '@hooks/useUser';
@@ -33,10 +30,12 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
   const form = useRef(null);
   const { user } = useUser();
   const { makeToast } = useToast();
+  const { refetchEntity } = useEntity();
+  const { refetchPaymentMethods } = useBorrowerDeps();
+  
   const [loading, setLoading] = useState(false);
   const [bankAgreement, setBankAgreement] = useState('');
   const [agreementLoading, setAgreementLoading] = useState(false);
-  const { refetchPaymentMethods, refetchEntity } = useBorrowerDeps();
 
   useEffect(() => {
     setAgreementLoading(true);

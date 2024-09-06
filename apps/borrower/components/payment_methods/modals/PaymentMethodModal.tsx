@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import Image from 'next/image';
 
 import { ListBox } from '@components/Dropdown';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useDropdown from '@hooks/useDropdown';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
@@ -20,7 +20,8 @@ export default function PaymentMethodModal({
   next,
   toggleModal,
 }) {
-  const { entity, orders } = useBorrowerDeps();
+  const { entity } = useEntity();
+  const { orders } = useBorrowerDeps();
 
   const hasPi4Orders =
     orders?.filter(

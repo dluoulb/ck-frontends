@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
@@ -14,8 +14,9 @@ import DefaultTermSettingsModal from './DefaultTermsModal';
 export default function DefaultTermsDisplay() {
   const api = useApi();
   const { makeToast } = useToast();
-  const { entity, defaultTerms, refetchEntity, entityRefetching } =
-    useBorrowerDeps();
+  const { entity } = useEntity();
+  const { defaultTerms, refetchEntity, entityRefetching } = useBorrowerDeps();
+  
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
     defaultTerms[0]

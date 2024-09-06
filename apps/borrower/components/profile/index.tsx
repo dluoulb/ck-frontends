@@ -11,14 +11,15 @@ import classNames from 'classnames';
 import { DateTime } from 'luxon';
 
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import BorrowerDetails from './BorrowerDetails';
 import Users from './Users';
 
 export default function ProfileIndex() {
   const [content, setContent] = useState('details');
-  const { entity, companyUsersLoading } = useBorrowerDeps();
+  const { entity } = useEntity();
+  const { companyUsersLoading } = useBorrowerDeps();
 
   const tabs = [
     {
@@ -75,6 +76,7 @@ export default function ProfileIndex() {
               if (!tab) return;
               return (
                 <div
+                  key={tab.tag}
                   onClick={() => setContent(tab.tag)}
                   aria-current="page"
                   className={classNames(

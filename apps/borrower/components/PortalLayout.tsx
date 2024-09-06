@@ -8,6 +8,8 @@ import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import SideNav from '@components/layout/SideNav';
 import Scripts from '@components/Scripts';
+import { EntityProvider } from '@contexts';
+import useUser from '@hooks/useUser';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 const primaryRoutes = [
@@ -40,13 +42,18 @@ const primaryRoutes = [
 ];
 
 export default function PortalLayout({ children }) {
+  const { user } = useUser();
+  
   return (
     <div className="flex" role={PortalLayout.role}>
-      <Scripts />
-      <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">
-        {children}
-      </div>
+      <EntityProvider>
+        <Scripts />
+        <SideNav primaryRoutes={primaryRoutes} />
+        <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">
+          <p>IS THIS ON EVERY PAGE</p>
+          {children}
+        </div>
+      </EntityProvider>
     </div>
   );
 }

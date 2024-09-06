@@ -2,7 +2,7 @@ import React from 'react';
 
 import Orders from '@apps/borrower/components/orders';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { EntitiesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts';
 import useUser from '@hooks/useUser';
 
 export default function OrdersIndex({}) {
@@ -10,12 +10,9 @@ export default function OrdersIndex({}) {
 
   return (
     <PortalLayout>
-      <EntitiesProvider
-        user={user}
-        fetchConfig={{ entity: true, orders: true }}
-      >
+      <DependenciesProvider user={user} fetchConfig={{ orders: true }}>
         <Orders />
-      </EntitiesProvider>
+      </DependenciesProvider>
     </PortalLayout>
   );
 }
