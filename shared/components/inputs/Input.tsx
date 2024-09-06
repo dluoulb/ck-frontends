@@ -15,7 +15,7 @@ export default function Input(props) {
         {...props}
         name={id}
         className={classNames(
-          'peer w-full text-xs sm:text-sm px-3.5 pt-4 sm:pt-5 pb-1 block mt-0 bg-transparent border border-solid border-primary-border-gray rounded-lg appearance-none focus:outline-none focus:ring-0',
+          'peer w-full text-xs sm:text-sm px-3.5 pt-4 sm:pt-5 pb-1 block mt-0 bg-transparent border border-solid border-primary-gray-border rounded-lg appearance-none focus:outline-none focus:ring-0',
           formStyles.error(hasFieldError)
         )}
         id={id}

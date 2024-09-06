@@ -13,7 +13,7 @@ module.exports = {
         primary: '#15191F',
         'secondary-gray': '#677283',
         'tertiary-gray': '#8A94A3',
-        'primary-border-gray': '#E5E7EB',
+        'primary-gray-border': '#E5E7EB',
         'primary-blue': '#0066ff',
         'primary-blue-hover': '#094DB3',
         'secondary-blue': '#ECF3FE',

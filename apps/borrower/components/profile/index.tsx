@@ -42,8 +42,8 @@ export default function ProfileIndex() {
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           {entity?.type === 'company' ? 'Company' : 'User'} Profile
         </p>
-        <div className="relative rounded-md border-t border-x border-primary-border-gray shadow-sm mt-4 md:mt-8 min-h-max">
-          <div className="py-8 px-6 border-b border-primary-border-gray">
+        <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max">
+          <div className="py-8 px-6 border-b border-primary-gray-border">
             <div className="flex items-center gap-2">
               <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
                 <FontAwesomeIcon

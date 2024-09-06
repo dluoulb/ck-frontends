@@ -24,7 +24,7 @@ export default function Unauthorized() {
           <p>Back to Home</p>
         </button>
       </div>
-      <Support asText="true" containerClass='!my-12' />
+      <Support asText={true} containerClass='!my-12' />
     </main>
   );
 }

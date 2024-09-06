@@ -65,7 +65,7 @@ export default function OrdersTable({
   return (
     <div
       role={OrdersTable.role}
-      className="col-span-full rounded-lg border border-primary-border-gray overflow-x-scroll"
+      className="col-span-full rounded-lg border border-primary-gray-border overflow-x-scroll"
     >
       {withHeader && (
         <TableHeader

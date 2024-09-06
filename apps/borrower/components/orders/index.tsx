@@ -34,7 +34,7 @@ export default function Orders() {
             rowClass="text-sm"
             withHeader={true}
             onClickHandler={(value) =>
-              router.push(`borrower/orders/${value.id}`)
+              router.push(`/borrower/orders/${value.id}`)
             }
           />
         </div>

@@ -25,7 +25,7 @@ export default function ExportPaymentHistory() {
     // Adjust width of nested divs within Datepicker
     const icon = document.querySelector('.h-5');
     const calendar = document.querySelector('.z-10.hidden');
-    
+
     if (calendar) {
       calendar.classList.add('min-w-[70vw]', 'md:min-w-fit');
     }
@@ -66,8 +66,8 @@ export default function ExportPaymentHistory() {
           separator="to"
           placeholder="Select Date Range"
           onChange={(newValue) => setDateRange(newValue)}
-          containerClassName="relative my-2 max-w-max md:min-w-56 md:max-w-60 border border-primary-border-gray rounded-md"
-          inputClassName="pl-3 pr-4 py-2 max-w-max md:min-w-56 md:max-w-60 focus-visible:outline-none border border-primary-border-gray rounded-md"
+          containerClassName="relative my-2 max-w-max md:min-w-56 md:max-w-60 border border-primary-gray-border rounded-md"
+          inputClassName="pl-3 pr-4 py-2 max-w-max md:min-w-56 md:max-w-60 focus-visible:outline-none border border-primary-gray-border rounded-md"
           showShortcuts={true}
           useRange={false}
           value={dateRange}

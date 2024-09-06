@@ -5,7 +5,7 @@ import PortalLayout from '@apps/borrower/components/PortalLayout';
 import { EntitiesProvider } from '@contexts';
 import useUser from '@hooks/useUser';
 
-export default function OrdersIndex() {
+export default function OrdersIndex({}) {
   const { user } = useUser();
 
   return (

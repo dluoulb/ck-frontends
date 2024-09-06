@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { usePopperTooltip } from 'react-popper-tooltip';
 
 export default function Tooltip({
@@ -14,8 +15,10 @@ export default function Tooltip({
     <span role={Tooltip.role}>
       <span
         ref={setTriggerRef}
-        className={trigger_class}
-        style={{ textDecoration: 'underline', textDecorationStyle: 'dotted' }}
+        className={classNames(
+          'border-b border-dotted border-black',
+          trigger_class
+        )}
       >
         {children}
       </span>
