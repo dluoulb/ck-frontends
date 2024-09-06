@@ -5,13 +5,14 @@ import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import ExportPaymentHistory from './ExportPaymentHistory';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
 
 export default function BorrowerDashboard() {
-  const { type, entityError, isLoading } = useBorrowerDeps();
+  const { isLoading } = useBorrowerDeps();
+  const { entityLoading, entityError } = useEntity();
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ENV !== 'development') {
@@ -19,9 +20,10 @@ export default function BorrowerDashboard() {
     }
   }, []);
 
-  if (isLoading) return <Loading className="w-14 h-14 my-36" />;
+  if (entityLoading || isLoading)
+    return <Loading className="w-14 h-14 my-36" />;
 
-  if (entityError) return <NoDataError tag={type} withButton={false} />;
+  if (entityError) return <NoDataError tag="Borrower" withButton={false} />;
 
   return (
     <div

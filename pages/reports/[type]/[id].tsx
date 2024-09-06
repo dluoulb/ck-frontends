@@ -7,8 +7,12 @@ import useEntityDependencies from '@apps/reports/hooks/useEntityDependencies';
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
 import useApi from '@hooks/useApi';
+import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
-import { getAccount } from '@lib/actions/entities';
+import AccountRecord from '@lib/records/account';
+import CompanyRecord from '@lib/records/company';
+
+type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
 export default function EntityIndex() {
   const api = useApi();
@@ -27,7 +31,7 @@ export default function EntityIndex() {
     data: entity,
     error: entityError,
     isLoading: entityLoading,
-  } = useQuery({
+  } = useQuery<CompanyOrAccountRecord>({
     queryKey: [type, id],
     queryFn: () => fetchEntity(api, id),
     enabled: !!id,

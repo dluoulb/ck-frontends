@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import OrderDetail from '@apps/borrower/components/order_detail';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { EntitiesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts';
 import useApi from '@hooks/useApi';
 import useUser from '@hooks/useUser';
 import { getOrder } from '@lib/actions/orders';
@@ -35,10 +35,7 @@ export default function OrderIDIndex() {
 
   return (
     <PortalLayout>
-      <EntitiesProvider
-        user={user}
-        fetchConfig={{ entity: true, payment_methods: true }}
-      >
+      <DependenciesProvider user={user} fetchConfig={{ payment_methods: true }}>
         <OrderDetail
           order={order}
           orderError={orderError}
@@ -46,7 +43,7 @@ export default function OrderIDIndex() {
           refetchOrder={refetchOrder}
           orderRefetching={orderRefetching}
         />
-      </EntitiesProvider>
+      </DependenciesProvider>
     </PortalLayout>
   );
 }

@@ -2,9 +2,9 @@ import React, { createContext, useContext } from 'react';
 
 import useBorrowerDependencies from '@apps/borrower/hooks/useBorrowerDependencies';
 
-const EntitiesContext = createContext(null);
+const DependenciesContext = createContext(null);
 
-export const EntitiesProvider = ({
+export const DependenciesProvider = ({
   children,
   user,
   fetchConfig,
@@ -23,17 +23,17 @@ export const EntitiesProvider = ({
   const { dependencies } = useBorrowerDependencies(user, fetchConfig);
 
   return (
-    <EntitiesContext.Provider value={dependencies}>
+    <DependenciesContext.Provider value={dependencies}>
       {children}
-    </EntitiesContext.Provider>
+    </DependenciesContext.Provider>
   );
 };
 
 export const useBorrowerDeps = () => {
-  const context = useContext(EntitiesContext);
+  const context = useContext(DependenciesContext);
   if (!context) {
     throw new Error(
-      'useBorrowerDepsContext must be used within an EntitiesProvider'
+      'useDependenciesContext must be used within an DependenciesProvider'
     );
   }
   return context;

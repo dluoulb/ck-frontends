@@ -4,7 +4,7 @@ import { faTrashXmark } from '@fortawesome/pro-regular-svg-icons';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import ModalWrapper from '@components/modals/ModalWrapper';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { deletePaymentMethod } from '@lib/actions/payment_methods';
@@ -17,8 +17,9 @@ export default function DeletePmModal({
   setLoading,
 }) {
   const api = useApi();
-  const { refetchPaymentMethods, refetchEntity } = useBorrowerDeps();
   const { makeToast } = useToast();
+  const { refetchEntity } = useEntity();
+  const { refetchPaymentMethods } = useBorrowerDeps();
 
   const deletePM = (payment_method) => {
     setLoading(payment_method?.id);

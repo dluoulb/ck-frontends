@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -8,12 +7,11 @@ import {
 } from '@headlessui/react';
 import classNames from 'classnames';
 
-import { useBorrowerDeps } from '@contexts';
+import { useEntity } from '@contexts';
 import AddUserForm from './AddUserForm';
 
 export default function AddNewUser() {
-  const [open, setOpen] = useState(false);
-  const { entity } = useBorrowerDeps();
+  const { entity } = useEntity();
 
   return (
     <div className="w-full my-2">

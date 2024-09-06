@@ -8,13 +8,14 @@ import Link from 'next/link';
 
 import { BaseGridItem } from '@components/BaseGrid';
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import DefaultSettings from './DefaultSettings';
 
 export default function SettingsWidget() {
-  const { type, isLoading, errors, paymentMethods } = useBorrowerDeps();
+  const { entity } = useEntity();
+  const { isLoading, paymentMethods, paymentMethodsError } = useBorrowerDeps();
 
-  if (!isLoading && errors?.paymentMethodsError)
+  if (!isLoading && paymentMethodsError)
     return (
       <BaseGridItem gridConfig="col-span-5 md:col-span-2 mx-2 md:ml-3 md:mr-1.5 !p-0 h-full">
         <Notification
@@ -23,7 +24,7 @@ export default function SettingsWidget() {
           bgColor="bg-error/20 min-h-full"
           headline="An Error Occurred"
           isWidget={true}
-          message={`Unable to collect available ${type} payment method data. Please contact Credit Key Support for assistance.`}
+          message={`Unable to collect available ${entity?.type} payment method data. Please contact Credit Key Support for assistance.`}
         />
       </BaseGridItem>
     );

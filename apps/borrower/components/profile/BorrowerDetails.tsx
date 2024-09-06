@@ -76,15 +76,21 @@ export default function BorrowerDetails() {
             </p>
           </div>
         </div>
-        {entity?.type === 'company' && (
-          <div className="flex items-start pt-8">
-            <div className="w-2/5">
-              <p className="capitalize font-bold">Underwriting Data</p>
+        <div className="flex items-start pt-8">
+          <div className="w-2/5">
+            <p className="capitalize font-bold">Underwriting Data</p>
+            {entity?.type === 'company' ? (
               <p className="text-tertiary-gray text-sm font-medium w-3/4">
                 Latest application data used for credit line decisioning and
                 approved products.
               </p>
-            </div>
+            ) : (
+              <p className="text-tertiary-gray text-sm font-medium w-3/4">
+                Latest application decision data for user spending limit.
+              </p>
+            )}
+          </div>
+          {entity?.type === 'company' ? (
             <div className="w-3/5 font-semibold">
               <p>
                 <span className="mr-1 font-medium text-tertiary-gray text-sm">
@@ -134,8 +140,35 @@ export default function BorrowerDetails() {
                 {entity?.underwriting_status}
               </p>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="w-3/5 font-semibold">
+              <p>
+                <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                  Tier:
+                </span>
+                {entity?.tier}
+              </p>
+              <p>
+                <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                  Tier Limit:
+                </span>
+                {entity?.tier_limit}
+              </p>
+              <p>
+                <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                  Decision Date:
+                </span>
+                {reformatDate(entity?.created_at, false, DateTime.DATE_FULL)}
+              </p>
+              <p className="capitalize">
+                <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                  Status:
+                </span>
+                {entity?.status}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
