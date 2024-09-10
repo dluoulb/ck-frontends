@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BaseGridItem } from '@components/BaseGrid';
-import { useEntity } from '@contexts';
+import { useEntity } from '@contexts/EntityContext';
 import CreditKeyAnywhere from './CreditKeyAnywhere';
 import SettingsWidget from './default_settings';
 import SupportWidget from './SupportWidget';

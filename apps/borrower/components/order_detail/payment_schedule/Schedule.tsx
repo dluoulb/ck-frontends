@@ -8,7 +8,7 @@ import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 import { NoScheduleTimeline, ScheduleTimeline } from './ScheduleTimeline';
 
-export default function Schedule({ order, open }) {
+export default function Schedule({ order }) {
   if (!order) return <Loading className="w-14 h-14 my-20" />;
 
   return (

@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["shared/components/*"],
-      "@contexts": ["shared/contexts"],
+      "@contexts/*": ["shared/contexts/*"],
       "@hooks/*": ["shared/hooks/*"],
       "@lib/*": ["shared/lib/*"],
       "@records/*": ["shared/lib/records/*"],

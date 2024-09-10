@@ -5,7 +5,7 @@ import { SearchBox, useSearchBox } from 'react-instantsearch';
 import HitTab from '@apps/reports/components/search_results/HitTab';
 import SearchResults from '@apps/reports/components/search_results/SearchResults';
 import SearchTab from '@apps/reports/components/SearchTab';
-import { QueryContext } from '@contexts';
+import { QueryContext } from '@contexts/QueryContext';
 
 function Reports() {
   const queryClient = useQueryClient();

@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { useEntity } from '@contexts';
 import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
+import { useEntity } from './EntityContext';
 import useCompanyUsers from '../hooks/useCompanyUsers';
 
 type FetchConfig = {

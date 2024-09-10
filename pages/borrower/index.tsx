@@ -1,6 +1,6 @@
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { DependenciesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts/DependenciesContext';
 import useUser from '@hooks/useUser';
 
 export default function BorrowerIndex() {

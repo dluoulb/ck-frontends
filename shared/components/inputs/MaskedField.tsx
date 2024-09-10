@@ -11,8 +11,8 @@ const MaskedField = (props) => {
       {...field}
       {...rest}
       {...(touched !== undefined ? { touched: touched.toString() } : {})}
-      onAccept={(value, mask) => helpers.setValue(value)}
-      onComplete={(value, mask) => helpers.setValue(value)}
+      onAccept={(value) => helpers.setValue(value)}
+      onComplete={(value) => helpers.setValue(value)}
       unmask={false}
       definitions={{ '9': /\d/ }}
     />

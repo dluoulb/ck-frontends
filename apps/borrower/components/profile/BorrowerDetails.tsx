@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DateTime } from 'luxon';
 
 import ZendeskChatLink from '@components/ZendeskChatLink';
-import { useBorrowerDeps, useEntity } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useEntity } from '@contexts/EntityContext';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import {
   formatCurrency,

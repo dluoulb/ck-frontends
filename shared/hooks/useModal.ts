@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export default function useModal(initialModalState = undefined) {
   const [isModalActive, setIsModalActive] = useState(false);

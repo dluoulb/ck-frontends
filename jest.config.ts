@@ -15,7 +15,7 @@ const config: Config = {
   },
   moduleNameMapper: {
     '^@components/(.*)$': '<rootDir>/shared/components/$1',
-    '^@contexts$': '<rootDir>/shared/contexts',
+    '^@contexts/(.*)$': '<rootDir>/shared/contexts/$1',
     '^@hooks/(.*)$': '<rootDir>/shared/hooks/$1',
     '^@lib/(.*)$': '<rootDir>/shared/lib/$1',
     '^@records/(.*)$': '<rootDir>/shared/lib/records/$1',

@@ -1,52 +1,57 @@
 import VirtualCard from '@apps/borrower/components/home/widgets/virtual_cards/VirtualCard';
 import useOrders from '@hooks/useOrders';
-import { companyApproved, orderA, orderB, orderC } from '@lib/testing/records';
+import { companyApproved } from '@lib/testing/records';
 import { customRender, screen } from '@lib/testing/test-utils';
 
-jest.mock('@hooks/useOrders');
+jest.mock('@hooks/useOrders', () => jest.fn());
+const mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
 
 describe('Virtual Card Widget Component', () => {
-  test('displays loading', async () => {
-    (useOrders as jest.Mock).mockReturnValue({
-      orders: [orderA, orderB, orderC],
-      ordersLoading: true,
-      ordersError: null,
-      pageCount: 1,
-      fetchData: jest.fn(),
-    });
-
-    customRender(<VirtualCard entity={companyApproved} />);
-
-    expect(screen.getByRole('loading'));
-  });
-
   test('displays VCs if entity has VC orders', async () => {
-    (useOrders as jest.Mock).mockReturnValue({
-      orders: [orderA, orderB, orderC],
-      ordersLoading: false,
-      ordersError: null,
-      pageCount: 1,
-      fetchData: jest.fn(),
+    customRender(<VirtualCard />, {
+      withBorrowerProviders: true,
+      user: companyApproved.borrower,
+      fetchConfig: { orders: true },
     });
-
-    customRender(<VirtualCard entity={companyApproved} />);
 
     expect(screen.getByText('x1234'));
-    expect(screen.getByText('View More Details'));
+    expect(screen.getByText('Request New Card'));
   });
 
   test('displays VC info widget if entity DOES NOT have VC orders', async () => {
-    (useOrders as jest.Mock).mockReturnValue({
+    mockedUseOrders.mockImplementation(() => ({
       orders: [],
       ordersLoading: false,
+      isFetching: false,
       ordersError: null,
       pageCount: 1,
-      fetchData: jest.fn(),
-    });
+    }));
 
-    customRender(<VirtualCard entity={companyApproved} />);
+    customRender(<VirtualCard />, {
+      withBorrowerProviders: true,
+      user: companyApproved.borrower,
+      fetchConfig: { orders: true },
+    });
 
     expect(screen.getByText(/Request a virtual card/));
     expect(screen.getByText('Learn More'));
+  });
+
+  test('displays loading', async () => {
+    global.mockedUseOrders.mockImplementation(() => ({
+      orders: [],
+      ordersLoading: true,
+      isFetching: false,
+      ordersError: null,
+      pageCount: 1,
+    }));
+
+    customRender(<VirtualCard />, {
+      withBorrowerProviders: true,
+      user: companyApproved.borrower,
+      fetchConfig: { orders: true },
+    });
+
+    expect(screen.getByRole('loading'));
   });
 });

@@ -7,7 +7,7 @@ describe('Application Dropdown Component', () => {
   test('renders', () => {
     let props = {
       listOptions: listOptions([application1, application2]),
-      contentItems: application1.id,
+      contentId: application1.id,
       setContent: jest.fn(),
     };
     render(<ApplicationDropdown {...props} />);

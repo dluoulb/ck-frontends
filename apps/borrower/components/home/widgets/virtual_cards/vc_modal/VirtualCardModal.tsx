@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { useSearchParams } from 'next/navigation';
 
 import usePromo from '@apps/borrower/hooks/usePromo';
-import { useEntity } from '@contexts';
+import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useUser from '@hooks/useUser';
 import { buildRequestPayload, startVirtualCardOrder } from '@lib/actions/ecomm';

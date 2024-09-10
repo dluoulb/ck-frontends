@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 
-import { UserContext } from '@contexts';
+import { UserContext } from '@contexts/UserContext';
 import { routes } from '@lib/constants/SiteVariables';
 
 export default function useUser() {

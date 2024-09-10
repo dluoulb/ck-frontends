@@ -1,6 +1,13 @@
-import { PaymentMethodRecord } from '@lib/records/payment_method';
+import AccountRecord from '@lib/records/account';
+import ApplicationRecord from '@lib/records/application';
+import CompanyRecord from '@lib/records/company';
+import MerchantRecord from '@lib/records/merchant';
+import OrderRecord from '@lib/records/order';
+import PaymentMethodRecord from '@lib/records/payment_method';
+import PaymentPlanRecord from '@lib/records/payment_plan';
+import UserRecord from '@lib/records/user';
 
-const user = {
+const user = new UserRecord({
   id: 'user1',
   company_id: '123',
   account_id: '456',
@@ -16,9 +23,9 @@ const user = {
     zip: '90000',
   },
   role: 'borrower',
-};
+});
 
-const adminUser = {
+const adminUser = new UserRecord({
   id: 'admin1',
   company_id: '123',
   account_id: '456',
@@ -28,9 +35,9 @@ const adminUser = {
   phone: '19895551234',
   address: {},
   role: 'superadmin',
-};
+});
 
-const consumerAccount = {
+const consumerAccount = new AccountRecord({
   id: user.account_id,
   type: 'account',
   name: user.first_name + ' ' + user.last_name,
@@ -43,9 +50,9 @@ const consumerAccount = {
   is_bank_connected: true,
   created_at: '2024-07-20T11:03:19.083-07:00',
   updated_at: '2024-07-20T11:03:19.083-07:00',
-};
+});
 
-const companyApproved = {
+const companyApproved = new CompanyRecord({
   id: user.company_id,
   name: 'Widget Maker Co.',
   underwriting_status: 'approved',
@@ -88,7 +95,7 @@ const companyApproved = {
     limit_amount: '25000',
     remaining_limit_amount: '12000',
   },
-};
+});
 
 const documentA = {
   id: 'document1',
@@ -106,7 +113,7 @@ const documentB = {
   created_at: '2024-07-20T11:03:19.083-07:00',
 };
 
-const application1 = {
+const application1 = new ApplicationRecord({
   id: 'app1',
   company_id: user.company_id,
   created_at: '2024-07-12T13:46:07.434-07:00',
@@ -117,9 +124,9 @@ const application1 = {
   first_name: user.first_name,
   last_name: user.last_name,
   ein: '44-3559278',
-  email: user.phone,
+  email: user.phone_number,
   title: 'CEO',
-  phone: user.phone,
+  phone: user.phone_number,
   business_phone: '18001234567',
   birthdate: '1989-08-16',
   company_name: companyApproved.name,
@@ -151,9 +158,9 @@ const application1 = {
   gross_annual_revenue: '1500000.00',
   previous_tcl: null,
   beneficial_owners: [],
-};
+});
 
-const application2 = {
+const application2 = new ApplicationRecord({
   id: 'app2',
   company_id: user.company_id,
   created_at: '2024-07-12T13:46:07.434-07:00',
@@ -164,9 +171,9 @@ const application2 = {
   first_name: user.first_name,
   last_name: user.last_name,
   ein: '44-3559278',
-  email: user.phone,
+  email: user.phone_number,
   title: 'CEO',
-  phone: user.phone,
+  phone: user.phone_number,
   business_phone: '18001234567',
   birthdate: '1989-08-16',
   company_name: companyApproved.name,
@@ -198,7 +205,7 @@ const application2 = {
   gross_annual_revenue: '1500000.00',
   previous_tcl: null,
   beneficial_owners: [],
-};
+});
 
 const stats = {
   active: 163,
@@ -206,7 +213,7 @@ const stats = {
   credit_utilized: 13920,
 };
 
-const merchant = {
+const merchant = new MerchantRecord({
   id: 'merchant-A',
   name: 'Test Merchant',
   supports_standalone_csr: false,
@@ -219,9 +226,9 @@ const merchant = {
   public_key: 'merchanta_123456',
   bank_bypass: false,
   promos: [],
-};
+});
 
-const tpsLoan1 = {
+const tpsLoan1 = new PaymentPlanRecord({
   id: 'tpsloan1',
   order_key: 'CK-123456',
   next_payment_due_date: '2024-08-19 01:00:00.000-07:00',
@@ -396,9 +403,9 @@ const tpsLoan1 = {
       due_date: '2025-01-15T00:00:00-08:00',
     },
   ],
-};
+});
 
-const orderA = {
+const orderA = new OrderRecord({
   id: 'order-a1',
   entity_id: companyApproved.id,
   entity_type: 'company',
@@ -421,9 +428,9 @@ const orderA = {
   checkout_url:
     'http://checkout.creditkey.localhost/D6h90Vns8kJwicJpjm-LR11r91CXgW75pSUAAREV85wc-ligedAPTVmUDQvnyR1ZwMnJkA',
   product: tpsLoan1,
-};
+});
 
-const tpsLoan2 = {
+const tpsLoan2 = new PaymentPlanRecord({
   id: 'tpsloan2',
   order_key: 'CK-78900',
   next_payment_due_date: '2024-08-19 01:00:00.000-07:00',
@@ -598,9 +605,9 @@ const tpsLoan2 = {
       due_date: '2025-01-15T00:00:00-08:00',
     },
   ],
-};
+});
 
-const orderB = {
+const orderB = new OrderRecord({
   id: 'order-b1',
   entity_id: companyApproved.id,
   entity_type: 'company',
@@ -623,9 +630,9 @@ const orderB = {
   checkout_url:
     'http://checkout.creditkey.localhost/D6h90Vns8kJwicJpjm-LR11r91CXgW75pSUAAREV85wc-ligedAPTVmUDQvnyR1ZwMnJkA',
   product: tpsLoan2,
-};
+});
 
-const tpsLoan3 = {
+const tpsLoan3 = new PaymentPlanRecord({
   id: 'tpsloan3',
   order_key: 'CK-121212',
   next_payment_due_date: '2024-09-19 01:00:00.000-07:00',
@@ -800,9 +807,9 @@ const tpsLoan3 = {
       due_date: '2025-02-15T00:00:00-08:00',
     },
   ],
-};
+});
 
-const orderC = {
+const orderC = new OrderRecord({
   id: 'order-c1',
   entity_id: companyApproved.id,
   entity_type: 'company',
@@ -831,7 +838,7 @@ const orderC = {
     name: companyApproved.name,
     number: '4000009990001234',
   },
-};
+});
 
 const paymentMethodBank1 = new PaymentMethodRecord({
   id: 'pm-bank-1',
@@ -857,82 +864,84 @@ const paymentMethodCard1 = new PaymentMethodRecord({
   is_default: true,
 });
 
-const defaultTerms = [{
-  merchant_id: merchant.id,
-  merchant_name: merchant?.name,
-  default_term: {
-    term: 2,
-    term_period: 'monthly',
-  },
-  term_options: [
-    {
-      available: true,
-      id: 'term1',
-      monthly_payment: '0.00',
-      rate: 1,
-      term: 1,
-      term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
-    },
-    {
-      available: true,
-      id: 'term2',
-      monthly_payment: '0.00',
-      rate: 1,
+const defaultTerms = [
+  {
+    merchant_id: merchant.id,
+    merchant_name: merchant?.name,
+    default_term: {
       term: 2,
       term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
     },
-    {
-      available: true,
-      id: 'term1',
-      monthly_payment: '0.00',
-      rate: 1.59,
-      term: 3,
-      term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
-    },
-    {
-      available: true,
-      id: 'term1',
-      monthly_payment: '0.00',
-      rate: 1.64,
-      term: 6,
-      term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
-    },
-    {
-      available: true,
-      id: 'term1',
-      monthly_payment: '0.00',
-      rate: 1.69,
-      term: 9,
-      term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
-    },
-    {
-      available: true,
-      id: 'term1',
-      monthly_payment: '0.00',
-      rate: 1.74,
-      term: 12,
-      term_period: 'monthly',
-      tier: 'A',
-      total_amount: '0.00',
-      total_fees: '0.00',
-    },
-  ],
-}];
+    term_options: [
+      {
+        available: true,
+        id: 'term1',
+        monthly_payment: '0.00',
+        rate: 1,
+        term: 1,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+      {
+        available: true,
+        id: 'term2',
+        monthly_payment: '0.00',
+        rate: 1,
+        term: 2,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+      {
+        available: true,
+        id: 'term1',
+        monthly_payment: '0.00',
+        rate: 1.59,
+        term: 3,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+      {
+        available: true,
+        id: 'term1',
+        monthly_payment: '0.00',
+        rate: 1.64,
+        term: 6,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+      {
+        available: true,
+        id: 'term1',
+        monthly_payment: '0.00',
+        rate: 1.69,
+        term: 9,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+      {
+        available: true,
+        id: 'term1',
+        monthly_payment: '0.00',
+        rate: 1.74,
+        term: 12,
+        term_period: 'monthly',
+        tier: 'A',
+        total_amount: '0.00',
+        total_fees: '0.00',
+      },
+    ],
+  },
+];
 
 export {
   adminUser,

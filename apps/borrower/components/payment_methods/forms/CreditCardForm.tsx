@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import useUser from '@hooks/useUser';

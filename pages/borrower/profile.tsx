@@ -2,7 +2,7 @@ import React from 'react';
 
 import PortalLayout from '@apps/borrower/components/PortalLayout';
 import ProfileIndex from '@apps/borrower/components/profile';
-import { DependenciesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts/DependenciesContext';
 import useUser from '@hooks/useUser';
 
 export default function Profile() {

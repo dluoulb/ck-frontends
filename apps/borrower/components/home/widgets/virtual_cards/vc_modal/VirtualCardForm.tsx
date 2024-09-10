@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
-import { useEntity } from '@contexts';
+import { useEntity } from '@contexts/EntityContext';
 import vc from '@lib/images/vc-image.png';
 import { formatCurrency } from '@lib/utils/formatters';
 

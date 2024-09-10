@@ -12,12 +12,10 @@ import '../global.css';
 
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
-import {
-  EntityProvider,
-  PossessedUserProvider,
-  QueryContext,
-  UserContext,
-} from '@contexts';
+import { EntityProvider } from '@contexts/EntityContext';
+import { PossessedUserProvider } from '@contexts/PossessedUserContext';
+import { QueryContext } from '@contexts/QueryContext';
+import { UserContext } from '@contexts/UserContext';
 import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
 import { rollbarConfig } from '@lib/utils/rollbar';

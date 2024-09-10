@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
-import { useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { getUser, getUserByEmail } from '@lib/actions/users';
 import UserRecord from '@lib/records/user';
+import { useEntity } from './EntityContext';
 
 const PossessedUserContext = createContext(null);
 
@@ -78,11 +78,11 @@ export const PossessedUserProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (entity) {
+    if (entity && !possessedEntity) {
       setPossessedEntity(entity);
       setPossessedEntityLoading(false);
     }
-  }, [entity]);
+  }, [entity, possessedEntity]);
 
   return (
     <PossessedUserContext.Provider
