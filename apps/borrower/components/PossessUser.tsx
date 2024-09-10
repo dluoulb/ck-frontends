@@ -55,7 +55,7 @@ export default function PossessUser() {
       role={PossessUser.role}
       className="border-b border-primary-gray-border"
     >
-      <div className="rounded-md bg-primary-beige/20 px-6 py-4 w-full mt-6 mb-3">
+      <div className="rounded-md bg-primary-beige/20 px-6 py-4 w-full mt-6 mb-3 min-h-28">
         <div className="flex">
           <div>
             {possessedUser &&

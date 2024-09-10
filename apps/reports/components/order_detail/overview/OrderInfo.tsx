@@ -27,14 +27,14 @@ export default function OrderInfo({ order, product }) {
         </p>
         <p>
           <span className="text-tertiary-gray mr-2 font-normal">
-            Loan Amount:
+            {isPaymentPlan ? 'Payment Plan' : 'Loan'} Amount:
           </span>
           {formatCurrency(product?.amount)}
         </p>
         <Tooltip
           tooltip_text="Unpaid balance including principal & expected financing fees"
           trigger_class="cursor-pointer text-tertiary-gray mr-2 font-normal"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           Remaining Balance
         </Tooltip>

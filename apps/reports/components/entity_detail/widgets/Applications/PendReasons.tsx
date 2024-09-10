@@ -22,7 +22,7 @@ export default function PendReasons({ app }) {
               : `Original Reasons: ${reasonDisplay()}`
           }
           trigger_class="cursor-pointer ml-1.5 font-avenir-book"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           N/A - NetX Applicant
         </Tooltip>

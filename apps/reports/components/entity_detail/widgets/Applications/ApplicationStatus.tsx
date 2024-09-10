@@ -9,7 +9,7 @@ export default function ApplicationStatus({ app }) {
         <Tooltip
           tooltip_text="Borrowers receive this status if they never completed the application flow, they had a pending application that was never resolved or they were declined over 6 months ago. If the borrower were to apply again, their application would be treated as a new, first-time application."
           trigger_class="cursor-pointer ml-1.5 capitalize"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           {app.status}
         </Tooltip>
@@ -33,7 +33,7 @@ export default function ApplicationStatus({ app }) {
         <Tooltip
           tooltip_text={tooltip}
           trigger_class="cursor-pointer ml-1.5 capitalize"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           Auto-Declined
         </Tooltip>

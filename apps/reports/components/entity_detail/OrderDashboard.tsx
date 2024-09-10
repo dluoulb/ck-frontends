@@ -9,7 +9,10 @@ export default function OrderDashboard({ props }) {
   const { orders, ordersLoading, pageCount } = useOrders(props, false, true);
   const totalRows = props?.stats?.active + props?.stats?.closed;
 
-  if (!orders || ordersLoading) return <Loading className="w-14 h-14 my-20" />;
+  if (!orders || ordersLoading)
+    return (
+      <Loading className="w-14 h-14 my-20" containerClass="min-h-[72rem]" />
+    );
 
   return (
     <div className="min-h-[72rem]" role={OrderDashboard.role}>

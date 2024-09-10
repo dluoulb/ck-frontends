@@ -146,7 +146,7 @@ export default function Applications({ props }) {
                   <Tooltip
                     tooltip_text="NetX applicants do not provide birthdate during application flow"
                     trigger_class="cursor-pointer"
-                    container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+                    container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
                   >
                     N/A - NetX Applicant
                   </Tooltip>

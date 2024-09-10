@@ -5,7 +5,6 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import { useBorrowerDeps } from '@contexts/DependenciesContext';
-import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { deletePaymentMethod } from '@lib/actions/payment_methods';
@@ -19,7 +18,6 @@ export default function DeletePmModal({
 }) {
   const api = useApi();
   const { makeToast } = useToast();
-  const { refetchEntity } = useEntity();
   const { refetchPaymentMethods } = useBorrowerDeps();
 
   const deletePM = (payment_method) => {
@@ -27,7 +25,6 @@ export default function DeletePmModal({
     deletePaymentMethod(api, payment_method)
       .then(() => {
         refetchPaymentMethods();
-        refetchEntity();
         makeToast('Payment Method Successfully Deleted', 'success');
       })
       .catch(() => {

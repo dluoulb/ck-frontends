@@ -77,7 +77,6 @@ export default function OrderOverview({ order, product }) {
           >
             {statusText}
           </span>
-          {/* // TODO: Check/test this change!! */}
           <DocumentLink
             buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover font-medium flex items-center"
             buttonText={

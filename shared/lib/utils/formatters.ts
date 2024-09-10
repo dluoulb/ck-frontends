@@ -3,25 +3,25 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
  */
-export const formatCurrency = value => {
+export const formatCurrency = (value) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
-  }).format(value);
+    currency: 'USD',
+  }).format(value || 0);
 };
 
-export const formatPercent = value => {
+export const formatPercent = (value) => {
   if (value === undefined) {
     return;
   }
 
   return new Intl.NumberFormat('en-US', {
     style: 'percent',
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
   }).format(value / 100);
 };
 
-export const normalizePhone = value => {
+export const normalizePhone = (value) => {
   if (!value) return;
   if (parseInt(value[0]) === 1) {
     return value.substr(1);
@@ -31,9 +31,10 @@ export const normalizePhone = value => {
   return value;
 };
 
-export const daysAsMonths = days => days <= 90 ? `${days} days` : `${days / 30} months`;
+export const daysAsMonths = (days) =>
+  days <= 90 ? `${days} days` : `${days / 30} months`;
 
-export const formatPhoneNumber = value => {
+export const formatPhoneNumber = (value) => {
   var cleaned = ('' + value).replace(/\D/g, '');
   var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
   if (match) {
@@ -42,7 +43,7 @@ export const formatPhoneNumber = value => {
   return null;
 };
 
-export const formatZip = value => {
+export const formatZip = (value) => {
   if (value === undefined) {
     return;
   }

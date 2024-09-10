@@ -5,7 +5,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/DependenciesContext';
-import { useEntity } from '@contexts/EntityContext';
+import { usePossessedUser } from '@contexts/PossessedUserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import useUser from '@hooks/useUser';
@@ -30,8 +30,9 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
+  const { possessedUser } = usePossessedUser();
+
   const { makeToast } = useToast();
-  const { refetchEntity } = useEntity();
   const { refetchPaymentMethods } = useBorrowerDeps();
   
   const [loading, setLoading] = useState(false);
@@ -58,15 +59,14 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
     createPaymentMethodBank(api, new PaymentMethodRecord(values))
       .then(() => {
         refetchPaymentMethods();
-        refetchEntity();
         makeToast('Payment Method Successfully Created', 'success');
         resetForm();
         toggleModal();
       })
       .catch((err) => {
-        const invalid = err.response.data.error.includes('invalid_bank');
+        const invalid = err?.response?.data?.error?.includes('invalid_bank');
         const excessive =
-          err.response.data.error.includes('excessive_attempts');
+          err?.response?.data?.error?.includes('excessive_attempts');
 
         if (excessive) {
           setHasAlert(true);
@@ -79,6 +79,12 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
             'bank_routing',
             'Double check the routing number and try again.'
           );
+        } else {
+          makeToast(
+            'An error occurred. Please try again or contact our support team.',
+            'error'
+          );
+          toggleModal();
         }
       })
       .finally(() => setLoading(false));
@@ -92,7 +98,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
         bank_routing: '',
         bank_account: '',
         account_holder: '',
-        user_id: user.id,
+        user_id: user?.is_admin_user ? possessedUser?.id : user?.id,
       }}
       validate={async (values) => {
         const errors: FormErrors = {};

@@ -40,6 +40,8 @@ export const PossessedUserProvider = ({ children }) => {
     mutationKey: ['possessed_user', userIdentifier],
     mutationFn: (identifier: string) => {
       if (!identifier) return;
+      setPossessedUser(null);
+      setPossessedEntity(null);
       const encoded = encodeURIComponent(identifier);
 
       if (identifier.includes('@')) {

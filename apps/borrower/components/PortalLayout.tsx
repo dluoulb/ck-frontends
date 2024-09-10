@@ -46,7 +46,7 @@ const primaryRoutes = [
 export default function PortalLayout({ children }) {
   const { user } = useUser();
   const isAdminUser = user?.is_admin_user;
-  const { possessedEntityLoading } = usePossessedUser();
+  const { possessedUserLoading, possessedEntityLoading } = usePossessedUser();
 
   return (
     <div className="flex" role={PortalLayout.role}>
@@ -54,7 +54,7 @@ export default function PortalLayout({ children }) {
       <SideNav primaryRoutes={primaryRoutes} />
       <div className="flex-grow w-full md:w-portal ml-0 md:ml-24 xl:ml-16">
         {isAdminUser && <PossessUser />}
-        {possessedEntityLoading ? (
+        {possessedUserLoading || possessedEntityLoading ? (
           <Loading className="w-14 h-14 my-36" />
         ) : (
           children
