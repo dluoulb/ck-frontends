@@ -5,13 +5,19 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { usePathname } from 'next/navigation';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
 
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
-import { QueryContext, UserContext } from '@contexts';
+import {
+  EntityProvider,
+  PossessedUserProvider,
+  QueryContext,
+  UserContext,
+} from '@contexts';
 import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
 import { rollbarConfig } from '@lib/utils/rollbar';
@@ -26,8 +32,10 @@ if (typeof window !== 'undefined') {
 }
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
+  const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const isBorrowerRoute = pathname?.startsWith('/borrower');
 
   return (
     <Provider config={rollbarConfig}>
@@ -39,7 +47,15 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
                 <ErrorBoundary>
                   <MainLayout>
                     <SearchConfig>
-                      <Component {...pageProps} />
+                      {isBorrowerRoute ? (
+                        <EntityProvider>
+                          <PossessedUserProvider>
+                            <Component {...pageProps} />
+                          </PossessedUserProvider>
+                        </EntityProvider>
+                      ) : (
+                        <Component {...pageProps} />
+                      )}
                     </SearchConfig>
                   </MainLayout>
                 </ErrorBoundary>

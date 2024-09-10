@@ -14,9 +14,9 @@ import DefaultTermSettingsModal from './DefaultTermsModal';
 export default function DefaultTermsDisplay() {
   const api = useApi();
   const { makeToast } = useToast();
-  const { entity } = useEntity();
-  const { defaultTerms, refetchEntity, entityRefetching } = useBorrowerDeps();
-  
+  const { entity, entityLoading, fetchEntity } = useEntity();
+  const { defaultTerms } = useBorrowerDeps();
+
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
     defaultTerms[0]
@@ -49,11 +49,13 @@ export default function DefaultTermsDisplay() {
 
     updateCompany(api, updatedCompany, 'include=cta_banners')
       .then(() => {
-        refetchEntity();
+        // //TODO TEST ALL THE INSTANCES OF refetchEntity
+        // //USING USEENTITY NOT USEBORROWERDEPS
+        fetchEntity({ company_id: entity?.id });
         toggleModal();
         makeToast('Recharge Settings Successfully Updated', 'success');
       })
-      .catch(() => {
+      .catch((err) => {
         makeToast(
           'An error occurred. Please contact Credit Key Support',
           'error'
@@ -80,9 +82,9 @@ export default function DefaultTermsDisplay() {
           return (
             <div
               key={idx}
-              className="flex flex-col xs:flex-row xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
+              className="flex flex-col xl:flex-row xl:gap-1 justify-between items-start xl:items-start xl:items-center"
             >
-              {entityRefetching ? (
+              {entityLoading ? (
                 <Loading className="w-5 h-5 my-2" />
               ) : (
                 <>

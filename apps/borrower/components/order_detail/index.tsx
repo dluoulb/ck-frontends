@@ -1,12 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
-import { getDocuments } from '@lib/actions/orders';
+import { getDocuments, getOrder } from '@lib/actions/orders';
 import AdditionalFeesDisclosure from './fee_display/AdditionalFeesDisclosure';
 import { PaymentsModalWrapper } from './modals/payments';
 import OrderOverview from './OrderOverview';
@@ -14,14 +15,25 @@ import PaymentScheduleDisclosure from './payment_schedule/PaymentScheduleDisclos
 import PaymentProgress from './PaymentProgress';
 import Stats from './Stats';
 
-export default function OrderDetail({
-  order,
-  orderError,
-  orderLoading,
-  refetchOrder,
-  orderRefetching,
-}) {
+export default function OrderDetail() {
   const api = useApi();
+  const router = useRouter();
+  const { id } = router.query;
+  const { entity } = useEntity();
+
+  const {
+    data: order,
+    error: orderError,
+    isLoading: orderLoading,
+    refetch: refetchOrder,
+    isRefetching: orderRefetching,
+  } = useQuery({
+    queryKey: ['order', id],
+    queryFn: () => getOrder(api, id),
+    enabled: !!id,
+    retry: 1,
+  });
+
   const { paymentMethods, paymentMethodsLoading } = useBorrowerDeps();
   const { isModalActive, toggleModal } = useModal();
 
@@ -41,6 +53,8 @@ export default function OrderDetail({
     return <Loading className="w-14 h-14 my-20" />;
 
   if (orderError) return <NoDataError tag="order" withButton={false} />;
+  
+  if (!entity) return;
 
   return (
     <div

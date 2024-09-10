@@ -37,8 +37,7 @@ const OutlineButton: FC<OutlineButtonProps> = ({
           buttonColor,
           isSmall ? 'text-xs' : 'text-xs md:text-sm',
           {
-            'cursor-not-allowed border-disabled hover:border-disabled text-disabled hover:text-disabled':
-              disabled,
+            '!cursor-not-allowed !border-disabled !text-disabled': disabled,
           },
           !isLoading && !disabled && hoverClass
         )}

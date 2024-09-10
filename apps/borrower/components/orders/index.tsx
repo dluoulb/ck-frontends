@@ -3,15 +3,18 @@ import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import { TableColumns } from './TableColumns';
 
 export default function Orders() {
   const router = useRouter();
+  const { entity, entityLoading } = useEntity();
   const { orders, ordersLoading, isLoading, pageCount } = useBorrowerDeps();
 
-  if (isLoading || ordersLoading)
+  if (isLoading || ordersLoading || entityLoading)
     return <Loading className="w-14 h-14 my-20" />;
+
+  if (!entity) return;
 
   return (
     <div

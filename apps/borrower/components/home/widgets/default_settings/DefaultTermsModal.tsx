@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { faLockAlt, faPenToSquare } from '@fortawesome/pro-regular-svg-icons';
-import { ListboxOption } from '@headlessui/react';
+import { Field, ListboxOption } from '@headlessui/react';
 import classNames from 'classnames';
 
 import OutlineButton from '@components/buttons/OutlineButton';
@@ -49,32 +49,39 @@ export default function DefaultTermSettingsModal({
               </p>
             </div>
             <h1 className="font-medium text-center">Adjust Number of Months</h1>
-            <ListBox
-              initialValue={modalState?.default_term?.term}
-              buttonText={term?.term}
-              handleChange={handleChange}
-              value={term}
-              listBoxClass="!w-4/5 mx-auto my-3 rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
-            >
-              {modalState?.term_options?.map((op) => (
-                <ListboxOption
-                  key={op.term}
-                  value={op}
-                  className={classNames(
-                    'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue last:hover:rounded-b-md',
-                    {
-                      'border-b':
-                        op !==
-                        modalState?.term_options[
-                          modalState?.term_options.length - 1
-                        ],
-                    }
-                  )}
-                >
-                  {op.term}
-                </ListboxOption>
-              ))}
-            </ListBox>
+            <Field disabled={loading}>
+              <ListBox
+                initialValue={modalState?.default_term?.term}
+                buttonText={term?.term}
+                handleChange={handleChange}
+                value={term}
+                listBoxClass={classNames(
+                  '!w-4/5 mx-auto my-3 rounded-md transition ease-in-out duration-150 sm:text-sm relative',
+                  loading
+                    ? 'bg-primary-gray-border cursor-not-allowed'
+                    : 'bg-secondary-blue'
+                )}
+              >
+                {modalState?.term_options?.map((op) => (
+                  <ListboxOption
+                    key={op.term}
+                    value={op}
+                    className={classNames(
+                      'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue last:hover:rounded-b-md',
+                      {
+                        'border-b':
+                          op !==
+                          modalState?.term_options[
+                            modalState?.term_options.length - 1
+                          ],
+                      }
+                    )}
+                  >
+                    {op.term}
+                  </ListboxOption>
+                ))}
+              </ListBox>
+            </Field>
           </div>
         </>
       )}

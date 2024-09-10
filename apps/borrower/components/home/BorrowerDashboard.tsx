@@ -11,8 +11,8 @@ import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
 
 export default function BorrowerDashboard() {
-  const { isLoading } = useBorrowerDeps();
-  const { entityLoading, entityError } = useEntity();
+  const { isLoading: depsLoading } = useBorrowerDeps();
+  const { entity, entityLoading, entityError } = useEntity();
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ENV !== 'development') {
@@ -20,10 +20,13 @@ export default function BorrowerDashboard() {
     }
   }, []);
 
-  if (entityLoading || isLoading)
-    return <Loading className="w-14 h-14 my-36" />;
-
+  
+  if (entityLoading || depsLoading)
+  return <Loading className="w-14 h-14 my-36" />;
+  
   if (entityError) return <NoDataError tag="Borrower" withButton={false} />;
+  
+  if (!entity) return;
 
   return (
     <div

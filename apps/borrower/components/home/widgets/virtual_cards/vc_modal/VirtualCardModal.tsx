@@ -2,9 +2,9 @@ import React from 'react';
 import { Formik } from 'formik';
 import { useSearchParams } from 'next/navigation';
 
+import usePromo from '@apps/borrower/hooks/usePromo';
 import { useEntity } from '@contexts';
 import useApi from '@hooks/useApi';
-import usePromo from '@hooks/usePromo';
 import useUser from '@hooks/useUser';
 import { buildRequestPayload, startVirtualCardOrder } from '@lib/actions/ecomm';
 import { formatCurrency } from '@lib/utils/formatters';
