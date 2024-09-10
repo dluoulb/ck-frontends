@@ -5,7 +5,7 @@ import {
   getCompressedFeeSummary,
   getFeeBreakdownDisplay,
   getFeeTitle,
-} from '../utils/fee_display_helpers';
+} from '@apps/borrower/utils/fee_display_helpers';
 
 function useOrderFees(order) {
   const [feeSummary, setFeeSummary] = useState([]);

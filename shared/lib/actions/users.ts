@@ -1,10 +1,13 @@
 import UserRecord from '@lib/records/user';
 
-export const getUser = async (api, type = null, id) => {
-  const url = type ? `/api/${type}/users/${id}` : `/api/users/${id}`
-  
-  const user = await api.get(url);
+export const getUser = async (api, id) => {
+  const user = await api.get(`/api/users/${id}`);
   return new UserRecord(user?.data.data.attributes) || null;
+};
+
+export const getUserByEmail = async (api, email, include = '') => {
+  const user = await api.get(`/api/users?filter[email]=${email}&${include}`);
+  return user?.data.data || null;
 };
 
 export const getCompanyUsers = async (api, companyId) => {

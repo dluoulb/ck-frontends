@@ -19,7 +19,7 @@ import PaymentMethodList from './PaymentMethodList';
 
 export default function PaymentMethods() {
   const { user } = useUser();
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
   const { isModalActive, toggleModal } = useModal();
   const { paymentMethods, paymentMethodsLoading, paymentMethodsRefetching } =
     useBorrowerDeps();
@@ -34,8 +34,10 @@ export default function PaymentMethods() {
     paymentMethods?.find((pm) => pm.is_default) ===
     paymentMethods?.find((pm) => pm.payment_type === 'check');
 
-  if (!entity || paymentMethodsLoading || paymentMethodsRefetching)
+  if (paymentMethodsLoading || paymentMethodsRefetching || entityLoading)
     return <Loading className="w-14 h-14 my-20" />;
+
+  if (!entity) return;
 
   return (
     <div

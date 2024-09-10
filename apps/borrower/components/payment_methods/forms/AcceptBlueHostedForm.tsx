@@ -109,7 +109,7 @@ export default function AcceptBlueHostedForm({
   return (
     <div role={AcceptBlueHostedForm.role}>
       {!cardForm && <Loading className="w-10 h-10 my-2" />}
-      <div id="accept-blue" className="min-w-accept-blue h-32" />
+      <div id="accept-blue" className="min-w-96 h-32" />
     </div>
   );
 }

@@ -38,8 +38,8 @@ module.exports = {
         recharge: '45vh',
       },
       minWidth: {
+        md: '28rem',
         lg: '32rem',
-        'accept-blue': '24rem',
       },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
       screens: { '2xs': '375px', xs: '480px', mid: '856px' },

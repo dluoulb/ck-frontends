@@ -28,18 +28,22 @@ export default class CompanyRecord {
   promo_id: string;
 
   constructor(data) {
-    Object.assign(this, removeNulls(data));
+    const cleanedData = removeNulls(data);
+    Object.assign(
+      this,
+      Object.fromEntries(Object.entries(cleanedData).filter(([key]) => key !== 'status'))
+    );
 
-    if (data && data.address) {
-      data.address = new AddressRecord(data.address);
+    if (cleanedData.address) {
+      this.address = new AddressRecord(cleanedData.address);
     }
 
-    if (data && data.credit_line) {
-      data.credit_line = new CreditLine(data.credit_line);
+    if (cleanedData.credit_line) {
+      this.credit_line = new CreditLine(cleanedData.credit_line);
     }
 
-    if (data && data.borrower) {
-      data.borrower = new UserRecord(data.borrower);
+    if (cleanedData.borrower) {
+      this.borrower = new UserRecord(cleanedData.borrower);
     }
   }
 
@@ -47,7 +51,7 @@ export default class CompanyRecord {
     return this.underwriting_status;
   }
 
-  get max_purchase_amount(){
-    return this.credit_line.amount
+  get max_purchase_amount() {
+    return this.credit_line.amount;
   }
 }

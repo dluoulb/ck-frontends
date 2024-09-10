@@ -90,15 +90,6 @@ export default function SideNav({ primaryRoutes }) {
                     href={_r.url}
                     target={_r.target}
                     className="w-1 h-full rounded-tr-md rounded-br-md cursor-pointer hover:text-primary-blue transition ease-in-out duration-500 flex items-center py-2 md:py-3"
-                    // className={({ isActive }) =>
-                    //   classNames(
-                    //     'w-1 h-full rounded-tr-md rounded-br-md cursor-pointer hover:text-primary-blue-hover transition flex items-center py-2 md:py-3',
-                    //     {
-                    //       'bg-primary-blue text-primary-blue font-avenir-medium':
-                    //         isActive,
-                    //     },
-                    //   )
-                    // }
                   >
                     <FontAwesomeIcon
                       icon={_r.icon}

@@ -3,6 +3,7 @@ import CompanyRecord from '@lib/records/company';
 export const getCompany = async (api, company_id, filters = '') => {
   if (!company_id) return;
   const foundCompany = await api.get(`/api/companies/${company_id}?${filters}`);
+  
   return new CompanyRecord({
     ...foundCompany.data.data.attributes,
     type: foundCompany.data.data.type,

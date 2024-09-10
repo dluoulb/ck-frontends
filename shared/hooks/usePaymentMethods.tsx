@@ -5,7 +5,10 @@ import { getPaymentMethods } from '@lib/actions/payment_methods';
 
 function usePaymentMethods(user, entity, shouldFetch = false) {
   const api = useApi();
-  let encodedEmail = encodeURIComponent(user?.email);
+  const entityEmail =
+    entity?.type === 'company' ? entity?.borrower?.email : entity?.user?.email;
+  const email = user?.is_admin_user ? entityEmail : user?.email;
+  let encodedEmail = encodeURIComponent(email);
 
   const {
     data: paymentMethods,

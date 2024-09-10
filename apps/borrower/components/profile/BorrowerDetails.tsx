@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DateTime } from 'luxon';
 
 import ZendeskChatLink from '@components/ZendeskChatLink';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps, useEntity } from '@contexts';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import {
   formatCurrency,
@@ -13,7 +13,9 @@ import {
 } from '@lib/utils/formatters';
 
 export default function BorrowerDetails() {
-  const { entity, companyUsers } = useBorrowerDeps();
+  const { entity } = useEntity();
+  const { companyUsers } = useBorrowerDeps();
+  
   const owner =
     entity?.type === 'company'
       ? companyUsers?.find((u) => u.role === 'borrower')

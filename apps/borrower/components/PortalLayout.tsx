@@ -7,10 +7,12 @@ import {
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import SideNav from '@components/layout/SideNav';
+import Loading from '@components/Loading';
 import Scripts from '@components/Scripts';
-import { EntityProvider } from '@contexts';
+import { usePossessedUser } from '@contexts';
 import useUser from '@hooks/useUser';
 import { supportLink } from '@lib/constants/SiteVariables';
+import PossessUser from './PossessUser';
 
 const primaryRoutes = [
   {
@@ -43,17 +45,21 @@ const primaryRoutes = [
 
 export default function PortalLayout({ children }) {
   const { user } = useUser();
-  
+  const isAdminUser = user?.is_admin_user;
+  const { possessedEntityLoading } = usePossessedUser();
+
   return (
     <div className="flex" role={PortalLayout.role}>
-      <EntityProvider>
-        <Scripts />
-        <SideNav primaryRoutes={primaryRoutes} />
-        <div className="flex-grow w-full md:w-portal ml-0 md:ml-16">
-          <p>IS THIS ON EVERY PAGE</p>
-          {children}
-        </div>
-      </EntityProvider>
+      <Scripts />
+      <SideNav primaryRoutes={primaryRoutes} />
+      <div className="flex-grow w-full md:w-portal ml-0 md:ml-24 xl:ml-16">
+        {isAdminUser && <PossessUser />}
+        {possessedEntityLoading ? (
+          <Loading className="w-14 h-14 my-36" />
+        ) : (
+          children
+        )}
+      </div>
     </div>
   );
 }

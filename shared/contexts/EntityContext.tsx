@@ -24,10 +24,11 @@ export const EntityProvider = ({ children }) => {
       user?.company_id ? 'company' : 'account',
       user?.company_id ? user?.company_id : user?.account_id,
     ],
-    mutationFn: () =>
-      user?.company_id
+    mutationFn: (user: any) => {
+      return user?.company_id
         ? getCompany(api, user?.company_id, 'include=cta_banners')
-        : getAccount(api, user?.account_id),
+        : getAccount(api, user?.account_id);
+    },
     onSuccess: (data) => {
       setEntity(data);
       setLoading(false);
@@ -41,15 +42,13 @@ export const EntityProvider = ({ children }) => {
     retry: 1,
   });
 
-  const fetchEntity = () => {
-    if (user) {
-      setLoading(true);
-      getEntity.mutate();
-    }
+  const fetchEntity = (user) => {
+    setLoading(true);
+    getEntity.mutateAsync(user);
   };
 
   useEffect(() => {
-    fetchEntity();
+    if (user) fetchEntity(user);
   }, [user]);
 
   return (
@@ -57,9 +56,9 @@ export const EntityProvider = ({ children }) => {
       value={{
         entity,
         setEntity,
+        fetchEntity,
         entityError: error,
         entityLoading: loading,
-        refetchEntity: fetchEntity,
       }}
     >
       {children}

@@ -17,15 +17,14 @@ function useEntityDependencies(entity, content) {
     retry: false,
   };
 
-  const controller = type === 'accounts' ? 'pi4' : null;
   const userId = type === 'accounts' ? entity?.user?.id : entity?.borrower?.id;
   const {
     data: user,
     error: userError,
     isLoading: userLoading,
   } = useQuery({
-    queryKey: ['users', entity?.id],
-    queryFn: () => getUser(api, controller, userId),
+    queryKey: ['users', userId],
+    queryFn: () => getUser(api, userId),
     ...fetchConfig,
   });
 

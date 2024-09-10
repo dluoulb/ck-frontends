@@ -38,8 +38,8 @@ export default function DefaultSettings() {
           <div className="font-semibold text-secondary-gray text-base md:text-lg">
             Primary Payment Method
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex gap-1 pb-1">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between text-sm">
+            <div className="flex flex-col lg:flex-row lg:gap-1 pb-1">
               <p>Default:</p>
               <strong>
                 {defaultPM?.label || defaultPM?.account_holder}{' '}

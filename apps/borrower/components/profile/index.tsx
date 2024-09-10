@@ -12,14 +12,19 @@ import { DateTime } from 'luxon';
 
 import Loading from '@components/Loading';
 import { useBorrowerDeps, useEntity } from '@contexts';
+import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import BorrowerDetails from './BorrowerDetails';
 import Users from './Users';
 
 export default function ProfileIndex() {
   const [content, setContent] = useState('details');
-  const { entity } = useEntity();
-  const { companyUsersLoading } = useBorrowerDeps();
+  const { user } = useUser();
+  const { entity, entityLoading } = useEntity();
+  const { companyUsers, companyUsersLoading } = useBorrowerDeps();
+
+  const owner = companyUsers?.find((u) => u.role === 'borrower');
+  const userIsOwner = user?.id === owner?.id;
 
   const tabs = [
     {
@@ -27,15 +32,25 @@ export default function ProfileIndex() {
       icon: faCircleInfo,
       tag: 'details',
     },
-    entity?.type === 'company' && {
-      title: 'Users',
-      icon: faUsers,
-      tag: 'users',
-    },
+    // TODO:
+    // Should admins be able to view dashboard as an admin?
+    // Or should they view the dashboard as the user they logged in as?
+
+    // ie. If an admin logs in as a purchaser, should they see a restricted
+    // view like a purchaser would?
+
+    entity?.type === 'company' &&
+      userIsOwner && {
+        title: 'Users',
+        icon: faUsers,
+        tag: 'users',
+      },
   ];
 
-  if (!entity || companyUsersLoading)
+  if (companyUsersLoading || entityLoading)
     return <Loading className="w-14 h-14 my-20" />;
+
+  if (!entity) return;
 
   return (
     <div
