@@ -1,14 +1,16 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render as rtlRender } from '@testing-library/react';
-import { useRouter } from 'next/router';
+import { ApiContext } from 'pages/_app';
 import { SuperTokensWrapper } from 'supertokens-auth-react';
 
-import { ApiContext, QueryContext, UserContext } from '@contexts';
+import { DependenciesProvider } from '@contexts/DependenciesContext';
+import { EntityProvider } from '@contexts/EntityContext';
+import { PossessedUserProvider } from '@contexts/PossessedUserContext';
+import { QueryContext } from '@contexts/QueryContext';
+import { UserContext } from '@contexts/UserContext';
 import api from '@lib/api';
 import { renders } from './sharedTests';
-
-const queryClient = new QueryClient();
 
 const defaultUserContext = { user: null, setUser: jest.fn() };
 const defaultQueryContext = { searchQuery: '', setSearchQuery: jest.fn() };
@@ -16,29 +18,44 @@ const defaultQueryContext = { searchQuery: '', setSearchQuery: jest.fn() };
 function customRender(
   ui,
   {
-    userContext = defaultUserContext,
-    queryContext = defaultQueryContext,
     routerQuery = {},
+    withBorrowerProviders = false,
+    fetchConfig = {},
+    user = null,
     ...renderOptions
   } = {}
 ) {
-  (useRouter as jest.Mock).mockReturnValue({
-    query: routerQuery,
-  });
+  const queryClient = new QueryClient();
 
-  // jest.mock('@lib/actions/entities');
   jest.mock('@hooks/useToast', () => ({
     default: () => ({ makeToast: jest.fn() }),
   }));
 
   function Wrapper({ children }: { children: React.ReactNode }) {
+    const userContextValue = {
+      ...defaultUserContext,
+      user: user || defaultUserContext.user,
+    };
     return (
       <QueryClientProvider client={queryClient}>
         <SuperTokensWrapper>
           <ApiContext.Provider value={api}>
-            <UserContext.Provider value={userContext}>
-              <QueryContext.Provider value={queryContext}>
-                {children}
+            <UserContext.Provider value={userContextValue}>
+              <QueryContext.Provider value={defaultQueryContext}>
+                {withBorrowerProviders ? (
+                  <EntityProvider>
+                    <PossessedUserProvider>
+                      <DependenciesProvider
+                        user={user}
+                        fetchConfig={fetchConfig}
+                      >
+                        {children}
+                      </DependenciesProvider>
+                    </PossessedUserProvider>
+                  </EntityProvider>
+                ) : (
+                  children
+                )}
               </QueryContext.Provider>
             </UserContext.Provider>
           </ApiContext.Provider>
@@ -49,6 +66,10 @@ function customRender(
 
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 // Re-export everything from React Testing Library
 export * from '@testing-library/react';

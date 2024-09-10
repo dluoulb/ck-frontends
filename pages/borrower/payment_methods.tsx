@@ -2,7 +2,7 @@ import React from 'react';
 
 import PaymentMethods from '@apps/borrower/components/payment_methods';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { DependenciesProvider } from '@contexts';
+import { DependenciesProvider } from '@contexts/DependenciesContext';
 import useUser from '@hooks/useUser';
 
 export default function PaymentMethodsIndex() {

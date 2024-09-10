@@ -1,13 +1,15 @@
-import { render, screen } from '@testing-library/react';
+import { customRender, screen } from '@lib/testing/test-utils';
 
 import BorrowerOverview from '@apps/borrower/components/home/BorrowerOverview';
 import { companyApproved } from '@lib/testing/records';
 
 describe('Borrower Overview Component', () => {
   test('renders', () => {
-    render(
-      <BorrowerOverview entity={companyApproved} type={companyApproved.type} />
-    );
+    customRender(<BorrowerOverview />, {
+      withBorrowerProviders: true,
+      user: companyApproved.borrower,
+      fetchConfig: {},
+    });
 
     expect(screen.getByRole('status'));
   });

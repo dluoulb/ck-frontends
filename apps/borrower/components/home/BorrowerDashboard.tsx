@@ -5,7 +5,8 @@ import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
-import { useBorrowerDeps, useEntity } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useEntity } from '@contexts/EntityContext';
 import ExportPaymentHistory from './ExportPaymentHistory';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
@@ -24,7 +25,7 @@ export default function BorrowerDashboard() {
   if (entityLoading || depsLoading)
   return <Loading className="w-14 h-14 my-36" />;
   
-  if (entityError) return <NoDataError tag="Borrower" withButton={false} />;
+  if (entityError) return <NoDataError tag="borrower" withButton={false} />;
   
   if (!entity) return;
 

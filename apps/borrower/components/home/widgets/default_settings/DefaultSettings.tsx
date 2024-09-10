@@ -6,7 +6,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
-import { useBorrowerDeps, useEntity } from '@contexts';
+import { useEntity } from 'shared/contexts/EntityContext';
+import { useBorrowerDeps } from 'shared/contexts/DependenciesContext';
 import DefaultTermsDisplay from './DefaultTermsDisplay';
 
 export default function DefaultSettings() {
@@ -42,8 +43,7 @@ export default function DefaultSettings() {
             <div className="flex flex-col lg:flex-row lg:gap-1 pb-1">
               <p>Default:</p>
               <strong>
-                {defaultPM?.label || defaultPM?.account_holder}{' '}
-                {defaultPM?.account_number_masked}
+                {defaultPM?.label || defaultPM?.account_holder} {defaultPM?.account_number_masked}
               </strong>
             </div>
             <Link

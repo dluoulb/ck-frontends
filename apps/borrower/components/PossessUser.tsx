@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import Loading from '@components/Loading';
-import { usePossessedUser } from '@contexts';
+import { usePossessedUser } from '@contexts/PossessedUserContext';
 import useUser from '@hooks/useUser';
 
 type FormValues = { email: string };

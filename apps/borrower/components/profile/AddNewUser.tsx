@@ -7,7 +7,7 @@ import {
 } from '@headlessui/react';
 import classNames from 'classnames';
 
-import { useEntity } from '@contexts';
+import { useEntity } from '@contexts/EntityContext';
 import AddUserForm from './AddUserForm';
 
 export default function AddNewUser() {

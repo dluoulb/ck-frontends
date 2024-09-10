@@ -8,7 +8,8 @@ import classNames from 'classnames';
 import Image from 'next/image';
 
 import { ListBox } from '@components/Dropdown';
-import { useBorrowerDeps, useEntity } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useEntity } from '@contexts/EntityContext';
 import useDropdown from '@hooks/useDropdown';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';

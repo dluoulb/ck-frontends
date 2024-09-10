@@ -4,7 +4,7 @@ import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
 import useModal from '@hooks/useModal';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import { VCModalWrapper } from './vc_modal';
@@ -12,7 +12,7 @@ import VCList from './VCList';
 
 export default function VirtualCard() {
   const { isModalActive, toggleModal } = useModal();
-  const { errors, orders, ordersLoading } = useBorrowerDeps();
+  const { orders, ordersError, ordersLoading } = useBorrowerDeps();
   const virtualCardOrders = orders?.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details
   );
@@ -24,7 +24,7 @@ export default function VirtualCard() {
   // Currently does not display or have 'hide' functionality for security code
   return (
     <div className="px-3 p-2 h-full">
-      {(!virtualCardOrders?.length || errors?.ordersError) && !ordersLoading ? (
+      {(!virtualCardOrders?.length || ordersError) && !ordersLoading ? (
         <>
           <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
             <FontAwesomeIcon

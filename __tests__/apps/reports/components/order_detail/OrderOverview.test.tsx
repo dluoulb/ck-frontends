@@ -7,7 +7,7 @@ import { customRender } from '@lib/testing/test-utils';
 describe('Order Overview Component', () => {
   test('renders', () => {
     customRender(<OrderOverview order={orderA} product={tpsLoan1} />, {
-      userContext: { user, setUser: jest.fn() },
+      user: user,
     });
 
     expect(screen.getByText('Merchant Order ID: TEST1234'));
@@ -15,7 +15,7 @@ describe('Order Overview Component', () => {
 
   test('displays checkout link', () => {
     customRender(<OrderOverview order={orderA} product={tpsLoan1} />, {
-      userContext: { user: adminUser, setUser: jest.fn() },
+      user: adminUser,
     });
 
     expect(screen.getByText('Checkout Session URL'));

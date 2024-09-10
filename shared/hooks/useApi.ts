@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 
-import { ApiContext } from '@contexts';
+import { ApiContext } from 'pages/_app';
 
 function useApi() {
   const api = useContext(ApiContext);

@@ -85,7 +85,7 @@ describe('Order Detail Page', () => {
     });
 
     customRender(<OrderIndex />, {
-      userContext: { user, setUser: jest.fn() },
+      user: user,
       routerQuery: { id: orderA.id },
     });
 

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 import Tooltip from '@components/Tooltip';
-import { useEntity } from '@contexts';
+import { useEntity } from '@contexts/EntityContext';
 
 export default function BorrowerOverview() {
   const { entity } = useEntity();

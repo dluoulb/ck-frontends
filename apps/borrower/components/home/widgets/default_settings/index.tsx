@@ -8,7 +8,8 @@ import Link from 'next/link';
 
 import { BaseGridItem } from '@components/BaseGrid';
 import Notification from '@components/Notification';
-import { useBorrowerDeps, useEntity } from '@contexts';
+import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useEntity } from '@contexts/EntityContext';
 import DefaultSettings from './DefaultSettings';
 
 export default function SettingsWidget() {
