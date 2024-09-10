@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { DateTime } from 'luxon';
 
 import { fromISO } from '@lib/utils/datetime_formatters';
@@ -22,7 +23,12 @@ export default function AdditionalInfo({ product, order, entity }) {
       <p className="font-semibold tracking-wide text-lg my-4">
         Additional Details
       </p>
-      <div className="grid grid-rows-18 !gap-0 sm:grid-rows-8 lg:grid-rows-6 grid-flow-col capitalize rounded shadow bg-secondary-blue text-sm px-6 md:px-10 xl:pl-40 py-4 lg:py-8">
+      <div
+        className={classNames(
+          'grid grid-rows-18 !gap-0 sm:grid-rows-8 grid-flow-col capitalize rounded shadow bg-secondary-blue text-sm px-6 md:px-10 xl:pl-40 py-4 lg:py-8',
+          order?.entity_type === 'company' ? 'lg:grid-rows-6' : 'lg:grid-rows-5'
+        )}
+      >
         <p>
           <span className="font-semibold mr-1">interest free months:</span>
           {isPaymentPlan

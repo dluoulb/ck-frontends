@@ -22,7 +22,7 @@ export default function AddressDetails({
         <Tooltip
           tooltip_text={tooltip_text}
           trigger_class="cursor-pointer"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue max-w-sm"
+          container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
         >
           N/A - NetX Applicant
         </Tooltip>

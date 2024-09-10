@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import Datepicker from 'react-tailwindcss-datepicker';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import { usePossessedUser } from '@contexts/PossessedUserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import useUser from '@hooks/useUser';
@@ -12,6 +13,7 @@ export default function ExportPaymentHistory() {
   const api = useApi();
   const { makeToast } = useToast();
   const { user } = useUser();
+  const { possessedUser } = usePossessedUser();
   const [loading, setLoading] = useState(false);
 
   const format = (d) => DateTime.fromJSDate(d).toFormat('yyyy-M-d');
@@ -38,12 +40,16 @@ export default function ExportPaymentHistory() {
     setLoading(true);
     exportPaymentHistory({
       api,
-      userId: user?.id,
+      userId: user?.is_admin_user ? possessedUser?.id : user?.id,
       startDate: format(dateRange?.startDate),
       endDate: format(dateRange?.endDate),
     })
       .then((res) => {
         makeToast(res?.data?.message, 'success');
+        setDateRange({
+          startDate: null,
+          endDate: null,
+        });
       })
       .catch((err) => {
         makeToast(

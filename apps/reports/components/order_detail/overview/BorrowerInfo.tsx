@@ -44,14 +44,16 @@ export default function BorrowerInfo({ order, entity }) {
             ? entity?.tier.replace('_', ' ')
             : entity?.tier}
         </p>
-        <p>
-          <span className="text-tertiary-gray mr-2 font-normal">
-            credit line approval date:
-          </span>
-          {entity?.latest_approval_date
-            ? fromISO(entity?.latest_approval_date).toLocaleString()
-            : 'N/A'}
-        </p>
+        {order?.entity_type === 'company' && (
+          <p>
+            <span className="text-tertiary-gray mr-2 font-normal">
+              credit line approval date:
+            </span>
+            {entity?.latest_approval_date
+              ? fromISO(entity?.latest_approval_date).toLocaleString()
+              : 'N/A'}
+          </p>
+        )}
       </div>
     </div>
   );
