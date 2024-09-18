@@ -26,7 +26,7 @@ export default function PaymentScheduleDisclosure({ order }) {
                 />
               </DisclosureButton>
               <DisclosurePanel className="text-sm">
-                <Schedule order={order} open={open} />
+                <Schedule order={order} />
               </DisclosurePanel>
             </>
           )}
