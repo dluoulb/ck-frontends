@@ -1,3 +1,4 @@
+import { PublicEnvScript } from 'next-runtime-env';
 import Head from 'next/head';
 import Script from 'next/script';
 
@@ -15,6 +16,8 @@ export default function Scripts() {
 
   return (
     <Head>
+      <PublicEnvScript />
+
       {/* Load Workbetter Widget */}
       {isProduction && (
         <>

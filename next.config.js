@@ -1,8 +1,11 @@
 const path = require('path');
 
+const isDeployedBuild = process.env.DEPLOY_TARGET && process.env.DEPLOY_TARGET != "";
+const baseURL = isDeployedBuild ? '%%%NEXT_PUBLIC_BASE_URL%%%' : process.env.NEXT_PUBLIC_BASE_URL;
+
 module.exports = {
   publicRuntimeConfig: {
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    baseURL: baseURL || 'http://localhost:3000',
   },
   webpack: (config, { isServer }) => {
     config.resolve.alias['@components'] = path.join(
@@ -47,4 +50,34 @@ module.exports = {
       },
     ];
   },
+  isDeployedBuild: isDeployedBuild,
+  // This is lets us inject these variables from the env that exists at runtime so we don't have to bake our secrets into the image
+  ...(isDeployedBuild && {
+    env: {
+      APP_VERSION: process.env.APP_VERSION,
+      "NEXT_PUBLIC_ACCEPT_BLUE_SOURCE": "%%%NEXT_PUBLIC_ACCEPT_BLUE_SOURCE%%%",
+      "NEXT_PUBLIC_ACCEPT_BLUE_TOKEN": "%%%NEXT_PUBLIC_ACCEPT_BLUE_TOKEN%%%",
+      "NEXT_PUBLIC_API_URL": "%%%NEXT_PUBLIC_API_URL%%%",
+      "NEXT_PUBLIC_BASE_URL": "%%%NEXT_PUBLIC_BASE_URL%%%",
+      "NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST": "%%%NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST%%%",
+      "NEXT_PUBLIC_CMS_BASE_URL": "%%%NEXT_PUBLIC_CMS_BASE_URL%%%",
+      "NEXT_PUBLIC_ENV": "%%%NEXT_PUBLIC_ENV%%%",
+      "NEXT_PUBLIC_STRAPI_API_TOKEN": "%%%NEXT_PUBLIC_STRAPI_API_TOKEN%%%",
+      "NEXT_PUBLIC_SUPERTOKENS_API_BASEPATH": "%%%NEXT_PUBLIC_SUPERTOKENS_API_BASEPATH%%%",
+      "NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN": "%%%NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN%%%",
+      "NEXT_PUBLIC_SUPERTOKENS_COOKIE_DOMAIN": "%%%NEXT_PUBLIC_SUPERTOKENS_COOKIE_DOMAIN%%%",
+      "NEXT_PUBLIC_SUPERTOKENS_WEBSITE_BASEPATH": "%%%NEXT_PUBLIC_SUPERTOKENS_WEBSITE_BASEPATH%%%",
+      "NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN": "%%%NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN%%%",
+      "NEXT_PUBLIC_TYPESENSE_PORT": "%%%NEXT_PUBLIC_TYPESENSE_PORT%%%",
+      "NEXT_PUBLIC_TYPESENSE_PROTOCOL": "%%%NEXT_PUBLIC_TYPESENSE_PROTOCOL%%%",
+      "NEXT_PUBLIC_TYPESENSE_SERVER": "%%%NEXT_PUBLIC_TYPESENSE_SERVER%%%",
+      "NEXT_PUBLIC_VC_MERCHANT_KEY": "%%%NEXT_PUBLIC_VC_MERCHANT_KEY%%%",
+      "NEXT_PUBLIC_VC_MERCHANT_SECRET": "%%%NEXT_PUBLIC_VC_MERCHANT_SECRET%%%",
+      "NEXT_PUBLIC_VIRTUAL_CARD_MERCHANT_ID": "%%%NEXT_PUBLIC_VIRTUAL_CARD_MERCHANT_ID%%%"
+    }
+  }),
+  output: 'standalone'
 };
+
+//TODO the above env doesn't match the vars that are in the secrets page
+// Also, i need to fix the terraform so it associates the task with the target group
