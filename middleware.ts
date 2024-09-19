@@ -11,19 +11,18 @@ const sites = [
 ];
 
 function siteForHost(host) {
-  if (host.includes('creditkey.com')) {
-    const shortname = host.split('.')[0];
-    const matchingSite = sites.find((site) => site.shortname === shortname);
-    return matchingSite ? matchingSite : null;
-  } else {
-    const domain = host.replace(/(local|new)\./, '').replace(':3000', '');
-    return sites.find((site) => site.domain === domain) || null;
-  }
+  const matchingSite = sites.find((site) => host.includes(site.shortname));
+  return matchingSite ? matchingSite : null;
 }
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const site = siteForHost(req.headers.get('host'));
+
+  if (!site) {
+    return NextResponse.next();
+  }
+
   const sessionToken = req.cookies.get('st-access-token');
 
   if (!sessionToken) {
@@ -34,9 +33,11 @@ export default async function middleware(req: NextRequest) {
     );
   }
 
-  if (site) {
-    return NextResponse.rewrite(
-      new URL(`/${site?.shortname}${pathname}`, req.url)
-    );
-  }
+  const newPathname = pathname.startsWith(`/${site.shortname}`)
+    ? pathname
+    : `/${site.shortname}${pathname}`;
+
+  const newUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}${newPathname}`);
+
+  return NextResponse.rewrite(newUrl);
 }
