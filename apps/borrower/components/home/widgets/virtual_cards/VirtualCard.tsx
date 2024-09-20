@@ -4,7 +4,7 @@ import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useModal from '@hooks/useModal';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import { VCModalWrapper } from './vc_modal';

@@ -11,7 +11,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import Loading from '@components/Loading';
 import Notification from '@components/Notification';
 import Tooltip from '@components/Tooltip';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
 import useUser from '@hooks/useUser';

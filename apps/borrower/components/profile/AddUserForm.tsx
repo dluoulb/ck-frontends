@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyInput } from '@components/inputs';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createCompanyUser, validatePhone } from '@lib/actions/users';

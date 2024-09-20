@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import PaymentModalForm from './components/PaymentModalForm';
 
 type FormValues = {

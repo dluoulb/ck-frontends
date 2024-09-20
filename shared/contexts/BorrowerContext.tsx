@@ -4,45 +4,27 @@ import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
+import useUser from '@hooks/useUser';
 import { useEntity } from './EntityContext';
 import useCompanyUsers from '../hooks/useCompanyUsers';
 
-type FetchConfig = {
-  stats?: boolean;
-  payment_methods?: boolean;
-  default_terms?: boolean;
-  orders?: boolean;
-  company_users?: boolean;
-};
+const BorrowerContext = createContext(null);
 
-const DependenciesContext = createContext(null);
-
-export const DependenciesProvider = ({
-  children,
-  user,
-  fetchConfig = {},
-}: {
-  children: React.ReactNode;
-  user: any;
-  fetchConfig: FetchConfig;
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
+export const BorrowerContextProvider = ({ children }) => {
+  const { user } = useUser();
   const { entity, entityLoading } = useEntity();
-  const stats = useStats(entity, fetchConfig?.stats);
-  const companyUserProps = useCompanyUsers(entity, fetchConfig?.company_users);
-  const defaultTermsProps = useDefaultTerms(entity, fetchConfig?.default_terms);
-  const paymentMethodProps = usePaymentMethods(
-    user,
-    entity,
-    fetchConfig?.payment_methods
-  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const stats = useStats(entity);
+  const companyUserProps = useCompanyUsers(entity);
+  const defaultTermsProps = useDefaultTerms(entity);
+  const paymentMethodProps = usePaymentMethods(user, entity);
   const orderProps = useOrders(
     {
       type: entity?.type,
       entity,
     },
-    isLoading,
-    fetchConfig?.orders
+    isLoading
   );
 
   useEffect(() => {
@@ -73,17 +55,17 @@ export const DependenciesProvider = ({
   };
 
   return (
-    <DependenciesContext.Provider value={dependencies}>
+    <BorrowerContext.Provider value={dependencies}>
       {children}
-    </DependenciesContext.Provider>
+    </BorrowerContext.Provider>
   );
 };
 
 export const useBorrowerDeps = () => {
-  const context = useContext(DependenciesContext);
+  const context = useContext(BorrowerContext);
   if (!context) {
     throw new Error(
-      'useBorrowerDeps must be used within a DependenciesProvider'
+      'useBorrowerDeps must be used within a BorrowerContextProvider'
     );
   }
   return context;

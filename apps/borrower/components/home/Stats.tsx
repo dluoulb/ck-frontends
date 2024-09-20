@@ -3,7 +3,7 @@ import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import classNames from 'classnames';
 
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import { formatCurrency } from '@lib/utils/formatters';
 

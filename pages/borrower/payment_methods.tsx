@@ -1,19 +1,22 @@
-import React from 'react';
+import type { ReactElement } from 'react';
 
 import PaymentMethods from '@apps/borrower/components/payment_methods';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { DependenciesProvider } from '@contexts/DependenciesContext';
-import useUser from '@hooks/useUser';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { EntityProvider } from '@contexts/EntityContext';
 
 export default function PaymentMethodsIndex() {
-  const { user } = useUser();
-  return (
-    <PortalLayout>
-      <DependenciesProvider user={user} fetchConfig={{ payment_methods: true }}>
-        <PaymentMethods />
-      </DependenciesProvider>
-    </PortalLayout>
-  );
+  return <PaymentMethods />;
 }
+
+PaymentMethodsIndex.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <EntityProvider>
+      <BorrowerContextProvider>
+        <PortalLayout>{page}</PortalLayout>
+      </BorrowerContextProvider>
+    </EntityProvider>
+  );
+};
 
 PaymentMethodsIndex.role = 'payment-methods-index';

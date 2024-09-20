@@ -1,19 +1,22 @@
-import React from 'react';
+import type { ReactElement } from 'react';
 
 import PortalLayout from '@apps/borrower/components/PortalLayout';
 import ProfileIndex from '@apps/borrower/components/profile';
-import { DependenciesProvider } from '@contexts/DependenciesContext';
-import useUser from '@hooks/useUser';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { EntityProvider } from '@contexts/EntityContext';
 
 export default function Profile() {
-  const { user } = useUser();
-  return (
-    <PortalLayout>
-      <DependenciesProvider user={user} fetchConfig={{ company_users: true }}>
-        <ProfileIndex />
-      </DependenciesProvider>
-    </PortalLayout>
-  );
+  return <ProfileIndex />;
 }
+
+Profile.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <EntityProvider>
+      <BorrowerContextProvider>
+        <PortalLayout>{page}</PortalLayout>
+      </BorrowerContextProvider>
+    </EntityProvider>
+  );
+};
 
 Profile.role = 'profile-component';

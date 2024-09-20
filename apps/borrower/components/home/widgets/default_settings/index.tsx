@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import { BaseGridItem } from '@components/BaseGrid';
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import DefaultSettings from './DefaultSettings';
 

@@ -1,18 +1,20 @@
-import React from 'react';
+import type { ReactElement } from 'react';
 
 import Orders from '@apps/borrower/components/orders';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { DependenciesProvider } from '@contexts/DependenciesContext';
-import useUser from '@hooks/useUser';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { EntityProvider } from '@contexts/EntityContext';
 
 export default function OrdersIndex({}) {
-  const { user } = useUser();
-
-  return (
-    <PortalLayout>
-      <DependenciesProvider user={user} fetchConfig={{ orders: true }}>
-        <Orders />
-      </DependenciesProvider>
-    </PortalLayout>
-  );
+  return <Orders />;
 }
+
+OrdersIndex.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <EntityProvider>
+      <BorrowerContextProvider>
+        <PortalLayout>{page}</PortalLayout>
+      </BorrowerContextProvider>
+    </EntityProvider>
+  );
+};
