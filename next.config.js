@@ -30,6 +30,10 @@ module.exports = {
   async rewrites() {
     return [
       {
+        source: '/_healthcheck',
+        destination: '/api/_healthcheck',
+      },
+      {
         source: '/reports/:path*',
         destination: '/reports/:path*',
       },
