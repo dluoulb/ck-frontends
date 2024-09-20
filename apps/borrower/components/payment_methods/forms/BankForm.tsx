@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { usePossessedUser } from '@contexts/PossessedUserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
@@ -34,7 +34,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
 
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
-  
+
   const [loading, setLoading] = useState(false);
   const [bankAgreement, setBankAgreement] = useState('');
   const [agreementLoading, setAgreementLoading] = useState(false);

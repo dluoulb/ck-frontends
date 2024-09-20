@@ -1,24 +1,20 @@
+import type { ReactElement } from 'react';
+
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import PortalLayout from '@apps/borrower/components/PortalLayout';
-import { DependenciesProvider } from '@contexts/DependenciesContext';
-import useUser from '@hooks/useUser';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { EntityProvider } from '@contexts/EntityContext';
 
 export default function BorrowerIndex() {
-  const { user } = useUser();
-
-  return (
-    <PortalLayout>
-      <DependenciesProvider
-        user={user}
-        fetchConfig={{
-          stats: true,
-          orders: true,
-          default_terms: true,
-          payment_methods: true,
-        }}
-      >
-        <BorrowerDashboard />
-      </DependenciesProvider>
-    </PortalLayout>
-  );
+  return <BorrowerDashboard />;
 }
+
+BorrowerIndex.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <EntityProvider>
+      <BorrowerContextProvider>
+        <PortalLayout>{page}</PortalLayout>
+      </BorrowerContextProvider>
+    </EntityProvider>
+  );
+};

@@ -1,19 +1,19 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
+import type { ReactElement, ReactNode } from 'react';
 import { createContext, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { usePathname } from 'next/navigation';
+import type { NextPage } from 'next';
+import type { AppProps } from 'next/app';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
 
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
-import { EntityProvider } from '@contexts/EntityContext';
-import { PossessedUserProvider } from '@contexts/PossessedUserContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserContext } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -29,11 +29,18 @@ if (typeof window !== 'undefined') {
   SuperTokens.init(SuperTokensConfig);
 }
 
-function App({ Component, pageProps: { session, ...pageProps } }) {
-  const pathname = usePathname();
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function App({ Component, pageProps }: AppPropsWithLayout) {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const isBorrowerRoute = pathname?.startsWith('/borrower');
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <Provider config={rollbarConfig}>
@@ -45,15 +52,7 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
                 <ErrorBoundary>
                   <MainLayout>
                     <SearchConfig>
-                      {isBorrowerRoute ? (
-                        <EntityProvider>
-                          <PossessedUserProvider>
-                            <Component {...pageProps} />
-                          </PossessedUserProvider>
-                        </EntityProvider>
-                      ) : (
-                        <Component {...pageProps} />
-                      )}
+                      {getLayout(<Component {...pageProps} />)}
                     </SearchConfig>
                   </MainLayout>
                 </ErrorBoundary>

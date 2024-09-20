@@ -4,9 +4,6 @@ import { render as rtlRender } from '@testing-library/react';
 import { ApiContext } from 'pages/_app';
 import { SuperTokensWrapper } from 'supertokens-auth-react';
 
-import { DependenciesProvider } from '@contexts/DependenciesContext';
-import { EntityProvider } from '@contexts/EntityContext';
-import { PossessedUserProvider } from '@contexts/PossessedUserContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserContext } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -42,20 +39,7 @@ function customRender(
           <ApiContext.Provider value={api}>
             <UserContext.Provider value={userContextValue}>
               <QueryContext.Provider value={defaultQueryContext}>
-                {withBorrowerProviders ? (
-                  <EntityProvider>
-                    <PossessedUserProvider>
-                      <DependenciesProvider
-                        user={user}
-                        fetchConfig={fetchConfig}
-                      >
-                        {children}
-                      </DependenciesProvider>
-                    </PossessedUserProvider>
-                  </EntityProvider>
-                ) : (
-                  children
-                )}
+                {children}
               </QueryContext.Provider>
             </UserContext.Provider>
           </ApiContext.Provider>

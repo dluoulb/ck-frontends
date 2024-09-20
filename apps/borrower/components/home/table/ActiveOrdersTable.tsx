@@ -12,7 +12,7 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { DashboardTableColumns } from './DashboardTableColumns';
 
 export default function ActiveOrdersTable() {

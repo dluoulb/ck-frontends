@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useModal from '@hooks/useModal';
 import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';

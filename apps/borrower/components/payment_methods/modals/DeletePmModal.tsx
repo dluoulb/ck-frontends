@@ -4,7 +4,7 @@ import { faTrashXmark } from '@fortawesome/pro-regular-svg-icons';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import ModalWrapper from '@components/modals/ModalWrapper';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { deletePaymentMethod } from '@lib/actions/payment_methods';

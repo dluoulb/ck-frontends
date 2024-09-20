@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
@@ -54,7 +54,7 @@ export default function OrderDetail() {
     return <Loading className="w-14 h-14 my-20" />;
 
   if (orderError) return <NoDataError tag="order" withButton={false} />;
-  
+
   if (!entity) return;
 
   return (

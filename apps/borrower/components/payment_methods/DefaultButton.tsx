@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { updatePaymentMethod } from '@lib/actions/payment_methods';

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import { TableColumns } from './TableColumns';
 

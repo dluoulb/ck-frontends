@@ -3,7 +3,7 @@ import { usePagination, useSortBy, useTable } from 'react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
-import { useBorrowerDeps } from '@contexts/DependenciesContext';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import AddNewUser from './AddNewUser';
 import { UserTableColumns } from './table/UserTableColumns';
