@@ -9,12 +9,7 @@ import { getOrders } from '@lib/actions/orders';
 import OrderRecord from '@lib/records/order';
 import useApi from './useApi';
 
-function useOrders(
-  props,
-  depsLoading = false,
-  shouldFetch = false,
-  pageIndex = 0
-) {
+function useOrders(props, depsLoading = false, pageIndex = 0) {
   const api = useApi();
   const { type, entity } = props;
   const queryClient = useQueryClient();
@@ -28,7 +23,7 @@ function useOrders(
   } = useQuery({
     queryKey: ['orders', entity, type, pageIndex],
     queryFn: () => getOrders(api, entity, type, pageIndex),
-    enabled: !!entity && !depsLoading && shouldFetch,
+    enabled: !!entity && !depsLoading,
     placeholderData: keepPreviousData,
   });
 

@@ -5,7 +5,6 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
-import { usePossessedUser } from '@contexts/PossessedUserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import useUser from '@hooks/useUser';
@@ -30,7 +29,6 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
-  const { possessedUser } = usePossessedUser();
 
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
@@ -98,7 +96,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
         bank_routing: '',
         bank_account: '',
         account_holder: '',
-        user_id: user?.is_admin_user ? possessedUser?.id : user?.id,
+        user_id: user?.id,
       }}
       validate={async (values) => {
         const errors: FormErrors = {};

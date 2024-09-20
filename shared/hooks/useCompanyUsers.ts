@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useApi from '@hooks/useApi';
 import { getCompanyUsers } from '@lib/actions/users';
 
-function useCompanyUsers(entity, shouldFetch = false) {
+function useCompanyUsers(entity) {
   const api = useApi();
 
   const {
@@ -15,7 +15,7 @@ function useCompanyUsers(entity, shouldFetch = false) {
   } = useQuery({
     queryKey: ['company_users', entity?.id],
     queryFn: () => getCompanyUsers(api, entity?.id),
-    enabled: !!entity && shouldFetch,
+    enabled: !!entity,
     retry: 1,
   });
 

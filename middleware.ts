@@ -11,8 +11,7 @@ const sites = [
 ];
 
 function siteForHost(host) {
-  const matchingSite = sites.find((site) => host.includes(site.shortname));
-  return matchingSite ? matchingSite : null;
+  return sites.find((site) => host.includes(site.shortname)) || null;
 }
 
 export default async function middleware(req: NextRequest) {
@@ -33,11 +32,12 @@ export default async function middleware(req: NextRequest) {
     );
   }
 
-  const newPathname = pathname.startsWith(`/${site.shortname}`)
-    ? pathname
-    : `/${site.shortname}${pathname}`;
+  if (!pathname.startsWith(`/${site.shortname}`)) {
+    const newPathname = `/${site.shortname}${pathname}`;
+    const newUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}${newPathname}`);
 
-  const newUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}${newPathname}`);
+    return NextResponse.rewrite(newUrl);
+  }
 
-  return NextResponse.rewrite(newUrl);
+  return NextResponse.next();
 }

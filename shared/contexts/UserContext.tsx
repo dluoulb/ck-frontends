@@ -1,0 +1,45 @@
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react';
+
+interface UserState {
+  user: any;
+  isImpersonating: boolean;
+  parentID: string;
+  setUser: Dispatch<
+    SetStateAction<{
+      user: any;
+      isImpersonating: boolean;
+      parentID: string;
+    }>
+  >;
+}
+
+const defaultState: UserState = {
+  user: null,
+  setUser: () => {},
+  isImpersonating: false,
+  parentID: '',
+};
+
+export const UserContext = createContext<UserState>(defaultState);
+
+export const useUser = () => useContext(UserContext);
+
+export const UserProvider = ({ children }) => {
+  const [userState, setUser] = useState({
+    user: null,
+    isImpersonating: false,
+    parentID: '',
+  });
+
+  return (
+    <UserContext.Provider value={{ ...userState, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
