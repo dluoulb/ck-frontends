@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useApi from '@hooks/useApi';
 import { getPaymentMethods } from '@lib/actions/payment_methods';
 
-function usePaymentMethods(user, entity, shouldFetch = false) {
+function usePaymentMethods(user, entity) {
   const api = useApi();
   const entityEmail =
     entity?.type === 'company' ? entity?.borrower?.email : entity?.user?.email;
@@ -19,7 +19,7 @@ function usePaymentMethods(user, entity, shouldFetch = false) {
   } = useQuery({
     queryKey: ['payment_methods', entity?.id],
     queryFn: () => getPaymentMethods(api, `filter[email]=${encodedEmail}`),
-    enabled: !!entity && shouldFetch,
+    enabled: !!entity,
     retry: 1,
   });
 

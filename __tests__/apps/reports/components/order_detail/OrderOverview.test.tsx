@@ -6,17 +6,13 @@ import { customRender } from '@lib/testing/test-utils';
 
 describe('Order Overview Component', () => {
   test('renders', () => {
-    customRender(<OrderOverview order={orderA} product={tpsLoan1} />, {
-      user: user,
-    });
+    customRender(<OrderOverview order={orderA} product={tpsLoan1} />, { user });
 
     expect(screen.getByText('Merchant Order ID: TEST1234'));
   });
 
   test('displays checkout link', () => {
-    customRender(<OrderOverview order={orderA} product={tpsLoan1} />, {
-      user: adminUser,
-    });
+    customRender(<OrderOverview order={orderA} product={tpsLoan1} />, { user: adminUser });
 
     expect(screen.getByText('Checkout Session URL'));
   });

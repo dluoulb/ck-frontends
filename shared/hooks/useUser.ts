@@ -8,10 +8,16 @@ import { routes } from '@lib/constants/SiteVariables';
 export default function useUser() {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, isImpersonating, parentID } = useContext(UserContext);
 
   useEffect(() => {
-    if (user && !['/', '/unauthorized'].includes(pathname)) {
+    if (
+      user &&
+      !isImpersonating &&
+      !['/', '/unauthorized'].includes(pathname)
+    ) {
+
+      //TODO: CHANGE! if admin is impersonating, delete the impersonation before going to new UI
       const route = routes.find(
         (r) => r.href.slice(1) === pathname?.split('/')[1]
       );
@@ -20,5 +26,5 @@ export default function useUser() {
     }
   }, [user, router]);
 
-  return { user, setUser };
+  return { user, setUser, isImpersonating, parentID };
 }

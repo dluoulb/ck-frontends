@@ -1,14 +1,13 @@
 import '@testing-library/jest-dom';
 
 import { useEntity } from '@contexts/EntityContext';
-import { usePossessedUser } from '@contexts/PossessedUserContext';
+import useCompanyUsers from '@hooks/useCompanyUsers';
 import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
 import {
   companyApproved,
-  consumerAccount,
   defaultTerms,
   orderA,
   orderB,
@@ -52,22 +51,18 @@ jest.mock('@hooks/useApi', () => () => mockApi);
 jest.mock('@hooks/useOrders', () => jest.fn());
 jest.mock('@hooks/usePaymentMethods', () => jest.fn());
 jest.mock('@hooks/useDefaultTerms', () => jest.fn());
+jest.mock('@hooks/useCompanyUsers', () => jest.fn());
 jest.mock('@hooks/useStats', () => jest.fn());
 jest.mock('@contexts/EntityContext', () => ({
   ...jest.requireActual('@contexts/EntityContext'),
   useEntity: jest.fn(),
 }));
 
-jest.mock('@contexts/PossessedUserContext', () => {
-  const actualModule = jest.requireActual('@contexts/PossessedUserContext');
-  return {
-    ...actualModule,
-    usePossessedUser: jest.fn(),
-  };
-});
-
 global.mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
 global.mockedUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
+global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<
+  typeof useCompanyUsers
+>;
 global.mockedUseStats = useStats as jest.MockedFunction<typeof useStats>;
 global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<
   typeof usePaymentMethods
@@ -76,16 +71,20 @@ global.mockedUseDefaultTerms = useDefaultTerms as jest.MockedFunction<
   typeof useDefaultTerms
 >;
 
-global.mockedUsePossessedUser = usePossessedUser as jest.MockedFunction<
-  typeof usePossessedUser
->;
-
 global.mockedUseEntity.mockImplementation(() => ({
   entity: companyApproved,
   setEntity: jest.fn(),
   fetchEntity: jest.fn(),
   entityError: null,
   entityLoading: false,
+}));
+
+global.mockedUseCompanyUsers.mockImplementation(() => ({
+  companyUsers: [user],
+  companyUsersError: null,
+  companyUsersLoading: false,
+  companyUsersRefetching: false,
+  refetchCompanyUsers: jest.fn(),
 }));
 
 global.mockedUseOrders.mockImplementation(() => ({
@@ -129,17 +128,6 @@ const mockRefetchPaymentMethods = jest.fn(() =>
     status: 'success',
   } as any)
 );
-
-global.mockedUsePossessedUser.mockImplementation(() => ({
-  clearPossessedUser: jest.fn(),
-  loginAsUser: jest.fn(),
-  possessedEntity: consumerAccount,
-  possessedEntityLoading: false,
-  searchedEmail: '',
-  setSearchedEmail: jest.fn(),
-  possessedUser: user,
-  possessedUserLoading: false,
-}));
 
 class MockResizeObserver {
   private callback: ResizeObserverCallback;

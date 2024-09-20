@@ -20,7 +20,7 @@ type Merchant = {
   name: string;
 };
 
-function useDefaultTerms(company, shouldFetch = false) {
+function useDefaultTerms(company) {
   const api = useApi();
   const defaultTermsList = company?.recharge_settings || [];
 
@@ -29,7 +29,7 @@ function useDefaultTerms(company, shouldFetch = false) {
       return {
         queryKey: ['merchant', i.merchant_id],
         queryFn: () => getMerchant(api, i.merchant_id),
-        enabled: !!defaultTermsList.length && shouldFetch,
+        enabled: !!defaultTermsList.length,
       };
     }),
   });
@@ -39,7 +39,7 @@ function useDefaultTerms(company, shouldFetch = false) {
       return {
         queryKey: ['approvedTerms', i.merchant_id],
         queryFn: () => getApprovedTerms(api, company.id, i.merchant_id),
-        enabled: !!defaultTermsList.length && shouldFetch,
+        enabled: !!defaultTermsList.length,
       };
     }),
   });

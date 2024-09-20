@@ -7,9 +7,6 @@ describe('Default Terms Display Component', () => {
     customRender(<DefaultTermsDisplay />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        default_terms: true,
-      },
     });
 
     expect(
@@ -25,9 +22,6 @@ describe('Default Terms Display Component', () => {
     customRender(<DefaultTermsDisplay />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        default_terms: true,
-      },
     });
 
     expect(

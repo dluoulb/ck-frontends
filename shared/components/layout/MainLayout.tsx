@@ -13,14 +13,24 @@ import { parseUserJwt } from '@lib/utils/authorization';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
 
+type TokenData = {
+  userID: string;
+  isImpersonating: boolean;
+  parentID: string;
+};
+
 export default function MainLayout({ children }) {
   const router = useRouter();
   const api = useApi();
   const { user, setUser } = useUser();
 
   const getCurrentUser = useMutation({
-    mutationFn: (id: string) => getUser(api, id),
-    onSuccess: (data) => setUser(data),
+    mutationFn: (tokenData: { userID: string }) =>
+      getUser(api, tokenData.userID),
+    onSuccess: (data, variables: TokenData) => {
+      const { isImpersonating, parentID } = variables;
+      setUser({ user: data, isImpersonating, parentID });
+    },
     onError: (error) =>
       console.log('Error occurred fetching current user', { error }),
     retry: 1,
@@ -29,12 +39,20 @@ export default function MainLayout({ children }) {
   useEffect(() => {
     if (Session.doesSessionExist) {
       Session.getAccessToken().then((token) => {
-        getCurrentUser.mutate(parseUserJwt(token));
+        const parsedToken: TokenData = parseUserJwt(token);
+        const { userID, isImpersonating, parentID } = parsedToken;
+
+        getCurrentUser.mutate({
+          userID,
+          isImpersonating,
+          parentID,
+        } as TokenData);
       });
     }
   }, [Session]);
 
-  if (!user || !Session.doesSessionExist) return <Loading className="w-14 h-14 my-36" />;
+  if (!user || !Session.doesSessionExist)
+    return <Loading className="w-14 h-14 my-36" />;
 
   return (
     <div className="flex flex-col min-h-screen font-manrope relative">

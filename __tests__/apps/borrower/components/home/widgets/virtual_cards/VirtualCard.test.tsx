@@ -11,7 +11,6 @@ describe('Virtual Card Widget Component', () => {
     customRender(<VirtualCard />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: { orders: true },
     });
 
     expect(screen.getByText('x1234'));
@@ -30,7 +29,6 @@ describe('Virtual Card Widget Component', () => {
     customRender(<VirtualCard />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: { orders: true },
     });
 
     expect(screen.getByText(/Request a virtual card/));
@@ -49,7 +47,6 @@ describe('Virtual Card Widget Component', () => {
     customRender(<VirtualCard />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: { orders: true },
     });
 
     expect(screen.getByRole('loading'));

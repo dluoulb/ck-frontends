@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useApi from '@hooks/useApi';
 import { getStats } from '@lib/actions/entities';
 
-function useStats(entity, shouldFetch = false) {
+function useStats(entity) {
   const api = useApi();
 
   const {
@@ -13,7 +13,7 @@ function useStats(entity, shouldFetch = false) {
   } = useQuery({
     queryKey: ['stats', entity?.id],
     queryFn: () => getStats(api, entity),
-    enabled: !!entity && shouldFetch,
+    enabled: !!entity,
     retry: 1,
   });
 

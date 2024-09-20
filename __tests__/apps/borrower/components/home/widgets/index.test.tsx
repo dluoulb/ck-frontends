@@ -7,7 +7,6 @@ describe('Widgets Index', () => {
     customRender(<Widgets />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: { orders: true },
     });
 
     const widgets = screen.getAllByRole('base-grid-item-component');

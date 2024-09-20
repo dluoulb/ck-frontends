@@ -6,7 +6,7 @@ import useOrders from '@hooks/useOrders';
 import { TableColumns } from './order_table/TableColumns';
 
 export default function OrderDashboard({ props }) {
-  const { orders, ordersLoading, pageCount } = useOrders(props, false, true);
+  const { orders, ordersLoading, pageCount } = useOrders(props, false);
   const totalRows = props?.stats?.active + props?.stats?.closed;
 
   if (!orders || ordersLoading)
