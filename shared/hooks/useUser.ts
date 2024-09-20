@@ -16,6 +16,8 @@ export default function useUser() {
       !isImpersonating &&
       !['/', '/unauthorized'].includes(pathname)
     ) {
+
+      //TODO: CHANGE! if admin is impersonating, delete the impersonation before going to new UI
       const route = routes.find(
         (r) => r.href.slice(1) === pathname?.split('/')[1]
       );

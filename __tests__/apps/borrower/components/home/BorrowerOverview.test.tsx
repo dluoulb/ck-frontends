@@ -8,7 +8,6 @@ describe('Borrower Overview Component', () => {
     customRender(<BorrowerOverview />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {},
     });
 
     expect(screen.getByRole('status'));

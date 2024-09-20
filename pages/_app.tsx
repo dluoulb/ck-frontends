@@ -5,11 +5,10 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useRouter } from 'next/router';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
-
-import { useRouter } from 'next/router';
 
 import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWrapper';
 import MainLayout from '@components/layout/MainLayout';

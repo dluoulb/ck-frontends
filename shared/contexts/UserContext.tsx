@@ -30,12 +30,15 @@ export const UserContext = createContext<UserState>(defaultState);
 
 export const useUser = () => useContext(UserContext);
 
-export const UserProvider = ({ children }) => {
-  const [userState, setUser] = useState({
+export const UserProvider = ({
+  children,
+  initialUserState = {
     user: null,
     isImpersonating: false,
     parentID: '',
-  });
+  },
+}) => {
+  const [userState, setUser] = useState(initialUserState);
 
   return (
     <UserContext.Provider value={{ ...userState, setUser }}>

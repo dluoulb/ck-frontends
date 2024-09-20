@@ -7,7 +7,6 @@ describe('Main Dashbboard Home Page', () => {
     customRender(<BorrowerDashboard />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: { payment_methods: true },
     });
 
     // check if borrower overview has loaded
@@ -28,7 +27,6 @@ describe('Main Dashbboard Home Page', () => {
     customRender(<BorrowerDashboard />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {},
     });
 
     expect(screen.getByText('No borrower found'));

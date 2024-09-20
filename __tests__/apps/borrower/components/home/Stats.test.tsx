@@ -7,9 +7,6 @@ describe('Stats Component', () => {
     customRender(<Stats />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        stats: true,
-      },
     });
 
     await waitFor(() => {
@@ -27,9 +24,6 @@ describe('Stats Component', () => {
     customRender(<Stats />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        stats: false,
-      },
     });
 
     expect(screen.getByText(/Unable to collect available company credit/));

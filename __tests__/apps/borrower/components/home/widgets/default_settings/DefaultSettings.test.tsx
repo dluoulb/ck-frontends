@@ -7,9 +7,6 @@ describe('Default Settings Widget', () => {
     customRender(<DefaultSettings />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        payment_methods: true,
-      },
     });
 
     expect(screen.getByText(/My Big Bank/i));
@@ -19,10 +16,6 @@ describe('Default Settings Widget', () => {
     customRender(<DefaultSettings />, {
       withBorrowerProviders: true,
       user: companyApproved.borrower,
-      fetchConfig: {
-        payment_methods: true,
-        default_terms: true,
-      },
     });
 
     expect(screen.getByRole('default-term-display-component'));

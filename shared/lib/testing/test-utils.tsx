@@ -4,21 +4,22 @@ import { render as rtlRender } from '@testing-library/react';
 import { ApiContext } from 'pages/_app';
 import { SuperTokensWrapper } from 'supertokens-auth-react';
 
+import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWrapper';
 import { QueryContext } from '@contexts/QueryContext';
-import { UserContext } from '@contexts/UserContext';
+import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
 import { renders } from './sharedTests';
 
-const defaultUserContext = { user: null, setUser: jest.fn() };
 const defaultQueryContext = { searchQuery: '', setSearchQuery: jest.fn() };
 
 function customRender(
   ui,
   {
+    user = null,
+    isImpersonating = false,
+    parentID = '',
     routerQuery = {},
     withBorrowerProviders = false,
-    fetchConfig = {},
-    user = null,
     ...renderOptions
   } = {}
 ) {
@@ -29,19 +30,21 @@ function customRender(
   }));
 
   function Wrapper({ children }: { children: React.ReactNode }) {
-    const userContextValue = {
-      ...defaultUserContext,
-      user: user || defaultUserContext.user,
-    };
+    const initialUserState = { user, isImpersonating, parentID };
+    
     return (
       <QueryClientProvider client={queryClient}>
         <SuperTokensWrapper>
           <ApiContext.Provider value={api}>
-            <UserContext.Provider value={userContextValue}>
+            <UserProvider initialUserState={initialUserState}>
               <QueryContext.Provider value={defaultQueryContext}>
-                {children}
+                {withBorrowerProviders ? (
+                  <BorrowerPageWrapper>{children}</BorrowerPageWrapper>
+                ) : (
+                  children
+                )}
               </QueryContext.Provider>
-            </UserContext.Provider>
+            </UserProvider>
           </ApiContext.Provider>
         </SuperTokensWrapper>
       </QueryClientProvider>
