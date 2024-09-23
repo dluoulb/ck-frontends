@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import Link from 'next/link';
 
-import useUser from '@hooks/useUser';
+import { useUser } from '@contexts/UserContext';
 
 export default function SideNav({ primaryRoutes }) {
   const [extend, setExtend] = useState(false);

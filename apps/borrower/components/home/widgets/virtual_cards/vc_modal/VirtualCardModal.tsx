@@ -4,8 +4,8 @@ import { useSearchParams } from 'next/navigation';
 
 import usePromo from '@apps/borrower/hooks/usePromo';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
-import useUser from '@hooks/useUser';
 import { buildRequestPayload, startVirtualCardOrder } from '@lib/actions/ecomm';
 import { formatCurrency } from '@lib/utils/formatters';
 import VirtualCardForm from './VirtualCardForm';

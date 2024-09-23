@@ -2,13 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Loading from '@components/Loading';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import { formatCurrency } from '@lib/utils/formatters';
 
-export default function EntityOverview({ props }) {
+export default function EntityOverview() {
   let statusColor;
-  const { type, entity, stats, errors } = props;
+  const { entity, stats, statsError } = useReportsDeps();
+  
   const status =
-    type === 'company' ? entity?.underwriting_status : entity?.status;
+    entity?.type === 'company' ? entity?.underwriting_status : entity?.status;
 
   switch (status) {
     case 'approved':
@@ -27,9 +29,9 @@ export default function EntityOverview({ props }) {
   }
 
   const getDisplay = () => {
-    if (!stats && !errors.statsError) {
+    if (!stats && !statsError) {
       return <Loading className="w-7 h-7" />;
-    } else if (errors.statsError) {
+    } else if (statsError) {
       return;
     } else {
       return (
@@ -56,7 +58,10 @@ export default function EntityOverview({ props }) {
       <div className="flex justify-between items-center">
         <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
           <div className="text-sm md:text-base">
-            <p data-testid="entity_name" className="text-xl md:text-3xl font-bold text-primary-blue-hover">
+            <p
+              data-testid="entity_name"
+              className="text-xl md:text-3xl font-bold text-primary-blue-hover"
+            >
               {entity?.name}
             </p>
             <p className="font-semibold">
@@ -68,7 +73,7 @@ export default function EntityOverview({ props }) {
             <p className="font-semibold">
               <span className="mr-1 font-normal">TCL:</span>
               {formatCurrency(
-                type === 'company'
+                entity?.type === 'company'
                   ? entity?.approved_credit_limit
                   : entity?.tier_limit
               )}

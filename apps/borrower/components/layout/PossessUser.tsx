@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import useUser from '@hooks/useUser';
 import PossessUserModal from './PossessUserModal';
 
 export default function PossessUser() {

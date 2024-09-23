@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
-import useUser from '@hooks/useUser';
 import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
 import AccountRecord from '@lib/records/account';
@@ -14,20 +14,34 @@ const EntityContext = createContext(null);
 
 export const EntityProvider = ({ children }) => {
   const api = useApi();
-  const { user } = useUser();
+  const { user: loggedInUser } = useUser();
   const [entity, setEntity] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const loggedInUserType = loggedInUser?.company_id ? 'company' : 'account';
+  const loggedInUserId = loggedInUser?.company_id
+    ? loggedInUser?.company_id
+    : loggedInUser?.account_id;
 
-  const getEntity = useMutation<CompanyOrAccountRecord>({
-    mutationKey: [
-      user?.company_id ? 'company' : 'account',
-      user?.company_id ? user?.company_id : user?.account_id,
-    ],
-    mutationFn: (user: any) => {
-      return user?.company_id
-        ? getCompany(api, user?.company_id, 'include=cta_banners')
-        : getAccount(api, user?.account_id);
+  const entityFn = (id, type) => {
+    if (type === 'company') {
+      return getCompany(api, id, 'include=cta_banners');
+    } else {
+      return getAccount(api, id);
+    }
+  };
+
+  const getEntity = useMutation<
+    CompanyOrAccountRecord,
+    unknown,
+    { id: string | null; type: string | null }
+  >({
+    mutationFn: ({ id, type }) => {
+      if (id && type) {
+        return entityFn(id, type);
+      } else {
+        return entityFn(loggedInUserId, loggedInUserType);
+      }
     },
     onSuccess: (data) => {
       setEntity(data);
@@ -42,14 +56,16 @@ export const EntityProvider = ({ children }) => {
     retry: 1,
   });
 
-  const fetchEntity = (user) => {
+  const fetchEntity = (id, type) => {
     setLoading(true);
-    getEntity.mutateAsync(user);
+    getEntity.mutateAsync({ id, type });
   };
 
   useEffect(() => {
-    if (user) fetchEntity(user);
-  }, [user]);
+    if (loggedInUser && loggedInUserId) {
+      fetchEntity(loggedInUserId, loggedInUserType);
+    }
+  }, [loggedInUser]);
 
   return (
     <EntityContext.Provider
@@ -66,10 +82,18 @@ export const EntityProvider = ({ children }) => {
   );
 };
 
-export const useEntity = () => {
+export const useEntity = (id = null, type = null) => {
   const context = useContext(EntityContext);
   if (!context) {
     throw new Error('useEntity must be used within an EntityProvider');
   }
-  return context;
+  const { fetchEntity, ...rest } = context;
+
+  useEffect(() => {
+    if (id && type) {
+      fetchEntity(id, type);
+    }
+  }, [id, type]);
+
+  return { ...rest, fetchEntity };
 };

@@ -1,74 +1,31 @@
-import { useQuery } from '@tanstack/react-query';
-
-import useApi from '@hooks/useApi';
-import { getAccount } from '@lib/actions/accounts';
-import { getCompany } from '@lib/actions/companies';
-import { getPaymentSchedule, getTransactions } from '@lib/actions/orders';
-import AccountRecord from '@lib/records/account';
-import CompanyRecord from '@lib/records/company';
-
-type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
+import { useEntity } from '@contexts/EntityContext';
+import usePaymentSchedule from '@hooks/usePaymentSchedule';
+import useTransactions from '@hooks/useTransactions';
 
 function useOrderDependencies(order) {
-  let orderProps;
-  const api = useApi();
-  const fetchConfig = {
-    enabled: !!order && !orderProps,
-    retry: false,
-  };
+  const { entity, entityError, entityLoading } = useEntity(
+    order?.entity_id,
+    order?.entity_type
+  );
 
-  const {
-    data: entity,
-    error: entityError,
-    isLoading: entityLoading,
-  } = useQuery<CompanyOrAccountRecord>({
-    queryKey: ['entity', order?.entity_id],
-    queryFn: () =>
-      order?.entity_type === 'company'
-        ? getCompany(api, order?.entity_id)
-        : getAccount(api, order?.entity_id),
-    ...fetchConfig,
-  });
+  const transactions = useTransactions(order);
+  const paymentSchedule = usePaymentSchedule(order);
 
-  const {
-    data: transactions,
-    error: transactionsError,
-    isLoading: transactionsLoading,
-  } = useQuery({
-    queryKey: ['transactions', order?.id],
-    queryFn: () => getTransactions(api, order?.id),
-    ...fetchConfig,
-  });
+  const isLoading =
+    entityLoading ||
+    transactions?.transactionsLoading ||
+    paymentSchedule?.paymentScheduleLoading;
 
-  const {
-    data: paymentSchedule,
-    error: psError,
-    isLoading: psLoading,
-  } = useQuery({
-    queryKey: ['payment_schedule', order?.id],
-    queryFn: () => getPaymentSchedule(api, order?.id),
-    ...fetchConfig,
-  });
-
-  const hasErrors = entityError || transactionsError || psError;
-  const isLoading = entityLoading || transactionsLoading || psLoading;
-  const errors = {
-    entityError,
-    transactionsError,
-    psError,
-  };
-
-  orderProps = {
-    type: order?.entity_type,
-    entity,
-    transactions,
-    paymentSchedule,
-    errors,
-    hasErrors,
+  const orderDeps = {
     isLoading,
+    order,
+    entity,
+    entityError,
+    ...transactions,
+    ...paymentSchedule,
   };
 
-  return { orderProps };
+  return { orderDeps };
 }
 
 export default useOrderDependencies;

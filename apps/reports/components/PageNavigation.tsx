@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const PageNavigation = ({ order, type, entity }) => {
+const PageNavigation = ({ entity, order }) => {
   const pathname = usePathname();
+
   const buildLinkPath = () => {
-    if (type === 'account') {
+    if (entity?.type === 'account') {
       return `/reports/accounts/${entity?.id}`;
     }
     return `/reports/companies/${entity?.id}`;

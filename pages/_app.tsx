@@ -13,6 +13,7 @@ import '../global.css';
 import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWrapper';
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
+import { EntityProvider } from '@contexts/EntityContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -40,19 +41,21 @@ function App({ Component, pageProps }) {
           <ApiContext.Provider value={api}>
             <UserProvider>
               <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
-                <ErrorBoundary>
-                  <MainLayout>
-                    <SearchConfig>
-                      {isBorrowerRoute ? (
-                        <BorrowerPageWrapper>
+                <EntityProvider>
+                  <ErrorBoundary>
+                    <MainLayout>
+                      <SearchConfig>
+                        {isBorrowerRoute ? (
+                          <BorrowerPageWrapper>
+                            <Component {...pageProps} />
+                          </BorrowerPageWrapper>
+                        ) : (
                           <Component {...pageProps} />
-                        </BorrowerPageWrapper>
-                      ) : (
-                        <Component {...pageProps} />
-                      )}
-                    </SearchConfig>
-                  </MainLayout>
-                </ErrorBoundary>
+                        )}
+                      </SearchConfig>
+                    </MainLayout>
+                  </ErrorBoundary>
+                </EntityProvider>
               </QueryContext.Provider>
             </UserProvider>
           </ApiContext.Provider>

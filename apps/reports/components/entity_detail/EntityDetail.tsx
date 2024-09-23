@@ -1,23 +1,29 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import Loading from '@components/Loading';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import EntityOverview from './EntityOverview';
 import MainDashboard from './MainDashboard';
 import OrderDashboard from './OrderDashboard';
 import PageNavigation from '../PageNavigation';
 
-export default function EntityDetail({ props, content, setContent }) {
-  const { type, entity } = props;
+export default function EntityDetail({ content, setContent }) {
+  const { entity, isLoading } = useReportsDeps();
+
+  if (isLoading) {
+    return <Loading className="w-14 h-14 my-16" />;
+  }
 
   return (
     <div>
-      <PageNavigation order={null} type={type} entity={entity} />
+      <PageNavigation entity={entity} order={null} />
       <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-        {type} Details
+        {entity?.type} Details
       </p>
       <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8 sm:pb-16 min-h-full">
         <div className="px-6 pt-6">
-          <EntityOverview props={props} />
+          <EntityOverview />
         </div>
         <div className="border-b border-primary-gray-border mt-6 md:mt-0">
           <nav
@@ -49,9 +55,9 @@ export default function EntityDetail({ props, content, setContent }) {
           </nav>
         </div>
         {!content || content === 'dashboard' ? (
-          <MainDashboard props={props} />
+          <MainDashboard />
         ) : (
-          <OrderDashboard props={props} />
+          <OrderDashboard />
         )}
       </div>
     </div>

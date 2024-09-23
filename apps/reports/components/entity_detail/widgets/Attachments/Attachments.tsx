@@ -5,21 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DocumentsTable from '@apps/reports/components/entity_detail/widgets/Attachments/table/DocumentsTable';
 import Loading from '@components/Loading';
+import { useReportsDeps } from '@contexts/ReportsContext';
 
-export default function Attachments({ props }) {
-  const {
-    documents,
-    errors: { documentError },
-  } = props;
+export default function Attachments() {
+  const { documents, documentsError } = useReportsDeps();
 
-  if (documentError)
+  if (documentsError)
     return (
       <p className="text-error">
         An Error Occured. Please contact Credit Key support.
       </p>
     );
 
-  if (!documents && !documentError)
+  if (!documents && !documentsError)
     return <Loading className="w-14 h-14 my-16" />;
 
   return (

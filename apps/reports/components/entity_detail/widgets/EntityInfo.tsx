@@ -3,12 +3,13 @@ import { faBuilding } from '@fortawesome/pro-regular-svg-icons';
 import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { useReportsDeps } from '@contexts/ReportsContext';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 import { AddressDetails } from './Applications';
 
-export default function EntityInfo({ props }) {
-  const { entity, type } = props;
+export default function EntityInfo() {
+  const { entity } = useReportsDeps();
 
   return (
     <div className="capitalize">
@@ -22,7 +23,7 @@ export default function EntityInfo({ props }) {
         </span>
 
         <p className="font-bold tracking-wide text-primary-blue-hover px-2 md:px-0 md:text-lg lg:text-xl">
-          {type} Details
+          {entity?.type} Details
         </p>
       </div>
       <div className="text-sm md:text-base text-primary font-medium tracking-wide my-2 px-2 md:px-4">
@@ -35,7 +36,7 @@ export default function EntityInfo({ props }) {
             <span className="mr-1 font-normal">Last Modified Date:</span>
             {fromISO(entity?.updated_at).toLocaleString()}
           </p>
-          {type === 'company' && (
+          {entity?.type === 'company' && (
             <>
               <p>
                 <span className="mr-1 font-normal">

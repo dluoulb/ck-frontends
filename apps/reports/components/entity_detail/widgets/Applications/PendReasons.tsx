@@ -4,7 +4,7 @@ import Tooltip from '@components/Tooltip';
 
 export default function PendReasons({ app }) {
   const reasonDisplay = () => {
-    if (app.reasons.length > 1) {
+    if (app?.reasons.length > 1) {
       return app?.reasons?.map((r) => r.replaceAll('_', ' ')).join(', ');
     } else {
       return app?.reasons[0]?.replaceAll('_', ' ');
@@ -17,7 +17,7 @@ export default function PendReasons({ app }) {
         <span className="mr-1 font-normal">Pending/Decline Reasons:</span>
         <Tooltip
           tooltip_text={
-            !app.reasons.length
+            !app?.reasons?.length
               ? 'None - NetX applicants are auto-declined'
               : `Original Reasons: ${reasonDisplay()}`
           }
@@ -32,7 +32,7 @@ export default function PendReasons({ app }) {
   return (
     <div role={PendReasons.role}>
       <span className="mr-1 font-normal">Pending/Decline Reasons:</span>
-      {!app.reasons.length ? 'None' : reasonDisplay()}
+      {!app?.reasons?.length ? 'None' : reasonDisplay()}
     </div>
   );
 }

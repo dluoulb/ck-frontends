@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 import DocumentLink from '@components/DocumentLink';
 import Loading from '@components/Loading';
-import useUser from '@hooks/useUser';
+import { useUser } from '@contexts/UserContext';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 
 export default function OrderOverview({ order, product }) {

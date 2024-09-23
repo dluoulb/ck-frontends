@@ -63,7 +63,7 @@ export default function BorrowerOverview() {
                         based on term length selection
                       </div>
                     }
-                    trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray"
+                    trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray !border-none"
                     container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
                   >
                     <FontAwesomeIcon icon={faCircleInfo} />

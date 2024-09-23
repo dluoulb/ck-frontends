@@ -2,12 +2,14 @@ import React from 'react';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import useOrders from '@hooks/useOrders';
 import { TableColumns } from './order_table/TableColumns';
 
-export default function OrderDashboard({ props }) {
-  const { orders, ordersLoading, pageCount } = useOrders(props, false);
-  const totalRows = props?.stats?.active + props?.stats?.closed;
+export default function OrderDashboard() {
+  const { entity, stats } = useReportsDeps();
+  const { orders, ordersLoading, pageCount } = useOrders(entity, false);
+  const totalRows = stats?.active + stats?.closed;
 
   if (!orders || ordersLoading)
     return (
