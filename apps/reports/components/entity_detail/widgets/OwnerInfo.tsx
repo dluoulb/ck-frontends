@@ -4,15 +4,16 @@ import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Tooltip from '@components/Tooltip';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import { AddressDetails } from './Applications';
 
-export default function OwnerInfo({ props }) {
-  const { entity, type, ownerAddress, applications } = props;
+export default function OwnerInfo() {
+  const { entity, ownerAddress, applications } = useReportsDeps();
   const application = applications && applications[0]?.attributes;
 
   const Birthdate = () => {
-    if (type === 'account') return;
+    if (entity?.type === 'account') return;
 
     if (entity?.borrower.birthdate) {
       return <p>DOB: {fromISO(entity?.borrower.birthdate).toLocaleString()}</p>;
@@ -49,7 +50,7 @@ export default function OwnerInfo({ props }) {
       </div>
       <div className="text-sm md:text-base text-primary font-medium tracking-wide my-2 px-2 md:px-4">
         <div className="font-semibold">
-          {type === 'company' ? (
+          {entity?.type === 'company' ? (
             <>
               <p>
                 <span className="mr-1 font-normal">First Name:</span>
@@ -69,7 +70,7 @@ export default function OwnerInfo({ props }) {
           <Birthdate />
           <p>
             <span className="mr-1 font-normal">Owner OFAC Status:</span>
-            {application?.ofac_status}
+            {application?.ofac_status || 'No Hit'}
           </p>
           <p>
             <span className="mr-1 font-normal">FICO:</span>

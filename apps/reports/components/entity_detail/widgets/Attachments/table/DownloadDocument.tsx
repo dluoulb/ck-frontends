@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { faDownload } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 
 import Loading from '@components/Loading';
+import { useEntity } from '@contexts/EntityContext';
 import useToast from '@hooks/useToast';
 import { getEntityDocument } from '@lib/actions/entities';
 
 export default function DownloadDocument({ document_id }) {
-  const queryClient = useQueryClient();
-  const { id, type } = useRouter().query;
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const entity = queryClient.getQueryData([type, id]);
+  const { entity } = useEntity();
 
   const fetchDocument = async () => {
     let download;
@@ -21,7 +18,7 @@ export default function DownloadDocument({ document_id }) {
 
     setLoading(true);
     download
-      .start()
+      ?.start()
       .then(() => {
         setLoading(false);
       })
@@ -56,4 +53,4 @@ export default function DownloadDocument({ document_id }) {
   );
 }
 
-DownloadDocument.role = 'download-document-component'
+DownloadDocument.role = 'download-document-component';

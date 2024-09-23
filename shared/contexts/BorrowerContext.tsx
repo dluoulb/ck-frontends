@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+import { useUser } from '@contexts/UserContext';
 import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
-import useUser from '@hooks/useUser';
 import { useEntity } from './EntityContext';
 import useCompanyUsers from '../hooks/useCompanyUsers';
 
@@ -19,13 +19,7 @@ export const BorrowerContextProvider = ({ children }) => {
   const companyUserProps = useCompanyUsers(entity);
   const defaultTermsProps = useDefaultTerms(entity);
   const paymentMethodProps = usePaymentMethods(user, entity);
-  const orderProps = useOrders(
-    {
-      type: entity?.type,
-      entity,
-    },
-    isLoading
-  );
+  const orderProps = useOrders(entity, isLoading);
 
   useEffect(() => {
     setIsLoading(

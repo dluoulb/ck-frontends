@@ -33,28 +33,34 @@ const OrderIndex = () => {
   });
 
   const {
-    orderProps: {
-      type,
+    orderDeps: {
       entity,
-      errors,
-      hasErrors,
+      entityError,
       paymentSchedule,
+      paymentScheduleError,
       transactions,
+      transactionsError,
       isLoading,
     },
   } = useOrderDependencies(order);
 
   if (orderError) return <NoDataError tag="Order" withButton={true} />;
 
-  if (errors.entityError) return <NoDataError tag="User" withButton={true} />;
+  if (entityError)
+    return (
+      <NoDataError
+        tag={entity?.type === 'company' ? 'Company' : 'Account'}
+        withButton={true}
+      />
+    );
 
   return (
     <div role={OrderIndex.role}>
-      {(orderLoading || isLoading) && !hasErrors ? (
+      {orderLoading || isLoading ? (
         <Loading className="w-14 h-14 my-16" />
       ) : (
         <>
-          <PageNavigation order={order} type={type} entity={entity} />
+          <PageNavigation order={order} entity={entity} />
           <p className="text-4xl font-bold text-primary">Order Details</p>
           <div className="relative rounded-t-md border-t border-x border-border-gray shadow-sm mt-8 pb-16">
             <div className="p-6">
@@ -74,11 +80,11 @@ const OrderIndex = () => {
               />
               <PSTable
                 payment_schedule={paymentSchedule}
-                err={errors.psError}
+                err={paymentScheduleError}
               />
               <TransactionsTable
                 transactions={transactions}
-                err={errors.transactionsError}
+                err={transactionsError}
               />
             </div>
           </div>

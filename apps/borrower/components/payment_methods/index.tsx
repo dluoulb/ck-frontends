@@ -13,8 +13,8 @@ import Notification from '@components/Notification';
 import Tooltip from '@components/Tooltip';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import useUser from '@hooks/useUser';
 import PaymentMethodModalWrapper from './modals/PaymentMethodModalWrapper';
 import PaymentMethodList from './PaymentMethodList';
 

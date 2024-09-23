@@ -3,9 +3,9 @@ import { DateTime } from 'luxon';
 import Datepicker from 'react-tailwindcss-datepicker';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import useUser from '@hooks/useUser';
 import { exportPaymentHistory } from '@lib/actions/payments';
 
 export default function ExportPaymentHistory() {

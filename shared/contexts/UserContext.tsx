@@ -28,8 +28,6 @@ const defaultState: UserState = {
 
 export const UserContext = createContext<UserState>(defaultState);
 
-export const useUser = () => useContext(UserContext);
-
 export const UserProvider = ({
   children,
   initialUserState = {
@@ -45,4 +43,14 @@ export const UserProvider = ({
       {children}
     </UserContext.Provider>
   );
+};
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error(
+      'useUser must be used within a UserContextProvider'
+    );
+  }
+  return context;
 };

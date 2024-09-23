@@ -8,7 +8,7 @@ import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import SideNav from '@components/layout/SideNav';
 import Scripts from '@components/Scripts';
-import useUser from '@hooks/useUser';
+import { useUser } from '@contexts/UserContext';
 import { supportLink } from '@lib/constants/SiteVariables';
 import PossessUser from './PossessUser';
 

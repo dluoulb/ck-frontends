@@ -6,8 +6,8 @@ import Session from 'supertokens-auth-react/recipe/session';
 
 import Loading from '@components/Loading';
 import Title from '@components/Title';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
-import useUser from '@hooks/useUser';
 import { getUser } from '@lib/actions/users';
 import { parseUserJwt } from '@lib/utils/authorization';
 import StaticFooter from './StaticFooter';

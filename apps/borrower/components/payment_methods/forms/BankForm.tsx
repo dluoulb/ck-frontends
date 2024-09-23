@@ -5,9 +5,9 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import useUser from '@hooks/useUser';
 import {
   createPaymentMethodBank,
   generateBankAgreement,

@@ -4,6 +4,7 @@ import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Tooltip from '@components/Tooltip';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import useDropdown from '@hooks/useDropdown';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
@@ -16,17 +17,13 @@ import {
   PendReasons,
 } from '.';
 
-export default function Applications({ props }) {
-  const {
-    type,
-    applications,
-    errors: { applicationsError },
-  } = props;
+export default function Applications() {
+  const { entity, applications, applicationsError } = useReportsDeps();
   const defaultContentId = applications && applications[0]?.id;
   const { contentId, setContent } = useDropdown(defaultContentId);
 
   const getApprovedAmount = (app) => {
-    if (type === 'account' && app?.modelshop_decision) {
+    if (entity?.type === 'account' && app?.modelshop_decision) {
       return formatCurrency(JSON.parse(app?.modelshop_decision).max_loan);
     } else if (app?.approved_credit_limit !== null) {
       return formatCurrency(app?.approved_credit_limit);
@@ -97,7 +94,7 @@ export default function Applications({ props }) {
                 <span className="mr-1 font-normal">Tier:</span>
                 {app?.tier?.includes('_') ? app?.tier?.slice(5) : app.tier}
               </p>
-              {type === 'company' && (
+              {entity?.type === 'company' && (
                 <>
                   <p>
                     <span className="mr-1 font-normal">Company Name:</span>
@@ -172,7 +169,7 @@ export default function Applications({ props }) {
                 <span className="mr-1 font-normal">Application ID:</span>
                 {app?.id}
               </p>
-              {type === 'company' && (
+              {entity?.type === 'company' && (
                 <AddressDetails
                   type="business"
                   tooltip={false}

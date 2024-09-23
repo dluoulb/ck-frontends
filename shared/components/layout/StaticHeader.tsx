@@ -6,11 +6,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 
+import { authRedirectLink } from '@lib/constants/SiteVariables';
 import logo from '../../lib/images/logo.svg';
 
 export default function StaticHeader() {
   const router = useRouter();
-  const href = `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${process.env.NEXT_PUBLIC_BASE_URL}${router.pathname}`;
+  const href = authRedirectLink(router.pathname);
 
   // TODO: ADD MOBILE NAVIGATION!!!
   return (

@@ -3,8 +3,8 @@ import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 import { defineStepper } from '@stepperize/react';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import useUser from '@hooks/useUser';
 import { ConfirmVCModal, VCRulesModal, VirtualCardModal } from './';
 
 export default function VCModalWrapper({ isModalActive, toggleModal }) {

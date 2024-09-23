@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import useUser from '@hooks/useUser';
 import { createPaymentMethodPi4Card } from '@lib/actions/payment_methods';
 import AcceptBlueHostedForm from './AcceptBlueHostedForm';
 import CreditCardValidationMessages from './CreditCardValidationMessages';

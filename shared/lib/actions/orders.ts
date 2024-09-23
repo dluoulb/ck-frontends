@@ -8,9 +8,9 @@ export const getOrder = async (api, id) => {
   return new OrderRecord(order?.data.data.attributes);
 };
 
-export const getOrders = async (api, entity, type, pageIndex) => {
+export const getOrders = async (api, entity, pageIndex) => {
   const path =
-    `/api/orders?filter[${type}]=${entity?.id}` +
+    `/api/orders?filter[${entity?.type}]=${entity?.id}` +
     `&page=${pageIndex + 1}&per_page=25` +
     `&include=virtual_card_details,payment_schedule`;
 

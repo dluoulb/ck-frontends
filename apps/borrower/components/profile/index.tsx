@@ -13,7 +13,7 @@ import { DateTime } from 'luxon';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
-import useUser from '@hooks/useUser';
+import { useUser } from '@contexts/UserContext';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import BorrowerDetails from './BorrowerDetails';
 import Users from './Users';

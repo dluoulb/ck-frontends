@@ -9,9 +9,8 @@ import { getOrders } from '@lib/actions/orders';
 import OrderRecord from '@lib/records/order';
 import useApi from './useApi';
 
-function useOrders(props, depsLoading = false, pageIndex = 0) {
+function useOrders(entity, depsLoading = false, pageIndex = 0) {
   const api = useApi();
-  const { type, entity } = props;
   const queryClient = useQueryClient();
 
   const {
@@ -21,8 +20,8 @@ function useOrders(props, depsLoading = false, pageIndex = 0) {
     isFetching,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ['orders', entity, type, pageIndex],
-    queryFn: () => getOrders(api, entity, type, pageIndex),
+    queryKey: ['orders', entity, entity?.type, pageIndex],
+    queryFn: () => getOrders(api, entity, pageIndex),
     enabled: !!entity && !depsLoading,
     placeholderData: keepPreviousData,
   });
@@ -30,8 +29,8 @@ function useOrders(props, depsLoading = false, pageIndex = 0) {
   useEffect(() => {
     if (!isPlaceholderData && data?.hasMore) {
       queryClient.prefetchQuery({
-        queryKey: ['projects', pageIndex + 1],
-        queryFn: () => getOrders(api, entity, type, pageIndex + 1),
+        queryKey: ['orders', pageIndex + 1],
+        queryFn: () => getOrders(api, entity, pageIndex + 1),
       });
     }
   }, [data, isPlaceholderData, pageIndex, queryClient]);

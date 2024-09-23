@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import useUser from '@hooks/useUser';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import Documents from './Documents';
 import ReturnsModal from './modals/ReturnsModal';
@@ -12,7 +12,7 @@ import ReturnsModal from './modals/ReturnsModal';
 export default function OrderOverview({ order, product, documents }) {
   let statusColor;
   let statusText;
-  const { user } = useUser();
+  const { user, isImpersonating } = useUser();
   const { isModalActive, toggleModal } = useModal();
   const { defaultBankLabel, defaultCardLabel } = useBorrowerDeps();
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
@@ -104,7 +104,7 @@ export default function OrderOverview({ order, product, documents }) {
             )}
           </div>
           <div className="text-right flex flex-col items-end gap-1">
-            {['superadmin', 'admin'].includes(user?.role) && (
+            {isImpersonating && (
               <a
                 href={order?.checkout_url}
                 target="_new"
