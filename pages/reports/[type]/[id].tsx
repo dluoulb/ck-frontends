@@ -33,7 +33,7 @@ export default function EntityIndex() {
       <ReportsContextProvider
         entity={entity}
         entityLoading={entityLoading}
-        content={content}
+        content={queryContent}
       >
         <EntityDetail content={queryContent} setContent={setQueryContent} />
       </ReportsContextProvider>

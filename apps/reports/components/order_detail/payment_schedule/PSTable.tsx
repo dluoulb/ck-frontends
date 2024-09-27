@@ -1,48 +1,36 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-  useFilters,
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-} from 'react-table';
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
 
 export default function PSTable({ payment_schedule, err }) {
-  const data = useMemo(
-    () => payment_schedule || [],
-    [payment_schedule?.length]
-  );
-  const columns = useMemo(() => TableColumns, []);
-  const sortTypes = React.useMemo(
-    () => ({
-      alphanumericFalsyLast(rowA, rowB, columnId) {
-        const a = Number(rowA.values[columnId]);
-        const b = Number(rowB.values[columnId]);
+  const [sorting, setSorting] = useState([{ id: 'due_date', desc: true }]);
 
-        return Number(a) - Number(b);
-      },
-    }),
-    []
-  );
-  const instance = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        pageSize: payment_schedule?.length < 5 ? payment_schedule?.length : 5,
-        sortBy: [{ id: 'due_date', desc: true }],
-      },
-      sortTypes,
+  const data = useMemo(() => payment_schedule || [], [payment_schedule]);
+  const columns = useMemo(() => TableColumns, []);
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
     },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+    onSortingChange: setSorting,
+  });
 
   if (!payment_schedule) return <Loading className="w-14 h-14 my-16" />;
 
@@ -54,16 +42,15 @@ export default function PSTable({ payment_schedule, err }) {
       <div className="font-semibold tracking-wide text-lg my-3 sm:my-4 px-4 sm:px-6">
         Payment Schedule
       </div>
-      <BaseTable
-        tableInstance={instance}
+      <TestTable
+        table={table}
+        tableClass="w-full px-2 sm:px-6 text-sm"
+        totalCount={payment_schedule?.length}
         noDataFoundWarning={
           err
             ? 'Error: Unable to retrieve payment schedule.'
             : 'No payment schedule found.'
         }
-        tableClass="w-full px-2 sm:px-6 text-sm"
-        addRows={5}
-        fillTable={true}
       />
     </div>
   );

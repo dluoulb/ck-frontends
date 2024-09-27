@@ -5,6 +5,9 @@ import { differenceOfDays, fromISO } from '../utils/datetime_formatters';
 
 export default class PaymentPlanRecord {
   id: string | null;
+  _type?: string | null;
+  name?: string | null;
+  key: null;
   order_key: string | null;
   payment_plan_status: string;
   installments: string;
@@ -16,8 +19,18 @@ export default class PaymentPlanRecord {
   next_payment_due_date: string;
   next_payment_due_amount: string;
   interest_fee_percent: string;
+  interest_free_intervals?: string | null;
+  nsf_count?: string | null;
+  merchant_fee_amount?: string | null;
+  merchant_fee_percent?: string | null;
+  processing_fee_percent?: string | null;
+  settled_amount?: string | null;
+  past_due_count?: string | null;
+  total_amount_refunded?: string | null;
+  last_payment_attempted_at?: string | null;
   payment_schedule: any[];
   transactions: any[];
+  transaction_entries: any[];
 
   constructor(data) {
     Object.assign(this, removeNulls(data));
@@ -38,7 +51,7 @@ export default class PaymentPlanRecord {
 
   get daysPastDue() {
     let today = DateTime.now();
-    let due_date = fromISO(this.last_past_due_at);
+    let due_date = fromISO(this.last_past_due_at.replace(' ', 'T'));
 
     return differenceOfDays(today, due_date);
   }
@@ -63,5 +76,9 @@ export default class PaymentPlanRecord {
       }
     });
     return sum;
+  }
+
+  get capture_date() {
+    return this.disbursement_date;
   }
 }

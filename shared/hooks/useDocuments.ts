@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useApi from '@hooks/useApi';
 import { getDocuments } from '@lib/actions/entities';
 
-function useDocuments(entity) {
+function useDocuments(entity, content) {
   const api = useApi();
 
   const {
@@ -13,7 +13,7 @@ function useDocuments(entity) {
   } = useQuery({
     queryKey: ['documents', entity?.id],
     queryFn: () => getDocuments(api, entity),
-    enabled: !!entity,
+    enabled: !!entity && content !== 'orders',
     retry: false,
   });
 

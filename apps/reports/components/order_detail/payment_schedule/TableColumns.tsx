@@ -3,28 +3,50 @@ import { formatCurrency } from '@lib/utils/formatters';
 
 export const TableColumns = [
   {
-    Header: 'Due Date',
-    accessor: 'due_date',
-    Cell: ({ value }) => (value ? fromISO(value).toLocaleString() : ''),
+    header: 'Due Date',
+    accessorKey: 'due_date',
+    enableSorting: true,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (!value) return '';
+
+      return fromISO(value).toLocaleString();
+    },
   },
   {
-    Header: 'Total',
-    accessor: 'total_expected',
-    Cell: ({ value }) => (value ? formatCurrency(value) : ''),
+    header: 'Total',
+    accessorKey: 'total_expected',
+    enableSorting: true,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (!value) return '';
+      return formatCurrency(value);
+    },
   },
   {
-    Header: 'Principal Paid',
-    accessor: 'principal_paid',
-    Cell: ({ value }) => (value ? formatCurrency(value) : ''),
+    header: 'Principal Paid',
+    accessorKey: 'principal_paid',
+    enableSorting: true,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (!value) return '';
+      return formatCurrency(value);
+    },
   },
   {
-    Header: 'Fees',
-    accessor: 'fees_paid',
-    Cell: ({ value }) => (value ? formatCurrency(value) : ''),
+    header: 'Fees',
+    accessorKey: 'fees_paid',
+    enableSorting: true,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      if (!value) return '';
+      return formatCurrency(value);
+    },
   },
   {
-    Header: 'State',
-    accessor: 'status',
-    Cell: ({ value }) => <span className="capitalize">{value}</span>,
+    header: 'State',
+    accessorKey: 'status',
+    enableSorting: true,
+    cell: ({ getValue }) => <span className="capitalize">{getValue()}</span>,
   },
 ];

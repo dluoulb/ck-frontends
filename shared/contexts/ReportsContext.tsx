@@ -32,17 +32,10 @@ export const ReportsContextProvider = ({
   });
 
   const stats = useStats(entity);
-  const documents =
-    content !== 'orders' ? useDocuments(entity) : { documentsLoading: false };
+  const documents = useDocuments(entity, content);
 
   const { applications, applicationsError, applicationsLoading } =
-    content !== 'orders'
-      ? useApplications(entity)
-      : {
-          applications: [],
-          applicationsLoading: false,
-          applicationsError: null,
-        };
+    useApplications(entity, content);
 
   const sortedApps = Array.isArray(applications)
     ? applications.sort(
@@ -73,6 +66,7 @@ export const ReportsContextProvider = ({
   const dependencies = {
     isLoading,
     entity,
+    entityLoading,
     ...stats,
     ...documents,
     ownerAddress: owner?.address,

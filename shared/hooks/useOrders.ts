@@ -29,15 +29,15 @@ function useOrders(entity, depsLoading = false, pageIndex = 0) {
   useEffect(() => {
     if (!isPlaceholderData && data?.hasMore) {
       queryClient.prefetchQuery({
-        queryKey: ['orders', pageIndex + 1],
+        queryKey: ['orders', entity, entity?.type, pageIndex + 1],
         queryFn: () => getOrders(api, entity, pageIndex + 1),
       });
     }
   }, [data, isPlaceholderData, pageIndex, queryClient]);
 
-  const orders =
-    data?.data?.data?.map((o) => new OrderRecord(o.attributes)) || [];
-  const pageCount = data?.data?.metadata?.total_pages || 0;
+  const orders = data?.data?.map((o) => new OrderRecord(o.attributes)) || [];
+  const pageCount = data?.metadata?.total_pages || 0;
+  const totalOrderCount = data?.metadata?.total_items || 0;
 
   return {
     orders,
@@ -45,6 +45,7 @@ function useOrders(entity, depsLoading = false, pageIndex = 0) {
     isFetching,
     ordersError,
     pageCount,
+    totalOrderCount,
   };
 }
 

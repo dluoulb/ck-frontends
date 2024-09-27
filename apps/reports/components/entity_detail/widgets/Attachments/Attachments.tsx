@@ -21,7 +21,7 @@ export default function Attachments() {
     return <Loading className="w-14 h-14 my-16" />;
 
   return (
-    <div className="capitalize min-h-80">
+    <div className="min-h-80">
       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
         <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
           <FontAwesomeIcon icon={faSquare} className="text-secondary-blue" />

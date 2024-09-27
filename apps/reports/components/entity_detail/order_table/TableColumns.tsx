@@ -1,22 +1,23 @@
 import Link from 'next/link';
 
 import DocumentLink from '@components/DocumentLink';
-import Tooltip from '@components/Tooltip';
 import { formatCurrency } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import OrderStatus from './OrderStatus';
 
 export const TableColumns = [
   {
-    Header: 'Date',
-    accessor: 'product.capture_date',
-    Cell: ({ row: { original } }) => <BuildStack original={original} />,
+    header: 'Date',
+    id: 'capture_date',
+    accessorFn: (row) => row.product?.capture_date,
+    cell: ({ row }) => <BuildStack original={row.original} />,
   },
   {
-    Header: 'Order Key',
+    header: 'Order Key',
+    accessorKey: 'order_key',
     hideColumn: 1024,
-    accessor: 'order_key',
-    Cell: ({ value }) => {
+    cell: ({ getValue }) => {
+      const value = getValue();
       return (
         <Link
           className="text-primary-blue font-semibold cursor-pointer hover:text-primary-blue-hover"
@@ -28,52 +29,56 @@ export const TableColumns = [
     },
   },
   {
-    Header: 'Term',
+    header: 'Term',
+    id: 'term',
+    accessorFn: (row) => row.product?.installments,
     hideColumn: 1024,
-    accessor: 'product.installments',
-    Cell: ({ value }) => {
+    enableSorting: true,
+    cell: ({ getValue }) => {
+      const value = getValue();
       return value === 4 ? value * 2 + 'w' : value * 30 + 'd';
     },
   },
   {
-    Header: 'Amount',
+    header: 'Amount',
+    accessorKey: 'amount',
     hideColumn: 640,
-    accessor: 'amount',
-    Cell: ({ value }) => (
-      <Tooltip
-        tooltip_text="Principal loan amount not including interest & fees"
-        trigger_class="cursor-pointer"
-        container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
-      >
-        {formatCurrency(value)}
-      </Tooltip>
-    ),
+    enableSorting: true,
+    cell: ({ getValue }) => formatCurrency(getValue()),
+    sortingFn: (rowA, rowB, columnId) => {
+      const a = parseFloat(rowA.getValue(columnId)) || 0;
+      const b = parseFloat(rowB.getValue(columnId)) || 0;
+      return a - b;
+    },
   },
   {
-    Header: 'Status',
+    id: 'status',
+    header: 'Status',
+    accessorFn: (row) => row.product?.status,
+    filterFn: 'arrIncludesSome',
     hideColumn: 768,
-    accessor: 'product.status',
-    Cell: ({ row: { original } }) => (
-      <OrderStatus
-        status={
-          original.product.status
-            ? original.product.status
-            : original.product.payment_plan_status
-        }
-      />
+    cell: ({ row }) => (
+      <OrderStatus status={row.original.product.status} order={row.original} />
     ),
   },
   {
-    Header: 'Agreement',
+    header: 'Agreement',
+    accessorKey: 'id',
+    enableSorting: false,
     hideColumn: 856,
-    accessor: 'id',
-    Cell: ({ row: { original } }) => (
+    cell: ({ row }) => (
       <DocumentLink
         buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center"
-        order={original}
+        order={row.original}
         type="agreement"
-        buttonText='Download'
+        buttonText="Download"
       />
     ),
+  },
+  {
+    id: 'isPastDue',
+    accessorFn: (row) => row.product?.isPastDue,
+    filterFn: 'equals',
+    hideColumn: true,
   },
 ];

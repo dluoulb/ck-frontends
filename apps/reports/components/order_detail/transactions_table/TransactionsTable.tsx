@@ -1,45 +1,38 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-  useFilters,
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-} from 'react-table';
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
 
 export default function TransactionsTable({ transactions, err }) {
+  const [sorting, setSorting] = useState([{ id: 'value_date', desc: true }]);
+
   const data = useMemo(() => transactions || [], [transactions?.length]);
   const columns = useMemo(() => TableColumns, []);
-  const sortTypes = React.useMemo(
-    () => ({
-      alphanumericFalsyLast(rowA, rowB, columnId) {
-        const a = Number(rowA.values[columnId]);
-        const b = Number(rowB.values[columnId]);
 
-        return Number(a) - Number(b);
-      },
-    }),
-    []
-  );
-  const instance = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        pageSize: transactions?.length < 5 ? transactions?.length : 5,
-        sortBy: [{ id: 'value_date', desc: true }],
-      },
-      sortTypes,
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
     },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+    onSortingChange: setSorting,
+  });
 
   if (!transactions) return <Loading className="w-14 h-14 my-16" />;
 
@@ -51,15 +44,15 @@ export default function TransactionsTable({ transactions, err }) {
       <div className="font-semibold tracking-wide text-lg my-3 sm:my-4 px-4 sm:px-6">
         Transactions
       </div>
-      <BaseTable
-        tableInstance={instance}
+      <TestTable
+        table={table}
+        tableClass="w-full px-2 sm:px-6"
+        totalCount={transactions?.length}
         noDataFoundWarning={
           err
             ? 'Error: Unable to retrieve order transactions.'
             : 'No transactions found.'
         }
-        tableClass="w-full px-2 sm:px-6"
-        addRows={5}
       />
     </div>
   );

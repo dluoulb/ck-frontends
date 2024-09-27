@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
@@ -7,23 +7,38 @@ import useOrders from '@hooks/useOrders';
 import { TableColumns } from './order_table/TableColumns';
 
 export default function OrderDashboard() {
-  const { entity, stats } = useReportsDeps();
-  const { orders, ordersLoading, pageCount } = useOrders(entity, false);
-  const totalRows = stats?.active + stats?.closed;
+  const { entity } = useReportsDeps();
+  const [ordersPageIndex, setOrdersPageIndex] = useState(0);
+  const { orders, ordersLoading, pageCount, totalOrderCount, isFetching } =
+    useOrders(entity, false, ordersPageIndex);
 
   if (!orders || ordersLoading)
     return (
       <Loading className="w-14 h-14 my-20" containerClass="min-h-[72rem]" />
     );
 
+  const getPageSize = () => {
+    if (orders?.length === 25) {
+      return 25;
+    } else if (orders?.length > 10) {
+      return 15;
+    } else return 10;
+  };
+
   return (
-    <div className="min-h-[72rem]" role={OrderDashboard.role}>
+    <div role={OrderDashboard.role}>
       <OrdersTable
         orders={orders}
+        entity={entity}
+        pageSize={getPageSize()}
         pageCount={pageCount}
+        tableClass="!m-4 mb-8"
         tableColumns={TableColumns}
-        totalRows={totalRows}
-        pageSize={25}
+        totalOrderCount={totalOrderCount}
+        withHeader={true}
+        withDisclaimer={true}
+        isFetching={isFetching}
+        setOrdersPageIndex={setOrdersPageIndex}
       />
     </div>
   );
