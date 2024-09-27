@@ -60,7 +60,7 @@ export const ListBox = ({
       <ListboxOptions
         anchor="bottom"
         transition
-        className="w-[var(--button-width)] rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0"
+        className="w-[var(--button-width)] rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0 !max-h-64 overflow-y-scroll"
       >
         {children}
       </ListboxOptions>

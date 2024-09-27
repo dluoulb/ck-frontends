@@ -1,12 +1,22 @@
 import React, { useMemo, useState } from 'react';
-import { useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table';
+import {
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
+import TableHeader from '@components/TableHeader';
+import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
-import TableHeader from './TableHeader';
 
 export default function DocumentsTable({ documents }) {
   const [active, setActive] = useState('all');
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [sorting, setSorting] = useState([{ id: 'created_at', desc: true }]);
 
   const statusTabs = [
     {
@@ -36,41 +46,49 @@ export default function DocumentsTable({ documents }) {
 
   const data = useMemo(() => documents || [], [documents?.length]);
   const columns = useMemo(() => TableColumns, []);
-  const instance = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        sortBy: [{ id: 'created_at', desc: true }],
-      },
-      manualSortBy: true,
-      disableSortBy: true,
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      sorting,
+      globalFilter,
+      columnFilters,
     },
-    useFilters,
-    useGlobalFilter,
-    useSortBy
-  );
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+  });
 
   return (
-    <div className="flex flex-col max-w-full">
+    <div className="flex flex-col max-w-full capitalize">
       <TableHeader
         statusTabs={statusTabs}
-        tableInstance={instance}
+        table={table}
         active={active}
         setActive={setActive}
+        filterType="file_type"
       />
-      <div className="max-h-84 sm:max-h-64 overflow-y-scroll cursor-ns-resize">
-        <BaseTable
-          tableInstance={instance}
-          noDataFoundWarning={
-            active === 'all'
-              ? 'No documents found.'
-              : `No ${active} documents found.`
-          }
-          rowClass="!text-sm !py-3 !px-4"
-          headerClass="!py-3 !px-4"
-        />
-      </div>
+      <TestTable
+        table={table}
+        totalCount={documents?.length}
+        headerClass="!py-3 !px-4"
+        rowClass="!text-sm !py-3 !px-4"
+        noDataFoundWarning={
+          active === 'all'
+            ? 'No documents found.'
+            : `No ${active} documents found.`
+        }
+      />
     </div>
   );
 }

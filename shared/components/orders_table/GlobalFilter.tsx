@@ -2,12 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default function GlobalFilter({
-  globalFilter,
-  setGlobalFilter,
   defaultPlaceholder,
   containerClass = '',
   inputClass = '',
+  table,
 }) {
+  const { globalFilter } = table?.getState();
+
   return (
     <div className={containerClass}>
       <div className="input-group relative flex flex-wrap items-stretch w-full rounded">
@@ -18,7 +19,7 @@ export default function GlobalFilter({
             inputClass
           )}
           value={globalFilter || ''}
-          onChange={(e) => setGlobalFilter(e.target.value)}
+          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
           placeholder={defaultPlaceholder}
           aria-label="Search"
           aria-describedby="search-input"

@@ -67,7 +67,7 @@ export default function DefaultTermSettingsModal({
                     key={op.term}
                     value={op}
                     className={classNames(
-                      'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue last:hover:rounded-b-md',
+                      'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
                       {
                         'border-b':
                           op !==

@@ -16,7 +16,14 @@ export const getOrders = async (api, entity, pageIndex) => {
 
   if (entity) {
     const orders = await api.get(path);
-    return orders ? orders : [];
+    if (orders?.data?.metadata) {
+      return {
+        data: orders.data.data,
+        metadata: orders.data.metadata,
+        hasMore: orders.data.metadata.total_pages > pageIndex + 1 
+      };
+    }
+    return { data: [], metadata: { total_pages: 0 }, hasMore: false };
   }
 };
 

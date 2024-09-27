@@ -30,7 +30,7 @@ export default function ApplicationDropdown({
               key={op.id}
               value={op.id}
               className={classNames(
-                'capitalize cursor-pointer p-2 hover:bg-secondary-blue hover:primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover border-opacity-30',
+                'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover/20',
                 { 'border-b': op !== listOptions[listOptions.length - 1] }
               )}
             >

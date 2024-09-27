@@ -9,9 +9,9 @@ import OrderDashboard from './OrderDashboard';
 import PageNavigation from '../PageNavigation';
 
 export default function EntityDetail({ content, setContent }) {
-  const { entity, isLoading } = useReportsDeps();
+  const { entity, entityLoading, statsLoading } = useReportsDeps();
 
-  if (isLoading) {
+  if (entityLoading || statsLoading) {
     return <Loading className="w-14 h-14 my-16" />;
   }
 

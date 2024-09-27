@@ -1,12 +1,20 @@
 import React from 'react';
 
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
+import Loading from '@components/Loading';
+import { useReportsDeps } from '@contexts/ReportsContext';
 import { Applications } from './widgets/Applications';
 import Attachments from './widgets/Attachments/Attachments';
 import EntityInfo from './widgets/EntityInfo';
 import OwnerInfo from './widgets/OwnerInfo';
 
 export default function MainDashboard() {
+  const { isLoading } = useReportsDeps();
+  if (isLoading)
+    return (
+      <Loading className="w-14 h-14 my-20" containerClass="min-h-[72rem]" />
+    );
+
   return (
     <div className="p-2.5" role={MainDashboard.role}>
       <BaseGrid gridContainerClass="gap-x-1.5 md:gap-x-3">

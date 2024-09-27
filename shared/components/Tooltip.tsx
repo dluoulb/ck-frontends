@@ -23,14 +23,14 @@ export default function Tooltip({
         {children}
       </span>
       {visible && (
-        <div
+        <span
           ref={setTooltipRef}
           {...getTooltipProps({
             className: `shadow-md p-2 rounded-md z-10 block break-words whitespace-normal font-normal normal-case tracking-wide max-w-sm ${container_class}`,
           })}
         >
           {tooltip_text}
-        </div>
+        </span>
       )}
     </span>
   );
