@@ -9,7 +9,6 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
-import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
 
 export default function TransactionsTable({ transactions, err }) {
@@ -23,6 +22,8 @@ export default function TransactionsTable({ transactions, err }) {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
     },
@@ -44,7 +45,7 @@ export default function TransactionsTable({ transactions, err }) {
       <div className="font-semibold tracking-wide text-lg my-3 sm:my-4 px-4 sm:px-6">
         Transactions
       </div>
-      <TestTable
+      <BaseTable
         table={table}
         tableClass="w-full px-2 sm:px-6"
         totalCount={transactions?.length}

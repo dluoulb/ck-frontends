@@ -9,7 +9,6 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import TableHeader from '@components/TableHeader';
-import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
 
 export default function DocumentsTable({ documents }) {
@@ -78,7 +77,7 @@ export default function DocumentsTable({ documents }) {
         setActive={setActive}
         filterType="file_type"
       />
-      <TestTable
+      <BaseTable
         table={table}
         totalCount={documents?.length}
         headerClass="!py-3 !px-4"

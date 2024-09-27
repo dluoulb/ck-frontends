@@ -1,5 +1,11 @@
-import React, { useMemo } from 'react';
-import { usePagination, useSortBy, useTable } from 'react-table';
+import React, { useMemo, useState } from 'react';
+import {
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
@@ -12,21 +18,28 @@ export default function Users() {
   const { entity } = useEntity();
   const { companyUsers, companyUsersLoading, companyUsersRefetching } =
     useBorrowerDeps();
+  const [sorting, setSorting] = useState([{ id: 'role', desc: false }]);
 
   const data = useMemo(() => companyUsers || [], [companyUsers?.length]);
   const columns = useMemo(() => UserTableColumns, []);
-  const instance = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        sortBy: [{ id: 'role', desc: false }],
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: companyUsers?.length / 5,
+    initialState: {
+      pagination: {
         pageSize: 5,
+        pageIndex: 0,
       },
     },
-    useSortBy,
-    usePagination
-  );
+    state: { sorting },
+    onSortingChange: setSorting,
+    manualPagination: true,
+  });
 
   return (
     <div>
@@ -40,13 +53,14 @@ export default function Users() {
         </div>
       </div>
       <AddNewUser />
-      {companyUsersLoading || companyUsersRefetching ? (
+      {!companyUsers && (companyUsersLoading || companyUsersRefetching) ? (
         <Loading className="w-14 h-14 my-28" />
       ) : (
         <BaseTable
-          tableInstance={instance}
+          table={table}
+          rowClass="!text-sm"
+          totalCount={companyUsers?.length}
           noDataFoundWarning="Error: Unable to retrieve users."
-          rowClass="text-sm"
         />
       )}
     </div>

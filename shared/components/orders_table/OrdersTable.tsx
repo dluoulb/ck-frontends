@@ -1,13 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  faCheckCircle,
-  faExclamationTriangle,
-  faFileInvoiceDollar,
-  faHourglassClock,
-  faInfoCircle,
-  faShoppingCart,
-  faTrashCanXmark,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
 import {
@@ -21,39 +13,7 @@ import classNames from 'classnames';
 
 import BaseTable from '@components/BaseTable';
 import TableHeader from '@components/TableHeader';
-import TestTable from '@components/TestTable';
-
-const statusTabs = [
-  {
-    name: 'all',
-    icon: faShoppingCart,
-    filter_value: '',
-  },
-  {
-    name: 'active',
-    icon: faFileInvoiceDollar,
-    filter_value: ['funded', 'active'],
-  },
-  {
-    name: 'pending',
-    icon: faHourglassClock,
-    filter_value: ['created', 'pending'],
-  },
-  {
-    name: 'paid',
-    icon: faCheckCircle,
-    filter_value: 'paid',
-  },
-  {
-    name: 'canceled',
-    icon: faTrashCanXmark,
-    filter_value: ['canceled', 'void'],
-  },
-  {
-    name: 'past due',
-    icon: faExclamationTriangle,
-  },
-];
+import { orderStatusTabs } from '@lib/constants/SiteVariables';
 
 export default function OrdersTable({
   orders,
@@ -69,14 +29,15 @@ export default function OrdersTable({
   onClickHandler = null,
   isFetching = false,
   setOrdersPageIndex = (pageIndex) => {},
+  defaultSort = '',
 }) {
   const queryClient = useQueryClient();
   const [active, setActive] = useState('all');
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState([]);
-  const [sorting, setSorting] = useState([{ id: 'capture_date', desc: true }]);
+  const [sorting, setSorting] = useState([{ id: defaultSort, desc: true }]);
 
-  const data = useMemo(() => orders || [], [orders]);
+  const data = useMemo(() => orders || [], [orders, orders?.length]);
   const columns = useMemo(() => tableColumns || [], [tableColumns]);
 
   const table = useReactTable({
@@ -146,16 +107,17 @@ export default function OrdersTable({
             table={table}
             active={active}
             setActive={setActive}
-            statusTabs={statusTabs}
+            statusTabs={orderStatusTabs}
             tabClass="border-transparent"
             headerClass="px-2"
             filterType="status"
           />
         )}
-        <TestTable
+        <BaseTable
           table={table}
           rowClass={rowClass}
           isFetching={isFetching}
+          tableClass="!min-w-max"
           isPageCached={!!isPageCached}
           onClickHandler={onClickHandler}
           totalCount={totalOrderCount}

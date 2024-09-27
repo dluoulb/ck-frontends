@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import {
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
-import TestTable from '@components/TestTable';
 import { TableColumns } from './TableColumns';
 
 export default function PSTable({ payment_schedule, err }) {
@@ -21,6 +22,8 @@ export default function PSTable({ payment_schedule, err }) {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
     },
@@ -42,7 +45,7 @@ export default function PSTable({ payment_schedule, err }) {
       <div className="font-semibold tracking-wide text-lg my-3 sm:my-4 px-4 sm:px-6">
         Payment Schedule
       </div>
-      <TestTable
+      <BaseTable
         table={table}
         tableClass="w-full px-2 sm:px-6 text-sm"
         totalCount={payment_schedule?.length}

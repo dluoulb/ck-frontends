@@ -1,242 +1,164 @@
-import React, { Fragment, useEffect } from 'react';
+import React from 'react';
 import { faAngleDown, faAngleUp } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { flexRender } from '@tanstack/react-table';
 import classNames from 'classnames';
 
+import Loading from './Loading';
 import Pagination from './Pagination';
 
 export default function BaseTable({
-  tableInstance,
-  expandedRow = null,
-  noDataFoundWarning = '',
-  onClickHandler = null,
+  table,
   rowClass = '',
-  headerClass = '',
   tableClass = '',
-  addRows = 0,
-  fillTable = false,
-  totalRows = null,
+  headerClass = '',
+  onClickHandler = null,
+  noDataFoundWarning = '',
+  totalCount = 0,
+  isFetching = false,
+  isPageCached = false,
+  usePagination = true,
 }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    pageCount,
-    gotoPage,
-    rows,
-    prepareRow,
-    visibleColumns,
-    state: { pageIndex, pageSize },
-  } = tableInstance;
-
-  let additionalRows = [];
-  const rowList = page ? page : rows;
-  const usePagination = page ? true : false;
-
-  for (let i = 0; i <= addRows; i++) {
-    additionalRows.push(
-      <tr key={i}>
-        <td
-          colSpan={visibleColumns.length}
-          className={classNames('px-4 pt-3 pb-1', rowClass)}
-        />
-      </tr>
-    );
-  }
-
-  const fillTableRows = () => {
-    let additionalRows = [];
-    if (rowList.length < pageSize) {
-      for (let i = 0; i < pageSize - rowList.length; i++) {
-        additionalRows.push(
-          <tr key={i} className="h-1/5">
-            <td
-              colSpan={visibleColumns.length}
-              className={classNames('px-4 pt-3 pb-1', rowClass)}
-            />
-          </tr>
-        );
-      }
-    }
-    return additionalRows;
-  };
-
-  window.addEventListener('resize', () => {
-    tableInstance.columns.forEach((column) => {
-      if (window.innerWidth <= column.hideColumn && column.isVisible) {
-        column.toggleHidden(true);
-      }
-      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
-        column.toggleHidden(false);
-      }
-    });
-  });
-
-  useEffect(() => {
-    tableInstance.columns.forEach((column) => {
-      if (window.innerWidth <= column.hideColumn && column.isVisible) {
-        column.toggleHidden(true);
-      }
-      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
-        column.toggleHidden(false);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    tableInstance.columns.forEach((column) => {
-      if (window.innerWidth <= column.hideColumn && column.isVisible) {
-        column.toggleHidden(true);
-      }
-      if (window.innerWidth >= column.hideColumn && !column.isVisible) {
-        column.toggleHidden(false);
-      }
-    });
-  }, [window.innerWidth]);
+  const { pageSize } = table?.getState()?.pagination;
+  const visibleRows = table?.getRowModel()?.rows?.length;
+  const emptyRows = pageSize - visibleRows;
 
   return (
-    <>
-      <table {...getTableProps()} className={`min-w-full ${tableClass}`}>
-        <thead className="h-full">
-          {headerGroups.map((headerGroup) => {
-            const { key, ...headerGroupProps } =
-              headerGroup.getHeaderGroupProps();
-
-            return (
-              <tr
-                key={key}
-                {...headerGroupProps}
-                className="border-b sticky top-0 h-full"
-              >
-                {headerGroup.headers.map((column) => {
-                  const { key: columnKey, ...columnProps } =
-                    column.getHeaderProps(column.getSortByToggleProps());
-
-                  return (
-                    <th
-                      key={columnKey}
-                      {...columnProps}
-                      scope="col"
-                      className={classNames(
-                        'py-4 text-left text-sm text-primary bg-secondary-blue',
-                        column.isSorted
-                          ? 'flex items-center gap-1 px-4 sm:px-6 h-full'
-                          : 'px-6 sm:px-8',
-                        headerClass
-                      )}
-                    >
-                      {column.render('Header')}
-                      <span className="text-primary">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <FontAwesomeIcon icon={faAngleDown} />
-                          ) : (
-                            <FontAwesomeIcon icon={faAngleUp} />
-                          )
-                        ) : (
-                          ' '
-                        )}
-                      </span>
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </thead>
-
-        <tbody
-          {...getTableBodyProps()}
-          className="text-sm mid:text-base -mx-2 overflow-auto text-primary"
-        >
-          {rows.length > 0 ? (
-            rowList.map((row, i) => {
-              prepareRow(row);
-              const { key, ...rowProps } = expandedRow
-                ? row.getRowProps(row.getToggleRowExpandedProps())
-                : row.getRowProps();
-
-              return (
-                <Fragment key={key}>
-                  <tr
-                    key={key}
-                    {...rowProps}
-                    onClick={() =>
-                      onClickHandler ? onClickHandler(row.original) : {}
-                    }
-                    style={
-                      row.isExpanded
-                        ? { background: '#59738E', color: 'white' }
-                        : null
-                    }
+    <div>
+      <div className="overflow-x-auto">
+        <table className={`min-w-full text-primary ${tableClass}`}>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="h-full">
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
                     className={classNames(
-                      'py-4 border-b last:border-b-0',
+                      'px-6 py-4 text-left text-sm bg-secondary-blue sticky top-0 z-10 h-full',
+                      {
+                        'flex items-center gap-1.5':
+                          header.column.getIsSorted(),
+                      },
+                      { 'cursor-pointer': header.column.getCanSort() },
+                      headerClass
+                    )}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    <span
+                      className={classNames('inline-block w-4', {
+                        invisible: !header.column.getIsSorted(),
+                      })}
+                    >
+                      {{
+                        asc: <FontAwesomeIcon icon={faAngleUp} />,
+                        desc: <FontAwesomeIcon icon={faAngleDown} />,
+                      }[header.column.getIsSorted()] ?? null}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+
+          <tbody className="text-sm mid:text-base">
+            {isFetching && !isPageCached ? (
+              <tr>
+                <td
+                  className="py-3 whitespace-nowrap px-4 text-sm normal-case"
+                  colSpan={table.getHeaderGroups()[0].headers.length}
+                >
+                  <Loading
+                    containerClass="min-h-96"
+                    className="my-36 w-14 h-14"
+                  />
+                </td>
+              </tr>
+            ) : !table.getRowModel().rows.length ? (
+              <>
+                <tr className="border-b">
+                  <td
+                    className="py-3 whitespace-nowrap px-4 text-sm normal-case"
+                    colSpan={table.getHeaderGroups()[0].headers.length}
+                  >
+                    {noDataFoundWarning}
+                  </td>
+                </tr>
+                {Array.from({ length: pageSize - 1 }).map((_, index) => (
+                  <tr key={`empty-${index}`} className="py-4 border-b">
+                    <td
+                      className="py-6 whitespace-nowrap"
+                      colSpan={table.getHeaderGroups()[0].headers.length}
+                    ></td>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <>
+                {table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className={classNames(
+                      'border-b last:border-b-0',
                       onClickHandler
                         ? 'cursor-pointer hover:bg-primary-blue hover:bg-secondary-blue'
                         : ''
                     )}
                   >
-                    {row.cells.map((cell) => {
-                      const { key: cellKey, ...cellProps } = cell.getCellProps({
-                        className: classNames(
-                          'py-4 whitespace-nowrap',
-                          rowClass,
-                          cell.column.className,
-                          cell.column.isSorted ? 'px-5 sm:px-8' : 'px-6 sm:px-8'
-                        ),
-                      });
+                    {row.getVisibleCells().map((cell) => {
+                      const className = classNames(
+                        'py-3 whitespace-nowrap w-max',
+                        rowClass,
+                        cell.column.columnDef.className,
+                        cell.column.getIsSorted() ? 'px-5 sm:px-6' : 'px-6'
+                      );
 
                       return (
-                        <td
-                          key={cellKey}
-                          {...cellProps}
-                        >
-                          {cell.render('Cell')}
+                        <td key={cell.id} className={className}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
                         </td>
                       );
                     })}
                   </tr>
-                  {fillTable && fillTableRows()}
-                  {row.isExpanded && (
-                    <tr className="bg-secondary-blue">
-                      <td colSpan={visibleColumns.length}>{expandedRow}</td>
-                    </tr>
-                  )}
-                </Fragment>
-              );
-            })
-          ) : (
-            <>
-              <tr>
-                <td colSpan={visibleColumns.length} className="p-2 lg:p-4">
-                  {noDataFoundWarning}
-                </td>
+                ))}
+
+                {Array.from({ length: emptyRows }).map((_, index) => (
+                  <tr key={`empty-${index}`} className="py-4 border-b">
+                    <td
+                      className="py-6 whitespace-nowrap"
+                      colSpan={table.getHeaderGroups()[0].headers.length}
+                    />
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+
+          <tfoot>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <th key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
               </tr>
-              {addRows ? additionalRows : null}
-            </>
-          )}
-        </tbody>
-      </table>
-      {usePagination && (
-        <Pagination
-          page={page}
-          rows={rows}
-          pageCount={pageCount}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          gotoPage={gotoPage}
-          pageSize={pageSize}
-          totalRows={totalRows}
-        />
-      )}
-    </>
+            ))}
+          </tfoot>
+        </table>
+      </div>
+      {usePagination && <Pagination table={table} totalCount={totalCount} />}
+    </div>
   );
 }

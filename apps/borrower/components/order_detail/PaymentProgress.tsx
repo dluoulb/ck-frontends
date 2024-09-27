@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
@@ -49,13 +50,30 @@ export default function PaymentProgress({
             />
           ))}
       </div>
-      <div aria-hidden="true" className="mt-6">
-        <div className="overflow-hidden rounded-full bg-gray-200">
+      <div aria-hidden="true" className="mt-8">
+        <div className="bg-stroke rounded-full bg-gray-200 relative h-2.5 w-full">
           <div
-            style={{ width: `${order?.product?.progress}%` }}
-            className={`h-2 rounded-full ${progressColor}`}
-          />
+            className={`absolute top-0 left-0 h-full rounded-full ${progressColor}`}
+            style={{ width: `${order?.product?.progress > 100 ? 100 : order?.product?.progress}%` }}
+          >
+            <span
+              className={classNames(
+                'absolute -right-4 bottom-full mb-2 rounded-sm px-3.5 py-1 text-sm text-white',
+                progressColor,
+                {'hidden': !order?.product?.progress || order?.product?.progress >= 100 }
+              )}
+            >
+              <span
+                className={classNames(
+                  'absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm',
+                  progressColor
+                )}
+              ></span>
+              {formatCurrency(order?.product?.paid_amount)}
+            </span>
+          </div>
         </div>
+
         <div className="mt-6 w-full flex justify-between items-center">
           <div>
             <p className="text-sm font-medium text-secondary-gray">

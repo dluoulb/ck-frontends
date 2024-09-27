@@ -3,60 +3,57 @@ import { DateTime } from 'luxon';
 
 import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
-import { Installments, NextPayment, OrderStatus, OrderType } from './';
-
-function multiValueFilter(rows, columnIds, filterValue) {
-  if (filterValue.length === 0) return rows;
-  return rows.filter((row) => filterValue.includes(row.values[columnIds]));
-}
+import { NextPayment, OrderStatus } from './';
+import Link from 'next/link';
 
 export const DashboardTableColumns = [
   {
-    Header: 'Order Type',
-    accessor: 'product_type',
-    Cell: ({ value }) => <OrderType type={value} />,
-  },
-  {
-    Header: 'Merchant Name',
-    accessor: 'merchant.name',
-  },
-  {
-    Header: 'Order Date',
-    accessor: 'created_at',
+    header: 'Order Date',
+    accessorKey: 'created_at',
     id: 'created_at',
-    Cell: ({ value }) => fromISO(value).toLocaleString(DateTime.DATE_SHORT),
+    cell: ({ getValue }) =>
+      fromISO(getValue()).toLocaleString(DateTime.DATE_SHORT),
   },
   {
-    Header: 'Order ID',
-    accessor: 'merchant_order_id',
-    className: 'has-text-weight-semibold has-text-link',
+    header: 'Order Key',
+    accessorKey: 'order_key',
+    hideColumn: 1024,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      return (
+        <Link
+          className="text-primary-blue font-semibold cursor-pointer hover:text-primary-blue-hover"
+          href={`/borrower/orders/${value}`}
+        >
+          {value}
+        </Link>
+      );
+    },
   },
   {
-    Header: 'Term',
-    accessor: 'product.installments',
-    Cell: ({ row: { original } }) => <Installments order={original} />,
+    header: 'Merchant Name',
+    accessorFn: (row) => row.merchant?.name,
   },
   {
-    Header: 'Total Amount',
-    accessor: 'amount',
-    Cell: ({ value }) => (
-      <div className="text-right">{formatCurrency(value)}</div>
-    ),
+    header: 'Total Amount',
+    accessorKey: 'amount',
+    enableSorting: true,
+    cell: ({ getValue }) => formatCurrency(getValue()),
+    sortingFn: (rowA, rowB, columnId) => {
+      const a = parseFloat(rowA.getValue(columnId)) || 0;
+      const b = parseFloat(rowB.getValue(columnId)) || 0;
+      return a - b;
+    },
   },
   {
-    Header: 'Order Status',
-    accessor: 'product.status',
-    id: 'product.status',
-    className: 'has-text-weight-semibold',
-    filter: multiValueFilter,
-    Cell: ({ row: { original } }) => (
-      <OrderStatus order={original} isTable={true} />
-    ),
+    id: 'status',
+    header: 'Order Status',
+    accessorFn: (row) => row.product?.status,
+    cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {
-    Header: 'Next Payment Date',
-    accessor: 'product.next_payment_date',
-    className: 'has-text-weight-semibold',
-    Cell: ({ row: { original } }) => <NextPayment order={original} />,
+    header: 'Next Payment Date',
+    accessorFn: (row) => row.product?.next_payment_date,
+    cell: ({ row }) => <NextPayment order={row.original} />,
   },
 ];

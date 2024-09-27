@@ -1,5 +1,10 @@
 import React from 'react';
+import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+
+import Tooltip from '@components/Tooltip';
+import { reformatDate } from '@lib/utils/datetime_formatters';
 
 export default function OrderStatus({ order, isTable }) {
   let statusColor = 'text-primary-blue';
@@ -33,7 +38,7 @@ export default function OrderStatus({ order, isTable }) {
   }
 
   return (
-    <span role={OrderStatus.role} className="flex flex-col lg:flex-row">
+    <span role={OrderStatus.role} className="flex flex-col lg:flex-row gap-1">
       <span
         className={classNames(
           'capitalize font-medium',
@@ -44,10 +49,26 @@ export default function OrderStatus({ order, isTable }) {
       >
         {status}
       </span>
-      {order.product.isPastDue && (
-        <span className="text-error text-xxs ml-0 lg:ml-2">
-          {order.product.daysPastDue} Days Past Due!
-        </span>
+      {order?.product?.isPastDue && (
+        <Tooltip
+          tooltip_text={
+            <span>
+              <span className="font-bold mx-1">
+                {order?.product?.daysPastDue}
+              </span>
+              days past due. <br />
+              Last payment attempted on{' '}
+              {reformatDate(order?.product?.last_payment_attempted_at)}
+            </span>
+          }
+          trigger_class="cursor-pointer !border-none"
+          container_class="text-center p-4 px-6 text-sm bg-background-error !text-error"
+        >
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className="text-error text-xs mt-0.5"
+          />
+        </Tooltip>
       )}
     </span>
   );
