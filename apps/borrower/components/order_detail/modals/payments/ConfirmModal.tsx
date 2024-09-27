@@ -44,6 +44,7 @@ export default function ConfirmModal({
     createPayment()
       .then(() => {
         refetchOrder();
+        toggleModal()
         setLoading(false);
         next();
       })
@@ -57,6 +58,7 @@ export default function ConfirmModal({
           msg = error.message;
         }
         makeToast(msg, 'error');
+        toggleModal();
         setLoading(false);
       });
   };

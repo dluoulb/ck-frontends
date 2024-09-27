@@ -105,14 +105,18 @@ export default function BorrowerDetails() {
                 <span className="mr-1 font-medium text-tertiary-gray text-sm">
                   Business Address:
                 </span>
-                <div className="inline-flex gap-1">
-                  <p>{entity?.address.address1}</p>
-                  <p>{entity?.address.address2}</p>
-                  <p>
-                    {entity?.address.city}, {entity?.address.state}{' '}
-                    {entity?.address.zip.slice(0, 5)}
-                  </p>
-                </div>
+                {entity?.address?.address1 ? (
+                  <div className="inline-flex gap-1">
+                    <p>{entity?.address.address1}</p>
+                    <p>{entity?.address.address2}</p>
+                    <p>
+                      {entity?.address.city}, {entity?.address?.state}{' '}
+                      {entity?.address.zip.slice(0, 5)}
+                    </p>
+                  </div>
+                ) : (
+                  'Not Provided'
+                )}
               </div>
               <p>
                 <span className="mr-1 font-medium text-tertiary-gray text-sm">

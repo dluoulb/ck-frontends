@@ -6,10 +6,10 @@ export default function Documents({ order, documents }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
   // TODO: TEST COMPANY/ACCOUNT WITH INVOICES
-  const invoiceDocument = documents.find(
+  const invoiceDocument = documents?.find(
     (d) => d.file_type === 'invoice_document'
   );
-  const net30InvoiceDocument = documents.find((d) => d.file_type === 'invoice');
+  const net30InvoiceDocument = documents?.find((d) => d.file_type === 'invoice');
 
   return (
     <div className="flex flex-col items-end gap-1">

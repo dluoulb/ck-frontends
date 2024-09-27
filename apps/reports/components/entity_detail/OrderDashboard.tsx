@@ -30,6 +30,7 @@ export default function OrderDashboard() {
       <OrdersTable
         orders={orders}
         entity={entity}
+        defaultSort='capture_date'
         pageSize={getPageSize()}
         pageCount={pageCount}
         tableClass="!m-4 mb-8"

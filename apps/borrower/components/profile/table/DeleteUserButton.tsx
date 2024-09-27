@@ -20,6 +20,7 @@ export default function DeleteUserButton({ user }) {
         buttonText="Remove"
         icon={faXmark}
         buttonColor="bg-background-error !text-error !max-w-max"
+        containerClass='!my-0'
         hoverClass="hover:!text-icon-error"
         onClick={toggleModal}
         isSmall={true}

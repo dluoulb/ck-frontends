@@ -1,16 +1,20 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import useOrders from '@hooks/useOrders';
 import { TableColumns } from './TableColumns';
+import BorrowerOverview from '../home/BorrowerOverview';
+import Stats from '../home/Stats';
 
 export default function Orders() {
-  const router = useRouter();
   const { entity, entityLoading } = useEntity();
-  const { orders, ordersLoading, isLoading, pageCount } = useBorrowerDeps();
+  const { isLoading } = useBorrowerDeps();
+  const [ordersPageIndex, setOrdersPageIndex] = useState(0);
+  const { orders, ordersLoading, pageCount, isFetching, totalOrderCount } =
+    useOrders(entity, isLoading, ordersPageIndex);
 
   if (isLoading || ordersLoading || entityLoading)
     return <Loading className="w-14 h-14 my-20" />;
@@ -27,19 +31,27 @@ export default function Orders() {
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           My Orders
         </p>
-        <div className="my-4">
-          <OrdersTable
-            orders={orders}
-            pageCount={pageCount}
-            tableColumns={TableColumns}
-            totalRows={orders?.length}
-            pageSize={25}
-            rowClass="text-sm"
-            withHeader={true}
-            onClickHandler={(value) =>
-              router.push(`/borrower/orders/${value.id}`)
-            }
-          />
+        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
+          <BorrowerOverview />
+          <div className="relative my-4 md:my-6">
+            <div className="py-2 md:py-3 border border-gray-200 border-x-0 rounded-none px-2 md:px-3">
+              <Stats />
+            </div>
+            <OrdersTable
+              orders={orders}
+              entity={entity}
+              defaultSort="created_at"
+              pageSize={25}
+              pageCount={pageCount}
+              tableColumns={TableColumns}
+              totalOrderCount={totalOrderCount}
+              rowClass="!text-sm"
+              tableClass="!rounded-none !border-none"
+              withHeader={true}
+              isFetching={isFetching}
+              setOrdersPageIndex={setOrdersPageIndex}
+            />
+          </div>
         </div>
       </div>
     </div>

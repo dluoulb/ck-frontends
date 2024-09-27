@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { faDollarSign } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -18,10 +18,19 @@ export default function PaymentOptions({
   const remainingRef = useRef(null);
   const customPaymentRef = useRef(null);
 
-  const getOptions = () => [
+  useEffect(() => {
+    if (minimumRef.current) {
+      minimumRef.current.value =
+        order.product.next_payment_due_amount.toString();
+    }
+    if (remainingRef.current) {
+      remainingRef.current.value = order.product.payoff_balance.toString();
+    }
+  }, [order]);
+
+  const options = [
     {
       tag: 'minimum',
-      fieldValue: minimumRef.current ? minimumRef.current.value : '',
       title: 'Make Minimum Payment',
       display: formatCurrency(order.product.next_payment_due_amount),
       inputName: 'minimum_payment',
@@ -31,7 +40,6 @@ export default function PaymentOptions({
     },
     {
       tag: 'remaining',
-      fieldValue: remainingRef.current ? remainingRef.current.value : '',
       title: 'Pay Off Full Balance',
       display: formatCurrency(order.product.payoff_balance),
       inputName: 'remaining_balance',
@@ -41,9 +49,6 @@ export default function PaymentOptions({
     },
     {
       tag: 'custom',
-      fieldValue: customPaymentRef.current
-        ? customPaymentRef.current.value
-        : '',
       title: 'Make Custom Payment',
       display:
         customPaymentRef.current && customPaymentRef.current.value > 0
@@ -53,14 +58,17 @@ export default function PaymentOptions({
       setDisabled: false,
     },
   ];
-  const options = getOptions();
 
   return (
     <>
       <div className="flex justify-between items-center">
         {options.map((op) => {
           return (
-            <Field name="amount" value={op.fieldValue} key={op.tag}>
+            <Field
+              name="amount"
+              value={op.ref.current ? op.ref.current.value : ''}
+              key={op.tag}
+            >
               {() => (
                 <div
                   className={classNames(
@@ -73,9 +81,17 @@ export default function PaymentOptions({
                   onClick={() => {
                     setActive(op.tag);
                     setDisabled(op.setDisabled);
-                    setFieldValue('amount', op.fieldValue);
-                    {
-                      op.tag === 'custom' && customPaymentRef?.current?.focus();
+                    setFieldValue(
+                      'amount',
+                      op.ref.current ? op.ref.current.value : ''
+                    );
+
+                    if (op.tag !== 'custom' && customPaymentRef.current) {
+                      customPaymentRef.current.value = '';
+                    }
+
+                    if (op.tag === 'custom') {
+                      customPaymentRef?.current?.focus();
                     }
                   }}
                 >
