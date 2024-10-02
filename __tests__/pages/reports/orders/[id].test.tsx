@@ -1,52 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
 import useOrderDependencies from '@apps/reports/hooks/useOrderDependencies';
+import { getOrder } from '@lib/actions/orders';
 import { companyApproved, orderA, tpsLoan1, user } from '@lib/testing/records';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 import OrderIndex from '@pages/reports/orders/[id]';
 
-jest.mock('@lib/actions/entities', () => ({
+jest.mock('@lib/actions/orders', () => ({
   getOrder: jest.fn(),
-}));
-
-jest.mock('@tanstack/react-query', () => ({
-  ...jest.requireActual('@tanstack/react-query'),
-  useQuery: jest.fn(),
 }));
 
 jest.mock('@apps/reports/hooks/useOrderDependencies');
 
-// Mock the useQuery calls within useOrderDependencies
-(useQuery as jest.Mock).mockImplementation((options) => {
-  if (options.queryKey[0] === 'entity') {
-    return {
-      data: { attributes: companyApproved },
-      error: null,
-      isLoading: false,
-    };
-  } else if (options.queryKey[0] === 'transactions') {
-    return {
-      data: tpsLoan1.transactions,
-      error: null,
-      isLoading: false,
-    };
-  } else if (options.queryKey[0] === 'payment_schedule') {
-    return { data: tpsLoan1.payment_schedule, error: null, isLoading: false };
-  }
-  return { data: null, error: null, isLoading: false };
-});
-
 describe('Order Detail Page', () => {
   test('displays error page when order not fetched', async () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      data: undefined,
-      error: new Error('Order not found'),
-      isLoading: false,
+    (getOrder as jest.Mock).mockImplementation(() => {
+      return Promise.reject(new Error('Order not found'));
     });
 
     (useOrderDependencies as jest.Mock).mockReturnValue({
-      orderProps: {
+      orderDeps: {
         type: 'company',
         entity: null,
         transactions: [],
@@ -59,21 +32,18 @@ describe('Order Detail Page', () => {
 
     customRender(<OrderIndex />, { routerQuery: { id: 'invalid-id' } });
 
-    expect(screen.getByText('No Order found'));
+    await waitFor(() => {
+      expect(screen.getByText('No Order found')).toBeInTheDocument();
+    });
   });
 
   test('fetches and displays order data', async () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      data: orderA,
-      error: null,
-      isLoading: false,
-    });
+    (getOrder as jest.Mock).mockResolvedValue(orderA);
 
     (usePathname as jest.Mock).mockReturnValue('/reports/orders/CK-123456');
 
-    // Mock the useEntityDependencies hook to return the desired props
     (useOrderDependencies as jest.Mock).mockReturnValue({
-      orderProps: {
+      orderDeps: {
         type: companyApproved.type,
         entity: companyApproved,
         transactions: tpsLoan1.transactions,
@@ -89,6 +59,8 @@ describe('Order Detail Page', () => {
       routerQuery: { id: orderA.id },
     });
 
-    await waitFor(() => screen.getByRole('order-index-component'));
+    await waitFor(() => {
+      expect(screen.getByRole('order-index-component')).toBeInTheDocument();
+    });
   });
 });

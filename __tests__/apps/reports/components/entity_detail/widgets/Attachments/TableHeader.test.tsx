@@ -1,14 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import TableHeader from '@apps/reports/components/entity_detail/widgets/Attachments/table/TableHeader';
+import TableHeader from '@components/TableHeader';
 
 describe('TableHeader Component', () => {
   test('displays document type tabs', () => {
-    const tableInstance = {
-      state: { globalFilter: '' },
-      setGlobalFilter: jest.fn(),
-      setFilter: jest.fn(),
+    const table = {
+      getState: jest.fn(() => ({
+        globalFilter: '',
+      })),
+      setColumnFilters: jest.fn(),
     };
 
     const statusTabs = [
@@ -21,7 +22,7 @@ describe('TableHeader Component', () => {
 
     render(
       <TableHeader
-        tableInstance={tableInstance}
+        table={table}
         statusTabs={statusTabs}
         active="all"
         setActive={jest.fn()}

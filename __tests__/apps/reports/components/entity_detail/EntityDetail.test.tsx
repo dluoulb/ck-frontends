@@ -4,20 +4,10 @@ import { usePathname } from 'next/navigation';
 import 'regenerator-runtime/runtime';
 
 import EntityDetail from '@apps/reports/components/entity_detail/EntityDetail';
-import useOrders from '@hooks/useOrders';
-import {
-  application1,
-  application2,
-  companyApproved,
-  documentA,
-  documentB,
-  orderA,
-  orderB,
-  stats,
-} from '@lib/testing/records';
+import { ReportsContextProvider } from '@contexts/ReportsContext';
+import { getUser } from '@lib/actions/users';
+import { companyApproved } from '@lib/testing/records';
 import { customRender } from '@lib/testing/test-utils';
-
-jest.mock('@hooks/useOrders');
 
 (usePathname as jest.Mock).mockReturnValue('/reports/orders/CK-123456');
 
@@ -25,47 +15,47 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
+jest.mock('@lib/actions/users', () => ({
+  getUser: jest.fn(),
+}));
+
 describe('Entity Detail Page Component', () => {
+  beforeEach(() => {
+    (getUser as jest.Mock).mockReturnValue(companyApproved.borrower);
+  });
+
   test('displays dashboard', async () => {
-    let props = {
-      type: 'company',
-      entity: companyApproved,
-      applications: [application1, application2],
-      documents: [documentA, documentB],
-      stats: stats,
-      errors: {},
-    };
     customRender(
-      <EntityDetail props={props} content="dashboard" setContent={jest.fn()} />
+      <ReportsContextProvider
+        entity={companyApproved}
+        entityLoading={false}
+        content="dashboard"
+      >
+        <EntityDetail content="dashboard" setContent={jest.fn()} />
+      </ReportsContextProvider>
     );
 
     await waitFor(() => screen.getByLabelText('Tabs'));
-    expect(screen.getByText('Documents'));
+    
+    const documentsWidget = await screen.findByText('Documents');
+    expect(documentsWidget).toBeInTheDocument();
   });
 
   test('displays orders table', async () => {
-    let props = {
-      type: 'company',
-      entity: companyApproved,
-      stats: stats,
-      errors: {},
-    };
-    (useOrders as jest.Mock).mockReturnValue({
-      orders: [orderA, orderB],
-      ordersLoading: false,
-      ordersError: null,
-      pageCount: 1,
-      fetchData: jest.fn(),
-    });
-
     customRender(
-      <EntityDetail props={props} content="orders" setContent={jest.fn()} />
+      <ReportsContextProvider
+        entity={companyApproved}
+        entityLoading={false}
+        content="dashboard"
+      >
+        <EntityDetail content="orders" setContent={jest.fn()} />
+      </ReportsContextProvider>
     );
 
     await waitFor(() => screen.getByLabelText('Tabs'));
 
     const columnHeaders = screen.getAllByRole('columnheader');
-    expect(columnHeaders).toHaveLength(4);
+    expect(columnHeaders).toHaveLength(6);
 
     expect(screen.getByRole('pagination-component'));
   });

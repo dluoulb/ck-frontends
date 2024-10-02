@@ -1,13 +1,16 @@
+import { usePathname } from 'next/navigation';
+
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
-import { companyApproved } from '@lib/testing/records';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn(),
+}));
+
 describe('Main Dashbboard Home Page', () => {
+  (usePathname as jest.Mock).mockReturnValue('/borrower');
   test('renders all dashboard widgets', async () => {
-    customRender(<BorrowerDashboard />, {
-      withBorrowerProviders: true,
-      user: companyApproved.borrower,
-    });
+    customRender(<BorrowerDashboard />, { withBorrowerProviders: true });
 
     // check if borrower overview has loaded
     await waitFor(() => expect(screen.getByText('Widget Maker Co.')));
@@ -24,10 +27,7 @@ describe('Main Dashbboard Home Page', () => {
       entityError: new Error('Entity not found'),
       entityLoading: false,
     }));
-    customRender(<BorrowerDashboard />, {
-      withBorrowerProviders: true,
-      user: companyApproved.borrower,
-    });
+    customRender(<BorrowerDashboard />, { withBorrowerProviders: true });
 
     expect(screen.getByText('No borrower found'));
   });

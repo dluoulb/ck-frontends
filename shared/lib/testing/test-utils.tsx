@@ -8,6 +8,7 @@ import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWr
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
+import { companyApproved } from './records';
 import { renders } from './sharedTests';
 
 const defaultQueryContext = { searchQuery: '', setSearchQuery: jest.fn() };
@@ -15,7 +16,7 @@ const defaultQueryContext = { searchQuery: '', setSearchQuery: jest.fn() };
 function customRender(
   ui,
   {
-    user = null,
+    user = companyApproved.borrower,
     isImpersonating = false,
     parentID = '',
     routerQuery = {},
@@ -25,13 +26,20 @@ function customRender(
 ) {
   const queryClient = new QueryClient();
 
+  const { useRouter } = jest.requireMock('next/router');
+  useRouter.mockReturnValue({
+    query: routerQuery,
+    push: jest.fn(),
+    pathname: '',
+  });
+
   jest.mock('@hooks/useToast', () => ({
     default: () => ({ makeToast: jest.fn() }),
   }));
 
   function Wrapper({ children }: { children: React.ReactNode }) {
     const initialUserState = { user, isImpersonating, parentID };
-    
+
     return (
       <QueryClientProvider client={queryClient}>
         <SuperTokensWrapper>
