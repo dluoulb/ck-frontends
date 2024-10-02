@@ -29,7 +29,7 @@ const OrderIndex = () => {
     queryKey: ['order', id],
     queryFn: () => getOrder(api, id),
     enabled: !!id,
-    retry: 1,
+    retry: false,
   });
 
   const {

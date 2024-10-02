@@ -1,12 +1,16 @@
 import '@testing-library/jest-dom';
 
 import { useEntity } from '@contexts/EntityContext';
+import useApplications from '@hooks/useApplications';
 import useCompanyUsers from '@hooks/useCompanyUsers';
 import useDefaultTerms from '@hooks/useDefaultTerms';
+import useDocuments from '@hooks/useDocuments';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
 import {
+  application1,
+  application2,
   companyApproved,
   defaultTerms,
   orderA,
@@ -50,7 +54,9 @@ export const mockApi = {
 jest.mock('@hooks/useApi', () => () => mockApi);
 jest.mock('@hooks/useOrders', () => jest.fn());
 jest.mock('@hooks/usePaymentMethods', () => jest.fn());
+jest.mock('@hooks/useApplications', () => jest.fn());
 jest.mock('@hooks/useDefaultTerms', () => jest.fn());
+jest.mock('@hooks/useDocuments', () => jest.fn());
 jest.mock('@hooks/useCompanyUsers', () => jest.fn());
 jest.mock('@hooks/useStats', () => jest.fn());
 jest.mock('@contexts/EntityContext', () => ({
@@ -59,11 +65,17 @@ jest.mock('@contexts/EntityContext', () => ({
 }));
 
 global.mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
+global.mockedUseDocuments = useDocuments as jest.MockedFunction<
+  typeof useDocuments
+>;
 global.mockedUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
 global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<
   typeof useCompanyUsers
 >;
 global.mockedUseStats = useStats as jest.MockedFunction<typeof useStats>;
+global.mockedUseApplications = useApplications as jest.MockedFunction<
+  typeof useApplications
+>;
 global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<
   typeof usePaymentMethods
 >;
@@ -98,6 +110,18 @@ global.mockedUseOrders.mockImplementation(() => ({
 global.mockedUseDefaultTerms.mockImplementation(() => ({
   defaultTerms: defaultTerms,
   defaultTermsLoading: false,
+}));
+
+global.mockedUseDocuments.mockImplementation(() => ({
+  documents: ['doc1', 'doc2'],
+  documentsError: null,
+  documentsLoading: false,
+}));
+
+global.mockedUseApplications.mockImplementation(() => ({
+  applications: [{ attributes: application1 }, { attributes: application2 }],
+  applicationsError: null,
+  applicationsLoading: false,
 }));
 
 global.mockedUseStats.mockImplementation(() => ({

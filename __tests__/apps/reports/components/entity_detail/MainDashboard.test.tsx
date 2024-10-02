@@ -1,26 +1,32 @@
 import MainDashboard from '@apps/reports/components/entity_detail/MainDashboard';
-import {
-  application1,
-  application2,
-  companyApproved,
-  documentA,
-  documentB,
-  stats,
-} from '@lib/testing/records';
+import { ReportsContextProvider } from '@contexts/ReportsContext';
+import { getUser } from '@lib/actions/users';
+import { companyApproved } from '@lib/testing/records';
 import { customRender, screen } from '@lib/testing/test-utils';
 
-describe('Main Dashboard Component', () => {
-  test('displays dashboard', () => {
-    let props = {
-      type: 'company',
-      entity: companyApproved,
-      applications: [application1, application2],
-      documents: [documentA, documentB],
-      stats: stats,
-      errors: {},
-    };
-    customRender(<MainDashboard props={props} />);
+jest.mock('@lib/actions/users', () => ({
+  getUser: jest.fn(),
+}));
 
-    expect(screen.getByRole('main-dashboard-component'));
+describe('Main Dashboard Component', () => {
+  beforeEach(() => {
+    (getUser as jest.Mock).mockResolvedValue({
+      address: '123 Test St',
+    });
+  });
+
+  test('displays dashboard', async () => {
+    customRender(
+      <ReportsContextProvider
+        entity={companyApproved}
+        entityLoading={false}
+        content="dashboard"
+      >
+        <MainDashboard />
+      </ReportsContextProvider>
+    );
+
+    const element = await screen.findByRole('main-dashboard-component');
+    expect(element).toBeInTheDocument();
   });
 });

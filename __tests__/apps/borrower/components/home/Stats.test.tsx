@@ -1,13 +1,17 @@
+import { usePathname } from 'next/navigation';
+
 import Stats from '@apps/borrower/components/home/Stats';
-import { companyApproved } from '@lib/testing/records';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn(),
+}));
+
 describe('Stats Component', () => {
+  (usePathname as jest.Mock).mockReturnValue('/borrower');
+
   test('renders', async () => {
-    customRender(<Stats />, {
-      withBorrowerProviders: true,
-      user: companyApproved.borrower,
-    });
+    customRender(<Stats />, { withBorrowerProviders: true });
 
     await waitFor(() => {
       const remainingLabel = screen.getByText(/Remaining Credit/i);
@@ -21,10 +25,7 @@ describe('Stats Component', () => {
       statsError: new Error('Stats not Found'),
       statsLoading: false,
     }));
-    customRender(<Stats />, {
-      withBorrowerProviders: true,
-      user: companyApproved.borrower,
-    });
+    customRender(<Stats />, { withBorrowerProviders: true });
 
     expect(screen.getByText(/Unable to collect available company credit/));
   });

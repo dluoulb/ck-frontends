@@ -1,18 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import OwnerInfo from '@apps/reports/components/entity_detail/widgets/OwnerInfo';
-import { application1, companyApproved, user } from '@lib/testing/records';
+import { ReportsContextProvider } from '@contexts/ReportsContext';
+import { getUser } from '@lib/actions/users';
+import { companyApproved } from '@lib/testing/records';
+import { customRender } from '@lib/testing/test-utils';
+
+jest.mock('@lib/actions/users', () => ({
+  getUser: jest.fn(),
+}));
 
 describe('OwnerInfo Component', () => {
-  test('renders', () => {
-    let props = {
-      type: 'company',
-      entity: companyApproved,
-      ownerAddress: user.address,
-      applications: [application1],
-    };
-    render(<OwnerInfo props={props} />);
+  beforeEach(() => {
+    (getUser as jest.Mock).mockReturnValue(companyApproved.borrower);
+  });
 
-    expect(screen.getByText('1234 Tester Lane'));
+  test('renders', async () => {
+    customRender(
+      <ReportsContextProvider
+        entity={companyApproved}
+        entityLoading={false}
+        content="dashboard"
+      >
+        <OwnerInfo />
+      </ReportsContextProvider>
+    );
+
+    const addressElement = await screen.findByText('1234 Tester Lane');
+    expect(addressElement).toBeInTheDocument();
   });
 });
