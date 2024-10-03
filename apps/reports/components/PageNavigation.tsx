@@ -15,7 +15,7 @@ const PageNavigation = ({ entity, order }) => {
 
   return (
     <div className="flex items-center my-4 md:my-6">
-      <div className="flex flex-col sm:flex-row sm:items-center md:gap-2 text-primary font-semibold">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-primary font-semibold">
         <div className="flex items-center gap-2">
           <Link href="/reports" className="hover:text-primary-blue-hover">
             Search
@@ -31,12 +31,16 @@ const PageNavigation = ({ entity, order }) => {
               >
                 {entity?.name}
               </Link>
+              <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="text-xs mt-0.5 sm:hidden"
+                />
             </div>
             {!pathname.includes('companies') && (
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon
                   icon={faChevronRight}
-                  className="text-xs mt-0.5"
+                  className="hidden sm:inline text-xs mt-0.5"
                 />
                 <Link
                   href={`${buildLinkPath()}?content=orders`}
@@ -44,13 +48,14 @@ const PageNavigation = ({ entity, order }) => {
                 >
                   Orders
                 </Link>
+                <FontAwesomeIcon icon={faChevronRight} className="sm:hidden text-xs mt-0.5" />
               </div>
             )}
           </>
         )}
         {order && (
           <>
-            <FontAwesomeIcon icon={faChevronRight} className="text-xs mt-0.5" />
+            <FontAwesomeIcon icon={faChevronRight} className="hidden sm:inline text-xs mt-0.5" />
             <p className="text-primary-blue-hover">
               {order?.product?.order_key}
             </p>

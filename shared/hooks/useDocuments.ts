@@ -13,7 +13,7 @@ function useDocuments(entity, content) {
   } = useQuery({
     queryKey: ['documents', entity?.id],
     queryFn: () => getDocuments(api, entity),
-    enabled: !!entity && content !== 'orders',
+    enabled: !!entity && content === 'dashboard',
     retry: false,
   });
 

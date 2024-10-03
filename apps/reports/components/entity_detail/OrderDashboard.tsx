@@ -33,7 +33,7 @@ export default function OrderDashboard() {
         defaultSort='capture_date'
         pageSize={getPageSize()}
         pageCount={pageCount}
-        tableClass="!m-4 mb-8"
+        tableClass="!min-w-full"
         tableColumns={TableColumns}
         totalOrderCount={totalOrderCount}
         withHeader={true}

@@ -46,7 +46,7 @@ export default function Orders() {
               tableColumns={TableColumns}
               totalOrderCount={totalOrderCount}
               rowClass="!text-sm"
-              tableClass="!rounded-none !border-none"
+              tableClass="!min-w-max"
               withHeader={true}
               isFetching={isFetching}
               setOrdersPageIndex={setOrdersPageIndex}
