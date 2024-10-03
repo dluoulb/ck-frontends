@@ -16,7 +16,7 @@ export default function EntityIndex() {
   );
 
   useEffect(() => {
-    setQueryContent(content);
+    setQueryContent(content ? content : 'dashboard');
   }, [content]);
 
   if ((!entity && !entityLoading) || entityError) {

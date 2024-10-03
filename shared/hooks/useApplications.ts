@@ -13,7 +13,7 @@ function useApplications(entity, content) {
   } = useQuery({
     queryKey: ['applications', entity?.id],
     queryFn: () => getApplications(api, entity),
-    enabled: !!entity && content !== 'orders',
+    enabled: !!entity && content === 'dashboard',
     retry: false,
   });
 

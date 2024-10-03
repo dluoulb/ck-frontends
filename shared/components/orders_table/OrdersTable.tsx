@@ -96,12 +96,7 @@ export default function OrdersTable({
           </p>
         </div>
       )}
-      <div
-        className={classNames(
-          'col-span-full rounded-lg border border-primary-gray-border overflow-x-scroll',
-          tableClass
-        )}
-      >
+      <div className="col-span-full rounded-lg border border-primary-gray-border overflow-x-scroll">
         {withHeader && (
           <TableHeader
             table={table}
@@ -117,7 +112,7 @@ export default function OrdersTable({
           table={table}
           rowClass={rowClass}
           isFetching={isFetching}
-          tableClass="!min-w-max"
+          tableClass={tableClass}
           isPageCached={!!isPageCached}
           onClickHandler={onClickHandler}
           totalCount={totalOrderCount}

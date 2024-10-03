@@ -27,7 +27,7 @@ export const ReportsContextProvider = ({
   const { data: owner, isLoading: ownerLoading } = useQuery({
     queryKey: ['users', userId],
     queryFn: () => getUser(api, userId),
-    enabled: !!entity && !!userId && content !== 'orders',
+    enabled: !!entity && !!userId && content === 'dashboard',
     retry: 1,
   });
 
