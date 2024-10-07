@@ -1,36 +1,30 @@
-import classNames from 'classnames';
-
-import { formatPhoneNumber } from '@lib/utils/formatters';
+import { formatPhoneNumber, normalizePhone } from '@lib/utils/formatters';
 import DeleteUserButton from './DeleteUserButton';
 
 export const BuildStack = ({ original }) => {
   return (
     <div className="font-semibold">
-      <p>
-        <span className="block xs:hidden mr-1 font-medium text-tertiary-gray text-sm">
+      <p className="flex gap-1">
+        <span className="block xs:hidden font-medium text-tertiary-gray text-sm">
           Owner:
         </span>
-        {original.first_name} {original.last_name}
-      </p>
-      <p className="block xs:hidden">
-        <span className="mr-1 font-medium text-tertiary-gray text-sm">
-          Email:
+        <span className="text-primary-blue-hover lg:text-primary">
+          {original.first_name} {original.last_name}
         </span>
+      </p>
+      <p className="block sm:hidden flex gap-1">
+        <span className="font-medium text-tertiary-gray text-sm">Email:</span>
         {original.email}
       </p>
-      <p className="block sm:hidden">
-        <span className="mr-1 font-medium text-tertiary-gray text-sm">
-          Phone:
-        </span>
-        {formatPhoneNumber(original.phone)}
+      <p className="block mid:hidden flex gap-1">
+        <span className="font-medium text-tertiary-gray text-sm">Phone:</span>
+        {formatPhoneNumber(normalizePhone(original.phone))}
       </p>
-      <p className="block lg:hidden">
-        <span className="mr-1 font-medium text-tertiary-gray text-sm">
-          Role:
-        </span>
+      <p className="block lg:hidden flex gap-1">
+        <span className="font-medium text-tertiary-gray text-sm">Role:</span>
         {original.role === 'borrower' ? 'Primary Owner' : 'Purchaser'}
       </p>
-      <div className="block lg:hidden text-error">
+      <div className="block xl:hidden text-error">
         {original.role === 'borrower' ? null : (
           <DeleteUserButton user={original} />
         )}

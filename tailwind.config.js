@@ -42,7 +42,7 @@ module.exports = {
         lg: '32rem',
       },
       gridTemplateRows: { 18: 'repeat(18, minmax(0, 1fr))' },
-      screens: { '2xs': '375px', xs: '480px', mid: '856px' },
+      screens: { '2xs': '375px', xs: '480px', mid: '856px', '3xl': '1575px' },
       zIndex: { 100: 100 },
       transitionDuration: { 1500: '1500ms' },
     },

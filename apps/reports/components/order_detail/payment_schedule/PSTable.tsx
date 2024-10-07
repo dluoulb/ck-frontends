@@ -9,13 +9,23 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import { useWindowSize } from '@hooks/useWindowSize';
 import { TableColumns } from './TableColumns';
 
 export default function PSTable({ payment_schedule, err }) {
+  const size = useWindowSize();
   const [sorting, setSorting] = useState([{ id: 'due_date', desc: true }]);
 
   const data = useMemo(() => payment_schedule || [], [payment_schedule]);
-  const columns = useMemo(() => TableColumns, []);
+  const columns = React.useMemo(() => {
+    return TableColumns.map((col) => ({
+      ...col,
+      meta: {
+        ...col.meta,
+        isVisible: size.width >= col.hideColumn || !col.hideColumn,
+      },
+    }));
+  }, [size.width]);
 
   const table = useReactTable({
     data,
@@ -26,6 +36,10 @@ export default function PSTable({ payment_schedule, err }) {
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
+      columnVisibility: columns.reduce((acc, col) => {
+        acc[col.id] = col.meta.isVisible;
+        return acc;
+      }, {}),
     },
     initialState: {
       pagination: {

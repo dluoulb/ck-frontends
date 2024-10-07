@@ -7,26 +7,31 @@ import DeleteUserButton from './DeleteUserButton';
 
 export const UserTableColumns = [
   {
+    id: 'first_name',
     header: 'Name',
     accessorKey: 'first_name',
+    meta: {},
     hideColumn: null,
     className: 'font-medium !py-4',
     cell: ({ row }) => <BuildStack original={row.original} />,
   },
   {
+    id: 'email',
     header: 'Email',
     accessorKey: 'email',
-    hideColumn: 480,
+    hideColumn: 640,
     className: '!py-4',
   },
   {
+    id: 'phone',
     header: 'Phone',
     accessorKey: 'phone',
-    hideColumn: 640,
+    hideColumn: 856,
     className: '!py-4',
     cell: ({ getValue }) => formatPhoneNumber(normalizePhone(getValue())),
   },
   {
+    id: 'role',
     header: 'Role',
     accessorKey: 'role',
     hideColumn: 1024,
@@ -44,9 +49,10 @@ export const UserTableColumns = [
     },
   },
   {
+    id: 'id',
     header: '',
     accessorKey: 'id',
-    hideColumn: 1024,
+    hideColumn: 1280,
     className: '!py-0',
     cell: ({ row }) => {
       if (row.original.role === 'borrower') return null;

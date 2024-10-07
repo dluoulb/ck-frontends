@@ -1,10 +1,13 @@
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const PageNavigation = ({ entity, order }) => {
   const pathname = usePathname();
+  const { content } = useRouter().query;
 
   const buildLinkPath = () => {
     if (entity?.type === 'account') {
@@ -32,11 +35,14 @@ const PageNavigation = ({ entity, order }) => {
                 {entity?.name}
               </Link>
               <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="text-xs mt-0.5 sm:hidden"
-                />
+                icon={faChevronRight}
+                className={classNames(
+                  'text-xs mt-0.5',
+                  pathname.includes('companies') ? 'hidden' : 'sm:hidden'
+                )}
+              />
             </div>
-            {!pathname.includes('companies') && (
+            {content === 'orders' && (
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon
                   icon={faChevronRight}
@@ -48,14 +54,23 @@ const PageNavigation = ({ entity, order }) => {
                 >
                   Orders
                 </Link>
-                <FontAwesomeIcon icon={faChevronRight} className="sm:hidden text-xs mt-0.5" />
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={classNames(
+                    'text-xs mt-0.5',
+                    pathname.includes('companies') ? 'hidden' : 'sm:hidden'
+                  )}
+                />
               </div>
             )}
           </>
         )}
         {order && (
           <>
-            <FontAwesomeIcon icon={faChevronRight} className="hidden sm:inline text-xs mt-0.5" />
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className="hidden sm:inline text-xs mt-0.5"
+            />
             <p className="text-primary-blue-hover">
               {order?.product?.order_key}
             </p>

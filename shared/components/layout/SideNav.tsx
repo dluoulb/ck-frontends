@@ -25,7 +25,7 @@ export default function SideNav({ primaryRoutes }) {
 
   return (
     <div
-      className={`hidden md:inline-block bg-secondary-blue h-full z-30 ease-in-out duration-500 fixed left-0 ${
+      className={`hidden lg:inline-block bg-secondary-blue h-full z-30 ease-in-out duration-500 fixed left-0 ${
         extend ? 'w-72' : 'overflow-hidden w-sidenav'
       }`}
     >

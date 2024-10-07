@@ -9,10 +9,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import classNames from 'classnames';
 
 import BaseTable from '@components/BaseTable';
 import TableHeader from '@components/TableHeader';
+import { useWindowSize } from '@hooks/useWindowSize';
 import { orderStatusTabs } from '@lib/constants/SiteVariables';
 
 export default function OrdersTable({
@@ -32,13 +32,25 @@ export default function OrdersTable({
   defaultSort = '',
 }) {
   const queryClient = useQueryClient();
+  const size = useWindowSize();
   const [active, setActive] = useState('all');
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([{ id: defaultSort, desc: true }]);
 
   const data = useMemo(() => orders || [], [orders, orders?.length]);
-  const columns = useMemo(() => tableColumns || [], [tableColumns]);
+  const columns = React.useMemo(() => {
+    return tableColumns.map((col) => ({
+      ...col,
+      meta: {
+        ...col.meta,
+        isVisible:
+          col.hideColumn !== true
+            ? size.width >= col.hideColumn
+            : !col.hideColumn,
+      },
+    }));
+  }, [size.width]);
 
   const table = useReactTable({
     data,
@@ -59,6 +71,10 @@ export default function OrdersTable({
       sorting,
       globalFilter,
       columnFilters,
+      columnVisibility: columns.reduce((acc, col) => {
+        acc[col.id] = col.meta.isVisible;
+        return acc;
+      }, {}),
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

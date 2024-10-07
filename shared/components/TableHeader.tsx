@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { filterFns } from '@tanstack/react-table';
+import { ListboxOption } from '@headlessui/react';
 import classNames from 'classnames';
-import { startCase } from 'lodash';
 
+import { ListBox } from '@components/Dropdown';
 import GlobalFilter from '@components/orders_table/GlobalFilter';
 
 export default function TableHeader({
@@ -34,10 +34,43 @@ export default function TableHeader({
 
   return (
     <div
-      className={classNames('border-b border-primary-gray-border', headerClass)}
+      className={classNames(
+        'border-b border-primary-gray-border !z-50',
+        headerClass
+      )}
     >
-      <ul className="flex justify-between md:items-center -mb-px text-sm text-center">
-        <div className="hidden lg:flex justify-between md:justify-start overflow-x-scroll">
+      <ul className="flex flex-col-reverse xl:flex-row justify-between xl:items-center -mb-px text-sm text-center">
+        <div className="lg:px-2 xl:px-0 inline mid:hidden">
+          <p className="pb-2 px-2 text-left text-sm font-medium border-b border-primary-gray-border">
+            Filter by type:
+          </p>
+          <div className="text-center">
+            <ListBox
+              buttonText={active}
+              handleChange={(e) => {
+                setActive(e.name);
+                handleTabFiltering(e);
+              }}
+              listBoxClass="my-3 relative capitalize bg-secondary-blue mt-1"
+            >
+              {statusTabs.map((tab) => (
+                <ListboxOption
+                  key={tab.name}
+                  value={tab}
+                  className={classNames(
+                    'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover/20 flex items-center gap-2',
+                    { 'border-b': tab !== statusTabs[statusTabs.length - 1] }
+                  )}
+                >
+                  {tab.icon && <FontAwesomeIcon icon={tab.icon} />}
+                  {tab.name}
+                </ListboxOption>
+              ))}
+            </ListBox>
+          </div>
+          <div className="layer" />
+        </div>
+        <div className="hidden mid:flex justify-start overflow-x-scroll">
           {statusTabs.map((s, idx) => {
             return (
               <li
@@ -61,13 +94,13 @@ export default function TableHeader({
                   )}
                 >
                   {s.icon && <FontAwesomeIcon icon={s.icon} />}
-                  <span>{startCase(s.name)}</span>
+                  <span className="capitalize">{s.name}</span>
                 </div>
               </li>
             );
           })}
         </div>
-        <div className="md:min-w-64 w-full lg:w-auto my-2 lg:my-0">
+        <div className="xl:min-w-64 w-full xl:w-auto my-2 xl:my-0">
           <GlobalFilter
             defaultPlaceholder="Search Documents"
             containerClass="w-full"

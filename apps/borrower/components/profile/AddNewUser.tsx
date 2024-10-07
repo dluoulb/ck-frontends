@@ -31,7 +31,7 @@ export default function AddNewUser() {
                   )}
                 />
               </DisclosureButton>
-              <DisclosurePanel className="px-8 pb-2 pt-4 text-sm text-gray-500 transition duration-500">
+              <DisclosurePanel className="px-4 sm:px-8 pb-2 pt-4 text-sm text-gray-500 transition duration-500">
                 <p className="text-sm font-medium text-tertiary-gray">
                   Please provide your purchaser user's contact information. All
                   fields are required.

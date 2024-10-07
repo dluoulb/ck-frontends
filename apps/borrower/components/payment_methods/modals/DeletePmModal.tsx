@@ -49,12 +49,12 @@ export default function DeletePmModal({
         headerIcon={faTrashXmark}
       >
         <div className="my-3 space-y-3">
-          <div className="text-xl font-semibold">
+          <div className="text-lg sm:text-xl font-semibold">
             {!payment_method?.is_default
               ? 'Are you sure?'
               : 'Default payment methods cannot be deleted.'}
           </div>
-          <div>
+          <div className='text-sm sm:text-base'>
             {!payment_method?.is_default ? (
               <p>
                 Please confirm you'd like to delete

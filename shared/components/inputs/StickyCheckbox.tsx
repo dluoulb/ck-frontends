@@ -35,7 +35,7 @@ export default function StickyCheckbox({
         }}
       />
       <div className="text-sm">
-        <label htmlFor={id} className="text-base">
+        <label htmlFor={id} className="text-sm sm:text-base">
           <span className="text-sm">{placeholder}</span>
           <ErrorMessage
             name={id}

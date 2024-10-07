@@ -51,7 +51,7 @@ export default function PaymentMethods() {
         toggleModal={toggleModal}
       />
       <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
-        <div className="flex justify-between items-center w-full my-8">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center w-full my-4 sm:py-4 sm:my-8">
           <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
             Payment Methods
           </p>
@@ -60,7 +60,7 @@ export default function PaymentMethods() {
             buttonText="Add new payment method"
             buttonColor="bg-primary-blue"
             hoverClass="hover:bg-primary-blue-hover"
-            containerClass="max-w-max"
+            containerClass="max-w-max my-2 sm:my-0"
             onClick={toggleModal}
             icon={faPlus}
             isSmall={true}
@@ -68,7 +68,7 @@ export default function PaymentMethods() {
         </div>
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm">
           <div className="flex-1">
-            <div className="mx-auto px-4 md:px-0">
+            <div className="mx-auto">
               {entity?.type === 'company' && (
                 <>
                   <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
@@ -87,88 +87,88 @@ export default function PaymentMethods() {
                 </>
               )}
               {checkIsDefault && (
-                <div className="mt-8 md:mt-12 px-7">
-                  <div className="my-2 flex items-center text-opaque-navy">
-                    <span className="hidden xs:flex xs:mr-2">
-                      <FontAwesomeIcon
-                        icon={faCircleInfo}
-                        className="hidden xs:inline h-4 w-4 xs:pb-0.5"
-                      />
+                <div className="md:mt-12 px-5 md:px-7 pb-6 md:mb-0 text-secondary-gray">
+                  <Tooltip
+                    tooltip_text={
+                      <>
+                        <p>To set a default payment method, click the 3 dots</p>
+                        <p>
+                          to the right of your preferred payment method and
+                          select
+                          <span className="font-semibold ml-1">
+                            Set as Default
+                          </span>
+                        </p>
+                      </>
+                    }
+                    trigger_class="text-sm cursor-pointer !border-none flex items-center gap-2"
+                    container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
+                  >
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className="h-4 w-4 mt-0.5 hidden sm:inline"
+                    />
+                    <span className="hidden sm:inline text-sm md:text-base tracking-wide">
+                      In order to make payments online, please set a default{' '}
+                      {user?.hasAccount
+                        ? 'bank account or credit card'
+                        : 'bank account'}
+                      .
                     </span>
-                    <div className="text-sm md:text-base tracking-wide">
-                      <Tooltip
-                        tooltip_text={
-                          <>
-                            <p>
-                              To set a default payment method, click the 3 dots
-                            </p>
-                            <p>
-                              to the right of your preferred payment method and
-                              select
-                              <span className="font-semibold ml-1">
-                                Set as Default
-                              </span>
-                            </p>
-                          </>
-                        }
-                        trigger_class="pb-2 cursor-pointer"
-                        container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
-                      >
-                        <span>
-                          In order to make payments online, please set a default{' '}
-                          {user?.hasAccount
-                            ? 'bank account or credit card'
-                            : 'bank account'}
-                          .
-                        </span>
-                      </Tooltip>
-                    </div>
-                  </div>
+                  </Tooltip>
+                  <span className="sm:hidden text-sm md:text-base tracking-wide">
+                    In order to make payments online, please set a default{' '}
+                    {user?.hasAccount
+                      ? 'bank account or credit card'
+                      : 'bank account'}
+                    .
+                  </span>
                 </div>
               )}
             </div>
           </div>
         </div>
-        {/* {user?.hasAccount && ( */}
-        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
-          <div className="flex-1">
-            <div className="mx-auto px-4 md:px-0">
-              <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
-                <FontAwesomeIcon
-                  icon={faCreditCard}
-                  className="text-primary-blue text-base lg:text-xl"
-                />
+        {user?.hasAccount && (
+          <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
+            <div className="flex-1">
+              <div className="mx-auto">
+                <div className="flex items-center gap-2.5 bg-secondary-blue border-b border-primary-gray-border pb-3 py-4 px-6">
+                  <FontAwesomeIcon
+                    icon={faCreditCard}
+                    className="text-primary-blue text-base lg:text-xl"
+                  />
 
-                <p className="text-lg md:text-xl font-bold">Credit Cards</p>
-              </div>
-              {user?.hasCompany &&
-                user?.hasAccount &&
-                entity?.type === 'company' &&
-                cards.length > 0 && (
-                  <div className="m-2">
-                    <Notification
-                      icon={faCircleInfo}
-                      textColor="text-primary-blue-hover"
-                      bgColor="bg-secondary-blue"
-                      headline="Important Notice"
-                      ctaButton={<div />}
-                      message={
-                        <span>
-                          You’ve been upgraded to a Credit Key business credit
-                          account. <br />
-                          Business accounts require use of a bank account as the
-                          payment method on all new orders.
-                        </span>
-                      }
-                    />
-                  </div>
-                )}
-              <div className="divide-y">
-                <PaymentMethodList payment_methods={cards} />
+                  <p className="text-lg md:text-xl font-bold">Credit Cards</p>
+                </div>
+                {user?.hasCompany &&
+                  user?.hasAccount &&
+                  entity?.type === 'company' &&
+                  cards.length > 0 && (
+                    <div className="m-2">
+                      <Notification
+                        icon={faCircleInfo}
+                        textColor="text-primary-blue-hover"
+                        bgColor="bg-secondary-blue"
+                        headline="Important Notice"
+                        ctaButton={<div />}
+                        message={
+                          <span>
+                            You’ve been upgraded to a Credit Key business credit
+                            account. <br />
+                            Business accounts require use of a bank account as
+                            the payment method on all new orders.
+                          </span>
+                        }
+                      />
+                    </div>
+                  )}
+                <div className="divide-y">
+                  <PaymentMethodList payment_methods={cards} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

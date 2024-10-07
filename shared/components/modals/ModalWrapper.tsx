@@ -64,11 +64,11 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <div className="fixed inset-0 w-screen overflow-y-auto">
-                <div className="flex min-h-full items-end justify-center text-center sm:items-center">
+              <div className="fixed inset-0 w-screen sm:w-full p-4 sm:p-0 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center text-center sm:items-center">
                   <DialogPanel
                     transition
-                    className=" relative transform overflow-hidden rounded-lg bg-white text-left sm:max-w-lg p-4 shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+                    className="relative transform overflow-hidden rounded-lg bg-white text-left sm:max-w-lg p-4 shadow-xl transition-all"
                   >
                     {header && (
                       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
@@ -88,7 +88,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                         </div>
                       </div>
                     )}
-                    <div className="absolute right-0 top-0 hidden pr-5 pt-4 sm:block">
+                    <div className="absolute right-0 top-0 pr-4 sm:pr-5 pt-2 sm:pt-4">
                       <button
                         type="button"
                         onClick={toggleModal}

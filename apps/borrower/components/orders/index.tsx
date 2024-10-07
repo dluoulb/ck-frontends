@@ -27,7 +27,7 @@ export default function Orders() {
       className="my-4 md:my-6 mx-auto h-full"
       role={Orders.role}
     >
-      <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
+      <div className="mx-2 2xl:max-w-[90%] md:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           My Orders
         </p>
@@ -46,7 +46,7 @@ export default function Orders() {
               tableColumns={TableColumns}
               totalOrderCount={totalOrderCount}
               rowClass="!text-sm"
-              tableClass="!min-w-max"
+              tableClass="!min-w-max lg:!min-w-full 3xl:!min-w-max"
               withHeader={true}
               isFetching={isFetching}
               setOrdersPageIndex={setOrdersPageIndex}

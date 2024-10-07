@@ -30,36 +30,39 @@ export default function BaseTable({
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="h-full">
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className={classNames(
-                      'px-6 py-4 text-left text-sm bg-secondary-blue sticky top-0 z-10 h-full',
-                      {
-                        'flex items-center gap-1.5':
-                          header.column.getIsSorted(),
-                      },
-                      { 'cursor-pointer': header.column.getCanSort() },
-                      headerClass
-                    )}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                    <span
-                      className={classNames('inline-block w-4', {
-                        invisible: !header.column.getIsSorted(),
-                      })}
-                    >
-                      {{
-                        asc: <FontAwesomeIcon icon={faAngleUp} />,
-                        desc: <FontAwesomeIcon icon={faAngleDown} />,
-                      }[header.column.getIsSorted()] ?? null}
-                    </span>
-                  </th>
-                ))}
+                {headerGroup.headers.map(
+                  (header) =>
+                    header.column.getIsVisible() && (
+                      <th
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                        className={classNames(
+                          'px-6 py-4 text-left text-sm bg-secondary-blue sticky top-0 z-10 h-full',
+                          {
+                            'flex items-center gap-1':
+                              header.column.getIsSorted(),
+                          },
+                          { 'cursor-pointer': header.column.getCanSort() },
+                          headerClass
+                        )}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        <span
+                          className={classNames('inline-block w-4', {
+                            invisible: !header.column.getIsSorted(),
+                          })}
+                        >
+                          {{
+                            asc: <FontAwesomeIcon icon={faAngleUp} />,
+                            desc: <FontAwesomeIcon icon={faAngleDown} />,
+                          }[header.column.getIsSorted()] ?? null}
+                        </span>
+                      </th>
+                    )
+                )}
               </tr>
             ))}
           </thead>

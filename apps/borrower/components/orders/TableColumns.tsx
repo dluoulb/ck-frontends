@@ -1,23 +1,24 @@
 import React from 'react';
-import { DateTime } from 'luxon';
 import Link from 'next/link';
 
-import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
-import { NextPayment, OrderStatus } from '../home/table';
+import { BuildStack } from './BuildColumnStack';
+import NextPayment from '../home/table/NextPayment';
+import OrderStatus from '../home/table/OrderStatus';
 
 export const TableColumns = [
   {
+    id: 'created_at',
     header: 'Order Date',
     accessorKey: 'created_at',
-    id: 'created_at',
-    cell: ({ getValue }) =>
-      fromISO(getValue()).toLocaleString(DateTime.DATE_SHORT),
+    hideColumn: 0,
+    cell: ({ row }) => <BuildStack original={row?.original} />,
   },
   {
+    id: 'order_key',
     header: 'Order Key',
     accessorKey: 'order_key',
-    hideColumn: 1024,
+    hideColumn: 1280,
     cell: ({ getValue }) => {
       const value = getValue();
       return (
@@ -31,16 +32,23 @@ export const TableColumns = [
     },
   },
   {
+    id: 'merchant_name',
     header: 'Merchant Name',
+    hideColumn: 1575,
+    meta: {},
     accessorFn: (row) => row.merchant?.name,
   },
   {
+    id: 'merchant_order_id',
     header: 'Merchant Order ID',
     accessorKey: 'merchant_order_id',
+    hideColumn: 1575,
   },
   {
+    id: 'amount',
     header: 'Total Amount',
     accessorKey: 'amount',
+    hideColumn: 640,
     enableSorting: true,
     cell: ({ getValue }) => formatCurrency(getValue()),
     sortingFn: (rowA, rowB, columnId) => {
@@ -50,19 +58,23 @@ export const TableColumns = [
     },
   },
   {
+    id: 'total_balance',
     header: 'Remaining Balance',
     accessorKey: 'total_balance',
+    hideColumn: 640,
     cell: ({ getValue }) => formatCurrency(getValue()),
   },
   {
     id: 'status',
     header: 'Order Status',
+    hideColumn: 856,
     accessorFn: (row) => row.product?.status,
-    filterFn: 'arrIncludesSome',
     cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {
+    id: 'next_payment_date',
     header: 'Next Payment Date',
+    hideColumn: 1536,
     accessorFn: (row) => row.product?.next_payment_date,
     cell: ({ row }) => <NextPayment order={row.original} />,
   },

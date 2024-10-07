@@ -104,7 +104,7 @@ export default function AddUserForm({ company, close }) {
     >
       {({ errors, touched, values }) => (
         <Form>
-          <div className="w-full xs:w-1/2 my-4">
+          <div className="w-full sm:w-3/4 xl:w-1/2 my-4">
             <ColumnInput error={errors.first_name} touched={touched.first_name}>
               <StickyInput
                 id="first_name"
@@ -136,12 +136,12 @@ export default function AddUserForm({ company, close }) {
                 values={values}
               />
             </ColumnInput>
-            <div className="flex flex-col xs:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row sm:gap-3">
               <PrimaryButton
                 ariaLabel="save-purchaser-user"
                 buttonText="Add Purchaser User"
                 buttonColor="bg-primary-blue"
-                containerClass="min-w-[30%] max-w-max"
+                containerClass="min-w-full sm:min-w-max sm:max-w-max"
                 hoverClass="hover:bg-primary-blue-hover"
                 disabled={loading}
                 isLoading={loading}
@@ -151,7 +151,7 @@ export default function AddUserForm({ company, close }) {
                 ariaLabel="Close"
                 buttonText="Cancel"
                 buttonColor="border-primary-blue text-primary-blue"
-                containerClass="min-w-[30%] max-w-max"
+                containerClass="min-w-full sm:min-w-max sm:max-w-max"
                 hoverClass=" hover:text-primary-blue-hover hover:border-primary-blue-hover"
                 onClick={close}
                 disabled={loading}

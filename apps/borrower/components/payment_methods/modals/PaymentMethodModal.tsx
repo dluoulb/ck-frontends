@@ -41,10 +41,10 @@ export default function PaymentMethodModal({
     <>
       <div>
         <div className="text-center">
-          <div className="my-2">
-            <p className="text-2xl font-bold">New Payment Method</p>
-            <div className="my-2">
-              <p>
+          <div className="my-4 sm:my-2">
+            <p className="text-xl sm:text-2xl font-bold">New Payment Method</p>
+            <div className="my-1 sm:my-2">
+              <p className="text-sm sm:text-base">
                 Please confirm your{' '}
                 {contentId === 'ach' ? 'business bank' : 'credit card'} details.
               </p>
@@ -80,7 +80,7 @@ export default function PaymentMethodModal({
                     : listOptions[1].text
                 }
                 handleChange={setContent}
-                listBoxClass="!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 sm:text-sm relative"
+                listBoxClass="!w-full sm:!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 text-sm relative"
               >
                 {listOptions.map((op) => (
                   <ListboxOption
@@ -111,7 +111,7 @@ export default function PaymentMethodModal({
             setHasAlert={setHasAlert}
           />
         ) : (
-          <div className="mx-12">
+          <div className="sm:mx-12">
             <CreditCardForm toggleModal={toggleModal} />
           </div>
         )}

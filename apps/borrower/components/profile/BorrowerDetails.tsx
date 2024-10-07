@@ -24,8 +24,8 @@ export default function BorrowerDetails() {
 
   return (
     <div className="flex flex-col pt-6">
-      <div className="border-b border-primary-gray-border px-8 pb-6">
-        <div className="text-sm font-medium flex items-center justify-between">
+      <div className="border-b border-primary-gray-border px-6 sm:px-8 pb-6">
+        <div className="text-sm font-medium flex flex-col lg:flex-row lg:items-center justify-between">
           <div className="text-tertiary-gray">
             <p>View your {entity?.type} details below.</p>
             <p>
@@ -33,7 +33,7 @@ export default function BorrowerDetails() {
               Support.
             </p>
           </div>
-          <div className="font-semibold flex flex-col items-end gap-1">
+          <div className="mt-4 lg:mt-0 font-semibold flex flex-col xs:flex-row lg:flex-col justify-between items-start xs:items-end gap-1">
             <a
               href="mailto: support@creditkey.com"
               className="flex items-center gap-1.5"
@@ -50,15 +50,15 @@ export default function BorrowerDetails() {
           </div>
         </div>
       </div>
-      <div className="p-8 divide-y">
-        <div className="flex items-start pb-8">
-          <div className="w-2/5">
-            <p className="capitalize font-bold">Contact Information</p>
+      <div className="p-6 sm:p-8 divide-y overflow-x-scroll">
+        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-0 pb-8">
+          <div className="sm:w-2/5">
+            <p className="capitalize font-bold text-lg sm:text-base">Contact Information</p>
             <p className="text-tertiary-gray text-sm font-medium w-3/4">
               Primary account owner details used for orders and applications.
             </p>
           </div>
-          <div className="w-3/5 font-semibold">
+          <div className="sm:w-3/5 font-semibold border-t border-primary-border-gray sm:border-transparent pt-4 sm:pt-0">
             <p>
               <span className="mr-1 font-medium text-tertiary-gray text-sm">
                 Owner:
@@ -79,9 +79,9 @@ export default function BorrowerDetails() {
             </p>
           </div>
         </div>
-        <div className="flex items-start pt-8">
-          <div className="w-2/5">
-            <p className="capitalize font-bold">Underwriting Data</p>
+        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-0 pt-8">
+          <div className="sm:w-2/5">
+            <p className="capitalize font-bold text-lg sm:text-base">Underwriting Data</p>
             {entity?.type === 'company' ? (
               <p className="text-tertiary-gray text-sm font-medium w-3/4">
                 Latest application data used for credit line decisioning and
@@ -94,7 +94,7 @@ export default function BorrowerDetails() {
             )}
           </div>
           {entity?.type === 'company' ? (
-            <div className="w-3/5 font-semibold">
+            <div className="sm:w-3/5 font-semibold border-t border-primary-border-gray sm:border-transparent pt-4 sm:pt-0">
               <p>
                 <span className="mr-1 font-medium text-tertiary-gray text-sm">
                   EIN:

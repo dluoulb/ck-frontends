@@ -58,8 +58,8 @@ export default function MainLayout({ children }) {
     <div className="flex flex-col min-h-screen font-manrope relative">
       <Title pathname={router.pathname} />
       <StaticHeader />
-      <div className="flex-grow flex flex-col w-full pb-48">
-        <div className="w-[90%] sm:container md:max-w-[900px] lg:max-w-[1200px] xl:!container mx-auto md:px-4 xl:px-8 pt-16 flex-grow">
+      <div className="flex-grow flex flex-col min-h-screen sm:min-h-auto w-full mb-48 lg:mb-0 pb-48">
+        <div className="w-[90%] sm:container md:max-w-6xl 2xl:max-w-full mx-auto md:px-8 pt-16 flex-grow">
           {children}
         </div>
       </div>

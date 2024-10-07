@@ -18,7 +18,7 @@ export default function NextPayment({ order }) {
       break;
     case 'paid':
     case 'void':
-      payment_date = 'Paid Off';
+      payment_date = 'N/A';
       break;
     default:
       return payment_date;
