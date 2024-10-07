@@ -12,7 +12,7 @@ import { useUser } from '@contexts/UserContext';
 import { supportLink } from '@lib/constants/SiteVariables';
 import PossessUser from './PossessUser';
 
-const primaryRoutes = [
+export const primaryRoutes = [
   {
     icon: faHouseBlank,
     name: 'Home',
@@ -48,7 +48,7 @@ export default function PortalLayout({ children }) {
     <div className="flex" role={PortalLayout.role}>
       <Scripts />
       <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full md:w-portal ml-0 md:ml-24 xl:ml-16">
+      <div className="flex-grow w-full xl:w-portal ml-0 lg:ml-24 xl:ml-16">
         {isImpersonating && <PossessUser />}
         {children}
       </div>

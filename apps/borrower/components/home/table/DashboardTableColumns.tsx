@@ -1,20 +1,21 @@
 import React from 'react';
-import { DateTime } from 'luxon';
-
-import { fromISO } from '@lib/utils/datetime_formatters';
-import { formatCurrency } from '@lib/utils/formatters';
-import { NextPayment, OrderStatus } from './';
 import Link from 'next/link';
+
+import { formatCurrency } from '@lib/utils/formatters';
+import { BuildStack } from './BuildColumnStack';
+import NextPayment from './NextPayment';
+import OrderStatus from './OrderStatus';
 
 export const DashboardTableColumns = [
   {
+    id: 'created_at',
     header: 'Order Date',
     accessorKey: 'created_at',
-    id: 'created_at',
-    cell: ({ getValue }) =>
-      fromISO(getValue()).toLocaleString(DateTime.DATE_SHORT),
+    meta: {},
+    cell: ({ row }) => <BuildStack original={row?.original} />,
   },
   {
+    id: 'order_key',
     header: 'Order Key',
     accessorKey: 'order_key',
     hideColumn: 1024,
@@ -31,12 +32,16 @@ export const DashboardTableColumns = [
     },
   },
   {
+    id: 'merchant_name',
     header: 'Merchant Name',
+    hideColumn: 1280,
     accessorFn: (row) => row.merchant?.name,
   },
   {
+    id: 'amount',
     header: 'Total Amount',
     accessorKey: 'amount',
+    hideColumn: 640,
     enableSorting: true,
     cell: ({ getValue }) => formatCurrency(getValue()),
     sortingFn: (rowA, rowB, columnId) => {
@@ -48,11 +53,14 @@ export const DashboardTableColumns = [
   {
     id: 'status',
     header: 'Order Status',
+    hideColumn: 856,
     accessorFn: (row) => row.product?.status,
     cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {
+    id: 'next_payment_date',
     header: 'Next Payment Date',
+    hideColumn: 1280,
     accessorFn: (row) => row.product?.next_payment_date,
     cell: ({ row }) => <NextPayment order={row.original} />,
   },

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import DocumentLink from '@components/DocumentLink';
-import Tooltip from '@components/Tooltip';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 import OrderStatus from './OrderStatus';
@@ -21,7 +20,7 @@ export const BuildStack = ({ original }) => {
         <span className="mr-1 font-normal">Order Key:</span>
         <Link
           className="text-primary-blue font-semibold cursor-pointer hover:text-primary-blue-hover"
-          href={`/orders/${original.order_key}`}
+          href={`/reports/orders/${original.order_key}`}
         >
           {original.order_key}
         </Link>
@@ -36,17 +35,12 @@ export const BuildStack = ({ original }) => {
       </p>
       <div className="block sm:hidden font-semibold">
         <span className="mr-1 font-normal">Amount:</span>
-        <Tooltip
-          tooltip_text="Principal loan amount not including interest & fees"
-          trigger_class="cursor-pointer"
-          container_class="text-center p-4 px-6 text-sm bg-secondary-blue w-3/4"
-        >
-          {formatCurrency(original.amount)}
-        </Tooltip>
+        {formatCurrency(original.amount)}
       </div>
-      <p className="block md:hidden font-semibold">
+      <p className="flex md:hidden font-semibold">
         <span className="mr-1 font-normal">Status:</span>
         <OrderStatus
+          order={original}
           status={
             original.product.status
               ? original.product.status
@@ -55,7 +49,6 @@ export const BuildStack = ({ original }) => {
         />
       </p>
       <div className="block mid:hidden">
-        {/* // TODO: TEST/CHECK THIS DocumentLink CHANGE!! */}
         <DocumentLink
           buttonText={
             original.product_type ? 'Payment Plan Agreement' : 'Loan Agreement'

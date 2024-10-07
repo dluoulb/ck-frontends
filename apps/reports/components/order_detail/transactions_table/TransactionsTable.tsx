@@ -9,13 +9,23 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
+import { useWindowSize } from '@hooks/useWindowSize';
 import { TableColumns } from './TableColumns';
 
 export default function TransactionsTable({ transactions, err }) {
+  const size = useWindowSize();
   const [sorting, setSorting] = useState([{ id: 'value_date', desc: true }]);
 
   const data = useMemo(() => transactions || [], [transactions?.length]);
-  const columns = useMemo(() => TableColumns, []);
+  const columns = React.useMemo(() => {
+    return TableColumns.map((col) => ({
+      ...col,
+      meta: {
+        ...col.meta,
+        isVisible: size.width >= col.hideColumn || !col.hideColumn,
+      },
+    }));
+  }, [size.width]);
 
   const table = useReactTable({
     data,
@@ -26,6 +36,10 @@ export default function TransactionsTable({ transactions, err }) {
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
+      columnVisibility: columns.reduce((acc, col) => {
+        acc[col.id] = col.meta.isVisible;
+        return acc;
+      }, {}),
     },
     initialState: {
       pagination: {
@@ -47,7 +61,7 @@ export default function TransactionsTable({ transactions, err }) {
       </div>
       <BaseTable
         table={table}
-        tableClass="w-full px-2 sm:px-6"
+        tableClass="px-2 sm:px-6"
         totalCount={transactions?.length}
         noDataFoundWarning={
           err

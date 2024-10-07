@@ -29,7 +29,7 @@ const Notification: FC<NotificationProps> = ({
       className={classNames('rounded-md py-4 px-6 w-full', bgColor, textColor)}
     >
       <div className="flex gap-3">
-        <FontAwesomeIcon icon={icon} className="text-xl mt-1.5" />
+        <FontAwesomeIcon icon={icon} className="hidden sm:inline text-xl mt-1.5" />
         <div className="flex flex-col gap-4 w-full">
           <div
             className={classNames('flex flex-col gap-1', {

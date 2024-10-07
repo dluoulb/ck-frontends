@@ -7,12 +7,14 @@ import OrderStatus from './OrderStatus';
 
 export const TableColumns = [
   {
-    header: 'Date',
     id: 'capture_date',
+    header: 'Date',
+    hideColumn: 0,
     accessorFn: (row) => row.product?.capture_date,
     cell: ({ row }) => <BuildStack original={row.original} />,
   },
   {
+    id: 'order_key',
     header: 'Order Key',
     accessorKey: 'order_key',
     hideColumn: 1024,
@@ -29,8 +31,8 @@ export const TableColumns = [
     },
   },
   {
-    header: 'Term',
     id: 'term',
+    header: 'Term',
     accessorFn: (row) => row.product?.installments,
     hideColumn: 1024,
     enableSorting: true,
@@ -40,6 +42,7 @@ export const TableColumns = [
     },
   },
   {
+    id: 'amount',
     header: 'Amount',
     accessorKey: 'amount',
     hideColumn: 640,
@@ -62,6 +65,7 @@ export const TableColumns = [
     ),
   },
   {
+    id: 'agreement',
     header: 'Agreement',
     accessorKey: 'id',
     enableSorting: false,

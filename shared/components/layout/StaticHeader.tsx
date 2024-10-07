@@ -7,13 +7,13 @@ import { useRouter } from 'next/router';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import MobileNav from './MobileNav';
 import logo from '../../lib/images/logo.svg';
 
 export default function StaticHeader() {
   const router = useRouter();
   const href = authRedirectLink(router.pathname);
 
-  // TODO: ADD MOBILE NAVIGATION!!!
   return (
     <nav className="fixed top-0 w-full z-50 h-12 sm:h-16 py-4 sm:py-0 px-6 md:px-16 shadow-none flex justify-between items-center rounded-none border-solid border-b-[3px] border-border-gray bg-white">
       <div
@@ -29,19 +29,22 @@ export default function StaticHeader() {
       </div>
       {Session?.doesSessionExist && (
         <div className="flex items-center justify-around gap-2 text-primary-blue text-sm font-semibold hover:cursor-pointer hover:text-primary-blue-hover">
-          <p
-            onClick={async () => {
-              await signOut();
-              router.push(href);
-            }}
-            className="hover:underline sm:hover:no-underline underline-offset-8 decoration-1"
-          >
-            Sign Out
-          </p>
-          <FontAwesomeIcon
-            icon={faArrowRightFromBracket}
-            className="hidden sm:inline"
-          />
+          <div className="hidden md:flex md:items-center md:gap-2">
+            <p
+              onClick={async () => {
+                await signOut();
+                router.push(href);
+              }}
+              className="hover:underline sm:hover:no-underline underline-offset-8 decoration-1"
+            >
+              Sign Out
+            </p>
+            <FontAwesomeIcon
+              icon={faArrowRightFromBracket}
+              className="hidden sm:inline mt-0.5"
+            />
+          </div>
+          <MobileNav />
         </div>
       )}
     </nav>

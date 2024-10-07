@@ -16,22 +16,34 @@ export default function Pagination({ totalCount, table }) {
       className="normal-case flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
       role={Pagination.role}
     >
-      <div className="flex flex-1 justify-between sm:hidden">
-        <button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Next
-        </button>
-      </div>
+      {table.getPageCount() > 1 && (
+        <div className="flex flex-1 justify-between sm:hidden">
+          <button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className={classNames(
+              'relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium',
+              !table.getCanPreviousPage()
+                ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
+                : 'text-gray-700 hover:bg-gray-50'
+            )}
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className={classNames(
+              'relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium',
+              !table.getCanNextPage()
+                ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
+                : 'text-gray-700 hover:bg-gray-50'
+            )}
+          >
+            Next
+          </button>
+        </div>
+      )}
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">

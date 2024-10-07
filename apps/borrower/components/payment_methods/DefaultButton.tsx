@@ -1,4 +1,6 @@
 import React from 'react';
+import { faCircleCheck } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
@@ -36,12 +38,24 @@ export const DefaultButton = React.forwardRef<
   };
 
   return (
-    <button
-      className="dropdown-item text-sm py-2 px-4 font-medium block w-full whitespace-nowrap bg-transparent text-primary-blue hover:bg-secondary-blue text-left"
-      onClick={() => setDefaultPayment(payment_method)}
-      ref={ref}
-    >
-      Set As Default
-    </button>
+    <>
+      <div className="sm:hidden flex items-center gap-1 mt-4 text-primary-blue border-b border-transparent hover:border-primary-blue max-w-max">
+        <FontAwesomeIcon icon={faCircleCheck} className="text-xs" />
+        <button
+          className="dropdown-item text-sm font-medium block w-full whitespace-nowrap text-left"
+          onClick={() => setDefaultPayment(payment_method)}
+          ref={ref}
+        >
+          Set As Default
+        </button>
+      </div>
+      <button
+        className="hidden sm:inline dropdown-item text-sm py-2 px-4 font-medium block w-full whitespace-nowrap bg-transparent text-primary-blue hover:bg-secondary-blue text-left"
+        onClick={() => setDefaultPayment(payment_method)}
+        ref={ref}
+      >
+        Set As Default
+      </button>
+    </>
   );
 });

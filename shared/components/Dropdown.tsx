@@ -37,12 +37,19 @@ export const Dropdown = ({ button, children }) => {
 };
 
 export const ListBox = ({
-  initialValue,
-  value,
-  buttonText,
+  initialValue = '',
+  value = '',
+  buttonText = '',
+  listBoxClass = '',
   handleChange,
-  listBoxClass,
   children,
+}: {
+  initialValue?: string;
+  value?: any;
+  buttonText?: string;
+  listBoxClass?: string;
+  handleChange: (value: any) => void;
+  children: React.ReactNode;
 }) => {
   return (
     <Listbox as="div" value={value || initialValue} onChange={handleChange}>
@@ -60,7 +67,7 @@ export const ListBox = ({
       <ListboxOptions
         anchor="bottom"
         transition
-        className="w-[var(--button-width)] rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0 !max-h-64 overflow-y-scroll"
+        className="w-[var(--button-width)] z-50 rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0 !max-h-64 overflow-y-scroll"
       >
         {children}
       </ListboxOptions>

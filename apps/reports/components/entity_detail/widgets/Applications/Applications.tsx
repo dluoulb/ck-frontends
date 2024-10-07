@@ -151,7 +151,9 @@ export default function Applications() {
               </div>
               <p>
                 <span className="mr-1 font-normal">Equifax Request Date:</span>
-                {fromISO(app?.equifax_request_date).toLocaleString()}
+                {app?.equifax_request_date
+                  ? fromISO(app?.equifax_request_date).toLocaleString()
+                  : 'N/A'}
               </p>
               <p>
                 <span className="mr-1 font-normal">Equifax FICO Score:</span>

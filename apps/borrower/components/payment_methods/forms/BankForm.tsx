@@ -118,7 +118,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
         const disabled = Object.values(errors).some((e) => !!e);
         return (
           <Form>
-            <div className="flex flex-col m-auto w-4/5">
+            <div className="flex flex-col m-auto w-full sm:w-4/5">
               <ErrorAlert hasAlert={hasAlert} next={next} />
               <ColumnInput
                 error={errors.bank_routing}
@@ -154,7 +154,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
                   values={values}
                 />
               </ColumnInput>
-              <div className="form-control block w-full p-3 text-sm font-normal text-secondary-gray bg-white bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
+              <div className="form-control block w-full p-3 text-xs sm:text-sm font-normal text-secondary-gray bg-white bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
                 {agreementLoading ? (
                   <Loading className="w-5 h-5 my-2 !text-primary" />
                 ) : (
@@ -162,7 +162,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
                 )}
               </div>
 
-              <div className="my-2">
+              <div className="px-1 sm:px-0 my-2">
                 <StickyCheckbox
                   id="agree"
                   placeholder="I authorize Credit Key to charge scheduled payments to my bank account."

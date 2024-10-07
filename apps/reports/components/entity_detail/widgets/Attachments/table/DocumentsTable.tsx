@@ -9,9 +9,11 @@ import {
 
 import BaseTable from '@components/BaseTable';
 import TableHeader from '@components/TableHeader';
+import { useWindowSize } from '@hooks/useWindowSize';
 import { TableColumns } from './TableColumns';
 
 export default function DocumentsTable({ documents }) {
+  const size = useWindowSize();
   const [active, setActive] = useState('all');
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState([]);
@@ -44,7 +46,15 @@ export default function DocumentsTable({ documents }) {
   ];
 
   const data = useMemo(() => documents || [], [documents?.length]);
-  const columns = useMemo(() => TableColumns, []);
+  const columns = React.useMemo(() => {
+    return TableColumns.map((col) => ({
+      ...col,
+      meta: {
+        ...col.meta,
+        isVisible: size.width >= col.hideColumn || !col.hideColumn,
+      },
+    }));
+  }, [size.width]);
 
   const table = useReactTable({
     data,
@@ -57,6 +67,10 @@ export default function DocumentsTable({ documents }) {
       sorting,
       globalFilter,
       columnFilters,
+      columnVisibility: columns.reduce((acc, col) => {
+        acc[col.id] = col.meta.isVisible;
+        return acc;
+      }, {}),
     },
     initialState: {
       pagination: {
@@ -82,6 +96,7 @@ export default function DocumentsTable({ documents }) {
         totalCount={documents?.length}
         headerClass="!py-3 !px-4"
         rowClass="!text-sm !py-3 !px-4"
+        tableClass="mid:!min-w-max lg:!min-w-full"
         noDataFoundWarning={
           active === 'all'
             ? 'No documents found.'

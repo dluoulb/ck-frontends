@@ -37,8 +37,8 @@ export default function ProfileIndex() {
     // Should admins be able to view dashboard as an admin?
     // Or should they view the dashboard as the user they logged in as?
 
-    // ie. If an admin logs in as a purchaser, should they see a restricted
-    // view like a purchaser would?
+    // ie. If an admin logs in as a purchaser, do we want the admin to 
+    // see exactly what the user sees for debugging confirmation?
 
     entity?.type === 'company' &&
       userIsOwner && {
@@ -99,7 +99,7 @@ export default function ProfileIndex() {
                     content === tab.tag
                       ? 'border-primary-blue text-primary-blue bg-secondary-blue font-semibold'
                       : 'border-transparent text-gray-500 hover:border-primary-blue-hover hover:text-primary-blue-hover hover:cursor-pointer hover:bg-primary-blue-hover/20',
-                    'group inline-flex items-center justify-center border-b-2 py-4 px-8 text-sm font-medium w-full'
+                    'group inline-flex items-center justify-center border-b-2 py-4 px-2 sm:px-8 text-sm font-medium w-full'
                   )}
                 >
                   <FontAwesomeIcon
@@ -109,7 +109,7 @@ export default function ProfileIndex() {
                       content === tab.tag
                         ? 'text-primary-blue'
                         : 'text-gray-400 group-hover:text-primary-blue-hover',
-                      '-ml-0.5 mr-2 h-4 w-4'
+                      '-ml-0.5 mr-2 h-4 w-4 hidden sm:inline'
                     )}
                   />
                   <span>{tab.title}</span>

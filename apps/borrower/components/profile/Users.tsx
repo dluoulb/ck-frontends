@@ -11,17 +11,28 @@ import BaseTable from '@components/BaseTable';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import { useWindowSize } from '@hooks/useWindowSize';
 import AddNewUser from './AddNewUser';
 import { UserTableColumns } from './table/UserTableColumns';
 
 export default function Users() {
+  const size = useWindowSize();
   const { entity } = useEntity();
   const { companyUsers, companyUsersLoading, companyUsersRefetching } =
     useBorrowerDeps();
   const [sorting, setSorting] = useState([{ id: 'role', desc: false }]);
 
   const data = useMemo(() => companyUsers || [], [companyUsers?.length]);
-  const columns = useMemo(() => UserTableColumns, []);
+  const columns = React.useMemo(() => {
+    return UserTableColumns.map((col) => ({
+      ...col,
+      meta: {
+        ...col.meta,
+        isVisible: size.width >= col.hideColumn || !col.hideColumn,
+      },
+    }));
+  }, [size.width]);
+
   const table = useReactTable({
     data,
     columns,
@@ -36,7 +47,13 @@ export default function Users() {
         pageIndex: 0,
       },
     },
-    state: { sorting },
+    state: {
+      sorting,
+      columnVisibility: columns.reduce((acc, col) => {
+        acc[col.id] = col.meta.isVisible;
+        return acc;
+      }, {}),
+    },
     onSortingChange: setSorting,
     manualPagination: true,
   });
