@@ -3,20 +3,16 @@ import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 import { defineStepper } from '@stepperize/react';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
-import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import { ConfirmVCModal, VCRulesModal, VirtualCardModal } from './';
 
 export default function VCModalWrapper({ isModalActive, toggleModal }) {
-  const { user } = useUser();
-  //TODO: this used to be added/changed in local storage
-  //Figure out how to add it to userContext
-  const showVCRules = user?.show_vc_notice === undefined;
+  const hideVCRules = JSON.parse(localStorage.getItem('hide_vc_notice'));
   const orderedScreens = [
     {
       id: 'vc_rules',
       component: VCRulesModal,
-      hide: user?.show_vc_notice !== undefined,
+      hide: hideVCRules,
     },
     {
       id: 'create_vc',
@@ -57,6 +53,10 @@ export default function VCModalWrapper({ isModalActive, toggleModal }) {
   useEffect(() => {
     // Start at the first screen in the list
     reset();
+
+    if (hideVCRules) {
+      goTo('create_vc');
+    }
   }, [isModalActive]);
 
   return (

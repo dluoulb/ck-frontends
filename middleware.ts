@@ -54,7 +54,7 @@ export default async function middleware(req: NextRequest) {
   const adminNotPossessingBorrower =
     isAdminUser &&
     !parsedToken?.isImpersonating &&
-    [pathname, site?.shortname].includes('borrower');
+    (pathname.includes('borrower') && site?.shortname?.includes('borrower'));
 
   // If a user is trying to access a route that is not approved for their user type
   const userRouteAccessNotAllowed =

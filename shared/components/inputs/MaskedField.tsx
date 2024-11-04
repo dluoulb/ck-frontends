@@ -4,7 +4,7 @@ import { IMaskInput } from 'react-imask';
 
 const MaskedField = (props) => {
   const [field, meta, helpers] = useField(props.name);
-  const { touched, ...rest } = props;
+  const { touched, multi, ...rest } = props;
 
   return (
     <IMaskInput
@@ -15,6 +15,7 @@ const MaskedField = (props) => {
       onComplete={(value) => helpers.setValue(value)}
       unmask={false}
       definitions={{ '9': /\d/ }}
+      multi={multi?.toString()}
     />
   );
 };

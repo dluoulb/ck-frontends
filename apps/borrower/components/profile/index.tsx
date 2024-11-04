@@ -33,7 +33,7 @@ export default function ProfileIndex() {
       icon: faCircleInfo,
       tag: 'details',
     },
-    // TODO:
+    // TODO: UX Decision
     // Should admins be able to view dashboard as an admin?
     // Or should they view the dashboard as the user they logged in as?
 
