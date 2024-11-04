@@ -3,7 +3,6 @@ import { faCircleQuestion } from '@fortawesome/pro-regular-svg-icons';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ZendeskChatLink from '@components/ZendeskChatLink';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 export default function SupportWidget() {
@@ -23,15 +22,15 @@ export default function SupportWidget() {
           <strong>9AM - 1PM & 2PM - 6PM CST</strong>
         </div>
         <div>
-          <p>Reach us at:</p>
-          <a
-            href="mailto: support@creditkey.com"
-            className="mr-1 hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover"
-          >
-            support@creditkey.com
-          </a>
-          or{' '}
-          <ZendeskChatLink className="hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover" />
+          <p>
+            Reach us at:
+            <a
+              href="mailto: support@creditkey.com"
+              className="ml-1 hover:text-blue-900 hover:border-b hover:border-primary-blue-hover font-medium text-primary-blue-hover"
+            >
+              support@creditkey.com
+            </a>
+          </p>
         </div>
       </div>
       <a

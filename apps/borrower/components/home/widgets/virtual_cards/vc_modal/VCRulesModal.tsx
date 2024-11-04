@@ -1,13 +1,12 @@
 import React from 'react';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
-// import { pdHideVirtualCardNotice } from '../../../lib/constants/PersistentData';
 
 export default function VCRulesModal({ next, goTo }) {
   return (
     <div role={VCRulesModal.role}>
       <section>
-        <div className='my-2 space-y-4'>
+        <div className="my-2 space-y-4">
           <p className="text-center text-2xl font-bold tracking-wider">
             Virtual Card Usage
           </p>
@@ -40,9 +39,7 @@ export default function VCRulesModal({ next, goTo }) {
           />
           <div
             onClick={() => {
-              //TODO: this used to be added/changed in local storage
-              //Figure out how to add it to userContext
-              // pdHideVirtualCardNotice();
+              localStorage.setItem('hide_vc_notice', JSON.stringify(true));
               goTo('create_vc');
             }}
             className="text-secondary-gray text-sm cursor-pointer border-b border-transparent hover:border-secondary-gray max-w-max"

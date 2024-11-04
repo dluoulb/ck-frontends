@@ -16,12 +16,20 @@ export const BorrowerContextProvider = ({ children }) => {
   const pathname = usePathname();
   const { entity, entityLoading } = useEntity();
   const [isLoading, setIsLoading] = useState(false);
-  const shouldNotFetchOrders = isLoading ||  !['/borrower', '/borrower/orders'].includes(pathname)
+  const shouldNotFetchOrders =
+    isLoading || !['/borrower', '/borrower/orders'].includes(pathname);
 
   const stats = useStats(entity);
-  const companyUserProps = useCompanyUsers(entity, pathname.includes('/profile'));
+  const companyUserProps = useCompanyUsers(
+    entity,
+    pathname.includes('/profile')
+  );
   const defaultTermsProps = useDefaultTerms(entity, pathname === '/borrower');
-  const paymentMethodProps = usePaymentMethods(user, entity, !['/borrower/profile', '/borrower/orders'].includes(pathname));
+  const paymentMethodProps = usePaymentMethods(
+    user,
+    entity,
+    !['/borrower/profile', '/borrower/orders'].includes(pathname)
+  );
   const orderProps = useOrders(entity, shouldNotFetchOrders);
 
   useEffect(() => {

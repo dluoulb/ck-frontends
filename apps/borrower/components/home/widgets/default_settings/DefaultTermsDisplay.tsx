@@ -50,8 +50,6 @@ export default function DefaultTermsDisplay() {
 
     updateCompany(api, updatedCompany, 'include=cta_banners')
       .then(() => {
-        // //TODO TEST ALL THE INSTANCES OF refetchEntity
-        // //USING USEENTITY NOT USEBORROWERDEPS
         fetchEntity({ company_id: entity?.id });
         toggleModal();
         makeToast('Recharge Settings Successfully Updated', 'success');

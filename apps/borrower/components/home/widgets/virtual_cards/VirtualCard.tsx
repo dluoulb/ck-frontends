@@ -41,18 +41,28 @@ export default function VirtualCard() {
               Provide the merchant’s name and the order amount - we’ll send you
               a virtual card with the funds you need to pay for your order.
             </p>
-            <a
-              href={virtualCardLink}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 pt-6 cursor-pointer hover:text-blue-900 border-b border-transparent  hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
-            >
-              <span>Learn More</span>
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className="text-[0.6rem] mt-[0.175rem] font-bold"
-              />
-            </a>
+            <div className='flex flex-col xl:flex-row xl:justify-between xl:items-center'>
+              <button
+                onClick={toggleModal}
+                className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+              >
+                Request New Card
+              </button>
+              <a
+                href={virtualCardLink}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1 font-medium group text-xs md:text-sm max-w-max"
+              >
+                <span className="group-hover:text-primary-blue-hover border-b border-transparent group-hover:border-primary-blue-hover">
+                  Learn More
+                </span>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="text-[0.6rem] font-bold group-hover:text-primary-blue-hover"
+                />
+              </a>
+            </div>
           </div>
         </>
       ) : (
