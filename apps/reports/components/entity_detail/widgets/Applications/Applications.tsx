@@ -56,7 +56,7 @@ export default function Applications() {
 
   return (
     <div>
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between border-b border-primary-gray-border sm:pb-2">
+      <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between border-b border-primary-gray-border sm:pb-2">
         <div className="flex items-center gap-2">
           <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
             <FontAwesomeIcon icon={faSquare} className="text-secondary-blue" />

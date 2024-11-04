@@ -8,6 +8,7 @@ import { getSearchConfig } from '@lib/actions/search';
 import { reportsRootConfig } from '@lib/utils/search_configs';
 
 const getConfig = () => {
+  // Adjust if / when other UIs use typesense search
   const router = useRouter();
   switch (router.pathname.split('/')[1]) {
     case 'reports':
