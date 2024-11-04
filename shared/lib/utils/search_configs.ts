@@ -1,6 +1,6 @@
 export const reportsRootConfig = {
   server: {
-    apiKey: process.env.NEXT_PUBLIC_TYPESENSE_API_KEY,
+    apiKey: '',
     nodes: [
       {
         host: process.env.NEXT_PUBLIC_TYPESENSE_SERVER,

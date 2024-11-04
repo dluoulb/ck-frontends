@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { InstantSearch } from 'react-instantsearch';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 
+import { getSearchConfig } from '@lib/actions/search';
 import { reportsRootConfig } from '@lib/utils/search_configs';
 
 const getConfig = () => {
@@ -16,11 +18,30 @@ const getConfig = () => {
 };
 
 export default function SearchConfig({ children }) {
-  const searchConfig = getConfig();
-  const searchAdapter = new TypesenseInstantSearchAdapter(searchConfig);
-  const searchClient = searchAdapter.searchClient;
+  const router = useRouter();
+  const route = router.pathname.split('/')[1];
+  const [searchClient, setSearchClient] = useState(null);
+  const searchConfigParams = getConfig();
 
-  if (!searchClient || !searchConfig?.server?.apiKey) return null;
+  const { data: searchConfigServerKey } = useQuery({
+    queryKey: ['search_config', route],
+    queryFn: () => getSearchConfig(),
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (searchConfigServerKey) {
+      const searchConfig = {
+        ...searchConfigParams,
+        server: { ...searchConfigParams.server, apiKey: searchConfigServerKey },
+      };
+      const searchAdapter = new TypesenseInstantSearchAdapter(searchConfig);
+      setSearchClient(searchAdapter.searchClient);
+    }
+  }, [searchConfigServerKey, searchConfigParams]);
+
+  if (!searchClient) return null;
+
   return (
     <>
       <InstantSearch

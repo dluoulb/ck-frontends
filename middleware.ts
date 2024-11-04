@@ -52,7 +52,9 @@ export default async function middleware(req: NextRequest) {
   // If an admin is trying to login to borrower without impersonation
   // Only begin user possession from rails admin
   const adminNotPossessingBorrower =
-    isAdminUser && !parsedToken?.isImpersonating && pathname === '/borrower';
+    isAdminUser &&
+    !parsedToken?.isImpersonating &&
+    [pathname, site?.shortname].includes('borrower');
 
   // If a user is trying to access a route that is not approved for their user type
   const userRouteAccessNotAllowed =

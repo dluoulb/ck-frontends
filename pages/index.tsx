@@ -14,7 +14,7 @@ export default function Home() {
         </h1>
         <div className="border border-primary-gray-border rounded-lg bg-slate-50 mb-16">
           <div className="overflow-hidden grid grid-cols-1 sm:grid-cols-2 sm:gap-px">
-            {routes.map((route, routeIdx) => (
+            {routes.slice(1).map((route, routeIdx) => (
               <Link
                 href={route.href}
                 key={route.title}

@@ -111,6 +111,11 @@ export const orderStatusTabs = [
 
 export const routes = [
   {
+    title: 'Home',
+    href: '/',
+    approvedRoles: ['staff', 'admin', 'superadmin'],
+  },
+  {
     title: 'TPS Reporting UI',
     href: '/reports',
     icon: faFileChartColumn,
