@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
+import PortalLayout from '@apps/borrower/components/layout/PortalLayout';
 import { useUser } from '@contexts/UserContext';
 import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
@@ -61,7 +62,7 @@ export const BorrowerContextProvider = ({ children }) => {
 
   return (
     <BorrowerContext.Provider value={dependencies}>
-      {children}
+      <PortalLayout>{children}</PortalLayout>
     </BorrowerContext.Provider>
   );
 };

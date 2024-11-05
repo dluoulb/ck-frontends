@@ -34,7 +34,7 @@ export default function BorrowerDashboard() {
       className="my-4 md:my-6 mx-auto h-full"
       role={BorrowerDashboard.role}
     >
-      <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
+      <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           Borrower Dashboard
         </p>

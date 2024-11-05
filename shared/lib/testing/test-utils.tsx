@@ -4,7 +4,7 @@ import { render as rtlRender } from '@testing-library/react';
 import { ApiContext } from 'pages/_app';
 import { SuperTokensWrapper } from 'supertokens-auth-react';
 
-import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWrapper';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -18,6 +18,7 @@ function customRender(
   {
     user = companyApproved.borrower,
     isImpersonating = false,
+    isAdminUser = false,
     parentID = '',
     routerQuery = {},
     withBorrowerProviders = false,
@@ -38,7 +39,7 @@ function customRender(
   }));
 
   function Wrapper({ children }: { children: React.ReactNode }) {
-    const initialUserState = { user, isImpersonating, parentID };
+    const initialUserState = { user, isAdminUser, isImpersonating, parentID };
 
     return (
       <QueryClientProvider client={queryClient}>
@@ -47,7 +48,7 @@ function customRender(
             <UserProvider initialUserState={initialUserState}>
               <QueryContext.Provider value={defaultQueryContext}>
                 {withBorrowerProviders ? (
-                  <BorrowerPageWrapper>{children}</BorrowerPageWrapper>
+                  <BorrowerContextProvider>{children}</BorrowerContextProvider>
                 ) : (
                   children
                 )}

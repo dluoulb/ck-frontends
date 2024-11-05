@@ -12,7 +12,7 @@ import ReturnsModal from './modals/ReturnsModal';
 export default function OrderOverview({ order, product, documents }) {
   let statusColor;
   let statusText;
-  const { user, isImpersonating } = useUser();
+  const { user, isAdminUser } = useUser();
   const { isModalActive, toggleModal } = useModal();
   const { defaultBankLabel, defaultCardLabel } = useBorrowerDeps();
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
@@ -104,7 +104,7 @@ export default function OrderOverview({ order, product, documents }) {
             )}
           </div>
           <div className="text-right flex flex-col items-end gap-1">
-            {isImpersonating && (
+            {isAdminUser && (
               <a
                 href={order?.checkout_url}
                 target="_new"
