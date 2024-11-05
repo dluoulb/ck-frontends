@@ -1,9 +1,7 @@
-import DocumentLink from '@components/DocumentLink';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import DownloadDocument from './DownloadDocument';
 
 export const BuildStack = ({ original }) => {
-  console.log(original);
   return (
     <>
       <p className="font-semibold lg:font-normal flex gap-1">

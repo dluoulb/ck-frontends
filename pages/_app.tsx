@@ -10,9 +10,9 @@ import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import '../global.css';
 
-import BorrowerPageWrapper from '@apps/borrower/components/layout/BorrowerPageWrapper';
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
+import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { EntityProvider } from '@contexts/EntityContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
@@ -46,9 +46,9 @@ function App({ Component, pageProps }) {
                     <MainLayout>
                       <SearchConfig>
                         {isBorrowerRoute ? (
-                          <BorrowerPageWrapper>
+                          <BorrowerContextProvider>
                             <Component {...pageProps} />
-                          </BorrowerPageWrapper>
+                          </BorrowerContextProvider>
                         ) : (
                           <Component {...pageProps} />
                         )}

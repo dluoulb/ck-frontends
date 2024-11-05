@@ -27,6 +27,7 @@ export default function SearchConfig({ children }) {
   const { data: searchConfigServerKey } = useQuery({
     queryKey: ['search_config', route],
     queryFn: () => getSearchConfig(),
+    enabled: !searchClient,
     retry: false,
   });
 

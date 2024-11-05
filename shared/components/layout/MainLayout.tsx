@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -7,8 +6,6 @@ import Session from 'supertokens-auth-react/recipe/session';
 import Loading from '@components/Loading';
 import Title from '@components/Title';
 import { useUser } from '@contexts/UserContext';
-import useApi from '@hooks/useApi';
-import { getUser } from '@lib/actions/users';
 import { parseUserJwt } from '@lib/utils/authorization';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
@@ -21,20 +18,7 @@ type TokenData = {
 
 export default function MainLayout({ children }) {
   const router = useRouter();
-  const api = useApi();
-  const { user, setUser } = useUser();
-
-  const getCurrentUser = useMutation({
-    mutationFn: (tokenData: { userID: string }) =>
-      getUser(api, tokenData.userID),
-    onSuccess: (data, variables: TokenData) => {
-      const { isImpersonating, parentID } = variables;
-      setUser({ user: data, isImpersonating, parentID });
-    },
-    onError: (error) =>
-      console.log('Error occurred fetching current user', { error }),
-    retry: 1,
-  });
+  const { user, getCurrentUser } = useUser();
 
   useEffect(() => {
     if (Session.doesSessionExist) {
@@ -42,7 +26,7 @@ export default function MainLayout({ children }) {
         const parsedToken: TokenData = parseUserJwt(token);
         const { userID, isImpersonating, parentID } = parsedToken;
 
-        getCurrentUser.mutate({
+        getCurrentUser({
           userID,
           isImpersonating,
           parentID,

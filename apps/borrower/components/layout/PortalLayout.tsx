@@ -42,14 +42,14 @@ export const primaryRoutes = [
 ];
 
 export default function PortalLayout({ children }) {
-  const { isImpersonating } = useUser();
+  const { isAdminUser, isImpersonating } = useUser();
 
   return (
     <div className="flex" role={PortalLayout.role}>
       <Scripts />
       <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full xl:w-portal ml-0 lg:ml-24 xl:ml-16">
-        {isImpersonating && <PossessUser />}
+      <div className="flex-grow w-full xl:w-portal ml-0 lg:ml-24 xl:ml-20">
+        {(isAdminUser || isImpersonating) && <PossessUser />}
         {children}
       </div>
     </div>

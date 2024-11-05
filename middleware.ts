@@ -35,26 +35,20 @@ function parseUserJwt(token) {
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const site = siteForHost(req.headers.get('host'));
-  const currentRoute = routes.find((route) => route.href === pathname);
+  const currentRoute = routes.find((route) => {
+    return site?.shortname
+      ? route.href.includes(site?.shortname)
+      : route.href === pathname;
+  });
 
   const sessionToken = req.cookies.get('st-access-token');
   const parsedToken = parseUserJwt(sessionToken);
-  const isAdminUser = parsedToken?.role.some((role) =>
-    ['superadmin', 'admin'].includes(role)
-  );
 
   if (!sessionToken) {
     return NextResponse.redirect(
       new URL(authRedirectLink(site ? `/${site.shortname}` : pathname))
     );
   }
-
-  // If an admin is trying to login to borrower without impersonation
-  // Only begin user possession from rails admin
-  const adminNotPossessingBorrower =
-    isAdminUser &&
-    !parsedToken?.isImpersonating &&
-    (pathname.includes('borrower') && site?.shortname?.includes('borrower'));
 
   // If a user is trying to access a route that is not approved for their user type
   const userRouteAccessNotAllowed =
@@ -64,7 +58,7 @@ export default async function middleware(req: NextRequest) {
     );
 
   // If either above condition is true route them to unauthorized
-  if (adminNotPossessingBorrower || userRouteAccessNotAllowed) {
+  if (userRouteAccessNotAllowed) {
     const newUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/unauthorized`);
     return NextResponse.redirect(newUrl);
   }
