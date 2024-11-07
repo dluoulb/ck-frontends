@@ -77,7 +77,6 @@ cd ck-ecosystem
 # Clone ck-tps directory and start server
 git clone git@bitbucket.org:creditkey/ck-tps.git
 cd ck-tps
-git checkout feature/ck-eco4
 docker compose up -d
 ```
 
@@ -106,7 +105,6 @@ docker compose up -d
 # Clone typesense directory and start
 git clone git@bitbucket.org:creditkey/evenmoresql.git
 cd evenmoresql
-git checkout feature/ck-eco4
 docker compose up -d
 ```
 
