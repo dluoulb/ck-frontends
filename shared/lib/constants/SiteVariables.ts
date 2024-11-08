@@ -17,8 +17,6 @@ import classNames from 'classnames';
 const protocol = 'https://';
 const rootURI = 'creditkey.com';
 
-export const USE_SUPERTOKENS = process.env.REACT_APP_USE_SUPERTOKENS === 'true';
-
 export const platform = () => {
   if (process.env.NODE_ENV !== 'production') {
     return 'development';
@@ -31,7 +29,9 @@ export const platform = () => {
 
 export const server = (api = true) => {
   if (process.env && process.env.NODE_ENV !== 'production') {
-    return process.env.REACT_APP_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100';
+    return (
+      process.env.NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100'
+    );
   }
 
   let subDomain = 'www';

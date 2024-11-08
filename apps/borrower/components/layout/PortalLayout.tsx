@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   faCartShopping,
   faCircleQuestion,
@@ -5,9 +6,11 @@ import {
   faUser,
 } from '@fortawesome/pro-light-svg-icons';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
+import { useSearchParams } from 'next/navigation';
 
 import SideNav from '@components/layout/SideNav';
 import Scripts from '@components/Scripts';
+import { usePromo } from '@contexts/PromoContext';
 import { useUser } from '@contexts/UserContext';
 import { supportLink } from '@lib/constants/SiteVariables';
 import PossessUser from './PossessUser';
@@ -42,7 +45,18 @@ export const primaryRoutes = [
 ];
 
 export default function PortalLayout({ children }) {
+  const searchParams = useSearchParams();
+
+  const { setPromoId } = usePromo();
   const { isAdminUser, isImpersonating } = useUser();
+
+  const promo_id = searchParams.get('promo_id');
+
+  useEffect(() => {
+    if (promo_id) {
+      setPromoId(promo_id);
+    }
+  }, []);
 
   return (
     <div className="flex" role={PortalLayout.role}>

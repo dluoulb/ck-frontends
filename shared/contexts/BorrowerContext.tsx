@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import PortalLayout from '@apps/borrower/components/layout/PortalLayout';
 import { useUser } from '@contexts/UserContext';
@@ -8,28 +8,32 @@ import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
 import { useEntity } from './EntityContext';
+import { PromoContextProvider } from './PromoContext';
 import useCompanyUsers from '../hooks/useCompanyUsers';
 
 const BorrowerContext = createContext(null);
 
 export const BorrowerContextProvider = ({ children }) => {
+  const router = useRouter();
   const { user } = useUser();
-  const pathname = usePathname();
   const { entity, entityLoading } = useEntity();
   const [isLoading, setIsLoading] = useState(false);
   const shouldNotFetchOrders =
-    isLoading || !['/borrower', '/borrower/orders'].includes(pathname);
+    isLoading || !['/borrower', '/borrower/orders'].includes(router?.pathname);
 
   const stats = useStats(entity);
   const companyUserProps = useCompanyUsers(
     entity,
-    pathname.includes('/profile')
+    router?.pathname.includes('/profile')
   );
-  const defaultTermsProps = useDefaultTerms(entity, pathname === '/borrower');
+  const defaultTermsProps = useDefaultTerms(
+    entity,
+    router?.pathname === '/borrower'
+  );
   const paymentMethodProps = usePaymentMethods(
     user,
     entity,
-    !['/borrower/profile', '/borrower/orders'].includes(pathname)
+    router?.pathname === '/borrower'
   );
   const orderProps = useOrders(entity, shouldNotFetchOrders);
 
@@ -62,7 +66,9 @@ export const BorrowerContextProvider = ({ children }) => {
 
   return (
     <BorrowerContext.Provider value={dependencies}>
-      <PortalLayout>{children}</PortalLayout>
+      <PromoContextProvider>
+        <PortalLayout>{children}</PortalLayout>
+      </PromoContextProvider>
     </BorrowerContext.Provider>
   );
 };

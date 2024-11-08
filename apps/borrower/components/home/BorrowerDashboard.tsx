@@ -1,24 +1,51 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { faMegaphone } from '@fortawesome/pro-regular-svg-icons';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import axios from 'axios';
 
 import BorrowerOverview from '@apps/borrower/components/home/BorrowerOverview';
 import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
+import Notification from '@components/Notification';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import ExportPaymentHistory from './ExportPaymentHistory';
+import Promo from './Promo';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
+
+type NotificationData = {
+  Active: boolean;
+  Title: string;
+  Message: any;
+};
 
 export default function BorrowerDashboard() {
   const { isLoading: depsLoading } = useBorrowerDeps();
   const { entity, entityLoading, entityError } = useEntity();
+  const [notification, setNotification] = useState<NotificationData | null>(
+    null
+  );
 
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_ENV !== 'development') {
-      window.ckLoadZendeskWidget();
-    }
+    const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_CMS_BASE_URL}/api/borrower-portal-notice`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((data) => {
+        setNotification(data.data.data);
+      })
+      .catch((err) => [console.log(err)]);
   }, []);
 
   if (entityLoading || depsLoading)
@@ -38,6 +65,31 @@ export default function BorrowerDashboard() {
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           Borrower Dashboard
         </p>
+        <Promo />
+        {notification && notification?.Active && (
+          <Notification
+            icon={faMegaphone}
+            headline={notification?.Title}
+            message={
+              <div className="space-y-1">
+                <BlocksRenderer
+                  content={notification?.Message}
+                  blocks={{
+                    paragraph: ({ children }) => <p>{children}</p>,
+                    link: ({ children, url }) => (
+                      <a
+                        href={url}
+                        className="no-underline text-primary-blue cursor-pointer"
+                      >
+                        {children}
+                      </a>
+                    ),
+                  }}
+                />
+              </div>
+            }
+          />
+        )}
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">

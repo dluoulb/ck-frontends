@@ -4,7 +4,7 @@ export default function usePromo() {
   const queryClient = useQueryClient();
   const defaultMerchant = queryClient.getQueryData([
     'merchant',
-    process.env.REACT_APP_VIRTUAL_CARD_MERCHANT_ID,
+    process.env.NEXT_PUBLIC_VIRTUAL_CARD_MERCHANT_ID,
   ]);
 
   const getPromoFromMerchant = (

@@ -40,7 +40,7 @@ export const buildRequestPayload = (payloadValues, user) => {
 
 export const startVirtualCardOrder = (api, order_details) => {
   return api.post(
-    `/ecomm/begin_standalone_checkout?public_key=${process.env.REACT_APP_VC_MERCHANT_KEY}&shared_secret=${process.env.REACT_APP_VC_MERCHANT_SECRET}`,
+    `/ecomm/begin_standalone_checkout?public_key=${process.env.NEXT_PUBLIC_VC_MERCHANT_KEY}&shared_secret=${process.env.NEXT_PUBLIC_VC_MERCHANT_SECRET}`,
     order_details
   );
 };

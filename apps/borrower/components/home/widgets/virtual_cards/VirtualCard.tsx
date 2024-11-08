@@ -21,7 +21,7 @@ export default function VirtualCard() {
     return <Loading className="w-14 h-14 my-20 !text-primary" />;
 
   // TODO: SHOULD VIRTUAL CARDS BE MOVED TO ITS OWN PAGE??
-  // Currently does not display or have 'hide' functionality for security code
+
   return (
     <div className="px-3 p-2 h-full">
       {(!virtualCardOrders?.length || ordersError) && !ordersLoading ? (
@@ -41,7 +41,7 @@ export default function VirtualCard() {
               Provide the merchant’s name and the order amount - we’ll send you
               a virtual card with the funds you need to pay for your order.
             </p>
-            <div className='flex flex-col xl:flex-row xl:justify-between xl:items-center'>
+            <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center">
               <button
                 onClick={toggleModal}
                 className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
@@ -72,35 +72,19 @@ export default function VirtualCard() {
               icon={faCreditCard}
               className="text-primary-blue text-base lg:text-xl"
             />
-            <p className="text-lg md:text-xl font-bold">
-              Request New Virtual Card
-            </p>
+            <p className="text-lg md:text-xl font-bold">Active Virtual Cards</p>
           </div>
-          <div className="text-sm md:text-base h-full mt-2 space-y-2">
-            <div className="text-secondary-gray flex items-end justify-between">
-              <p className="font-semibold">Active Virtual Cards</p>
+          <div className="text-sm md:text-base h-full space-y-2">
+            <VCList vc_orders={virtualCardOrders} />
+            <div className="flex justify-between items-end">
+              <button
+                onClick={toggleModal}
+                className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+              >
+                Request New Card
+              </button>
               <p className="text-xs">Scroll for More</p>
             </div>
-            <VCList vc_orders={virtualCardOrders} />
-            {/* // TODO: SHOULD THIS LINK TO A VIRTUAL CARDS PAGE??
-            <a
-              href={virtualCardLink}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
-            >
-              <span>View More Details</span>
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className="text-[0.6rem] mt-[0.175rem] font-bold"
-              />
-            </a> */}
-            <button
-              onClick={toggleModal}
-              className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
-            >
-              Request New Card
-            </button>
           </div>
         </>
       )}

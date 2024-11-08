@@ -31,7 +31,7 @@ module.exports = {
       width: {
         '1/10': '10%',
         sidenav: '5.5rem',
-        portal: 'calc(100vw - 5.5rem)',
+        portal: 'calc(100vw - 4.5rem)',
       },
       maxHeight: {
         modal: '70vh',

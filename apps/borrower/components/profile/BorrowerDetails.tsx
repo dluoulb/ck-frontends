@@ -1,11 +1,11 @@
 import React from 'react';
-import { faEnvelope, faHeadset } from '@fortawesome/pro-regular-svg-icons';
+import { faEnvelope, faPhone } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DateTime } from 'luxon';
 
-import ZendeskChatLink from '@components/ZendeskChatLink';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import { supportPhone } from '@lib/constants/SiteVariables';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import {
   formatCurrency,
@@ -44,8 +44,13 @@ export default function BorrowerDetails() {
               </p>
             </a>
             <div className="capitalize flex items-center gap-1.5">
-              <FontAwesomeIcon icon={faHeadset} />
-              <ZendeskChatLink className="text-primary-blue-hover hover:underline" />
+              <FontAwesomeIcon icon={faPhone} />
+              <a
+                href={`tel:${supportPhone}`}
+                className="ml-2 no-underline text-primary-blue cursor-pointer"
+              >
+                Call Credit Key
+              </a>
             </div>
           </div>
         </div>
@@ -53,7 +58,9 @@ export default function BorrowerDetails() {
       <div className="p-6 sm:p-8 divide-y overflow-x-scroll">
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-0 pb-8">
           <div className="sm:w-2/5">
-            <p className="capitalize font-bold text-lg sm:text-base">Contact Information</p>
+            <p className="capitalize font-bold text-lg sm:text-base">
+              Contact Information
+            </p>
             <p className="text-tertiary-gray text-sm font-medium w-3/4">
               Primary account owner details used for orders and applications.
             </p>
@@ -81,7 +88,9 @@ export default function BorrowerDetails() {
         </div>
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-0 pt-8">
           <div className="sm:w-2/5">
-            <p className="capitalize font-bold text-lg sm:text-base">Underwriting Data</p>
+            <p className="capitalize font-bold text-lg sm:text-base">
+              Underwriting Data
+            </p>
             {entity?.type === 'company' ? (
               <p className="text-tertiary-gray text-sm font-medium w-3/4">
                 Latest application data used for credit line decisioning and

@@ -2,7 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
-import ZendeskChatLink from '@components/ZendeskChatLink';
 import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 
 export default function ErrorAlert({ hasAlert, next }) {
@@ -25,13 +24,6 @@ export default function ErrorAlert({ hasAlert, next }) {
           </p>
           <div className="mt-2">
             <ul role="list" className="list-disc space-y-1">
-              <li>
-                <ZendeskChatLink
-                  msg="Upload a voided check directly to Credit Key Support"
-                  className='underline font-semibold'
-                  onClick={next}
-                />
-              </li>
               <li>
                 Double check your routing and account numbers and try to enter
                 them again

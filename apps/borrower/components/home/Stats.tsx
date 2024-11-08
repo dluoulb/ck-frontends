@@ -41,8 +41,10 @@ export default function Stats() {
     return (
       <Notification
         icon={faExclamationTriangle}
+        iconBorderColor="border-error"
         textColor="text-error"
         bgColor="bg-error/20"
+        buttonClass='hover:border-error'
         headline="An Error Occurred"
         message={`Unable to collect available ${entity?.type} credit and order data. Please contact Credit Key Support for assistance.`}
       />
