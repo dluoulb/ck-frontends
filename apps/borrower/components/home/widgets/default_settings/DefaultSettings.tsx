@@ -12,7 +12,7 @@ import DefaultTermsDisplay from './DefaultTermsDisplay';
 
 export default function DefaultSettings() {
   const { entity } = useEntity();
-  const { paymentMethods, defaultTerms, defaultCard, defaultBank } =
+  const { paymentMethods, defaultTermSettings, defaultCard, defaultBank } =
     useBorrowerDeps();
   const [defaultPM, setDefaultPM] = useState(null);
 
@@ -63,10 +63,10 @@ export default function DefaultSettings() {
         </div>
         <div className="flex flex-col">
           <div className="font-semibold text-secondary-gray text-base md:text-lg">
-            {!defaultTerms?.length ? null : <p>Default Terms</p>}
+            {!defaultTermSettings?.length ? null : <p>Default Terms</p>}
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            {defaultTerms && <DefaultTermsDisplay />}
+            {defaultTermSettings && <DefaultTermsDisplay />}
           </div>
         </div>
       </div>
