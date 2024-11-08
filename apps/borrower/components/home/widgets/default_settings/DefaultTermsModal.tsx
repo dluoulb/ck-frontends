@@ -44,15 +44,15 @@ export default function DefaultTermSettingsModal({
                 Default Terms for {modalState?.merchant_name}
               </p>
               <p>
-                Change the default term length for future in-store or
-                replenishment purchases.
+                {!modalState?.default_term ? 'Set' : 'Change'} the default term
+                length for future in-store or replenishment purchases.
               </p>
             </div>
             <h1 className="font-medium text-center">Adjust Number of Months</h1>
             <Field disabled={loading}>
               <ListBox
                 initialValue={modalState?.default_term?.term}
-                buttonText={term?.term}
+                buttonText={term?.term || 'Select Default Term'}
                 handleChange={handleChange}
                 value={term}
                 listBoxClass={classNames(

@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
 
-import useApi from '@hooks/useApi';
 import { getApprovedTerms } from '@lib/actions/entities';
 import { getMerchant } from '@lib/actions/merchants';
+import useApi from './useApi';
 
 type Terms = {
   available: boolean;
@@ -19,33 +20,37 @@ type Terms = {
 type Merchant = {
   id: string;
   name: string;
+  supports_instore: boolean;
+  supports_recharge: boolean;
 };
 
 function useDefaultTerms(company, shouldFetch) {
   const api = useApi();
-  const defaultTermsList = company?.recharge_settings || [];
+  const [rechargeMerchantIds, setRechargeMerchantIds] = useState([]);
+  const defaultTermsList = company?.recharge_settings;
+  const merchantAppliedWith = company?.merchant_applied_with;
 
   const merchantQueries = useQueries({
-    queries: defaultTermsList?.map((i) => {
+    queries: rechargeMerchantIds?.map((id) => {
       return {
-        queryKey: ['merchant', i.merchant_id],
-        queryFn: () => getMerchant(api, i.merchant_id),
-        enabled: !!defaultTermsList.length && shouldFetch,
+        queryKey: ['merchant', id],
+        queryFn: () => getMerchant(api, id),
+        enabled: !!rechargeMerchantIds.length && shouldFetch,
       };
     }),
   });
 
   const termQueries = useQueries({
-    queries: defaultTermsList?.map((i) => {
+    queries: rechargeMerchantIds?.map((id) => {
       return {
-        queryKey: ['approvedTerms', i.merchant_id],
-        queryFn: () => getApprovedTerms(api, company.id, i.merchant_id),
-        enabled: !!defaultTermsList.length && shouldFetch,
+        queryKey: ['approvedTerms', id],
+        queryFn: () => getApprovedTerms(api, company.id, id),
+        enabled: !!rechargeMerchantIds.length && shouldFetch,
       };
     }),
   });
 
-  const isLoading =
+  const queriesLoading =
     merchantQueries.some((query) => query.isLoading) ||
     termQueries.some((query) => query.isLoading);
 
@@ -57,28 +62,50 @@ function useDefaultTerms(company, shouldFetch) {
     .filter((query) => query.data && !query.isError)
     .map((query, index) => {
       return {
-        merchant_id: defaultTermsList[index].merchant_id,
+        merchant_id: merchantList[index]?.id,
         terms: (query.data as { terms: Terms }).terms,
       };
     });
 
-  const defaultTerms = shouldFetch
-    ? defaultTermsList?.map((i) => {
-        return {
-          merchant_id: i.merchant_id,
-          merchant_name: merchantList.find((m) => i.merchant_id === m.id)?.name,
-          default_term: {
-            term: i.default_term,
-            term_period: i.default_term_period,
-          },
-          term_options: termOptions?.find(
-            (o) => i.merchant_id === o.merchant_id
-          )?.terms,
-        };
-      })
-    : [];
+  useEffect(() => {
+    if (
+      defaultTermsList?.length ||
+      merchantAppliedWith?.supports_recharge ||
+      merchantAppliedWith?.supports_instore
+    ) {
+      const rechargeMerchantIdSet = new Set([
+        ...defaultTermsList?.map((term) => term.merchant_id),
+        merchantAppliedWith?.id,
+      ]);
 
-  return { defaultTermsLoading: isLoading, defaultTerms };
+      setRechargeMerchantIds(Array.from(rechargeMerchantIdSet));
+    }
+  }, [company]);
+
+  const defaultTermSettings = merchantList.map((merchant) => {
+    return {
+      merchant_id: merchant.id,
+      merchant_name: merchant.name,
+      default_term: (() => {
+        const merchantTerm = defaultTermsList.find(
+          (term) => term.merchant_id === merchant.id
+        );
+        return merchantTerm
+          ? {
+              term: merchantTerm?.default_term,
+              term_period: merchantTerm?.default_term_period,
+            }
+          : null;
+      })(),
+      term_options: termOptions?.find((o) => merchant.id === o.merchant_id)
+        ?.terms,
+    };
+  });
+
+  return {
+    defaultTermSettings,
+    defaultTermsLoading: queriesLoading,
+  };
 }
 
 export default useDefaultTerms;

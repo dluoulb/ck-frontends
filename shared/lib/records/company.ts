@@ -1,6 +1,7 @@
 import { removeNulls } from '@lib/utils/record_utils';
 import AddressRecord from './address';
 import CreditLine from './credit_line';
+import MerchantRecord from './merchant';
 import UserRecord from './user';
 
 export default class CompanyRecord {
@@ -26,12 +27,15 @@ export default class CompanyRecord {
   borrower: UserRecord;
   recharge_settings: any[];
   promo_id: string;
+  merchant_applied_with: MerchantRecord;
 
   constructor(data) {
     const cleanedData = removeNulls(data);
     Object.assign(
       this,
-      Object.fromEntries(Object.entries(cleanedData).filter(([key]) => key !== 'status'))
+      Object.fromEntries(
+        Object.entries(cleanedData).filter(([key]) => key !== 'status')
+      )
     );
 
     if (cleanedData.address) {
@@ -44,6 +48,12 @@ export default class CompanyRecord {
 
     if (cleanedData.borrower) {
       this.borrower = new UserRecord(cleanedData.borrower);
+    }
+
+    if (cleanedData && cleanedData.merchant_applied_with) {
+      this.merchant_applied_with = new MerchantRecord(
+        cleanedData.merchant_applied_with
+      );
     }
   }
 

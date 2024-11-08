@@ -7,6 +7,11 @@ export default class MerchantRecord {
   name: string;
   supports_standalone_csr: string | null;
   support_email: string;
+  supports_recharge: boolean | null;
+  supports_instore: boolean | null;
+  supports_vcinstore: boolean | null;
+  supports_pi4: boolean | null;
+  supports_netx: boolean | null;
   active_promo: {};
   promos: any[];
   public_key: string;

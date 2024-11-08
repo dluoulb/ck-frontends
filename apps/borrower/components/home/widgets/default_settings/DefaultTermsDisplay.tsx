@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { faPenToSquare } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
 
-import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
@@ -15,16 +12,16 @@ import DefaultTermSettingsModal from './DefaultTermsModal';
 export default function DefaultTermsDisplay() {
   const api = useApi();
   const { makeToast } = useToast();
-  const { entity, entityLoading, fetchEntity } = useEntity();
-  const { defaultTerms } = useBorrowerDeps();
+  const { entity, fetchEntity } = useEntity();
+  const { defaultTermSettings } = useBorrowerDeps();
 
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
-    defaultTerms[0]
+    defaultTermSettings[0]
   );
 
   const getTermDisplay = (term) => {
-    if (term.default_term.term_period === 'days') return '30 Days';
+    if (term.default_term?.term_period === 'days') return '30 Days';
 
     if (term.default_term?.term > 1) {
       return `${term.default_term?.term} Months`;
@@ -63,11 +60,11 @@ export default function DefaultTermsDisplay() {
       .finally(() => setLoading(false));
   };
 
-  if (!defaultTerms?.length) return;
+  if (!defaultTermSettings?.length) return;
 
   return (
-    <div className="w-full" role={DefaultTermsDisplay.role}>
-      {DefaultTermsDisplay && (
+    <div className="flex flex-col gap-2 w-full" role={DefaultTermsDisplay.role}>
+      {defaultTermSettings && (
         <DefaultTermSettingsModal
           modalState={modalState}
           onSave={onSave}
@@ -76,44 +73,47 @@ export default function DefaultTermsDisplay() {
           loading={loading}
         />
       )}
-      <div className="flex flex-col gap-2 divide-y">
-        {defaultTerms?.map((s, idx) => {
-          return (
-            <div
-              key={idx}
-              className="flex flex-col xl:flex-row xl:gap-1 justify-between items-start xl:items-start xl:items-center"
-            >
-              {entityLoading ? (
-                <Loading className="w-5 h-5 my-2" />
+      {defaultTermSettings.map((s, idx) => {
+        return (
+          <div
+            key={idx}
+            className="flex flex-col xs:flex-row md:flex-col xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
+          >
+            <p className="font-avenir-book text-opaque-navy text-sm pr-1">
+              Merchant Name:
+              <strong className="ml-1">{s.merchant_name}</strong>
+            </p>
+            <div className="flex items-center">
+              {!s.default_term ? (
+                <strong
+                  className="text-primary-blue-hover text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
+                  onClick={() => {
+                    setModalState(s);
+                    toggleModal();
+                  }}
+                >
+                  Add Default Term
+                </strong>
               ) : (
-                <>
-                  <p className="text-sm">
-                    Merchant Name:
-                    <strong className="mx-1">{s.merchant_name}</strong>
-                  </p>
-                  <div className="text-sm flex items-center gap-1">
-                    <p>Default Term:</p>
-                    <strong className="mx-1">{getTermDisplay(s)}</strong>
+                <p className="font-avenir-book text-opaque-navy text-sm pr-1">
+                  Default Term:
+                  <strong className="ml-1">{getTermDisplay(s)}</strong>
+                  {entity?.tier !== 'NETX' && (
                     <FontAwesomeIcon
-                      className={classNames(
-                        'text-primary-blue cursor-pointer hover:text-primary-blue-hover',
-                        {
-                          'opacity-0': s?.default_term?.term_period === 'days',
-                        }
-                      )}
-                      icon={faPenToSquare}
+                      className="ml-2 text-primary-blue cursor-pointer"
+                      icon={['far', 'edit']}
                       onClick={() => {
                         setModalState(s);
                         toggleModal();
                       }}
                     />
-                  </div>
-                </>
+                  )}
+                </p>
               )}
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
