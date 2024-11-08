@@ -1,7 +1,8 @@
 import { useQueries } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
-import { getApprovedTerms, getMerchant } from '@lib/actions/entities';
+import { getApprovedTerms } from '@lib/actions/entities';
+import { getMerchant } from '@lib/actions/merchants';
 
 type Terms = {
   available: boolean;
@@ -29,7 +30,7 @@ function useDefaultTerms(company, shouldFetch) {
       return {
         queryKey: ['merchant', i.merchant_id],
         queryFn: () => getMerchant(api, i.merchant_id),
-        enabled: !!defaultTermsList.length  && shouldFetch,
+        enabled: !!defaultTermsList.length && shouldFetch,
       };
     }),
   });
@@ -39,7 +40,7 @@ function useDefaultTerms(company, shouldFetch) {
       return {
         queryKey: ['approvedTerms', i.merchant_id],
         queryFn: () => getApprovedTerms(api, company.id, i.merchant_id),
-        enabled: !!defaultTermsList.length  && shouldFetch,
+        enabled: !!defaultTermsList.length && shouldFetch,
       };
     }),
   });
@@ -61,18 +62,21 @@ function useDefaultTerms(company, shouldFetch) {
       };
     });
 
-  const defaultTerms = defaultTermsList?.map((i) => {
-    return {
-      merchant_id: i.merchant_id,
-      merchant_name: merchantList.find((m) => i.merchant_id === m.id)?.name,
-      default_term: {
-        term: i.default_term,
-        term_period: i.default_term_period,
-      },
-      term_options: termOptions?.find((o) => i.merchant_id === o.merchant_id)
-        ?.terms,
-    };
-  });
+  const defaultTerms = shouldFetch
+    ? defaultTermsList?.map((i) => {
+        return {
+          merchant_id: i.merchant_id,
+          merchant_name: merchantList.find((m) => i.merchant_id === m.id)?.name,
+          default_term: {
+            term: i.default_term,
+            term_period: i.default_term_period,
+          },
+          term_options: termOptions?.find(
+            (o) => i.merchant_id === o.merchant_id
+          )?.terms,
+        };
+      })
+    : [];
 
   return { defaultTermsLoading: isLoading, defaultTerms };
 }

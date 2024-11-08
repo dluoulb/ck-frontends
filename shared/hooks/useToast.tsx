@@ -26,7 +26,7 @@ export default function useToast() {
             <FontAwesomeIcon
               icon={type === 'success' ? faCircleCheck : faCircleXmark}
               className={classNames(
-                'mt-1',
+                'mt-0.5',
                 type === 'success' ? 'text-success' : 'text-error'
               )}
             />

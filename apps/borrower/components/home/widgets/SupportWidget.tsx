@@ -16,7 +16,7 @@ export default function SupportWidget() {
 
         <p className="text-lg md:text-xl font-bold">Need Support?</p>
       </div>
-      <div className="text-sm md:text-base my-3 md:my-6 space-y-4">
+      <div className="text-sm md:text-base my-3 md:my-6 space-y-4 md:min-h-32 md:max-h-36">
         <div className="flex flex-col md:flex-row md:gap-1">
           <p>Monday - Friday:</p>
           <strong>9AM - 1PM & 2PM - 6PM CST</strong>

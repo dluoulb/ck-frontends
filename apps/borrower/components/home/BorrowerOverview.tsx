@@ -55,13 +55,17 @@ export default function BorrowerOverview() {
                 {entity?.min_rate !== 'N/A' && approvedUser && (
                   <Tooltip
                     tooltip_text={
-                      <div>
-                        Rate may range from
-                        <p className="mx-1 font-bold">
-                          {entity?.min_rate} - {entity?.max_rate}%
+                      entity?.tier === 'NETX' ? (
+                        <p>Net 30 terms do not incur an interest fee.</p>
+                      ) : (
+                        <p>
+                          Rate may range from
+                          <span className="mx-1 font-bold">
+                            {entity?.min_rate} - {entity?.max_rate}%
+                          </span>
+                          based on term length selection
                         </p>
-                        based on term length selection
-                      </div>
+                      )
                     }
                     trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray !border-none"
                     container_class="text-center p-4 px-6 text-sm bg-secondary-blue"

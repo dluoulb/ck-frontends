@@ -1,6 +1,5 @@
 import JsFileDownloader from 'js-file-downloader';
 
-import MerchantRecord from '@lib/records/merchant';
 import { addAuthorization, headers } from '@lib/utils/authorization';
 
 const buildUrl = (type, resource) => {
@@ -44,12 +43,6 @@ export const getStats = async (api, entity) => {
   if (!entity) return;
   const stats = await api.get(buildUrl(entity?.type, `/${entity?.id}/stats`));
   return stats.data;
-};
-
-export const getMerchant = async (api, merchant_id) => {
-  if (!merchant_id) return;
-  const merchant = await api.get(`/api/merchants/${merchant_id}`);
-  return new MerchantRecord(merchant.data.data.attributes);
 };
 
 export const getApprovedTerms = async (api, company_id, merchant_id) => {

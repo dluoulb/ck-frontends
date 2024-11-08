@@ -43,7 +43,7 @@ export default function MainLayout({ children }) {
       <Title pathname={router.pathname} />
       <StaticHeader />
       <div className="flex-grow flex flex-col min-h-screen sm:min-h-auto w-full mb-48 lg:mb-0 pb-48">
-        <div className="w-[90%] xl:container 2xl:max-w-full mx-auto md:px-8 pt-16 flex-grow">
+        <div className="w-[90%] xl:container 2xl:max-w-full mx-auto 2xl:px-8 pt-16 flex-grow">
           {children}
         </div>
       </div>

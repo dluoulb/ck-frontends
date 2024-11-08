@@ -147,8 +147,6 @@ export default function PaymentMethods() {
                     <div className="m-2">
                       <Notification
                         icon={faCircleInfo}
-                        textColor="text-primary-blue-hover"
-                        bgColor="bg-secondary-blue"
                         headline="Important Notice"
                         ctaButton={<div />}
                         message={

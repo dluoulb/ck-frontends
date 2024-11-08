@@ -49,8 +49,8 @@ export default function PossessUser() {
               <h3 className="text-lg font-medium text-yellow-800">
                 Possessing User:
               </h3>
-              <div className="flex justify-between items-end">
-                <div className="mt-2 text-yellow-700">
+              <div className="flex flex-col gap-2 md:gap-0 md:flex-row justify-between md:items-end">
+                <div className="mt-2 text-yellow-700 text-sm md:text-base">
                   <p>Name: {currentUser?.full_name}</p>
                   <p>Email: {currentUser?.email}</p>
                 </div>
