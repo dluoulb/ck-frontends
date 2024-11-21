@@ -6,10 +6,8 @@ import axios from 'axios';
 import BorrowerOverview from '@apps/borrower/components/home/BorrowerOverview';
 import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
-import Loading from '@components/Loading';
 import NoDataError from '@components/NoDataError';
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import ExportPaymentHistory from './ExportPaymentHistory';
 import Promo from './Promo';
@@ -23,8 +21,7 @@ type NotificationData = {
 };
 
 export default function BorrowerDashboard() {
-  const { isLoading: depsLoading } = useBorrowerDeps();
-  const { entity, entityLoading, entityError } = useEntity();
+  const { entity, entityError } = useEntity();
   const [notification, setNotification] = useState<NotificationData | null>(
     null
   );
@@ -47,9 +44,6 @@ export default function BorrowerDashboard() {
       })
       .catch((err) => [console.log(err)]);
   }, []);
-
-  if (entityLoading || depsLoading)
-    return <Loading className="w-14 h-14 my-36" />;
 
   if (entityError) return <NoDataError tag="borrower" withButton={false} />;
 

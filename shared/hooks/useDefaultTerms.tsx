@@ -83,6 +83,8 @@ function useDefaultTerms(company, shouldFetch) {
   }, [company]);
 
   const defaultTermSettings = merchantList.map((merchant) => {
+    if (!defaultTermsList) return null;
+
     return {
       merchant_id: merchant.id,
       merchant_name: merchant.name,

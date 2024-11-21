@@ -25,5 +25,16 @@ export const getVirtualCard = async(api, company_id) => {
   if (!company_id) return;
   const resp = await api.get(`/api/companies/${company_id}/virtual_cards`);
 
+  if (resp?.data?.virtual_card) {
+    return new CompanyVirtualCardRecord(resp.data.virtual_card);
+  }
+
+  return null;
+};
+
+export const createVirtualCard = async(api, company_id) => {
+  if (!company_id) return;
+  const resp = await api.post(`/api/companies/${company_id}/virtual_cards`);
+
   return new CompanyVirtualCardRecord(resp.data.virtual_card);
 };
