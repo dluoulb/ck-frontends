@@ -9,6 +9,7 @@ import useModal from '@hooks/useModal';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
+import MultiUseVirtualCardSubLimits from './MultiUseVirtualCardSubLimits';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -73,6 +74,7 @@ export default function MultiUseVirtualCard() {
             </div>
             <div className="text-sm md:text-base h-full space-y-2">
               <ActiveMultiUseVirtualCard virtualCards={[vcProps.virtualCard]} />
+              <MultiUseVirtualCardSubLimits />
             </div>
           </>
         }
