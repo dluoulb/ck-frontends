@@ -18,13 +18,7 @@ const protocol = 'https://';
 const rootURI = 'creditkey.com';
 
 export const platform = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    return 'development';
-  } else if (window.location && window.location.hostname.match(/staging/i)) {
-    return 'staging';
-  }
-
-  return 'production';
+  return process.env.NEXT_PUBLIC_ENV;
 };
 
 export const server = (api = true) => {

@@ -12,7 +12,7 @@ declare global {
 }
 
 export default function Scripts() {
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = process.env.NEXT_PUBLIC_ENV === 'production';
 
   return (
     <Head>
@@ -94,7 +94,7 @@ export default function Scripts() {
             src="https://www.google-analytics.com/analytics.js"
             strategy="afterInteractive"
             onLoad={() => {
-              if (process.env.NODE_ENV === 'production') {
+              if (process.env.NEXT_PUBLIC_ENV === 'production') {
                 window.ga =
                   window.ga ||
                   function () {
