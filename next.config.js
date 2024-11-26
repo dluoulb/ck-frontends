@@ -78,6 +78,3 @@ module.exports = {
   }),
   output: 'standalone'
 };
-
-//TODO the above env doesn't match the vars that are in the secrets page
-// Also, i need to fix the terraform so it associates the task with the target group

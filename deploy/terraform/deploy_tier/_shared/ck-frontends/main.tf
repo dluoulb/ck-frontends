@@ -50,13 +50,13 @@ module "ck-frontends" {
   alb_zone_id = module.ck-shared-vars.public_alb.zone_id
   alb_dns_name = module.ck-shared-vars.public_alb.dns_name
   alb_health_check = {
-    path = "/_healthcheck"
+    path = "/api/_healthcheck"
     port = "${module.app-vars.app_port}"
     healthy_threshold = 5
     unhealthy_threshold = 5
     timeout = 5
     interval = 30
-    matcher = "200,307"
+    matcher = "200"
   }
 }
 
