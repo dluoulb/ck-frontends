@@ -36,7 +36,15 @@ COPY ./public ./public
 ARG DEPLOY_TARGET=
 ENV DEPLOY_TARGET=$DEPLOY_TARGET
 
-RUN npm run build
+RUN set -e; \
+    npm run build 2>&1 | tee npm-output.log || \
+    (logfile=$(grep -oE "/root/.npm/_logs/.*\\.log" npm-output.log) && \
+      echo "$logfile" && \
+      cat "$logfile" && \
+      exit 1 \
+    )
+
+# RUN npm run build
 
 FROM builder AS dev
 
