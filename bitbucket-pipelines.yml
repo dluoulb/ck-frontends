@@ -55,15 +55,15 @@ pipelines:
           <<: *Deploy-step
           deployment: staging
 
-    autodeploy-production:
-      - step:
-          <<: *Autodeploy-step
-          deployment: production
+    # autodeploy-production:
+    #   - step:
+    #       <<: *Autodeploy-step
+    #       deployment: production
 
-    release-production:
-      - step:
-          <<: *Deploy-step
-          deployment: production
+    # release-production:
+    #   - step:
+    #       <<: *Deploy-step
+    #       deployment: production
 
   # pull-requests:
   #   '**':
