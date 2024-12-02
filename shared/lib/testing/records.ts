@@ -80,7 +80,7 @@ const companyApproved = new CompanyRecord({
   is_bank_connection_pending: false,
   cta_banners: [
     { name: 'virtual_card', enabled: true },
-    { name: 'qolo_virtual_card', enabled: false },
+    { name: 'multi_use_virtual_card', enabled: false },
     { name: 'connect_bank', enabled: false },
     { name: 'cka', enabled: false },
   ],

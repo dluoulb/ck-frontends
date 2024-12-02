@@ -11,7 +11,7 @@ export default function Widgets() {
   const { entity } = useEntity();
 
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
-  const vcEnabled = ['virtual_card', 'qolo_virtual_card'].includes(
+  const vcEnabled = ['virtual_card', 'multi_use_virtual_card'].includes(
     activeBanner?.name
   );
 
@@ -37,7 +37,7 @@ export default function Widgets() {
           {/* TODO: FIGURE OUT WHAT THE QOLO VC WIDGET IS */}
           {vcEnabled && (
             <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-background-success/60 mx-2 md:mr-3 md:ml-1.5">
-              <VirtualCard />
+              <VirtualCard bannerName={activeBanner.name} />
             </BaseGridItem>
           )}
         </>

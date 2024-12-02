@@ -1,4 +1,5 @@
 import CompanyRecord from '@lib/records/company';
+import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 
 export const getCompany = async (api, company_id, filters = '') => {
   if (!company_id) return;
@@ -18,4 +19,11 @@ export const updateCompany = async (api, company, filters = '') => {
   );
 
   return new CompanyRecord(updatedCompany);
+};
+
+export const getVirtualCard = async(api, company_id) => {
+  if (!company_id) return;
+  const resp = await api.get(`/api/companies/${company_id}/virtual_cards`);
+
+  return new CompanyVirtualCardRecord(resp.data.virtual_card);
 };
