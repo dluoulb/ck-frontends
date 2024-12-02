@@ -66,7 +66,7 @@ export const UserProvider = ({
       setUser({
         user: data,
         isImpersonating,
-        isAdminUser: ['admin', 'staff', 'superadmin'].includes(data.role),
+        isAdminUser: ['admin', 'staff', 'superadmin'].includes(data?.role),
         parentID,
       });
     },

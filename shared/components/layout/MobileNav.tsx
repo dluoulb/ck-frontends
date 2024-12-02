@@ -13,14 +13,15 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-import { primaryRoutes as borrowerRoutes } from '@apps/borrower/components/layout/PortalLayout';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 
-const navigation = [{ route: '/borrower', routes: borrowerRoutes }];
 
 export default function MobileNav() {
   const router = useRouter();
   const href = authRedirectLink(router.pathname);
+  const { primaryRoutes } = usePrimaryRoutes();
+  const navigation = [{ route: '/borrower', routes: primaryRoutes }];
 
   const getRoutes = () => {
     const route = navigation.find((item) =>
