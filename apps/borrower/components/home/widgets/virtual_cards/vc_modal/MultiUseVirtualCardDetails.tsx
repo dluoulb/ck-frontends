@@ -6,12 +6,10 @@ export default function MultiUseVirtualCardDetails() {
   const { virtualCard } = useCompanyVirtualCard();
   const [status, setStatus] = useState('');
   const widget = {
-    onSuccess: (details) => {
-      console.log("pci widget completed successfully-test", details);
+    onSuccess: () => {
       setStatus('Card details will be masked after 90 seconds for security');
     },
-    onFailure: (details) => {
-      console.log("pci widget failure-test", details);
+    onFailure: () => {
       setStatus('Failed to retrieve card details');
     },
     frame: {
@@ -76,6 +74,9 @@ export default function MultiUseVirtualCardDetails() {
           display: 'block',
         },
       },
+      content: {
+        copy_clipboard_text: 'Copy Card # to Clipboard',
+      },
       remove: {
         copy_clipboard: 'w-100',
         row: 'my-4',
@@ -86,12 +87,14 @@ export default function MultiUseVirtualCardDetails() {
       },
     },
   };
+
   useEffect(() => {
     if (virtualCard?.pci_token) {
       widget.config.token = virtualCard.pci_token;
       window.pciWidget(widget);
     }
   }, [virtualCard]);
+
   return (
     <>
       <div
