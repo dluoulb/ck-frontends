@@ -10,15 +10,16 @@ import { ListBox } from '@components/Dropdown';
 import { ListboxOption } from '@headlessui/react';
 import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import MerchantRecord from '@lib/records/merchant';
 
 export default function SetDefaultTermsModal({ next }) {
   const api = useApi();
   const { makeToast } = useToast();
   const { entity, fetchEntity } = useEntity();
-  const [merchant, setMerchant] = useState();
-  const [terms, setTerms] = useState();
-  const [defaultTerm, setDefaultTerm] = useState();
-  const [term, setTerm] = useState();
+  const [merchant, setMerchant] = useState<MerchantRecord>();
+  const [terms, setTerms] = useState<any>();
+  const [defaultTerm, setDefaultTerm] = useState<any>();
+  const [term, setTerm] = useState<any>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleChange = (value) => {
@@ -94,7 +95,7 @@ export default function SetDefaultTermsModal({ next }) {
   }, [entity, merchant]);
 
   useEffect(() => {
-    if (merchant?.id && terms?.length) {
+    if (merchant?.id && Array.isArray(terms)) {
       const t = {
         merchant_id: merchant.id,
         merchant_name: merchant.name,
