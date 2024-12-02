@@ -2,6 +2,8 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import React, { useEffect, useState } from 'react';
 
+declare const window: any;
+
 export default function MultiUseVirtualCardDetails() {
   const { virtualCard } = useCompanyVirtualCard();
   const [status, setStatus] = useState('');
@@ -100,7 +102,6 @@ export default function MultiUseVirtualCardDetails() {
       <div
         className="md:col-span-2 md:row-span-2 rounded-lg border border-black border-opacity-5 p-4 md:p-8"
         id='widget_container'
-        name='widget_container'
       >
         <p>{status}</p>
         {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
