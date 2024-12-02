@@ -31,7 +31,6 @@ export default function ActiveMultiUseVirtualCard({ virtualCards }) {
   };
 
   const columnHeaders = [
-    { name: 'Date', className: 'hidden md:block lg:hidden 3xl:block' },
     { name: 'Card Number', className: null },
   ];
 
@@ -50,7 +49,7 @@ export default function ActiveMultiUseVirtualCard({ virtualCards }) {
 
   return (
     <div
-      className="h-48 w-full border-b border-secondary-gray overflow-y-scroll"
+      className="w-full border-b border-gray-300"
       role={ActiveMultiUseVirtualCard.role}
     >
       <div className="w-full divide-y">
@@ -77,9 +76,6 @@ export default function ActiveMultiUseVirtualCard({ virtualCards }) {
           <tbody className="overflow-y-scroll divide-y">
             {sortedCards?.map((vc, idx) => (
               <tr key={idx}>
-                <td className="py-2 text-sm min-w-min hidden md:inline">
-                  <span className="block">{reformatDate(vc?.created_at)}</span>
-                </td>
                 <td
                   className={classNames(
                     'whitespace-nowrap py-2 text-sm items-center',
