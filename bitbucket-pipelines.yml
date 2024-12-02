@@ -1,0 +1,103 @@
+image: atlassian/default-image:4
+
+definitions:
+  services:
+    docker:
+      memory: 3072 #npm build is a real bear, so it needs more memory
+
+  caches:
+    apt-lists: /var/lib/apt/lists
+    apt-cache: /var/cache/apt
+
+  steps:
+    - step: &Deploy-step
+        name: Deploy
+        services:
+          - docker
+        caches:
+          - apt-lists
+          - apt-cache
+          - docker
+        script:
+          - ./deploy/ck-ecs.sh deploy $DEPLOY_TIER
+
+    - step: &Autodeploy-step
+        name: Auto Deploy
+        services:
+          - docker
+        caches:
+          - apt-lists
+          - apt-cache
+          - docker
+        script:
+          - ./deploy/ck-ecs.sh autodeploy $DEPLOY_TIER
+
+pipelines:
+  branches:
+    master:
+      - step:
+          <<: *Deploy-step
+          deployment: staging
+
+  custom:
+    # release-development:
+    #   - step:
+    #       <<: *Deploy-step
+    #       deployment: development
+
+    autodeploy-staging:
+      - step:
+          <<: *Autodeploy-step
+          deployment: staging
+
+    release-staging:
+      - step:
+          <<: *Deploy-step
+          deployment: staging
+
+    # autodeploy-production:
+    #   - step:
+    #       <<: *Autodeploy-step
+    #       deployment: production
+
+    # release-production:
+    #   - step:
+    #       <<: *Deploy-step
+    #       deployment: production
+
+  # pull-requests:
+  #   '**':
+  #     - step:
+  #         name: Install dependencies
+  #         image: node:22
+  #         script:
+  #           - echo '@fortawesome:registry=https://npm.fontawesome.com/' > .npmrc
+  #           - echo "//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}" >> .npmrc
+  #           - npm install
+  #         caches:
+  #           - node
+  #     - parallel:
+  #         fail-fast: true
+  #         steps:
+  #           - step:
+  #               image: node:22
+  #               name: Check linting
+  #               script:
+  #                 - npm run lint
+  #               caches:
+  #                 - node
+  #           - step:
+  #               image: node:22
+  #               name: Check formatting
+  #               script:
+  #                 - npm run format
+  #               caches:
+  #                 - node
+  #           - step:
+  #               image: node:22
+  #               name: Build and Test
+  #               script:
+  #                 - npm run build
+  #                 - npm run test
+  #               caches:
+  #                 - node

@@ -40,3 +40,75 @@ services:
       - ck-eco-net
     dns:
       - ${CK_DNSMASQ_IP}
+
+  ck-frontends-deployed:
+    profiles:
+      - deployed
+    build:
+      context: .
+      args:
+        FONTAWESOME_NPM_AUTH_TOKEN: ${FONTAWESOME_NPM_AUTH_TOKEN}
+        DEPLOY_TARGET: development
+    environment:
+      DEPLOY_TARGET: development
+      BYPASS_AUTH: 1
+    env_file:
+      - deploy/.env.aws.secrets
+    ports:
+      - 3000
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ck-frontends.entrypoints: web
+      traefik.http.routers.ck-frontends.rule: 'Host(`${VHOST_CK_FRONTENDS}`, `${VHOST_CK_BORROWER}`,`${VHOST_CK_REPORTS}`,`${VHOST_CK_ADMIN}`,`${VHOST_CK_APPLY}`)'
+    volumes:
+      - ./deploy/bin/entrypoint.sh:/usr/local/bin/entrypoint.sh
+    networks:
+      - ck-eco-net
+    dns:
+      - ${CK_DNSMASQ_IP}
+
+  ck-frontends-static:
+    profiles:
+      - deployed
+    build:
+      context: .
+      dockerfile: ./Dockerfile.static
+      args:
+        FONTAWESOME_NPM_AUTH_TOKEN: ${FONTAWESOME_NPM_AUTH_TOKEN}
+        DEPLOY_TARGET: development
+        NEXT_PUBLIC_BASE_URL: https://borrower.staging.creditkey.com
+        NEXT_PUBLIC_GIT_SHA: abababa
+
+        NODE_ENV: staging
+        NEXT_PUBLIC_ENV: 'development'
+        NEXT_PUBLIC_API_URL: https://staging.creditkey.com/app
+
+        # Accept.Blue
+        NEXT_PUBLIC_ACCEPT_BLUE_TOKEN: pk_XS03vp4RRvs0N6qsZr7jqyw5XXtZv
+        NEXT_PUBLIC_ACCEPT_BLUE_SOURCE: 'https://tokenization.develop.accept.blue/tokenization/v0.2'
+
+        # SuperTokens
+        NEXT_PUBLIC_SUPERTOKENS_API_BASEPATH: /
+        NEXT_PUBLIC_SUPERTOKENS_WEBSITE_BASEPATH: /
+        NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN: https://auth.staging.creditkey.com
+        NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN: https://login.staging.creditkey.com
+        NEXT_PUBLIC_SUPERTOKENS_COOKIE_DOMAIN: .staging.creditkey.com
+
+        NEXT_PUBLIC_VIRTUAL_CARD_MERCHANT_ID: "6025af325a30bd7328c5b943"
+        NEXT_PUBLIC_VC_MERCHANT_KEY: ckvirtualcard_ff61aee4b3f649c68d0b6433c3e31e23
+        NEXT_PUBLIC_VC_MERCHANT_SECRET: 18f2c0e401134417b014e04dfc137a02
+        NEXT_PUBLIC_CMS_BASE_URL: https://cms.staging.creditkey.com
+
+    # env_file:
+    #   - deploy/.env.aws.secrets
+    ports:
+      - 80
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ck-frontends.entrypoints: web
+      traefik.http.routers.ck-frontends.rule: 'Host(`${VHOST_CK_FRONTENDS}`, `${VHOST_CK_BORROWER}`,`${VHOST_CK_REPORTS}`,`${VHOST_CK_ADMIN}`,`${VHOST_CK_APPLY}`)'
+    networks:
+      - ck-eco-net
+
+    dns:
+      - ${CK_DNSMASQ_IP}

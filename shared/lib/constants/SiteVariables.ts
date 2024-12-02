@@ -18,29 +18,12 @@ const protocol = 'https://';
 const rootURI = 'creditkey.com';
 
 export const platform = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    return 'development';
-  } else if (window.location && window.location.hostname.match(/staging/i)) {
-    return 'staging';
-  }
-
-  return 'production';
+  return process.env.NEXT_PUBLIC_ENV;
 };
 
 export const server = (api = true) => {
-  if (process.env && process.env.NODE_ENV !== 'production') {
-    return (
-      process.env.NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100'
-    );
-  }
-
-  let subDomain = 'www';
-  if (window.location && window.location.hostname.match(/staging/i)) {
-    subDomain = 'staging';
-  }
-
-  const baseURI = protocol + subDomain + '.' + rootURI;
-
+  //TODO why do both NEXT_PUBLIC_API_URL and NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST need to exist?
+  const baseURI = process.env.NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100'
   return api ? `${baseURI}/app` : baseURI;
 };
 
@@ -70,7 +53,6 @@ export const authRedirectLink = (pathname) => {
   const isInvalidPath = invalidRedirectPaths.some((path) =>
     pathname.includes(path)
   );
-
   return `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${process.env.NEXT_PUBLIC_BASE_URL}${isInvalidPath ? '' : pathname}`;
 };
 

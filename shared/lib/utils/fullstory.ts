@@ -25,13 +25,13 @@ export default class FullStory {
   }
 
   initialized() {
-    return process.env.NODE_ENV === 'test' ? true : isInitialized();
+    return process.env.NEXT_PUBLIC_ENV === 'test' ? true : isInitialized();
   }
 
   init() {
     initFullStory({
       orgId: 'Y34CM',
-      devMode: process.env.NODE_ENV !== 'production',
+      devMode: process.env.NEXT_PUBLIC_ENV !== 'production',
       recordCrossDomainIFrames: iframedMerchants.includes(this.merchantName)
         ? true
         : false,
@@ -42,7 +42,7 @@ export default class FullStory {
   }
 
   identifyUser(id: string, vars: Record<string, any> = {}) {
-    if (process.env.NODE_ENV !== 'production') return;
+    if (process.env.NEXT_PUBLIC_ENV !== 'production') return;
 
     FS('setIdentity', {
       uid: id,
@@ -63,7 +63,7 @@ export default class FullStory {
     shopping_cart?: any;
     company?: any;
   }) {
-    if (process.env.NODE_ENV !== 'production') return;
+    if (process.env.NEXT_PUBLIC_ENV !== 'production') return;
 
     const eventDetails = {
       order_amount: session?.hasShoppingCart ? shopping_cart?.grand_total : '',

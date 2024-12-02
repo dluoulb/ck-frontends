@@ -13,7 +13,14 @@ const sites = [
 ];
 
 function siteForHost(host) {
-  return sites.find((site) => host.includes(site.shortname)) || null;
+  if (host.includes('creditkey.com')) {
+    const shortname = host.split('.')[0];
+    const matchingSite = sites.find((site) => site.shortname === shortname);
+    return matchingSite ? matchingSite : null;
+  } else {
+    const domain = host.replace(/(local|new)\./, '').replace(':3000', '');
+    return sites.find((site) => site.domain === domain) || null;
+  }
 }
 
 function parseUserJwt(token) {
@@ -46,7 +53,7 @@ export default async function middleware(req: NextRequest) {
 
   if (!sessionToken) {
     return NextResponse.redirect(
-      new URL(authRedirectLink(site ? `/${site.shortname}` : pathname))
+      new URL(authRedirectLink(pathname))
     );
   }
 
