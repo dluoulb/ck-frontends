@@ -99,7 +99,6 @@ export default function ActiveOrdersTable() {
         <BaseTable
           table={table}
           rowClass="!text-sm"
-          tableClass="!min-w-full"
           usePagination={false}
           noDataFoundWarning="No active orders found."
         />
