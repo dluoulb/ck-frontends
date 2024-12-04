@@ -20,8 +20,7 @@ export default function BaseTable({
   usePagination = true,
 }) {
   const { pageSize } = table?.getState()?.pagination;
-  const visibleRows = table?.getRowModel()?.rows?.length;
-  const emptyRows = pageSize - visibleRows;
+  const emptyRows = 0;
 
   return (
     <div>
