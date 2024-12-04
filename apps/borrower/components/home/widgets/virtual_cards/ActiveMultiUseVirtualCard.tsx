@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/pro-regular-svg-icons';
+import { faEye, faSquareXmark, faXmark, faXmarkLarge } from '@fortawesome/pro-regular-svg-icons';
 import useModal from '@hooks/useModal';
 import MultiUseVirtualCardDetailsModal from './vc_modal/MultiUseVirtualCardDetailsModal';
 import Loading from '@components/Loading';
-import { reformatDate, sortDateTimes } from '@lib/utils/datetime_formatters';
+import { sortDateTimes } from '@lib/utils/datetime_formatters';
 import classNames from 'classnames';
+import CloseMultiUseVirtualCardModal from './vc_modal/CloseMultiUseVirtualCardModal';
 
 export default function ActiveMultiUseVirtualCard({ virtualCards }) {
   const { isModalActive, toggleModal } = useModal();
+  const { isModalActive: isCloseModalActive, toggleModal: toggleCloseModal } = useModal();
   const [clipped, setClipped] = useState(false);
 
   const sortedCards = virtualCards?.sort((a, b) =>
@@ -92,12 +94,22 @@ export default function ActiveMultiUseVirtualCard({ virtualCards }) {
                     <FontAwesomeIcon icon={faEye} />
                   </button>
                 </td>
+                <td className="relative whitespace-nowrap py-2 text-right text-sm font-medium">
+                  <button
+                    type="button"
+                    className="flex tracking-wider text-red-700 hover:text-red-900 text-sm"
+                    onClick={toggleCloseModal}
+                  >
+                    <FontAwesomeIcon icon={faXmarkLarge} />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <MultiUseVirtualCardDetailsModal isModalActive={isModalActive} toggleModal={toggleModal} />
+      <CloseMultiUseVirtualCardModal isModalActive={isCloseModalActive} toggleModal={toggleCloseModal} />
     </div>
   );
 }
