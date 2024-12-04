@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { faEllipsisVertical } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuItem } from '@headlessui/react';
@@ -10,13 +10,11 @@ import { DeleteButton } from './DeleteButton';
 
 export default function PaymentMethodList({ payment_methods }) {
   const [loadingId, setLoadingId] = useState(null);
-  const sortedPaymentMethods = payment_methods.sort(
+  const sortedPaymentMethods = payment_methods?.sort(
     (a, b) => (b.is_default ? 1 : 0) - (a.is_default ? 1 : 0)
   );
 
-  return sortedPaymentMethods.map((pm, idx) => {
-    const deleteRef = useRef(null);
-    const defaultRef = useRef(null);
+  return sortedPaymentMethods?.map((pm, idx) => {
     const handleSetLoading = (id) => setLoadingId(id);
 
     return (
@@ -54,13 +52,11 @@ export default function PaymentMethodList({ payment_methods }) {
                   {!pm.is_default && (
                     <DefaultButton
                       payment_method={pm}
-                      ref={defaultRef}
                       setLoading={handleSetLoading}
                     />
                   )}
                   <DeleteButton
                     payment_method={pm}
-                    ref={deleteRef}
                     setLoading={handleSetLoading}
                   />
                 </>
@@ -90,7 +86,6 @@ export default function PaymentMethodList({ payment_methods }) {
                     <MenuItem>
                       <DefaultButton
                         payment_method={pm}
-                        ref={defaultRef}
                         setLoading={handleSetLoading}
                       />
                     </MenuItem>
@@ -98,7 +93,6 @@ export default function PaymentMethodList({ payment_methods }) {
                   <MenuItem>
                     <DeleteButton
                       payment_method={pm}
-                      ref={deleteRef}
                       setLoading={handleSetLoading}
                     />
                   </MenuItem>
