@@ -8,6 +8,7 @@ import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
 import { updateCompany } from '@lib/actions/companies';
 import DefaultTermSettingsModal from './DefaultTermsModal';
+import { faEdit } from '@fortawesome/pro-regular-svg-icons';
 
 export default function DefaultTermsDisplay() {
   const api = useApi();
@@ -101,7 +102,7 @@ export default function DefaultTermsDisplay() {
                   {entity?.tier !== 'NETX' && (
                     <FontAwesomeIcon
                       className="ml-2 text-primary-blue cursor-pointer"
-                      icon={['far', 'edit']}
+                      icon={faEdit}
                       onClick={() => {
                         setModalState(s);
                         toggleModal();
