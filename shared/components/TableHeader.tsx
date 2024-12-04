@@ -102,7 +102,7 @@ export default function TableHeader({
         </div>
         <div className="xl:min-w-64 w-full xl:w-auto my-2 xl:my-0">
           <GlobalFilter
-            defaultPlaceholder="Search Documents"
+            defaultPlaceholder="Search"
             containerClass="w-full"
             inputClass="w-full"
             table={table}
