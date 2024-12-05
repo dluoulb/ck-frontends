@@ -78,7 +78,7 @@ export const orderStatusTabs = [
   {
     name: 'paid',
     icon: faCheckCircle,
-    filter_value: 'paid',
+    filter_value: ['paid'],
   },
   {
     name: 'canceled',

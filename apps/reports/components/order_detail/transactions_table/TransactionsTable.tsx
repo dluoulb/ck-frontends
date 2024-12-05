@@ -62,7 +62,6 @@ export default function TransactionsTable({ transactions, err }) {
       <BaseTable
         table={table}
         tableClass="px-2 sm:px-6"
-        totalCount={transactions?.length}
         noDataFoundWarning={
           err
             ? 'Error: Unable to retrieve order transactions.'

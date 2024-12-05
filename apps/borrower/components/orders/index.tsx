@@ -13,7 +13,7 @@ export default function Orders() {
   const { entity, entityLoading } = useEntity();
   const { isLoading } = useBorrowerDeps();
   const [ordersPageIndex, setOrdersPageIndex] = useState(0);
-  const { orders, ordersLoading, pageCount, isFetching, totalOrderCount } =
+  const { orders, ordersLoading, pageCount, isFetching } =
     useOrders(entity, isLoading, ordersPageIndex);
 
   if (isLoading || ordersLoading || entityLoading)
@@ -44,7 +44,6 @@ export default function Orders() {
               pageSize={25}
               pageCount={pageCount}
               tableColumns={TableColumns}
-              totalOrderCount={totalOrderCount}
               rowClass="!text-sm"
               withHeader={true}
               isFetching={isFetching}

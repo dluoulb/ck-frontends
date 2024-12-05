@@ -5,7 +5,7 @@ import { formatCurrency } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
 import OrderStatus from '../home/table/OrderStatus';
-
+  
 export const TableColumns = [
   {
     id: 'created_at',
@@ -69,6 +69,9 @@ export const TableColumns = [
     header: 'Order Status',
     hideColumn: 856,
     accessorFn: (row) => row.product?.status,
+    filterFn: (row, columnId, filterValue) => {
+      return filterValue.includes(row.original.product?.status);
+    },
     cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {

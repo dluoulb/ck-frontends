@@ -93,7 +93,6 @@ export default function DocumentsTable({ documents }) {
       />
       <BaseTable
         table={table}
-        totalCount={documents?.length}
         headerClass="!py-3 !px-4"
         rowClass="!text-sm !py-3 !px-4"
         tableClass="mid:!min-w-max lg:!min-w-full"

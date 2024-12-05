@@ -14,12 +14,10 @@ export default function BaseTable({
   headerClass = '',
   onClickHandler = null,
   noDataFoundWarning = '',
-  totalCount = 0,
   isFetching = false,
   isPageCached = false,
   usePagination = true,
 }) {
-  const { pageSize } = table?.getState()?.pagination;
   const emptyRows = 0;
 
   return (
@@ -89,14 +87,6 @@ export default function BaseTable({
                     {noDataFoundWarning}
                   </td>
                 </tr>
-                {Array.from({ length: pageSize - 1 }).map((_, index) => (
-                  <tr key={`empty-${index}`} className="py-4 border-b">
-                    <td
-                      className="py-6 whitespace-nowrap"
-                      colSpan={table.getHeaderGroups()[0].headers.length}
-                    ></td>
-                  </tr>
-                ))}
               </>
             ) : (
               <>
@@ -143,7 +133,7 @@ export default function BaseTable({
           </tbody>
         </table>
       </div>
-      {usePagination && <Pagination table={table} totalCount={totalCount} />}
+      {usePagination && table.getRowModel().rows.length > 0 && <Pagination table={table} totalCount={table.getRowModel().rows.length} />}
     </div>
   );
 }

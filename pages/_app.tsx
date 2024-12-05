@@ -1,4 +1,3 @@
-import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { createContext, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
