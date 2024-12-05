@@ -11,7 +11,7 @@ export default function Promo() {
   const { isModalActive, toggleModal } = useModal();
 
   const promo = getPromoFromMerchant(entity?.promo_id || promoId);
-  const activeBanner = entity?.cta_banners.find((b) => b.enabled);
+  const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
 
   if (!promo || !activeBanner) return <></>;
 
