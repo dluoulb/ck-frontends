@@ -40,12 +40,6 @@ export default function BorrowerOverview() {
               >
                 {entity?.name}
               </p>
-              <p className="font-semibold">
-                <span className="mr-1 font-normal">Tier:</span>
-                {entity?.tier.includes('_')
-                  ? entity?.tier.replace('_', ' ')
-                  : entity?.tier}
-              </p>
               {entity?.type === 'company' && (
                 <p>
                   Base Rate:
