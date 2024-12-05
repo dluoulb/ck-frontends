@@ -3,14 +3,8 @@ import getConfig from 'next/config';
 import Head from 'next/head';
 
 const Title = ({ pathname }) => {
-  const { publicRuntimeConfig } = getConfig();
-  const baseURL = publicRuntimeConfig.baseURL;
-
   const titles = [
-    {
-      path: '/reports',
-      title: 'Credit Key Reporting',
-    },
+    { path: '/reports', title: 'Credit Key Reporting' },
     { path: '/borrower', title: 'Credit Key Borrower Portal' },
     { path: '/admin', title: 'Credit Key Admin Portal' },
   ];
@@ -23,7 +17,7 @@ const Title = ({ pathname }) => {
   return (
     <Head>
       <title>{getTitle()}</title>
-      <link rel="icon" href={`${baseURL}/ck-mark.png`} />
+      <link rel="icon" href="/favicon.ico" sizes="any" />
     </Head>
   );
 };
