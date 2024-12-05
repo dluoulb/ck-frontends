@@ -4,8 +4,10 @@ import axios from 'axios';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import { deNormalizePhone, normalizePhone } from '@lib/utils/formatters';
+import { useRouter } from 'next/router';
 
 function usePossessedUser() {
+  const router = useRouter();
   const { setEntity } = useEntity();
   const { getCurrentUser } = useUser();
 
@@ -21,6 +23,7 @@ function usePossessedUser() {
       .then(() => {
         getCurrentUser({ userID: parentUserId });
         setEntity(null);
+        router.push('/borrower');
       });
   };
 
