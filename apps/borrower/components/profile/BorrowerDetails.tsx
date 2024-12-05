@@ -160,13 +160,7 @@ export default function BorrowerDetails() {
             <div className="w-3/5 font-semibold">
               <p>
                 <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                  Tier:
-                </span>
-                {entity?.tier}
-              </p>
-              <p>
-                <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                  Tier Limit:
+                  Credit Limit:
                 </span>
                 {entity?.tier_limit}
               </p>
