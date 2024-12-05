@@ -40,9 +40,7 @@ export const createVirtualCard = async(api, company_id) => {
 };
 
 export const closeVirtualCard = async(api, company_id) => {
-  console.log('company_id', company_id);
   if (!company_id) return;
-  console.log('about to close');
   const resp = await api.put(`/api/companies/${company_id}/virtual_cards/close_active`);
   
   return true;
