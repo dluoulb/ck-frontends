@@ -22,7 +22,6 @@ export default function OrdersTable({
   pageCount,
   tableClass = '',
   tableColumns,
-  totalOrderCount = 0,
   rowClass = '',
   withHeader = false,
   withDisclaimer = false,
@@ -131,7 +130,6 @@ export default function OrdersTable({
           tableClass={tableClass}
           isPageCached={!!isPageCached}
           onClickHandler={onClickHandler}
-          totalCount={totalOrderCount}
           noDataFoundWarning={getNoDataMessage()}
         />
       </div>

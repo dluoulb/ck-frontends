@@ -62,7 +62,6 @@ export default function PSTable({ payment_schedule, err }) {
       <BaseTable
         table={table}
         tableClass="w-full px-2 sm:px-6 text-sm"
-        totalCount={payment_schedule?.length}
         noDataFoundWarning={
           err
             ? 'Error: Unable to retrieve payment schedule.'

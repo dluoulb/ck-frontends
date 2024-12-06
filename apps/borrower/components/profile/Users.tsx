@@ -76,7 +76,6 @@ export default function Users() {
         <BaseTable
           table={table}
           rowClass="!text-sm"
-          totalCount={companyUsers?.length}
           noDataFoundWarning="Error: Unable to retrieve users."
         />
       )}

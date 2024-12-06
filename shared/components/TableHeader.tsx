@@ -22,12 +22,7 @@ export default function TableHeader({
     if (hasPastDueTab && tab.name === 'past due') {
       newFilter = { id: 'isPastDue', value: true };
     } else {
-      newFilter = {
-        id: filterType,
-        value: Array.isArray(tab.filter_value)
-          ? tab.filter_value
-          : [tab.filter_value],
-      };
+      newFilter = { id: filterType, value: tab.filter_value };
     }
     table.setColumnFilters([newFilter]);
   };

@@ -9,7 +9,7 @@ import { TableColumns } from './order_table/TableColumns';
 export default function OrderDashboard() {
   const { entity } = useReportsDeps();
   const [ordersPageIndex, setOrdersPageIndex] = useState(0);
-  const { orders, ordersLoading, pageCount, totalOrderCount, isFetching } =
+  const { orders, ordersLoading, pageCount, isFetching } =
     useOrders(entity, false, ordersPageIndex);
 
   if (!orders || ordersLoading)
@@ -35,7 +35,6 @@ export default function OrderDashboard() {
         pageCount={pageCount}
         tableClass="!min-w-full"
         tableColumns={TableColumns}
-        totalOrderCount={totalOrderCount}
         withHeader={true}
         withDisclaimer={true}
         isFetching={isFetching}
