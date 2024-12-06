@@ -94,10 +94,11 @@ export default function BorrowerDashboard() {
 
               <Widgets />
 
-              <BaseGridItem gridConfig="col-span-5 mx-2 md:mx-3 !py-1 !px-2">
+              <ActiveOrdersTable />
+
+              <BaseGridItem gridConfig="col-span-5 mx-2 md:mx-3 !py-1 !px-2 mb-2 md:mb-3">
                 <ExportPaymentHistory />
               </BaseGridItem>
-              <ActiveOrdersTable />
             </BaseGrid>
           </div>
         </div>
