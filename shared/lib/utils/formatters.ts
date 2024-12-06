@@ -33,7 +33,7 @@ export const normalizePhone = (value) => {
 
 export const deNormalizePhone = (value) => {
   if (!value) return;
-  return `1${value.replace(/\D/g, '')}`;
+  return `+1${value.replace(/\D/g, '')}`;
 };
 
 export const daysAsMonths = (days) =>
