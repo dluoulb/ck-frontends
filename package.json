@@ -40,6 +40,7 @@
     "react-verification-input": "^4.1.2",
     "regenerator-runtime": "^0.14.1",
     "rollbar": "^2.26.4",
+    "sass": "^1.82.0",
     "supertokens-auth-react": "^0.41.1",
     "typesense-instantsearch-adapter": "^2.8.0",
     "util": "^0.12.5"

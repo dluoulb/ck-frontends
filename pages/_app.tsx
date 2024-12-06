@@ -1,3 +1,4 @@
+import '../globals.scss';
 
 import { createContext, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -6,9 +7,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from 'next/router';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
-
-import '../global.css';
-
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
