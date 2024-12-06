@@ -16,7 +16,7 @@ services:
       - 3000
     volumes:
       - ./.npmrc:/app/.npmrc
-      - ./global.css:/app/global.css
+      - ./globals.scss:/app/globals.scss
       - ./middleware.ts:/app/middleware.ts
       - ./next.config.js:/app/next.config.js
       - ./next-env.d.ts:/app/next-env.d.ts

@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import '@fortawesome/fontawesome-svg-core/styles.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import '@fortawesome/fontawesome-svg-core/styles.css';
 
 .outline input:focus-within~label,
 .outline input:not(:placeholder-shown)~label {
