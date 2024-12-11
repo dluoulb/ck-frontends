@@ -41,7 +41,7 @@ export default function StaticHeader() {
             </p>
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
-              className="hidden sm:inline mt-0.5"
+              className="hidden sm:inline"
             />
           </div>
           <MobileNav />
