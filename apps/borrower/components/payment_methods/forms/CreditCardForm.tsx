@@ -19,8 +19,6 @@ function CreditCardForm({ toggleModal }) {
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
 
-  //TODO: Test Pi4 card creation
-  // GETTING 500 ON ACCEPT BLUE EXECUTE
   const onContinue = async () => {
     setSubmitting(true);
     await cardForm
