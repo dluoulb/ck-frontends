@@ -36,7 +36,7 @@ export default function VirtualCardModal({ next, setModalState }) {
 
         setModalState(res);
         setTimeout(function () {
-          return window.open(res.checkout_url);
+          return window.open(res.data.checkout_url);
         }, 1 * 1000);
 
         //go to the next modal screen

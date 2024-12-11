@@ -31,7 +31,10 @@ services:
       - ./pages:/app/pages
       - ./public:/app/public
     env_file:
-      - ./.env.docker
+      - path: ./.env.docker
+        required: true
+      - path: ./.env.docker.overrides
+        required: false
     labels:
       traefik.enable: true
       traefik.http.routers.ck-frontends.entrypoints: web
