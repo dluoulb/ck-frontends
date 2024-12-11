@@ -56,6 +56,7 @@ export default function MobileNav() {
                     key={item.name}
                     as="a"
                     href={item.url}
+                    target={item.target}
                     aria-current={
                       router.pathname === item.url ? 'page' : undefined
                     }

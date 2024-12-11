@@ -88,6 +88,7 @@ export default function SideNav({ primaryRoutes }) {
                 ) : (
                   <Link
                     href={_r.url}
+                    target={_r.target}
                     className="w-1 h-full rounded-tr-md rounded-br-md cursor-pointer hover:text-primary-blue transition ease-in-out duration-500 flex items-center py-2 md:py-3"
                   >
                     <FontAwesomeIcon

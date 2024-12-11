@@ -1,6 +1,7 @@
 import { useEntity } from '@contexts/EntityContext';
-import { faCartShopping, faCircleQuestion, faCreditCard, faMoneyBillTransfer, faUser } from '@fortawesome/pro-light-svg-icons';
+import { faCartShopping, faCircleQuestion, faCreditCard, faMoneyBillTransfer, faStore, faUser } from '@fortawesome/pro-light-svg-icons';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
+import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function usePrimaryRoutes() {
@@ -37,6 +38,13 @@ function usePrimaryRoutes() {
       name: 'My Profile',
       url: '/borrower/profile',
       enabled: true,
+    },
+    {
+      icon: faStore,
+      name: 'Marketplace',
+      url: marketplace.url,
+      target: '_blank',
+      enabled: marketplace.enabled,
     },
     {
       icon: faCircleQuestion,
