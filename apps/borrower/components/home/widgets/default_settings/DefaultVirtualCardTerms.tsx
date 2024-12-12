@@ -11,6 +11,8 @@ import DefaultTermSettingsModal from './DefaultTermsModal';
 import { getMerchant } from '@lib/actions/merchants';
 import { faEdit, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import MerchantRecord from '@lib/records/merchant';
+import { getApprovedTerms } from '@lib/actions/entities';
+import Loading from '@components/Loading';
 
 export default function DefaultVirtualCardTerms() {
   const api = useApi();
@@ -38,20 +40,24 @@ export default function DefaultVirtualCardTerms() {
 
   const onSave = (merchant_id, term) => {
     setLoading(true);
-    const updatedCompany = {
-      ...entity,
-      recharge_settings: entity.recharge_settings.map((item) =>
-        item.merchant_id === merchant_id
-          ? {
-              ...item,
-              default_term: term.term,
-              default_term_period: term.term_period,
-            }
-          : item
-      ),
-    };
+    const existingTermIndex = entity?.recharge_settings.findIndex(
+      (setting) => {
+        return setting.merchant_id === merchant_id;
+      }
+    );
 
-    updateCompany(api, updatedCompany, 'include=cta_banners')
+    if (existingTermIndex < 0) {
+      entity?.recharge_settings.push({
+        merchant_id,
+        default_term: term?.term,
+        default_term_period: term?.term_period,
+      });
+    } else {
+      entity.recharge_settings[existingTermIndex].default_term = term?.term;
+      entity.recharge_settings[existingTermIndex].default_term_period = term?.term_period;
+    }
+
+    updateCompany(api, entity, 'include=cta_banners')
       .then(() => {
         fetchEntity({ company_id: entity?.id });
         toggleModal();
@@ -84,12 +90,26 @@ export default function DefaultVirtualCardTerms() {
         return setting.merchant_id === merchant.id;
       });
     setDefaultVCTerm(virtualCardDefaultTerm);
-  }, [defaultTermSettings, merchant]);
 
-  if (!defaultVCTerm) return;
+    if (!virtualCardDefaultTerm) {
+      getApprovedTerms(api, entity.id, merchant.id)
+      .then((resp) => {
+        setDefaultVCTerm({
+          merchant_id: merchant.id,
+          merchant_name: merchant.name,
+          term_options: resp.terms,
+        });
+      })
+      .catch(() => {
+        setError(true);
+      });
+    }
+  }, [defaultTermSettings, merchant]);
 
   return (
     <div className="flex flex-col gap-2 w-full" role={DefaultVirtualCardTerms.role}>
+      {!defaultVCTerm && !error && (<Loading />)}
+      {!defaultVCTerm && error && (<p className="text-rose-600">Error loading default terms</p>)}
       {defaultTermSettings && (
         <DefaultTermSettingsModal
           modalState={modalState}
@@ -115,7 +135,7 @@ export default function DefaultVirtualCardTerms() {
               <strong className="ml-1">{defaultVCTerm.merchant_name}</strong>
             </p>
             <div className="flex items-center">
-              {!defaultVCTerm.default_term ? (
+              {!defaultVCTerm?.default_term ? (
                 <strong
                   className="text-primary-blue-hover text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
                   onClick={() => {

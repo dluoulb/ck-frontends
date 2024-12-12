@@ -28,7 +28,7 @@ export const BorrowerContextProvider = ({ children }) => {
   );
   const defaultTermsProps = useDefaultTerms(
     entity,
-    router?.pathname === '/borrower'
+    ['/borrower', '/borrower/virtual_card'].includes(router?.pathname)
   );
   const paymentMethodProps = usePaymentMethods(
     user,

@@ -33,20 +33,24 @@ export default function DefaultTermsDisplay() {
 
   const onSave = (merchant_id, term) => {
     setLoading(true);
-    const updatedCompany = {
-      ...entity,
-      recharge_settings: entity.recharge_settings.map((item) =>
-        item.merchant_id === merchant_id
-          ? {
-              ...item,
-              default_term: term.term,
-              default_term_period: term.term_period,
-            }
-          : item
-      ),
-    };
+    const existingTermIndex = entity?.recharge_settings.findIndex(
+      (setting) => {
+        return setting.merchant_id === merchant_id;
+      }
+    );
 
-    updateCompany(api, updatedCompany, 'include=cta_banners')
+    if (existingTermIndex < 0) {
+      entity?.recharge_settings.push({
+        merchant_id,
+        default_term: term?.term,
+        default_term_period: term?.term_period,
+      });
+    } else {
+      entity.recharge_settings[existingTermIndex].default_term = term?.term;
+      entity.recharge_settings[existingTermIndex].default_term_period = term?.term_period;
+    }
+
+    updateCompany(api, entity, 'include=cta_banners')
       .then(() => {
         fetchEntity({ company_id: entity?.id });
         toggleModal();
