@@ -1,12 +1,14 @@
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import React, { useEffect, useState } from 'react';
+import AddToDigitalWalletInstructions from '../AddToDigitalWalletInstructions';
 
 declare const window: any;
 
 export default function MultiUseVirtualCardDetails() {
   const { virtualCard } = useCompanyVirtualCard();
   const [status, setStatus] = useState('');
+
   const widget = {
     onSuccess: () => {
       setStatus('Card details will be masked after 90 seconds for security');
@@ -16,7 +18,7 @@ export default function MultiUseVirtualCardDetails() {
     },
     frame: {
       container_id: 'widget_container',
-      iframe_class: 'widget-iframe min-h-96 w-full mx-auto',
+      iframe_class: 'widget-iframe min-h-[270px] w-full mx-auto',
       //loading spinner
       // src: 'https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/eclipse-black-36.svg',
       spinner: true,
@@ -106,6 +108,11 @@ export default function MultiUseVirtualCardDetails() {
         <p>{status}</p>
         {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
       </div>
+      {virtualCard?.pci_token && (
+        <div className="mt-4">
+          <AddToDigitalWalletInstructions />
+        </div>
+      )}
     </>
   );
 };
