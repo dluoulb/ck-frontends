@@ -50,7 +50,7 @@ export default function PaymentMethods() {
         isModalActive={isModalActive}
         toggleModal={toggleModal}
       />
-      <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
+      <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center w-full my-4 sm:py-4 sm:my-8">
           <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
             Payment Methods

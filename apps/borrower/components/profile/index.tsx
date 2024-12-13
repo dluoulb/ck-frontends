@@ -42,7 +42,7 @@ export default function ProfileIndex() {
 
     entity?.type === 'company' &&
       userIsOwner && {
-        title: 'Users',
+        title: 'Team',
         icon: faUsers,
         tag: 'users',
       },
@@ -59,7 +59,7 @@ export default function ProfileIndex() {
       className="my-4 md:my-6 mx-auto h-full"
       role={ProfileIndex.role}
     >
-      <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
+      <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
           {entity?.type === 'company' ? 'Company' : 'User'} Profile
         </p>

@@ -14,12 +14,12 @@ export default function AddNewUser() {
   const { entity } = useEntity();
 
   return (
-    <div className="my-2">
+    <div className="mt-4">
       <div className="mx-auto rounded-2xl">
         <Disclosure>
           {({ open, close }) => (
             <>
-              <DisclosureButton className="ml-2 flex justify-between rounded-lg bg-background-success px-4 py-2 text-left text-sm font-medium text-success hover:bg-success/30 focus:outline-none focus-visible:ring focus-visible:ring-success/50">
+              <DisclosureButton className="flex justify-between rounded-lg bg-background-success px-4 py-2 text-left text-sm font-medium text-success hover:bg-success/30 focus:outline-none focus-visible:ring focus-visible:ring-success/50">
                 <span>Add New Purchaser</span>
                 <FontAwesomeIcon
                   icon={faPlus}

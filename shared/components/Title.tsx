@@ -1,6 +1,7 @@
 import React from 'react';
 import getConfig from 'next/config';
 import Head from 'next/head';
+import favicon from '../../public/favicon.ico';
 
 const Title = ({ pathname }) => {
   const titles = [
@@ -17,7 +18,7 @@ const Title = ({ pathname }) => {
   return (
     <Head>
       <title>{getTitle()}</title>
-      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <link rel="icon" href={favicon.src} sizes="any" />
     </Head>
   );
 };
