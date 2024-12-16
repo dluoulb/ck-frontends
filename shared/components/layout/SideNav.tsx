@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   faBars,
   faChevronLeft,
@@ -8,10 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import Link from 'next/link';
 
+
 import { useUser } from '@contexts/UserContext';
+import { useRouter } from 'next/router';
 
 export default function SideNav({ primaryRoutes }) {
+  const router = useRouter();
   const [extend, setExtend] = useState(false);
+  const [active, setActive] = useState()
   const { user } = useUser();
 
   const toggleExtend = () => {
@@ -22,6 +26,12 @@ export default function SideNav({ primaryRoutes }) {
     'resize',
     () => window.innerWidth <= 1425 && setExtend(false)
   );
+
+  useEffect(() => {
+    if (primaryRoutes?.length ) {
+      setActive(primaryRoutes.find((item) => router.pathname === item.url)?.url);
+    }
+  }, [router.pathname, primaryRoutes]);
 
   return (
     <div
@@ -70,7 +80,7 @@ export default function SideNav({ primaryRoutes }) {
         <div className="w-full">
           {primaryRoutes.map((_r, idx) => {
             return (
-              <div className="text-primary-blue-hover" key={idx}>
+              <div className={active === _r.url ? "text-primary-blue-hover bg-primary-blue/15" : "text-primary-blue-hover"} key={idx}>
                 {_r.name === 'Help Center' ? (
                   <a
                     href={_r.url}

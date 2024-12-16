@@ -11,14 +11,14 @@ export default function MultiUseVirtualCardDetails() {
 
   const widget = {
     onSuccess: () => {
-      setStatus('Card details will be masked after 90 seconds for security');
+      setStatus('Card details will be masked after 90 seconds');
     },
     onFailure: () => {
       setStatus('Failed to retrieve card details');
     },
     frame: {
       container_id: 'widget_container',
-      iframe_class: 'widget-iframe min-h-[270px] w-full mx-auto',
+      iframe_class: 'widget-iframe min-h-[276px] md:min-h-[338px] w-full mx-auto overflow-y-scroll border-0',
       //loading spinner
       // src: 'https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/eclipse-black-36.svg',
       spinner: true,
@@ -102,10 +102,10 @@ export default function MultiUseVirtualCardDetails() {
   return (
     <>
       <div
-        className="md:col-span-2 md:row-span-2 rounded-lg border border-black border-opacity-5 p-4 md:p-8"
+        className="rounded-lg border border-black border-opacity-5"
         id='widget_container'
       >
-        <p>{status}</p>
+        <p className="m-4 mb-0">{status}</p>
         {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
       </div>
       {virtualCard?.pci_token && (

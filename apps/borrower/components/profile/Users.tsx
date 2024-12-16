@@ -62,14 +62,12 @@ export default function Users() {
     <div>
       <div className="border-y border-primary-gray-border px-8 py-6">
         <div className="text-sm font-medium text-tertiary-gray">
-          <p>View your {entity?.type}'s list of users below.</p>
           <p>
-            To add authorized users to place orders on behalf of {entity?.name},
-            add a purchaser user.
+            Approved purchasers are able to place orders on behalf of the business.
           </p>
+          <AddNewUser />
         </div>
       </div>
-      <AddNewUser />
       {!companyUsers && (companyUsersLoading || companyUsersRefetching) ? (
         <Loading className="w-14 h-14 my-28" />
       ) : (

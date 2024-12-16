@@ -6,8 +6,6 @@ import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useOrders from '@hooks/useOrders';
 import { TableColumns } from './TableColumns';
-import BorrowerOverview from '../home/BorrowerOverview';
-import Stats from '../home/Stats';
 
 export default function Orders() {
   const { entity, entityLoading } = useEntity();
@@ -27,30 +25,22 @@ export default function Orders() {
       className="my-4 md:my-6 mx-auto h-full"
       role={Orders.role}
     >
-      <div className="mx-2 2xl:max-w-[90%] md:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
+      <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
+        <p className="mb-4 text-2xl md:text-4xl font-bold text-primary capitalize">
           My Orders
         </p>
-        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
-          <BorrowerOverview />
-          <div className="relative my-4 md:my-6">
-            <div className="py-2 md:py-3 border border-gray-200 border-x-0 rounded-none px-2 md:px-3">
-              <Stats />
-            </div>
-            <OrdersTable
-              orders={orders}
-              entity={entity}
-              defaultSort="created_at"
-              pageSize={25}
-              pageCount={pageCount}
-              tableColumns={TableColumns}
-              rowClass="!text-sm"
-              withHeader={true}
-              isFetching={isFetching}
-              setOrdersPageIndex={setOrdersPageIndex}
-            />
-          </div>
-        </div>
+        <OrdersTable
+          orders={orders}
+          entity={entity}
+          defaultSort="created_at"
+          pageSize={25}
+          pageCount={pageCount}
+          tableColumns={TableColumns}
+          rowClass="!text-sm"
+          withHeader={true}
+          isFetching={isFetching}
+          setOrdersPageIndex={setOrdersPageIndex}
+        />
       </div>
     </div>
   );
