@@ -5,15 +5,20 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import Loading from '@components/Loading';
 import { useUser } from '@contexts/UserContext';
 import usePossessedUser from '@hooks/usePossessedUser';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function PossessUser() {
   const { user: currentUser, userLoading, isImpersonating } = useUser();
+  const searchParams = useSearchParams();
+  const urlUserId = searchParams.get('login_as');
 
   const {
     contactType,
     setContactType,
-    clearUser,
+    clearUserAndReload,
     possessUser,
+    possessUserById,
     possessUserError,
     setPossessedUserContact,
   } = usePossessedUser();
@@ -36,6 +41,12 @@ export default function PossessUser() {
 
     return 'unknown';
   }
+
+  useEffect(() => {
+    if (urlUserId) {
+      possessUserById(urlUserId);
+    }
+  }, [urlUserId]);
 
   return (
     <div
@@ -60,7 +71,7 @@ export default function PossessUser() {
                   containerClass="!w-auto"
                   buttonColor="bg-warning w-full sm:w-auto sm:min-w-max !px-6 !my-0"
                   hoverClass="hover:bg-warning/80"
-                  onClick={clearUser}
+                  onClick={clearUserAndReload}
                 />
               </div>
             </>

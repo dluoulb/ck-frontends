@@ -3,27 +3,37 @@ import axios from 'axios';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
-import { deNormalizePhone, normalizePhone } from '@lib/utils/formatters';
+import { deNormalizePhone } from '@lib/utils/formatters';
 import { useRouter } from 'next/router';
 
 function usePossessedUser() {
   const router = useRouter();
   const { setEntity } = useEntity();
   const { getCurrentUser } = useUser();
-
   const [contactType, setContactType] = useState('email');
-
+  const [parentUserId, setParentUserId] = useState(sessionStorage.getItem('parentUserId') || '');
   const [error, setError] = useState('' || null);
-  const [parentUserId, setParentUserId] = useState('');
   const [possessedUserContact, setPossessedUserContact] = useState('');
 
-  const clearUser = () => {
-    axios
+  const clearUserAndReload = () => {
+    clearUser()
+    .then(() => {
+      router.push('/borrower')
+      .then(() => {
+        router.reload();
+      });
+    });
+  };
+
+  const clearUser = async () => {
+    return axios
       .delete(`${process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN}/impersonate`)
       .then(() => {
         getCurrentUser({ userID: parentUserId });
         setEntity(null);
-        router.push('/borrower');
+      })
+      .catch(() => {
+        // not impersonating, do nothing
       });
   };
 
@@ -37,23 +47,49 @@ function usePossessedUser() {
             : deNormalizePhone(possessedUserContact),
       })
       .then((res) => {
-        setParentUserId(res.data.data.parentUserId);
-        getCurrentUser(res.data.data);
+        setUserData(res);
       })
       .catch((err) => {
-        const notFound = err?.response?.data?.statusCode === 404;
-
-        setError(
-          notFound
-            ? 'No user found with this email'
-            : `An error occurred: ${err?.response?.data?.message}`
-        );
+        handleError(err, contactType);
       });
   };
 
+  const setUserData = (res) => {
+    setParentUserId(res.data.data.parentUserId);
+    sessionStorage.setItem('parentUserId', res.data.data.parentUserId);
+    getCurrentUser(res.data.data);
+  };
+
+  const handleError = (err, contactType) => {
+    const notFound = err?.response?.data?.statusCode === 404;
+
+    setError(
+      notFound
+        ? `No user found with this ${contactType}`
+        : `An error occurred: ${err?.response?.data?.message}`
+    );
+  };
+
+  const possessUserById = async (userId) => {
+    clearUser()
+    .then(() => {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN}/impersonate`, {
+          userId
+        })
+        .then((res) => {
+          setUserData(res);
+        })
+        .catch((err) => {
+          handleError(err, 'user id');
+        });
+    });
+  };
+
   return {
-    clearUser, // clear impersonation
+    clearUserAndReload, // clear impersonation
     possessUser, // impersonate new user
+    possessUserById,
     possessUserError: error, // error when trying to impersonate
     possessedUserContact, // email or phone of impersonated user
     setPossessedUserContact, // setter
