@@ -50,6 +50,15 @@ module.exports = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/login',
+        destination: '/borrower',
+        permanent: true,
+      },
+    ]
+  },
   isDeployedBuild: isDeployedBuild,
   // This is lets us inject these variables from the env that exists at runtime so we don't have to bake our secrets into the image
   ...(isDeployedBuild && {
