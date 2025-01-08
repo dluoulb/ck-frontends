@@ -37,7 +37,7 @@ export default function PaymentProgress({
               buttonColor="bg-error"
               hoverClass="hover:bg-icon-error"
               containerClass="max-w-max"
-              onClick={() => router.push('/borrower/payment-methods')}
+              onClick={() => router.push('/payment_methods')}
             />
           ) : (
             <PrimaryButton

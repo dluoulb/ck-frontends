@@ -40,7 +40,8 @@ function parseUserJwt(token) {
 }
 
 export default async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const { pathname, protocol } = req.nextUrl;
+  const host = req.headers.get('host');
   const site = siteForHost(req.headers.get('host'));
   const currentRoute = routes.find((route) => {
     return site?.shortname
@@ -53,7 +54,7 @@ export default async function middleware(req: NextRequest) {
 
   if (!sessionToken) {
     return NextResponse.redirect(
-      new URL(authRedirectLink(pathname))
+      new URL(authRedirectLink(`${protocol}//${host}${pathname}`))
     );
   }
 

@@ -12,7 +12,7 @@ import logo from '../../lib/images/logo.svg';
 
 export default function StaticHeader() {
   const router = useRouter();
-  const href = authRedirectLink(router.pathname);
+  const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
 
   return (
     <nav className="fixed top-0 w-full z-50 h-12 sm:h-16 py-4 sm:py-0 px-6 md:px-16 shadow-none flex justify-between items-center rounded-none border-solid border-b-[3px] border-border-gray bg-white">

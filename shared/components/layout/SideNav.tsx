@@ -29,7 +29,7 @@ export default function SideNav({ primaryRoutes }) {
 
   useEffect(() => {
     if (primaryRoutes?.length ) {
-      setActive(primaryRoutes.find((item) => router.pathname === item.url)?.url);
+      setActive(primaryRoutes.find((item) => router.asPath === item.url)?.url);
     }
   }, [router.pathname, primaryRoutes]);
 

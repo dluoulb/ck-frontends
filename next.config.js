@@ -31,30 +31,55 @@ module.exports = {
     return config;
   },
   async rewrites() {
-    return [
-      {
-        source: '/_healthcheck',
-        destination: '/api/_healthcheck',
-      },
-      {
-        source: '/reports/:path*',
-        destination: '/reports/:path*',
-      },
-      {
-        source: '/admin/:path*',
-        destination: '/admin/:path*',
-      },
-      {
-        source: '/borrower/:path*',
-        destination: '/borrower/:path*',
-      },
-    ];
+    return {
+      fallback: [
+        {
+          source: '/_healthcheck',
+          destination: '/api/_healthcheck',
+        },
+        {
+          source: '/reports/:path*',
+          destination: '/reports/:path*',
+        },
+        {
+          source: '/admin/:path*',
+          destination: '/admin/:path*',
+        },
+        {
+          source: '/:path*',
+          has: [
+            {
+              type: 'host',
+              value: '(?<borrower>.*)\\..*',
+            },
+          ],
+          destination: '/borrower/:path*',
+        },
+      ]
+    };
   },
   async redirects() {
     return [
       {
         source: '/login',
-        destination: '/borrower',
+        has: [
+          {
+            type: 'host',
+            value: '(?<borrower>.*)\\..*',
+          },
+        ],
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/borrower',
+        has: [
+          {
+            type: 'host',
+            value: '(?<borrower>.*)\\..*',
+          },
+        ],
+        destination: '/',
         permanent: true,
       },
     ]

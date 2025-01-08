@@ -24,7 +24,7 @@ export const DashboardTableColumns = [
       return (
         <Link
           className="text-primary-blue font-semibold cursor-pointer hover:text-primary-blue-hover"
-          href={`/borrower/orders/${value}`}
+          href={`/orders/${value}`}
         >
           {value}
         </Link>
