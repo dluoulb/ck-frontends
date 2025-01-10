@@ -42,7 +42,7 @@ export default function SearchConfig({ children }) {
     }
   }, [searchConfigServerKey, searchConfigParams]);
 
-  if (!searchClient) return null;
+  if (!searchClient) return <>{children}</>;
 
   return (
     <>
