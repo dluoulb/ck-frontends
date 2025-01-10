@@ -18,7 +18,7 @@ function usePossessedUser() {
   const clearUserAndReload = () => {
     clearUser()
     .then(() => {
-      router.push('/borrower')
+      router.push('/')
       .then(() => {
         router.reload();
       });

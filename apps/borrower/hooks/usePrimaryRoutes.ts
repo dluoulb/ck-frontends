@@ -12,31 +12,31 @@ function usePrimaryRoutes() {
     {
       icon: faHouseBlank,
       name: 'Home',
-      url: '/borrower',
+      url: '/',
       enabled: true,
     },
     {
       icon: faCartShopping,
       name: 'Orders',
-      url: '/borrower/orders',
+      url: '/orders',
       enabled: true,
     },
     {
       icon: faMoneyBillTransfer,
       name: 'Payment Methods',
-      url: '/borrower/payment_methods',
+      url: '/payment_methods',
       enabled: true,
     },
     {
       icon: faCreditCard,
       name: 'Virtual Card',
-      url: '/borrower/virtual_card',
+      url: '/virtual_card',
       enabled: multiUseVcEnabled,
     },
     {
       icon: faUser,
       name: 'My Profile',
-      url: '/borrower/profile',
+      url: '/profile',
       enabled: true,
     },
     {

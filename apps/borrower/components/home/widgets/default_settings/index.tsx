@@ -46,7 +46,7 @@ export default function SettingsWidget() {
           isWidget={true}
           ctaButton={
             <div className='flex items-center gap-2'>
-              <Link href="/borrower/payment_methods" className="font-medium">
+              <Link href="/payment_methods" className="font-medium">
                 Connect Payment Method
               </Link>
               <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />

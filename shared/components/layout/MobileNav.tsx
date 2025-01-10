@@ -19,7 +19,7 @@ import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 
 export default function MobileNav() {
   const router = useRouter();
-  const href = authRedirectLink(router.pathname);
+  const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
   const { primaryRoutes } = usePrimaryRoutes();
   const navigation = [{ route: '/borrower', routes: primaryRoutes }];
 

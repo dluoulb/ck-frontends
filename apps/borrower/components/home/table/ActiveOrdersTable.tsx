@@ -75,7 +75,7 @@ export default function ActiveOrdersTable() {
                 Most recent active orders. View orders page for all order data.
               </p>
               <Link
-                href="/borrower/orders"
+                href="/orders"
                 className="py-1 mid:py-0 flex items-center gap-1 text-primary-blue-hover font-medium group text-sm min-w-24 max-h-max"
               >
                 <span className="border-b border-transparent group-hover:border-primary-blue-hover">

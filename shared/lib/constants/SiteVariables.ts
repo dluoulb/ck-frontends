@@ -49,11 +49,15 @@ export const virtualCardLink =
 
 const invalidRedirectPaths = ['[id]', '[type]', '/unauthorized'];
 
-export const authRedirectLink = (pathname) => {
+export const authRedirectLink = (href) => {
   const isInvalidPath = invalidRedirectPaths.some((path) =>
-    pathname.includes(path)
+    href.includes(path)
   );
-  return `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${process.env.NEXT_PUBLIC_BASE_URL}${isInvalidPath ? '' : pathname}`;
+  const url = new URL(href);
+  if (isInvalidPath) {
+    url.pathname = '';
+  }
+  return encodeURI(`${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${url.href}`);
 };
 
 export const emailRegex =
