@@ -34,8 +34,6 @@ function App({ Component, pageProps }) {
   const isBorrowerRoute = pathname?.startsWith('/borrower');
 
   useEffect(() => {
-    console.log('_ENV', process.env.NEXT_PUBLIC_ENV);
-    console.log('APP_ENV', process.env.NEXT_PUBLIC_APP_ENV);
     const fullstory = new FullStory();
     fullstory.init();
   }, []);
