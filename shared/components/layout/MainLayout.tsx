@@ -7,6 +7,7 @@ import Loading from '@components/Loading';
 import Title from '@components/Title';
 import { useUser } from '@contexts/UserContext';
 import { parseUserJwt } from '@lib/utils/authorization';
+import FullStory from '@lib/utils/fullstory';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
 
@@ -18,7 +19,7 @@ type TokenData = {
 
 export default function MainLayout({ children }) {
   const router = useRouter();
-  const { user, getCurrentUser } = useUser();
+  const { user, getCurrentUser, isAdminUser, isImpersonating } = useUser();
 
   useEffect(() => {
     if (Session.doesSessionExist) {
@@ -34,6 +35,15 @@ export default function MainLayout({ children }) {
       });
     }
   }, [Session]);
+
+  useEffect(() => {
+    // Don't confuse things in FS by identifying as a borrower when an admin possesses them.
+    if (user && !isImpersonating) {
+      const fullstory = new FullStory();
+      fullstory.identifyUser(user.email, { displayName: user.full_name });
+      fullstory.trackEvent({ user: user });
+    }
+  }, [user]);
 
   if (!user || !Session.doesSessionExist)
     return <Loading className="w-14 h-14 my-36" />;
