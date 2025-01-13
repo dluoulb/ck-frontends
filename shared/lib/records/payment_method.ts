@@ -34,7 +34,7 @@ export default class PaymentMethodRecord {
   }
 
   get credit_card_type() {
-    return this.label.substring(0, 4);
+    return this.payment_method_label.substring(0, 4);
   }
 
   get account_number_masked() {
