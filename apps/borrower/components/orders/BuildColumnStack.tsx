@@ -10,7 +10,7 @@ export const BuildStack = ({ original }) => {
       <p className="block xl:hidden font-semibold flex items-center gap-1">
         <Link
           className="text-primary-blue text-base font-semibold cursor-pointer hover:text-primary-blue-hover"
-          href={`/reports/orders/${original.order_key}`}
+          href={`/orders/${original.order_key}`}
         >
           {original.order_key}
         </Link>
