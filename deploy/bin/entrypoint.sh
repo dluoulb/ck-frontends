@@ -7,7 +7,7 @@ if [ -n "$_SECRETS_ENV" ]; then
   secrets=$(echo "$_SECRETS_ENV" | jq -r 'to_entries | .[] | "\(.key) \(.value)"')
   while read -r key value; do
     # echo "$key=\"$value\""
-    echo "$key=\"$value\"" > .env
+    echo "$key=\"$value\"" >> .env
     find server.js .next -type f -exec sed -i "s|%%%$key%%%|$value|g" {} +
     export $key="$value"
   done < <(echo "$secrets")
