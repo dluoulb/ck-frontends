@@ -36,36 +36,38 @@ export default function BorrowerDetails() {
           </div>
           <div className="sm:w-3/5 font-semibold border-t border-primary-border-gray sm:border-transparent pt-4 sm:pt-0">
             <table>
-              <tr>
-                <td>
-                  <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                    Name:
-                  </span>
-                </td>
-                <td className="pl-4">
-                  {owner?.first_name} {owner?.last_name}
-                </td>
-              </tr>
-              <tr>
-                <td className="pt-2">
-                  <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                    Mobile Phone:
-                  </span>
-                </td>
-                <td className="pt-2 pl-4">
-                  {formatPhoneNumber(normalizePhone(owner?.phone))}
-                </td>
-              </tr>
-              <tr>
-                <td className="pt-2">
-                  <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                    Email:
-                  </span>
-                </td>
-                <td className="pt-2 pl-4">
-                  {owner?.email}
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>
+                    <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                      Name:
+                    </span>
+                  </td>
+                  <td className="pl-4">
+                    {owner?.first_name} {owner?.last_name}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="pt-2">
+                    <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                      Mobile Phone:
+                    </span>
+                  </td>
+                  <td className="pt-2 pl-4">
+                    {formatPhoneNumber(normalizePhone(owner?.phone))}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="pt-2">
+                    <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                      Email:
+                    </span>
+                  </td>
+                  <td className="pt-2 pl-4">
+                    {owner?.email}
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -88,53 +90,55 @@ export default function BorrowerDetails() {
           {entity?.type === 'company' ? (
             <div className="sm:w-3/5 font-semibold border-t border-primary-border-gray sm:border-transparent pt-4 sm:pt-0">
               <table>
-                <tr className="align-top">
-                  <td>
-                    <p className="mr-1 font-medium text-tertiary-gray text-sm">
-                      Address:
-                    </p>
-                  </td>
-                  <td className="pl-4">
-                    <div>
-                      {entity?.address?.address1 ? (
-                        <div>
-                          <p>{entity?.address.address1}</p>
-                          <p>{entity?.address.address2}</p>
-                          <p>
-                            {entity?.address.city}, {entity?.address?.state}{' '}
-                            {entity?.address.zip.slice(0, 5)}
-                          </p>
-                        </div>
+                <tbody>
+                  <tr className="align-top">
+                    <td>
+                      <p className="mr-1 font-medium text-tertiary-gray text-sm">
+                        Address:
+                      </p>
+                    </td>
+                    <td className="pl-4">
+                      <div>
+                        {entity?.address?.address1 ? (
+                          <div>
+                            <p>{entity?.address.address1}</p>
+                            <p>{entity?.address.address2}</p>
+                            <p>
+                              {entity?.address.city}, {entity?.address?.state}{' '}
+                              {entity?.address.zip.slice(0, 5)}
+                            </p>
+                          </div>
+                        ) : (
+                          'Not Provided'
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="pt-2">
+                      <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                        Business Phone:
+                      </span>
+                    </td>
+                    <td className="pl-4 pt-2">
+                      {entity?.phone ? (
+                        formatPhoneNumber(normalizePhone(entity?.phone))
                       ) : (
                         'Not Provided'
                       )}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="pt-2">
-                    <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                      Business Phone:
-                    </span>
-                  </td>
-                  <td className="pl-4 pt-2">
-                    {entity?.phone ? (
-                      formatPhoneNumber(normalizePhone(entity?.phone))
-                    ) : (
-                      'Not Provided'
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="pt-2">
-                    <span className="mr-1 font-medium text-tertiary-gray text-sm">
-                      EIN:
-                    </span>
-                  </td>
-                  <td className="pl-4 pt-2">
-                    {entity?.ein}
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="pt-2">
+                      <span className="mr-1 font-medium text-tertiary-gray text-sm">
+                        EIN:
+                      </span>
+                    </td>
+                    <td className="pl-4 pt-2">
+                      {entity?.ein}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           ) : (
