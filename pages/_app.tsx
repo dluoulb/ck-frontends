@@ -1,12 +1,13 @@
 import '../globals.scss';
 
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from 'next/router';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
+
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
@@ -15,6 +16,7 @@ import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
+import FullStory from '@lib/utils/fullstory';
 import { rollbarConfig } from '@lib/utils/rollbar';
 
 config.autoAddCss = false;
@@ -30,6 +32,11 @@ function App({ Component, pageProps }) {
   const { pathname } = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const isBorrowerRoute = pathname?.startsWith('/borrower');
+
+  useEffect(() => {
+    const fullstory = new FullStory();
+    fullstory.init();
+  }, []);
 
   return (
     <Provider config={rollbarConfig}>
