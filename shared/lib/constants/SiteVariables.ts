@@ -18,7 +18,7 @@ const protocol = 'https://';
 const rootURI = 'creditkey.com';
 
 export const platform = () => {
-  return process.env.NEXT_PUBLIC_ENV;
+  return process.env.NEXT_PUBLIC_APP_ENV;
 };
 
 export const server = (api = true) => {

@@ -1,14 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { platform } from '@lib/constants/SiteVariables';
+
 export default function ZendeskChatLink({
   msg = 'Connect with live chat',
   className = '',
   onClick = () => {},
 }) {
   const zdAvailable =
-    (window.zEACLoaded || false) &&
-    process.env.NEXT_PUBLIC_ENV !== 'development';
+    (window.zEACLoaded || false) && platform() === 'production';
 
   const openChat = () => {
     if (zdAvailable) {

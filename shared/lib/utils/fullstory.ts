@@ -5,6 +5,7 @@ import {
   isInitialized,
 } from '@fullstory/browser';
 
+import { platform } from '@lib/constants/SiteVariables';
 import { rollbarConfig } from './rollbar';
 
 const iframedMerchants = ['chargeafter', 'samsung', 'lenovo'];
@@ -24,14 +25,14 @@ export default class FullStory {
   }
 
   initialized() {
-    return process.env.NEXT_PUBLIC_ENV === 'test' ? true : isInitialized();
+    return platform() === 'test' ? true : isInitialized();
   }
 
   init() {
     initFullStory({
       orgId: process.env.NEXT_PUBLIC_FULLSTORY_ORG_ID,
-      devMode: process.env.NEXT_PUBLIC_ENV !== 'production',
-      debug: process.env.NEXT_PUBLIC_ENV !== 'production',
+      devMode: platform() !== 'production',
+      debug: platform() !== 'production',
       recordCrossDomainIFrames: iframedMerchants.includes(this.merchantName)
         ? true
         : false,
