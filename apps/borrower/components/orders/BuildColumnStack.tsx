@@ -39,6 +39,10 @@ export const BuildStack = ({ original }) => {
         <span className="font-normal">Next Payment Date:</span>
         {reformatDate(original.product?.next_payment_date)}
       </div>
+      <div className="block 2xl:hidden font-semibold flex gap-1">
+        <span className="font-normal">Next Payment Amount:</span>
+        {formatCurrency(original.product?.next_payment_due_amount)}
+      </div>
     </>
   );
 };

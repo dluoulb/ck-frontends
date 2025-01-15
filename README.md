@@ -126,6 +126,11 @@ Access the SuperTokens User Admin portal at: http://auth.creditkey.localhost/das
 
 > NOTE: Contact Credit Key engineering team for login credentials and assistance managing SuperTokens users and roles
 
+For the initial setup in your development environment, you must run this rake task to create the supertokens roles: 
+```bash
+rake supertokens:devsetup
+```
+
 To create a SuperTokens user via running Rails console
 
 ```bash

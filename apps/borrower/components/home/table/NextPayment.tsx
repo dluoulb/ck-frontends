@@ -1,27 +1,35 @@
 import React from 'react';
 
 import { reformatDate } from '@lib/utils/datetime_formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 
-export default function NextPayment({ order }) {
-  let payment_date = 'N/A';
+export default function NextPayment({ order, type }) {
+  let displayValue = 'N/A';
 
   switch (order.product.status) {
     case 'funded':
     case 'active':
-      payment_date = order?.product?.next_payment_date
+      if (type === 'date') {
+        displayValue = order?.product?.next_payment_date
         ? reformatDate(order?.product?.next_payment_date)
         : 'Paid: Final Payment Pending';
+      } else if (type == 'amount') {
+        displayValue = order?.product?.next_payment_due_amount
+        ? formatCurrency(order?.product?.next_payment_due_amount)
+        : 'No Payment Due';
+      }
+
       break;
     case 'created':
     case 'pending':
-      payment_date = 'Not Yet Scheduled';
+      displayValue = type === 'date' ? 'Not Yet Scheduled' : 'No Payment Due';
       break;
     case 'paid':
     case 'void':
-      payment_date = 'N/A';
+      displayValue = type === 'date' ? 'N/A': 'No Payment Due';
       break;
     default:
-      return payment_date;
+      return displayValue;
   }
 
   return (
@@ -31,7 +39,7 @@ export default function NextPayment({ order }) {
         order.product.next_payment_date ? 'font-medium' : 'text-tertiary-gray'
       }
     >
-      {payment_date}
+      {displayValue}
     </span>
   );
 }

@@ -62,6 +62,13 @@ export const DashboardTableColumns = [
     header: 'Next Payment Date',
     hideColumn: 1280,
     accessorFn: (row) => row.product?.next_payment_date,
-    cell: ({ row }) => <NextPayment order={row.original} />,
+    cell: ({ row }) => <NextPayment order={row.original} type="date"/>,
+  },
+  {
+    id: 'next_payment_amount',
+    header: 'Next Payment Amount',
+    hideColumn: 1280,
+    accessorFn: (row) => row.product?.next_payment_amount,
+    cell: ({ row }) => <NextPayment order={row.original} type="amount"/>,
   },
 ];
