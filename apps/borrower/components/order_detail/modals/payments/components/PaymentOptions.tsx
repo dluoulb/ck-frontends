@@ -61,7 +61,7 @@ export default function PaymentOptions({
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-stretch">
         {options.map((op) => {
           return (
             <Field
@@ -95,14 +95,14 @@ export default function PaymentOptions({
                     }
                   }}
                 >
-                  <div className="flex-1 flex flex-col p-4">
+                  <div className="flex-1 flex flex-col p-4 justify-between">
                     <h3 className="text-secondary-gray font-medium text-sm">
                       {op.title}
                     </h3>
-                    <dl className="mt-1 flex-grow flex flex-col justify-between">
+                    <dl className="mt-1 flex flex-col">
                       <dt className="sr-only">{op.title}</dt>
                       <dd
-                        className={classNames('font-bold', {
+                        className={classNames('font-bold truncate', {
                           'text-primary-blue': active === op.tag,
                         })}
                       >
