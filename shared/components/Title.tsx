@@ -18,6 +18,7 @@ const Title = ({ pathname }) => {
     <Head>
       <title>{getTitle()}</title>
       <link rel="icon" href={favicon.src} sizes="any" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
     </Head>
   );
 };

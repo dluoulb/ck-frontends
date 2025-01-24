@@ -28,7 +28,7 @@ export default function ConfirmVCModal({ modalState, prev }) {
         <p className="text-center">
           Didn't see a new window or tab open?
           <a
-            href={modalState.checkout_url}
+            href={modalState.data.checkout_url}
             target="_blank"
             rel="noreferrer"
             className="text-primary-blue hover:text-navy-blue ml-1 pt-1 no-underline font-avenir-medium"
