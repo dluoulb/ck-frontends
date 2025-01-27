@@ -91,7 +91,6 @@ export default function VirtualCardModal({ next, setModalState }) {
 
           return errors;
         }}
-        onSubmit={onSubmit}
       >
         {(props) => (
           <VirtualCardForm
