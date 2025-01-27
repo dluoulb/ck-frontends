@@ -48,7 +48,7 @@ const Notification: FC<NotificationProps> = ({
             })}
           >
             <h3 className="font-bold text-xl">{headline}</h3>
-            <p className="text-sm">{message}</p>
+            <div className="text-sm">{message}</div>
           </div>
           <div
             className={classNames(

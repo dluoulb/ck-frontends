@@ -15,7 +15,6 @@ export default function VirtualCardForm({
   activePromo,
   values,
   setFieldValue,
-  onSubmit,
 }) {
   const { entity } = useEntity();
 
@@ -135,7 +134,6 @@ export default function VirtualCardForm({
         buttonColor="bg-primary-blue"
         hoverClass="hover:bg-primary-blue-hover"
         icon={faLockAlt}
-        onClick={() => onSubmit(values)}
       />
       <p className="text-sm text-tertiary-gray">
         *Virtual Card transactions are capped at 50% of your trade credit limit
