@@ -22,6 +22,7 @@ export default function MobileNav() {
   const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
   const { primaryRoutes } = usePrimaryRoutes();
   const navigation = [{ route: '/borrower', routes: primaryRoutes }];
+  const mobileApp = localStorage.getItem('mobileApp') === 'true'
 
   const getRoutes = () => {
     const route = navigation.find((item) =>
@@ -70,7 +71,7 @@ export default function MobileNav() {
                     {item.name}
                   </DisclosureButton>
                 ))}
-                <DisclosureButton
+                {!mobileApp && <DisclosureButton
                   as="div"
                   onClick={async () => {
                     await signOut();
@@ -80,7 +81,7 @@ export default function MobileNav() {
                 >
                   <p>Sign Out</p>
                   <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                </DisclosureButton>
+                </DisclosureButton>}
               </div>
             </DisclosurePanel>
           </div>
