@@ -6,6 +6,7 @@ import { faPlusCircle } from '@fortawesome/pro-solid-svg-icons';
 import useModal from '@hooks/useModal';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
+import CardholderAgreementModal from './CardholderAgreementModal';
 export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleModal }) {
   const hideVCRules = JSON.parse(localStorage.getItem('hide_vc_notice'));
   const orderedScreens = [
@@ -13,6 +14,11 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
       id: 'vc_rules',
       component: VCRulesModal,
       hide: hideVCRules,
+    },
+    {
+      id: 'cardholder_agreement',
+      component: CardholderAgreementModal,
+      hide: false,
     },
     {
       id: 'set_default_terms',
@@ -55,7 +61,7 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
     reset();
 
     if (hideVCRules) {
-      goTo('set_default_terms');
+      goTo('cardholder_agreement');
     }
   }, [isModalActive]);
 

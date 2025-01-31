@@ -2,7 +2,7 @@ import React from 'react';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 
-export default function VCRulesModal({ next, goTo }) {
+export default function VCRulesModal({ next }) {
   return (
     <div role={VCRulesModal.role}>
       <section>
@@ -40,7 +40,7 @@ export default function VCRulesModal({ next, goTo }) {
           <div
             onClick={() => {
               localStorage.setItem('hide_vc_notice', JSON.stringify(true));
-              goTo('create_vc');
+              next();
             }}
             className="text-secondary-gray text-sm cursor-pointer border-b border-transparent hover:border-secondary-gray max-w-max"
           >
