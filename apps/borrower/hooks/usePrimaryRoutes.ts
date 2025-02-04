@@ -7,13 +7,14 @@ import { supportLink } from '@lib/constants/SiteVariables';
 function usePrimaryRoutes() {
   const { entity } = useEntity();
   const multiUseVcEnabled = entity?.cta_banners?.find((b) => b.enabled)?.name === 'multi_use_virtual_card';
+  const mobileApp = localStorage.getItem('mobileApp') === 'true'
 
   const routes = [
     {
       icon: faHouseBlank,
       name: 'Home',
       url: '/',
-      enabled: true,
+      enabled: !mobileApp,
     },
     {
       icon: faCartShopping,
@@ -37,21 +38,21 @@ function usePrimaryRoutes() {
       icon: faUser,
       name: 'My Profile',
       url: '/profile',
-      enabled: true,
+      enabled: !mobileApp,
     },
     {
       icon: faStore,
       name: 'Marketplace',
       url: marketplace.url,
       target: '_blank',
-      enabled: marketplace.enabled,
+      enabled: !mobileApp && marketplace.enabled,
     },
     {
       icon: faCircleQuestion,
       name: 'Help Center',
       url: supportLink,
       target: '_blank',
-      enabled: true,
+      enabled: !mobileApp,
     },
   ];
 
