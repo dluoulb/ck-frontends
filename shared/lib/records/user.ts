@@ -13,6 +13,8 @@ export default class UserRecord {
   company_name: string;
   company_id: string | null;
   account_id: string | null;
+  converted_entity_id: string | null;
+  converted_entity_type: string | null;
   role: string;
 
   constructor(data) {

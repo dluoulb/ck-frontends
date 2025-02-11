@@ -18,10 +18,8 @@ export const EntityProvider = ({ children }) => {
   const [entity, setEntity] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const loggedInUserType = loggedInUser?.company_id ? 'company' : 'account';
-  const loggedInUserId = loggedInUser?.company_id
-    ? loggedInUser?.company_id
-    : loggedInUser?.account_id;
+  const loggedInUserType = loggedInUser?.converted_entity_type || (loggedInUser?.company_id ? 'company' : 'account');
+  const loggedInUserId = loggedInUser?.converted_entity_id || loggedInUser?.company_id || loggedInUser?.account_id;
 
   const entityFn = (id, type) => {
     if (type === 'company') {
