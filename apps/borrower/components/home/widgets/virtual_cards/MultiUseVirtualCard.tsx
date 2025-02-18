@@ -70,7 +70,7 @@ export default function MultiUseVirtualCard() {
                 icon={faCreditCard}
                 className="text-primary-blue text-base lg:text-xl"
               />
-              <p className="text-lg md:text-xl font-bold">Active Virtual Cards</p>
+              <p className="text-lg md:text-xl font-bold">My Virtual Card</p>
             </div>
             <div className="text-sm md:text-base h-full space-y-2">
               <ActiveMultiUseVirtualCard virtualCards={[vcProps.virtualCard]} />
