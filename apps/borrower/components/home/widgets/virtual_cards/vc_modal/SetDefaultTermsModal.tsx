@@ -125,18 +125,13 @@ export default function SetDefaultTermsModal({ next }) {
             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <div className="mx-6 text-center text-navy-blue">
                 <p className="text-lg my-2 font-avenir-black">
-                  Default Terms for {defaultTerm?.merchant_name}
+                  Set Your Default Term Length for Virtual Card Purchases
                 </p>
                 <p className="my-2">
-                  Here you can change the default term length for future
-                  <span className="text-primary-blue font-avenir-medium mx-1">
-                    {defaultTerm?.merchant_name}
-                  </span>
-                  purchases
+                  All purchases on your card will be set to this default term, but no worries -- you can always update the term length of each purchase, even after your order is placed.
                 </p>
               </div>
               <div className="my-10 text-center">
-                <h1 className="text-navy-blue">Adjust Number of Months</h1>
                 <ListBox
                   initialValue={defaultTerm?.default_term?.term}
                   buttonText={term?.term || 'Select Default Term'}

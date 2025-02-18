@@ -79,7 +79,7 @@ export default function MultiUseVirtualCardDetails() {
         },
       },
       content: {
-        copy_clipboard_text: 'Copy Card # to Clipboard',
+        copy_clipboard_text: 'Copy card number to clipboard',
       },
       remove: {
         copy_clipboard: 'w-100',
@@ -105,9 +105,9 @@ export default function MultiUseVirtualCardDetails() {
         className="rounded-lg border border-black border-opacity-5"
         id='widget_container'
       >
-        <p className="m-4 mb-0">{status}</p>
         {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
       </div>
+      <p className="m-4 mb-0">{status}</p>
       {virtualCard?.pci_token && (
         <div className="mt-4">
           <AddToDigitalWalletInstructions />
