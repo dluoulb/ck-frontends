@@ -6,7 +6,7 @@ export const BuildStack = ({ original }) => {
     <>
       <p className="font-semibold lg:font-normal flex gap-1">
         <span className="lg:hidden font-normal">File Name:</span>
-        <div className="truncate">{original?.file_name}</div>
+        <span className="truncate">{original?.file_name}</span>
       </p>
       <p className="block mid:hidden font-semibold flex gap-1">
         <span className="font-normal">Created at:</span>

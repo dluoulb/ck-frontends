@@ -1,15 +1,7 @@
-import { usePathname } from 'next/navigation';
-
 import Stats from '@apps/borrower/components/home/Stats';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
-jest.mock('next/navigation', () => ({
-  usePathname: jest.fn(),
-}));
-
 describe('Stats Component', () => {
-  (usePathname as jest.Mock).mockReturnValue('/borrower');
-
   test('renders', async () => {
     customRender(<Stats />, { withBorrowerProviders: true });
 

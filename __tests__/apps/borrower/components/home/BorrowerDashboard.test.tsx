@@ -1,14 +1,13 @@
-import { usePathname } from 'next/navigation';
-
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
+import axios from 'axios';
 
-jest.mock('next/navigation', () => ({
-  usePathname: jest.fn(),
-}));
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Main Dashbboard Home Page', () => {
-  (usePathname as jest.Mock).mockReturnValue('/borrower');
+  mockedAxios.get.mockRejectedValue('error retrieving borrower-portal-notice');
+
   test('renders all dashboard widgets', async () => {
     customRender(<BorrowerDashboard />, { withBorrowerProviders: true });
 

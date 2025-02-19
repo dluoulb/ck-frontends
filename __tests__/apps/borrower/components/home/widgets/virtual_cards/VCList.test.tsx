@@ -6,7 +6,7 @@ describe('VC List Component', () => {
   test('renders virtual card data', async () => {
     customRender(<VCList vc_orders={[orderC]} />);
 
-    expect(screen.getByText('x1234'));
+    expect(screen.getAllByText('•••• •••• •••• 1234'));
     expect(screen.getByText('Test Merchant'));
   });
 });

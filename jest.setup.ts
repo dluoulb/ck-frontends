@@ -34,6 +34,7 @@ jest.mock('next/router', () => ({
 
 jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
+  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
 }));
 
 jest.mock('supertokens-auth-react', () => {
@@ -108,7 +109,7 @@ global.mockedUseOrders.mockImplementation(() => ({
 }));
 
 global.mockedUseDefaultTerms.mockImplementation(() => ({
-  defaultTerms: defaultTerms,
+  defaultTermSettings: defaultTerms,
   defaultTermsLoading: false,
 }));
 
