@@ -29,21 +29,27 @@ export default function MultiUseVirtualCard() {
                 icon={faCreditCard}
                 className="text-primary-blue text-base lg:text-xl"
               />
-              <p className="text-lg md:text-xl font-bold">Get a Virtual Card</p>
+              <p className="text-lg md:text-xl font-bold">Create Your Virtual Card</p>
             </div>
             <div className="text-sm md:text-base h-full mt-6 mb-2 space-y-2">
-              <p className="font-medium">
-                Request a virtual card to use your line of credit at any merchant!
+              <p className="text-sm">
+                Virtual card comes at no additional cost and enables you to use your 
+                existing line of credit for eligible business purchases anywhere that 
+                accepts credit cards, meaning you can pay over time even with merchants 
+                who don't yet offer Credit Key as a payment options.
               </p>
               <p className="text-sm md:min-h-24 md:max-h-28">
-                Set your default terms - we’ll send you a virtual card to use at any merchant.
+                The card is multi-use and can be seamlessly integrated into your
+                digital wallet to be used as a recurring payment method -- making
+                it even easier for your business to transact and leverage flexible
+                payment terms at any vendor.
               </p>
               <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center">
                 <button
                   onClick={toggleModal}
                   className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
                 >
-                  Request Card
+                  Create card
                 </button>
                 <a
                   href={virtualCardLink}
