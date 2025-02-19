@@ -1,31 +1,8 @@
-import React, { useState } from 'react';
-import applePaySvg from '@lib/images/apple-pay.svg';
-import googleWalletSvg from '@lib/images/google-wallet.svg';
-import Image from 'next/image';
-import ApplePayInstructions from './ApplePayInstructions';
-import GoogleWalletInstructions from './GoogleWalletInstructions';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/pro-regular-svg-icons';
 
 export default function AddToDigitalWalletInstructions() {
-  const [apple, showApple] = useState(true);
-
-  const appleClasses = () => {
-    const classes = ['text-white', 'p-1', 'rounded-l-lg', 'transition', 'ease-in-out', 'duration-300', 'w-1/2'];
-
-    classes.push(apple ? 'bg-primary-blue' : 'bg-slate-300');
-
-    return classes.join(' ');
-  }
-
-  const googleClasses = () => {
-    const classes = ['text-white', 'p-1', 'rounded-r-lg', 'transition', 'ease-in-out', 'duration-300', 'w-1/2'];
-
-    classes.push(apple ? 'bg-slate-300' : 'bg-primary-blue');
-
-    return classes.join(' ');
-  }
-
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="px-3 p-2">
@@ -38,27 +15,13 @@ export default function AddToDigitalWalletInstructions() {
           <p className="text-lg md:text-xl font-bold">Add to Digital Wallet</p>
         </div>
         <div className="mt-2">
-          <div className="w-full xl:w-96">
-            <button className={appleClasses()} onClick={() => showApple(true)}>
-              <Image
-                src={applePaySvg} 
-                alt="Apple Pay Logo" 
-                className="h-5"
-              />
-            </button>
-            <button className={googleClasses()} onClick={() => showApple(false)}>
-              <Image
-                src={googleWalletSvg} 
-                alt="Google Wallet Logo" 
-                className="h-5"
-              />
-            </button>
-          </div>
-          <div className={apple ? '' : 'hidden'}>
-            <ApplePayInstructions />
-          </div>
-          <div className={apple ? 'hidden' : ''}>
-            <GoogleWalletInstructions />
+          <div>
+            <ol className="mt-2 ml-4 list-decimal">
+              <li>Head to your Wallet app</li>
+              <li>Select the plus sign in the upper right corner</li>
+              <li>Choose "Debit or Credit Card"</li>
+              <li>Select "Enter card details manually" and enter your Virtual Card information from above</li>
+            </ol>
           </div>
         </div>
       </div>
