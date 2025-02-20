@@ -12,6 +12,6 @@ export function renders(
   return test(`Renders ${Component.role}`, async () => {
     customRender(<Component {...props} />, renderOptions);
 
-    await waitFor(() => screen.getByRole(Component.role));
+    await waitFor(() => screen.getAllByRole(Component.role));
   });
 }
