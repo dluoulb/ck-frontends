@@ -6,7 +6,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
-import { updateCompany } from '@lib/actions/companies';
+import { updateRechargeTerm } from '@lib/actions/companies';
 import DefaultTermSettingsModal from './DefaultTermsModal';
 import { getMerchant } from '@lib/actions/merchants';
 import { faEdit, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
@@ -40,24 +40,7 @@ export default function DefaultVirtualCardTerms() {
 
   const onSave = (merchant_id, term) => {
     setLoading(true);
-    const existingTermIndex = entity?.recharge_settings.findIndex(
-      (setting) => {
-        return setting.merchant_id === merchant_id;
-      }
-    );
-
-    if (existingTermIndex < 0) {
-      entity?.recharge_settings.push({
-        merchant_id,
-        default_term: term?.term,
-        default_term_period: term?.term_period,
-      });
-    } else {
-      entity.recharge_settings[existingTermIndex].default_term = term?.term;
-      entity.recharge_settings[existingTermIndex].default_term_period = term?.term_period;
-    }
-
-    updateCompany(api, entity, 'include=cta_banners')
+    updateRechargeTerm(api, entity, merchant_id, term?.term)
       .then(() => {
         fetchEntity({ company_id: entity?.id });
         toggleModal();

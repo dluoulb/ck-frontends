@@ -21,6 +21,15 @@ export const updateCompany = async (api, company, filters = '') => {
   return new CompanyRecord(updatedCompany);
 };
 
+export const updateRechargeTerm = async (api, company, merchant_id, term) => {
+  if (!company) return;
+  const updatedCompany = await api.put(
+    `/api/companies/${company.id}/recharge_term`, { merchant_id, term }
+  );
+
+  return new CompanyRecord(updatedCompany);
+};
+
 export const getVirtualCard = async(api, company_id) => {
   if (!company_id) return;
   const resp = await api.get(`/api/companies/${company_id}/virtual_cards`);
