@@ -28,7 +28,7 @@ export default function MultiUseVirtualCardCTABanner() {
     if (vcCtaDisplayedOn) return;
     const now = Date.now();
     setVcCtaDisplayedOn(now);
-    localStorage.setItem('vcCtaDisplayedOn', now);
+    localStorage.setItem('vcCtaDisplayedOn', String(now));
   }, [vcProps, multiUseVcEnabled]);
 
   return (
