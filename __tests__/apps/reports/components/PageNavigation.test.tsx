@@ -13,7 +13,7 @@ describe('Page Navigation Component', () => {
     );
 
     const links = screen.getAllByRole('link', { hidden: true });
-    expect(links).toHaveLength(3);
+    expect(links).toHaveLength(2);
 
     expect(screen.getByText('CK-123456'));
   });
