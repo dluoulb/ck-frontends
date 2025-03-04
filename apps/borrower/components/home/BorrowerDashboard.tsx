@@ -91,8 +91,8 @@ export default function BorrowerDashboard() {
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">
-            <BaseGrid>
-              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-4 row-span-1 !border-gray-200 !border-x-0 !rounded-none !px-2 md:!px-3">
+            <BaseGrid gridContainerClass="grid grid-cols-1 md:grid-cols-6 gap-y-1.5 md:gap-y-3">
+              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-7 row-span-1 !border-gray-200 !border-x-0 !rounded-none !px-2 md:!px-3">
                 <Stats />
               </BaseGridItem>
 
@@ -100,7 +100,7 @@ export default function BorrowerDashboard() {
 
               <ActiveOrdersTable />
 
-              <BaseGridItem gridConfig="col-span-5 mx-2 md:mx-3 !py-1 !px-2 mb-2 md:mb-3">
+              <BaseGridItem gridConfig="col-span-7 mx-2 md:mx-3 !py-1 !px-2 mb-2 md:mb-3">
                 <ExportPaymentHistory />
               </BaseGridItem>
             </BaseGrid>

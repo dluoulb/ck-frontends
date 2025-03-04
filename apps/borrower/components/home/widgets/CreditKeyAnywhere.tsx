@@ -23,7 +23,7 @@ export default function CreditKeyAnywhere({ vcEnabled }) {
         <p
           className={classNames(
             'text-sm',
-            vcEnabled ? 'md:min-h-32 md:max-h-36' : '!mt-1 !mb-6'
+            vcEnabled ? 'md:min-h-24 md:max-h-36' : '!mt-1 !mb-6'
           )}
         >
           Submit your unpaid invoice and we'll connect with the vendor to pay it

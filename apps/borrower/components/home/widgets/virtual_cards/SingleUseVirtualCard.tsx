@@ -9,6 +9,9 @@ import useModal from '@hooks/useModal';
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import { VCModalWrapper } from './vc_modal';
 import VCList from './VCList';
+import vcVisa from '@lib/images/vc_cardart_visa.png';
+import Image from 'next/image';
+import { ckaLink } from '@lib/constants/SiteVariables';
 
 export default function SingleUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -73,16 +76,37 @@ export default function SingleUseVirtualCard() {
             />
             <p className="text-lg md:text-xl font-bold">Active Virtual Cards</p>
           </div>
-          <div className="text-sm md:text-base h-full space-y-2">
-            <VCList vc_orders={virtualCardOrders} />
-            <div className="flex justify-between items-end">
-              <button
-                onClick={toggleModal}
-                className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
-              >
-                Request New Card
-              </button>
-              <p className="text-xs">Scroll for More</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="col-span-3 md:col-span-1">
+              <Image
+                src={vcVisa}
+                alt="Virtual Card Image"
+                className="mt-5 w-4/6 max-w-max mx-auto rounded-md"
+              />
+            </div>
+            <div className="col-span-3 md:col-span-1 text-sm md:text-base h-full space-y-2">
+              <VCList vc_orders={virtualCardOrders} />
+              <div className="flex justify-between items-end">
+                <button
+                  onClick={toggleModal}
+                  className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
+                >
+                  Request New Card
+                </button>
+                <p className="text-xs">Scroll for More</p>
+              </div>
+            </div>
+            <div className="col-span-3 md:col-span-1 md:col-start-2 mt-5">
+              <p className="text-sm">
+                If you'd like to pay with Credit Key at a merchant who doesn't 
+                accept credit cards, you can send us your invoice directly and 
+                we will apply the payment for you using your existing line of 
+                credit. <a 
+                  href={ckaLink} 
+                  target="_blank"
+                  className="flex items-center gap-1 cursor-pointer hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
+                  >Learn more</a>
+              </p>
             </div>
           </div>
         </>
