@@ -27,6 +27,17 @@ export const getOrders = async (api, entity, pageIndex) => {
   }
 };
 
+export const exportOrders = async ({
+  api,
+  userId,
+  entity,
+}) => {
+  const path =
+    `/api/orders/export?user_id=${userId}&filter[${entity?.type}]=${entity?.id}`;
+
+  return await api.get(path);
+};
+
 export const getTransactions = async (api, id) => {
   const transactions = await api.get(`/api/orders/${id}/transactions`);
   return transactions?.data?.transactions;
