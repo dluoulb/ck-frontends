@@ -10,6 +10,8 @@ import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModal
 import { virtualCardLink } from '@lib/constants/SiteVariables';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import MultiUseVirtualCardSubLimits from './MultiUseVirtualCardSubLimits';
+import SuttonVcDisclosure from './SuttonVcDisclosure';
+import PrepaidCardBalance from './PrepaidCardBalance';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -76,11 +78,18 @@ export default function MultiUseVirtualCard() {
                 icon={faCreditCard}
                 className="text-primary-blue text-base lg:text-xl"
               />
-              <p className="text-lg md:text-xl font-bold">My Virtual Card</p>
+              <p className="text-lg md:text-xl font-bold">My Credit Key Prepaid Mastercard®</p>
             </div>
-            <div className="text-sm md:text-base h-full space-y-2">
-              <ActiveMultiUseVirtualCard virtualCards={[vcProps.virtualCard]} />
-              <MultiUseVirtualCardSubLimits />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-3 md:col-span-1 mt-5">
+                <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
+              </div>
+              <div className="col-span-3 md:col-span-1 mt-5">
+                <PrepaidCardBalance allowCardClose={false} />
+              </div>
+              <div className="col-span-3 mt-5">
+                <SuttonVcDisclosure />
+              </div>
             </div>
           </>
         }
