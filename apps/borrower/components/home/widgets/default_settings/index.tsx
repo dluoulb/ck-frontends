@@ -18,7 +18,7 @@ export default function SettingsWidget() {
 
   if (!isLoading && paymentMethodsError)
     return (
-      <BaseGridItem gridConfig="col-span-5 md:col-span-2 mx-2 md:ml-3 md:mr-1.5 !p-0 h-full">
+      <BaseGridItem gridConfig="col-span-7 md:col-span-3 mx-2 md:ml-3 md:mr-1.5 !p-0 h-full">
         <Notification
           icon={faExclamationTriangle}
           iconBorderColor="border-error"
@@ -34,7 +34,7 @@ export default function SettingsWidget() {
 
   if (!isLoading && !paymentMethods)
     return (
-      <BaseGridItem gridConfig="col-span-5 md:col-span-2 mx-2 md:ml-3 md:mr-1.5 !p-0 h-full">
+      <BaseGridItem gridConfig="col-span-7 md:col-span-3 mx-2 md:ml-3 md:mr-1.5 !p-0 h-full">
         <Notification
           icon={faExclamationTriangle}
           iconBorderColor="border-error"
@@ -57,7 +57,7 @@ export default function SettingsWidget() {
     );
 
   return (
-    <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-primary-blue/10 mx-2 md:ml-3 md:mr-1.5">
+    <BaseGridItem gridConfig="col-span-7 md:col-span-3 !bg-background-success/60 mx-2 md:ml-3 md:mr-1.5">
       <DefaultSettings />
     </BaseGridItem>
   );

@@ -60,7 +60,7 @@ export default function ActiveOrdersTable() {
   return (
     <div
       role={ActiveOrdersTable.role}
-      className="col-span-5 md:row-span-4 mx-2 md:mx-3 rounded-lg border border-gray-300 overflow-x-scroll"
+      className="col-span-7 md:row-span-4 mx-2 md:mx-3 rounded-lg border border-gray-300 overflow-x-scroll"
     >
       <div className="flex flex-col sm:flex-row justify-between px-6 p-4">
         <div className="flex items-center gap-3 w-full">

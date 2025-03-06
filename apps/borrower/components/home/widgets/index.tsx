@@ -2,7 +2,6 @@ import React from 'react';
 
 import { BaseGridItem } from '@components/BaseGrid';
 import { useEntity } from '@contexts/EntityContext';
-import CreditKeyAnywhere from './CreditKeyAnywhere';
 import SettingsWidget from './default_settings';
 import SupportWidget from './SupportWidget';
 import VirtualCard from './virtual_cards/VirtualCard';
@@ -17,31 +16,17 @@ export default function Widgets() {
 
   return (
     <>
+      {activeBanner && vcEnabled && (
+        <BaseGridItem gridConfig="col-span-7 md:col-span-7 !bg-primary-blue/10 mx-2 md:mr-3 md:ml-3">
+          <VirtualCard bannerName={activeBanner.name} />
+        </BaseGridItem>
+      )}
+
       <SettingsWidget />
 
-      <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-tertiary-gray/20 mx-2 md:mr-3 md:ml-1.5">
+      <BaseGridItem gridConfig="col-span-7 md:col-span-3 !bg-primary-beige/20 mx-2 md:mx-3 lg:mr-3 lg:ml-1.5">
         <SupportWidget />
       </BaseGridItem>
-      {activeBanner && (
-        <>
-          <BaseGridItem
-            gridConfig={
-              vcEnabled
-                ? 'col-span-5 md:col-span-2 !bg-primary-beige/20 mx-2 md:ml-3 md:mr-1.5'
-                : 'col-span-5 !bg-primary-beige/20 mx-1 md:mx-3'
-            }
-          >
-            <CreditKeyAnywhere vcEnabled={vcEnabled} />
-          </BaseGridItem>
-
-          {/* TODO: FIGURE OUT WHAT THE QOLO VC WIDGET IS */}
-          {vcEnabled && (
-            <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-background-success/60 mx-2 md:mr-3 md:ml-1.5">
-              <VirtualCard bannerName={activeBanner.name} />
-            </BaseGridItem>
-          )}
-        </>
-      )}
     </>
   );
 }
