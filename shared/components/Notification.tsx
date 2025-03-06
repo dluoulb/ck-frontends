@@ -16,6 +16,7 @@ interface NotificationProps {
   ctaButton?: any;
   buttonClass?: any;
   isWidget?: boolean;
+  footer?: any;
 }
 
 const Notification: FC<NotificationProps> = ({
@@ -28,6 +29,7 @@ const Notification: FC<NotificationProps> = ({
   ctaButton,
   buttonClass = 'hover:text-primary-blue-hover hover:border-primary-blue-hover',
   isWidget,
+  footer,
 }) => {
   return (
     <div
@@ -70,6 +72,7 @@ const Notification: FC<NotificationProps> = ({
               </>
             )}
           </div>
+          {footer && <div>{footer}</div>}
         </div>
       </div>
     </div>
