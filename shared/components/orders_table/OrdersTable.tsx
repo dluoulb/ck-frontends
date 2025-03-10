@@ -13,7 +13,6 @@ import {
 import BaseTable from '@components/BaseTable';
 import TableHeader from '@components/TableHeader';
 import { useWindowSize } from '@hooks/useWindowSize';
-import { orderStatusTabs } from '@lib/constants/SiteVariables';
 
 export default function OrdersTable({
   orders,
@@ -117,7 +116,6 @@ export default function OrdersTable({
             table={table}
             active={active}
             setActive={setActive}
-            statusTabs={orderStatusTabs}
             tabClass="border-transparent"
             headerClass="px-2"
             filterType="status"

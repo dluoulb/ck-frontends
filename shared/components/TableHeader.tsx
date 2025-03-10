@@ -4,7 +4,12 @@ import { ListboxOption } from '@headlessui/react';
 import classNames from 'classnames';
 
 import { ListBox } from '@components/Dropdown';
-import GlobalFilter from '@components/orders_table/GlobalFilter';
+import PrimaryButton from './buttons/PrimaryButton';
+import { exportOrders } from '@lib/actions/orders';
+import useApi from '@hooks/useApi';
+import { useUser } from '@contexts/UserContext';
+import { useEntity } from '@contexts/EntityContext';
+import useToast from '@hooks/useToast';
 
 export default function TableHeader({
   table,
@@ -15,6 +20,11 @@ export default function TableHeader({
   headerClass = '',
   filterType = '',
 }) {
+  const api = useApi();
+  const { user } = useUser();
+  const { entity } = useEntity();
+  const { makeToast } = useToast();
+
   const handleTabFiltering = (tab) => {
     let newFilter;
     const hasPastDueTab = statusTabs.some((tab) => tab.name === 'past due');
@@ -27,6 +37,23 @@ export default function TableHeader({
     table.setColumnFilters([newFilter]);
   };
 
+  const handleExport = () => {
+    exportOrders({
+      api,
+      userId: user?.id,
+      entity,
+    })
+      .then((res) => {
+        makeToast(res?.data?.message, 'success');
+      })
+      .catch((err) => {
+        makeToast(
+          'An error occurred. Please try again or contact our support team.',
+          'error'
+        );
+      });
+  };
+
   return (
     <div
       className={classNames(
@@ -34,8 +61,8 @@ export default function TableHeader({
         headerClass
       )}
     >
-      <ul className="flex flex-col-reverse xl:flex-row justify-between xl:items-center -mb-px text-sm text-center">
-        <div className="lg:px-2 xl:px-0 inline mid:hidden">
+      <ul className="flex flex-col-reverse flex-row justify-between items-end -mb-px text-sm text-center">
+        {statusTabs.length > 0 && <div className="lg:px-2 xl:px-0 inline mid:hidden">
           <p className="pb-2 px-2 text-left text-sm font-medium border-b border-primary-gray-border">
             Filter by type:
           </p>
@@ -64,8 +91,8 @@ export default function TableHeader({
             </ListBox>
           </div>
           <div className="layer" />
-        </div>
-        <div className="hidden mid:flex justify-start overflow-x-scroll">
+        </div>}
+        {statusTabs.length > 0 && <div className="hidden mid:flex justify-start overflow-x-scroll">
           {statusTabs.map((s, idx) => {
             return (
               <li
@@ -94,13 +121,14 @@ export default function TableHeader({
               </li>
             );
           })}
-        </div>
-        <div className="xl:min-w-64 w-full xl:w-auto my-2 xl:my-0">
-          <GlobalFilter
-            defaultPlaceholder="Search"
-            containerClass="w-full"
-            inputClass="w-full"
-            table={table}
+        </div>}
+        <div className="w-32 my-0">
+          <PrimaryButton
+            ariaLabel="export-order-history-button"
+            buttonText="Export Orders"
+            buttonColor="bg-primary-blue"
+            hoverClass="hover:bg-primary-blue-hover"
+            onClick={handleExport}
           />
         </div>
       </ul>
