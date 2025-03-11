@@ -11,6 +11,7 @@ export default class CompanyVirtualCardRecord {
   company_name: string;
   pci_token: string;
   status: string;
+  next_sweep_at: string;
 
   constructor(data) {
     const cleanedData = removeNulls(data);
