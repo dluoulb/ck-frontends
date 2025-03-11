@@ -122,7 +122,7 @@ export default function TableHeader({
             );
           })}
         </div>}
-        <div className="w-32 my-0">
+        {table.getRowModel().rows.length > 0 && <div className="w-32 my-0">
           <PrimaryButton
             ariaLabel="export-order-history-button"
             buttonText="Export Orders"
@@ -130,7 +130,7 @@ export default function TableHeader({
             hoverClass="hover:bg-primary-blue-hover"
             onClick={handleExport}
           />
-        </div>
+        </div>}
       </ul>
     </div>
   );
