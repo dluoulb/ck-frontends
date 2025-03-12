@@ -12,6 +12,8 @@ import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import MultiUseVirtualCardSubLimits from './MultiUseVirtualCardSubLimits';
 import SuttonVcDisclosure from './SuttonVcDisclosure';
 import PrepaidCardBalance from './PrepaidCardBalance';
+import ExampleVirtualCard from './ExampleVirtualCard';
+import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -31,42 +33,14 @@ export default function MultiUseVirtualCard() {
                 icon={faCreditCard}
                 className="text-primary-blue text-base lg:text-xl"
               />
-              <p className="text-lg md:text-xl font-bold">Create Your Virtual Card</p>
+              <p className="text-lg md:text-xl font-bold">My Credit Key Virtual Card</p>
             </div>
-            <div className="text-sm md:text-base h-full mt-6 mb-2 space-y-2">
-              <p className="text-sm">
-                Virtual card comes at no additional cost and enables you to use your 
-                existing line of credit for eligible business purchases anywhere that 
-                accepts credit cards, meaning you can pay over time even with merchants 
-                who don't yet offer Credit Key as a payment options.
-              </p>
-              <p className="text-sm md:min-h-24 md:max-h-28">
-                The card is multi-use and can be seamlessly integrated into your
-                digital wallet to be used as a recurring payment method -- making
-                it even easier for your business to transact and leverage flexible
-                payment terms at any vendor.
-              </p>
-              <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center">
-                <button
-                  onClick={toggleModal}
-                  className="cursor-pointer hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max"
-                >
-                  Create card
-                </button>
-                <a
-                  href={virtualCardLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 font-medium group text-xs md:text-sm max-w-max"
-                >
-                  <span className="group-hover:text-primary-blue-hover border-b border-transparent group-hover:border-primary-blue-hover">
-                    Learn More
-                  </span>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className="text-[0.6rem] font-bold group-hover:text-primary-blue-hover"
-                  />
-                </a>
+            <div className="grid grid-cols-10 gap-3">
+              <div className="col-span-11 lg:col-span-5 xl:col-span-4 2xl:col-span-3 mt-5">
+                <ExampleVirtualCard />
+              </div>
+              <div className="col-span-11 lg:col-span-5 xl:col-span-6 2xl:col-span-7 mt-5">
+                <MultiUseVirtualCardInfoPanel toggleModal={toggleModal} />
               </div>
             </div>
           </>

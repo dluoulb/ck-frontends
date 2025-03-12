@@ -1,9 +1,8 @@
 import React from 'react';
-import PrimaryButton from '@components/buttons/PrimaryButton';
 
 export default function CardholderAgreement() {
   return (
-<div>
+<div className="border rounded-md border-gray-300 p-6">
   <p className="font-bold">
     RADIAN COMMERCIAL VIRTUAL B2B  CARD PROGRAM AGREEMENT
   </p>

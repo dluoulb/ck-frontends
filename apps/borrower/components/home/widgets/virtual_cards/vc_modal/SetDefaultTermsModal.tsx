@@ -158,6 +158,7 @@ export default function SetDefaultTermsModal({ next }) {
             buttonText="Save"
             buttonColor="bg-primary-blue"
             hoverClass="hover:bg-primary-blue-hover"
+            containerClass="w-full"
             icon={faLockAlt}
             disabled={loading}
             isLoading={loading}

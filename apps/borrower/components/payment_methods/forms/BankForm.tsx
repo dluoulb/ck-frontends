@@ -14,6 +14,7 @@ import {
 } from '@lib/actions/payment_methods';
 import PaymentMethodRecord from '@lib/records/payment_method';
 import ErrorAlert from '../modals/ErrorAlert';
+import { useEntity } from '@contexts/EntityContext';
 
 type FormValues = {
   agree: boolean;
@@ -25,13 +26,14 @@ type FormValues = {
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
+export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, createVcFlow }) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
 
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
+  const { fetchEntity } = useEntity();
 
   const [loading, setLoading] = useState(false);
   const [bankAgreement, setBankAgreement] = useState('');
@@ -56,10 +58,15 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal }) {
     setLoading(true);
     createPaymentMethodBank(api, new PaymentMethodRecord(values))
       .then(() => {
+        fetchEntity();
         refetchPaymentMethods();
         makeToast('Payment Method Successfully Created', 'success');
         resetForm();
-        toggleModal();
+        if (createVcFlow) {
+          next();
+        } else {
+          toggleModal();
+        }
       })
       .catch((err) => {
         const invalid = err?.response?.data?.error?.includes('invalid_bank');

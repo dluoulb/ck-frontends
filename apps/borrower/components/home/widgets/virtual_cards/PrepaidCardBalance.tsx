@@ -4,9 +4,12 @@ import useModal from '@hooks/useModal';
 import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
 import Loading from '@components/Loading';
 import { formatCurrency } from '@lib/utils/formatters';
+import PrimaryButton from '@components/buttons/PrimaryButton';
+import AddFundsModalWrapper from './vc_modal/AddFundsModalWrapper';
 
 export default function PrepaidCardBalance({ allowCardClose }) {
   const { isModalActive, toggleModal } = useModal();
+  const { isModalActive: isAddFundsActive, toggleModal: toggleAddFunds } = useModal();
   const { balance, balanceLoading } = useVirtualCardBalance();
 
   const getExpirationClock = (nextSweepAt) => {
@@ -23,32 +26,38 @@ export default function PrepaidCardBalance({ allowCardClose }) {
     return <p>Balance expires in {Math.ceil(minutes)} {minutes === 1 ? 'minute' : 'minutes'}</p>;
   };
 
-  if (balanceLoading) return <Loading />
+  if (balanceLoading) return <Loading />;
 
   return (
-    <div className="relative text-base text-neutral-800 h-full min-h-32">
+    <div className="relative text-base text-neutral-800 h-full min-h-36">
       <p>Current Card Balance: {formatCurrency(balance?.amount || 0)}</p>
       {getExpirationClock(balance?.next_sweep_at || new Date().toISOString())}
-      <button
-        type="button"
-        className="mt-2 flex tracking-wider transition duration-150 ease-in-out bg-primary-blue hover:bg-primary-blue-hover text-base text-white rounded-lg px-2 py-1"
-        onClick={() => alert('stub')}
-      >
-        Add Funds
-      </button>
+      <PrimaryButton
+        ariaLabel="add-funds-to-virtual-card-button"
+        buttonText="Add Funds"
+        buttonColor="bg-primary-blue"
+        hoverClass="hover:bg-primary-blue-hover"
+        containerClass="w-max"
+        onClick={toggleAddFunds}
+      />
       {allowCardClose && <>
-        <button
-          type="button"
-          className="absolute bottom-0 flex tracking-wider transition duration-150 ease-in-out bg-red-700 hover:bg-red-900 text-sm text-white rounded-lg px-2 py-1"
+        <PrimaryButton
+          ariaLabel="close-virtual-card-button"
+          buttonText="Close virtual card"
+          buttonColor="bg-red-700"
+          hoverClass="hover:bg-red-900"
+          containerClass="w-max absolute bottom-0 -my-1 sm:-my-2"
           onClick={toggleModal}
-        >
-          Close virtual card
-        </button>
+        />
         <CloseMultiUseVirtualCardModal
           isModalActive={isModalActive}
           toggleModal={toggleModal}
         />
       </>}
+      <AddFundsModalWrapper
+        isModalActive={isAddFundsActive}
+        toggleModal={toggleAddFunds}
+      />
     </div>
   );
 };

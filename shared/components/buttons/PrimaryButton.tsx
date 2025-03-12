@@ -29,7 +29,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
   isSmall,
 }) => {
   return (
-    <div className={classNames('flex w-full', containerClass)}>
+    <div className={classNames('flex', containerClass)}>
       <button
         aria-label={ariaLabel}
         className={classNames(
