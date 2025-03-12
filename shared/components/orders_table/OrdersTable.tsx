@@ -92,7 +92,8 @@ export default function OrdersTable({
     const filter = active === 'all' ? '' : active;
     const pageMessage = !pageCount ? '' : ' or try another page.';
 
-    return `No ${filter} orders found. Please try additional filters${pageMessage}`;
+    // return `No ${filter} orders found. Please try additional filters${pageMessage}`;
+    return 'No orders found.'
   };
 
   useEffect(() => {
