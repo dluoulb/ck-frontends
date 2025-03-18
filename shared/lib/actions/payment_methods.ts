@@ -29,8 +29,8 @@ export const deletePaymentMethod = (api, payment_method) => {
   });
 };
 
-export const createPaymentMethodBank = (api, payment_method) => {
-  return api.post('api/payment_methods/bank_account', { payment_method });
+export const createPaymentMethodBank = (api, payment_method, use_plaid = false) => {
+  return api.post('api/payment_methods/bank_account', { payment_method, use_plaid });
 };
 
 export const createPaymentMethodPi4Card = (api, payment_method) => {

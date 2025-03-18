@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ListboxOption,
   Popover,
@@ -14,6 +15,13 @@ import useDropdown from '@hooks/useDropdown';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
 import CreditCardForm from '../forms/CreditCardForm';
+import Plaid from '../Plaid';
+
+// which type of PMs are available to create
+const listOptions = [
+  { id: 'ach', text: 'ACH Bank Account' },
+  { id: 'cc', text: 'Credit Card' },
+];
 
 export default function PaymentMethodModal({
   hasAlert,
@@ -21,6 +29,7 @@ export default function PaymentMethodModal({
   next,
   toggleModal,
 }) {
+  const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
   const { entity } = useEntity();
   const { orders } = useBorrowerDeps();
 
@@ -32,10 +41,46 @@ export default function PaymentMethodModal({
 
   const defaultContentId = entity?.type === 'company' ? 'ach' : 'cc';
   const { contentId, setContent } = useDropdown(defaultContentId);
-  const listOptions = [
-    { id: 'ach', text: 'ACH Bank Account' },
-    { id: 'cc', text: 'Credit Card' },
-  ];
+
+  const BankComponent = () => {
+    if (usePlaid) {
+      return (
+        <Plaid
+          hasAlert={hasAlert}
+          next={next}
+          toggleModal={toggleModal}
+          setHasAlert={setHasAlert}
+          setUsePlaid={setUsePlaid}
+        />
+      );
+    } else {
+      return (
+        <BankForm
+          hasAlert={hasAlert}
+          next={next}
+          toggleModal={toggleModal}
+          setHasAlert={setHasAlert}
+        />
+      );
+    }
+  };
+  const ConnectBankHeader = () => {
+    if (contentId !== 'ach') return null;
+
+    if (!usePlaid) {
+      return (
+        <Popover className="relative">
+          <PopoverButton className="text-xs text-center text-primary-blue underline cursor-pointer">
+            Need Help?
+          </PopoverButton>
+
+          <PopoverPanel className="absolute left-20 z-10 bg-secondary-blue text-white p-4 rounded-md w-80 h-50">
+            <Image src={check} alt="example check" className="mx-auto" />
+          </PopoverPanel>
+        </Popover>
+      );
+    }
+  };
 
   return (
     <>
@@ -48,21 +93,7 @@ export default function PaymentMethodModal({
                 Please confirm your{' '}
                 {contentId === 'ach' ? 'business bank' : 'credit card'} details.
               </p>
-              {contentId === 'ach' && (
-                <Popover className="relative">
-                  <PopoverButton className="text-xs text-center text-primary-blue underline cursor-pointer">
-                    Need Help?
-                  </PopoverButton>
-
-                  <PopoverPanel className="absolute left-20 z-10 bg-secondary-blue text-white p-4 rounded-md w-80 h-50">
-                    <Image
-                      src={check}
-                      alt="example check"
-                      className="mx-auto"
-                    />
-                  </PopoverPanel>
-                </Popover>
-              )}
+              {<ConnectBankHeader />}
             </div>
           </div>
 
@@ -102,14 +133,10 @@ export default function PaymentMethodModal({
         </div>
         <div className="layer" />
       </div>
+
       <section>
         {contentId === 'ach' ? (
-          <BankForm
-            hasAlert={hasAlert}
-            next={next}
-            toggleModal={toggleModal}
-            setHasAlert={setHasAlert}
-          />
+          <BankComponent />
         ) : (
           <div className="sm:mx-12">
             <CreditCardForm toggleModal={toggleModal} />
