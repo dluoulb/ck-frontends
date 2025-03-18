@@ -12,7 +12,6 @@ import VirtualCardForm from './VirtualCardForm';
 
 type FormValues = {
   merchant_name: string;
-  merchant_url: string;
   order_amount: string;
   promo_id: string;
   bypass: boolean;
@@ -50,7 +49,6 @@ export default function VirtualCardModal({ next, setModalState }) {
       <Formik
         initialValues={{
           merchant_name: '',
-          merchant_url: '',
           order_amount: '',
           promo_id: promo_id,
           bypass: false,
@@ -59,7 +57,6 @@ export default function VirtualCardModal({ next, setModalState }) {
           const errors: FormErrors = {};
 
           if (!values.merchant_name) errors.merchant_name = '* Required';
-          if (!values.merchant_url) errors.merchant_url = '* Required';
           if (!values.order_amount) errors.order_amount = '* Required';
 
           const amount = parseFloat(

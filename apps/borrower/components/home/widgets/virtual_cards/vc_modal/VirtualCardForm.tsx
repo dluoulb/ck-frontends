@@ -6,7 +6,7 @@ import Image from 'next/image';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import { useEntity } from '@contexts/EntityContext';
-import vc from '@lib/images/vc-image.png';
+import vc from '@lib/images/vc_cardart_visa.png';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function VirtualCardForm({
@@ -24,16 +24,27 @@ export default function VirtualCardForm({
       parseInt(entity?.vc_sub_limits?.limit_amount) -
       parseInt(entity?.vc_sub_limits?.remaining_limit_amount),
     remaining: parseInt(entity?.vc_sub_limits?.remaining_limit_amount),
+    percent: parseFloat(entity?.vc_sub_limits?.limit_percent) * 100,
+  };
+
+  const expirationMock = () => {
+    const now = new Date();
+    return `${String(now.getFullYear()).substring(2)}/${String(now.getMonth() + 1).padStart(2, '0')}`
   };
 
   return (
     <Form>
       <div className="flex flex-col sm:flex-row justify-between items-center p-2 pb-4 gap-6 border-b border-primary-gray-border">
-        <Image
-          src={vc}
-          alt="Virtual Card Image"
-          className="w-3/4 xs:w-1/2 sm:w-2/5 mx-auto"
-        />
+        <div className="w-[300px] mx-auto relative">
+          <Image
+            src={vc}
+            alt="Virtual Card Image"
+            className="rounded-lg"
+          />
+          <span className="absolute top-[110px] left-[20px] text-[24px] sm:top-[60px] sm:left-[10px] sm:text-[13px] text-white">6219&nbsp;&nbsp;&nbsp;8610&nbsp;&nbsp;&nbsp;2888&nbsp;&nbsp;&nbsp;8075</span>
+          <span className="absolute top-[150px] left-[20px] text-[18px] sm:top-[80px] sm:left-[10px] sm:text-[10px] text-white">{expirationMock()}</span>
+          <span className="absolute top-[150px] left-[110px] text-[18px] sm:top-[80px] sm:left-[60px] sm:text-[10px] text-white">123</span>
+        </div>
         <div className="flex flex-col items-center sm:items-start gap-2 w-full">
           <div className="flex justify-between font-semibold text-lg text-center">
             <p>Virtual Card Limit</p>
@@ -74,27 +85,13 @@ export default function VirtualCardForm({
         </div>
         <div className="my-4">
           <ColumnInput
-            error={{
-              merchant_name: errors?.merchant_name,
-              merchant_url: errors?.merchant_url,
-            }}
-            touched={{
-              merchant_name: touched?.merchant_name,
-              merchant_url: touched?.merchant_url,
-            }}
-            className="flex flex-col sm:flex-row justify-between sm:gap-x-1"
+            error={errors?.merchant_name}
+            touched={touched?.merchant_name}
           >
             <StickyInput
               id="merchant_name"
               name="merchant_name"
               placeholder="Merchant Name"
-              type="text"
-              values={values}
-            />
-            <StickyInput
-              id="merchant_url"
-              name="merchant_url"
-              placeholder="Merchant Website"
               type="text"
               values={values}
             />
@@ -136,8 +133,8 @@ export default function VirtualCardForm({
         icon={faLockAlt}
       />
       <p className="text-sm text-tertiary-gray">
-        *Virtual Card transactions are capped at 50% of your trade credit limit
-        up to a maximum of $25,000.
+        *Virtual Card transactions are capped at {sublimits.percent}% of your trade credit limit
+        up to a maximum of {formatCurrency(sublimits.max)}.
       </p>
     </Form>
   );
