@@ -28,6 +28,7 @@ export default function PaymentMethodModal({
   setHasAlert,
   next,
   toggleModal,
+  createVcFlow = false,
 }) {
   const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
   const { entity } = useEntity();
@@ -60,6 +61,7 @@ export default function PaymentMethodModal({
           next={next}
           toggleModal={toggleModal}
           setHasAlert={setHasAlert}
+          createVcFlow={createVcFlow}
         />
       );
     }
