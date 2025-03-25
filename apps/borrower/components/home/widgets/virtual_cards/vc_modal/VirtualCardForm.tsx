@@ -78,9 +78,6 @@ export default function VirtualCardForm({
             <p className="text-center text-2xl xs:text-3xl my-1 font-semibold">
               Credit Key Virtual Card
             </p>
-            <p className="text-center text-opaque-navy mb-0">
-              You've been selected for VIP access to virtual cards!
-            </p>
           </div>
         </div>
         <div className="my-4">
