@@ -1,5 +1,5 @@
 import { useEntity } from '@contexts/EntityContext';
-import { faCartShopping, faCircleQuestion, faCreditCard, faMoneyBillTransfer, faStore, faUser } from '@fortawesome/pro-light-svg-icons';
+import { faCartShopping, faCircleQuestion, faCreditCard, faMoneyBillTransfer, faStore, faUser, faFile } from '@fortawesome/pro-light-svg-icons';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
@@ -26,6 +26,12 @@ function usePrimaryRoutes() {
       icon: faMoneyBillTransfer,
       name: 'Payment Methods',
       url: '/payment_methods',
+      enabled: true,
+    },
+    {
+      icon: faFile,
+      name: 'Documents',
+      url: '/documents',
       enabled: true,
     },
     {
