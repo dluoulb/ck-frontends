@@ -7,13 +7,11 @@ import Script from 'next/script';
 import Loading from '@components/Loading';
 import useModal from '@hooks/useModal';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
-import { virtualCardLink } from '@lib/constants/SiteVariables';
-import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
-import MultiUseVirtualCardSubLimits from './MultiUseVirtualCardSubLimits';
 import SuttonVcDisclosure from './SuttonVcDisclosure';
 import PrepaidCardBalance from './PrepaidCardBalance';
 import ExampleVirtualCard from './ExampleVirtualCard';
 import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
+import { qoloWidgetUrl } from '@lib/constants/SiteVariables';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -21,7 +19,7 @@ export default function MultiUseVirtualCard() {
 
   return (
     <div className="px-3 p-2 h-full">
-      <Script src="https://devapi.qolopay.com/widgets/js/qolo.initialize.v3.js" />
+      <Script src={qoloWidgetUrl()} />
         {vcProps.virtualCardLoading && <Loading />}
         {!vcProps.virtualCardLoading && !vcProps.virtualCard && vcProps.virtualCardError &&
           <div>An error occurred. Please contact support</div>
