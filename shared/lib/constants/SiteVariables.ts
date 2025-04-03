@@ -61,12 +61,12 @@ export const authRedirectLink = (href) => {
   return encodeURI(`${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${url.href}`);
 };
 
-export const qoloWidgetUrl = () => {
+export const qoloWidgetOrigin = () => {
   if (platform() === 'production') {
-    return "https://widgets.qolopay.com/widgets/js/qolo.initialize.v3.js";
+    return "https://widgets.qolopay.com";
   }
 
-  return "https://devapi.qolopay.com/widgets/js/qolo.initialize.v3.js";
+  return "https://stg-widgets.qolopay.com";
 };
 
 export const emailRegex =

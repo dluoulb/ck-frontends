@@ -2,6 +2,7 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import React, { useEffect, useState } from 'react';
 import AddToDigitalWalletInstructions from '../AddToDigitalWalletInstructions';
+import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 // import { useEntity } from '@contexts/EntityContext';
 
 declare const window: any;
@@ -28,7 +29,7 @@ export default function MultiUseVirtualCardDetails() {
       filter: 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',
       version: 'v3',
     },
-    target_origin: 'https://devapi.qolopay.com',
+    target_origin: qoloWidgetOrigin(),
     config: {
       token: virtualCard?.pci_token,
       copy_to_clipboard: true,
