@@ -11,15 +11,17 @@ import SuttonVcDisclosure from './SuttonVcDisclosure';
 import PrepaidCardBalance from './PrepaidCardBalance';
 import ExampleVirtualCard from './ExampleVirtualCard';
 import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
-import { qoloWidgetUrl } from '@lib/constants/SiteVariables';
+import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
   const vcProps = useCompanyVirtualCard();
 
+  const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
+
   return (
     <div className="px-3 p-2 h-full">
-      <Script src={qoloWidgetUrl()} />
+      <Script src={qoloWidgetUrl} />
         {vcProps.virtualCardLoading && <Loading />}
         {!vcProps.virtualCardLoading && !vcProps.virtualCard && vcProps.virtualCardError &&
           <div>An error occurred. Please contact support</div>
