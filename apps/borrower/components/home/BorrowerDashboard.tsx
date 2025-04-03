@@ -87,7 +87,6 @@ export default function BorrowerDashboard() {
           />
         )}
         <MultiUseVirtualCardCTABanner />
-        <SingleUseVirtualCardCTABanner />
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">
