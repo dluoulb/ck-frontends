@@ -7,6 +7,7 @@ import { formatCurrency } from '@lib/utils/formatters';
 import { addFunds } from '@lib/actions/virtualcards';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
+import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
 
 type FormValues = {
   amount: string;
@@ -20,6 +21,7 @@ export default function AddFundsModal({ next }) {
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false)
 
+  const vcSubLimit = parseFloat(entity?.vc_sub_limits?.limit_amount);
   const remainingVcSubLimit = parseFloat(entity?.vc_sub_limits?.remaining_limit_amount);
 
   const onSubmit = async (values) => {
@@ -45,10 +47,12 @@ export default function AddFundsModal({ next }) {
           </p>
           <div>
             <p className="text-gray-500">
-              Set your 24 hour limit on your prepaid card. You can adjust this
-              amount every day based on your spending needs. Unused funds? No
-              worries. We will credit those back to your Virtual Card limit 
-              daily.
+              You can transfer up to {formatCurrency(vcSubLimit, true)} from your existing credit line onto your Credit Key Prepaid Mastercard®.
+            </p>
+          </div>
+          <div>
+            <p className="text-gray-500">
+              If you don't end up using the amount within 24 hours, it'll automatically return to your main credit line. There are no fees or penalties associated with this and you can always add the funds back once you are ready to make your purchase.
             </p>
           </div>
           <div className="flex flex-col xs:flex-row justify-start">
@@ -107,7 +111,8 @@ export default function AddFundsModal({ next }) {
             </section>
             <PrimaryButton
               ariaLabel="transfer-funds-button"
-              buttonText="Transfer Funds"
+              icon={faCirclePlus}
+              buttonText="Add Funds to Card"
               buttonColor="bg-primary-blue"
               hoverClass="hover:bg-primary-blue-hover"
               isLoading={loading}

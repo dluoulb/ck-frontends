@@ -3,10 +3,16 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
  */
-export const formatCurrency = (value) => {
+export const formatCurrency = (value, removeDecimal) => {
+  const options = {};
+  if (removeDecimal) {
+    options.minimumFractionDigits = 0;
+    options.maximumFractionDigits = 0;
+  }
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
+    ...options,
   }).format(value || 0);
 };
 
