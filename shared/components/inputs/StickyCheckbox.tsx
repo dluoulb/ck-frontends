@@ -9,6 +9,7 @@ export default function StickyCheckbox({
   errors,
   placeholder,
   setFieldValue,
+  placeholderClass='',
 }) {
   let [checked, setChecked] = useState(false);
 
@@ -35,7 +36,10 @@ export default function StickyCheckbox({
         }}
       />
       <div className="text-sm">
-        <label htmlFor={id} className="text-sm sm:text-base">
+        <label htmlFor={id} className={classNames(
+          "text-sm sm:text-base",
+          placeholderClass,
+        )}>
           <span className="text-sm">{placeholder}</span>
           <ErrorMessage
             name={id}
