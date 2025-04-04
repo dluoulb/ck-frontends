@@ -32,7 +32,7 @@ function usePrimaryRoutes() {
       icon: faCreditCard,
       name: 'Virtual Card',
       url: '/virtual_card',
-      enabled: multiUseVcEnabled,
+      enabled: multiUseVcEnabled && !mobileApp,
     },
     {
       icon: faUser,
