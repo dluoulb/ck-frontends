@@ -12,6 +12,7 @@ import PrepaidCardBalance from './PrepaidCardBalance';
 import ExampleVirtualCard from './ExampleVirtualCard';
 import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
+import CkaInfo from './CkaInfo';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -33,14 +34,17 @@ export default function MultiUseVirtualCard() {
                 icon={faCreditCard}
                 className="text-primary-blue text-base lg:text-xl"
               />
-              <p className="text-lg md:text-xl font-bold">My Credit Key Virtual Card</p>
+              <p className="text-lg md:text-xl font-bold">Pay with My Credit Key Card</p>
             </div>
             <div className="grid grid-cols-10 gap-3">
-              <div className="col-span-11 lg:col-span-5 xl:col-span-4 2xl:col-span-3 mt-5">
+              <div className="col-span-11 md:col-span-5 xl:col-span-6 2xl:col-span-7">
+                <MultiUseVirtualCardInfoPanel toggleModal={toggleModal} />
+              </div>
+              <div className="col-span-11 md:col-span-5 xl:col-span-4 2xl:col-span-3">
                 <ExampleVirtualCard />
               </div>
-              <div className="col-span-11 lg:col-span-5 xl:col-span-6 2xl:col-span-7 mt-5">
-                <MultiUseVirtualCardInfoPanel toggleModal={toggleModal} />
+              <div className="col-span-11 xl:hidden">
+                <CkaInfo />
               </div>
             </div>
           </>
