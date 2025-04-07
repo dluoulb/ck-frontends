@@ -8,6 +8,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import AddFundsModalWrapper from './vc_modal/AddFundsModalWrapper';
 import AddFundsMessage from './AddFundsMessage';
 import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
+import FundsExpirationMessage from './FundsExpirationMessage';
 
 export default function PrepaidCardBalance({ allowCardClose }) {
   const { isModalActive, toggleModal } = useModal();
@@ -23,10 +24,10 @@ export default function PrepaidCardBalance({ allowCardClose }) {
     if (diff < minute) return <AddFundsMessage />;
     
     const hours = diff / hour;
-    if (hours >= 1) return <p>Balance expires in {Math.ceil(hours)} {hours === 1 ? 'hour' : 'hours'}</p>;
+    if (hours >= 1) return <FundsExpirationMessage duration={`${Math.ceil(hours)} ${hours === 1 ? 'hour' : 'hours'}`} />;
 
     const minutes = diff / minute;
-    return <p>Balance expires in {Math.ceil(minutes)} {minutes === 1 ? 'minute' : 'minutes'}</p>;
+    return <FundsExpirationMessage duration={`${Math.ceil(minutes)} ${minutes === 1 ? 'minute' : 'minutes'}`} />;
   };
 
   const displayCardBalance = () => {
