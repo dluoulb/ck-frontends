@@ -32,7 +32,7 @@ export const ReportsContextProvider = ({
   });
 
   const stats = useStats(entity);
-  const documents = useDocuments(entity, content);
+  const documents = useDocuments(entity);
 
   const { applications, applicationsError, applicationsLoading } =
     useApplications(entity, content);
