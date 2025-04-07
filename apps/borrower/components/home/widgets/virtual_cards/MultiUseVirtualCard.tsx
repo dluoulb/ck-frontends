@@ -37,14 +37,14 @@ export default function MultiUseVirtualCard() {
               <p className="text-lg md:text-xl font-bold">Pay with My Credit Key Card</p>
             </div>
             <div className="grid grid-cols-10 gap-3">
-              <div className="col-span-11 md:col-span-5 xl:col-span-6 2xl:col-span-7">
+              <div className="col-span-10 md:col-span-5 xl:col-span-6 2xl:col-span-7">
                 <MultiUseVirtualCardInfoPanel toggleModal={toggleModal} />
               </div>
-              <div className="col-span-11 md:col-span-5 xl:col-span-4 2xl:col-span-3">
+              <div className="col-span-10 md:col-span-5 xl:col-span-4 2xl:col-span-3">
                 <ExampleVirtualCard />
               </div>
-              <div className="col-span-11 xl:hidden">
-                <CkaInfo />
+              <div className="col-span-10 xl:hidden">
+                <CkaInfo notice={true} />
               </div>
             </div>
           </>
@@ -58,15 +58,16 @@ export default function MultiUseVirtualCard() {
               />
               <p className="text-lg md:text-xl font-bold">My Credit Key Prepaid Mastercard®</p>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="col-span-3 md:col-span-1 mt-5">
+            <div className="grid gap-3 grid-cols-2">
+              <div className="col-span-2 md:col-span-1 mt-5">
                 <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
               </div>
-              <div className="col-span-3 md:col-span-1 mt-5">
+              <div className="col-span-2 md:col-span-1 mt-5">
                 <PrepaidCardBalance allowCardClose={false} />
               </div>
-              <div className="col-span-3 mt-5">
-                <SuttonVcDisclosure />
+              <div className="col-span-2 mt-5 border-t border-gray-300"></div>
+              <div className="col-span-2 mt-2">
+                <CkaInfo />
               </div>
             </div>
           </>
