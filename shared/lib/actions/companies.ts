@@ -54,3 +54,20 @@ export const closeVirtualCard = async(api, company_id) => {
   
   return true;
 };
+
+
+export const uploadCompanyDocument = async(api, company_id, file, file_type, file_description) => {
+  if (!company_id) return;
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('file_type', file_type);
+  formData.append('file_description', file_description);
+
+  await api.post(`/api/companies/${company_id}/documents`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return true;
+}
