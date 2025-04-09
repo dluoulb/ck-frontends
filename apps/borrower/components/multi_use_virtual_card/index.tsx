@@ -5,6 +5,7 @@ import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_mo
 import useModal from '@hooks/useModal';
 import DefaultVirtualCardTerms from '../home/widgets/default_settings/DefaultVirtualCardTerms';
 import AddToDigitalWalletInstructions from '../home/widgets/virtual_cards/AddToDigitalWalletInstructions';
+import HowToUse from '../home/widgets/virtual_cards/HowToUse';
 
 export default function MultiUseVirtualCard() {
   const { entity } = useEntity();
@@ -28,11 +29,8 @@ export default function MultiUseVirtualCard() {
               <BaseGridItem gridConfig="col-span-5 !bg-primary-blue/10 mx-2 md:mr-3 md:ml-1.5">
                 <MultiUseVirtualCardWidget />
               </BaseGridItem>
-              <BaseGridItem gridConfig="col-span-5 md:col-span-2 !bg-background-success/60 mx-2 md:mr-3 md:ml-1.5">
-                <DefaultVirtualCardTerms />
-              </BaseGridItem>
-              <BaseGridItem gridConfig="col-span-5 md:col-span-2 mx-2 md:mr-3 md:ml-1.5">
-                <AddToDigitalWalletInstructions />
+              <BaseGridItem gridConfig="col-span-5 mx-2 md:mr-3 md:ml-1.5 border-none">
+                <HowToUse />
               </BaseGridItem>
             </BaseGrid>
           </div>
