@@ -72,11 +72,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                   >
                     {header && (
                       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
-                        <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
-                          <FontAwesomeIcon
-                            icon={faSquare}
-                            className="text-secondary-blue"
-                          />
+                        <span className="fa-layers fa-fw text-3xl hidden sm:inline">
                           <FontAwesomeIcon
                             icon={headerIcon}
                             className="text-primary-blue text-base lg:text-xl"

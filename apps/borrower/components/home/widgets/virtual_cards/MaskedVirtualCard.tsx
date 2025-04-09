@@ -1,8 +1,11 @@
 import React from 'react';
 import vcMastercard from '@lib/images/vc-cardart-mastercard.png';
 import Image from 'next/image';
+import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
 
 export default function MaskedVirtualCard({virtualCard, onView}) {
+  const { balance, balanceLoading } = useVirtualCardBalance();
+
   const cardNumberDisplay = (vc) => {
     return (
       <>
@@ -20,7 +23,7 @@ export default function MaskedVirtualCard({virtualCard, onView}) {
         <Image
           src={vcMastercard}
           alt="Virtual Card Image"
-          className="rounded-xl"
+          className="rounded-xl shadow-lg shadow-slate-600"
         />
         <div className="text-white absolute left-5 top-[116px] sm:left-4 sm:top-[104px] lg:left-5 lg:top-32">
           {cardNumberDisplay(virtualCard)}
@@ -29,8 +32,9 @@ export default function MaskedVirtualCard({virtualCard, onView}) {
         <span className="text-white absolute left-28 top-[146px] sm:left-28 sm:top-[130px] lg:left-32 lg:top-40">CVV •••</span>
         <button
           type="button"
-          className="bg-white text-primary-blue transition duration-150 ease-in-out hover:bg-slate-300 px-3 py-1.5 rounded-lg font-semibold absolute top-5 right-5"
+          className="bg-white text-primary-blue transition duration-150 ease-in-out hover:bg-slate-300 px-3 py-1.5 rounded-lg font-semibold absolute top-5 right-5 disabled:text-white disabled:bg-disabled disabled:hover-none disabled:cursor-not-allowed"
           onClick={onView}
+          disabled={balanceLoading || !balance?.amount}
         >
           View
         </button>

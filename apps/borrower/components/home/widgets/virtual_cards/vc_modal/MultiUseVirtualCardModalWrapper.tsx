@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { defineStepper } from '@stepperize/react';
 import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
-import { faPlusCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCirclePlus } from '@fortawesome/pro-solid-svg-icons';
 import useModal from '@hooks/useModal';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
@@ -85,8 +85,8 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
       <ModalWrapper
         toggleModal={toggleModal}
         isModalActive={isModalActive}
-        header="Create New Virtual Card"
-        headerIcon={faPlusCircle}
+        header="Your Credit Key Prepaid Mastercard®"
+        headerIcon={faCirclePlus}
       >
         {orderedScreens.map(
           (step) =>

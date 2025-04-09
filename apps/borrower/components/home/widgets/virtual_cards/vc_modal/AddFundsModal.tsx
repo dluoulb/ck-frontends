@@ -8,6 +8,7 @@ import { addFunds } from '@lib/actions/virtualcards';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
+import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
 
 type FormValues = {
   amount: string;
@@ -19,7 +20,8 @@ export default function AddFundsModal({ next }) {
   const { entity } = useEntity();
   const api = useApi();
   const { makeToast } = useToast();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const { refetchBalance } = useVirtualCardBalance();
 
   const vcSubLimit = parseFloat(entity?.vc_sub_limits?.limit_amount);
   const remainingVcSubLimit = parseFloat(entity?.vc_sub_limits?.remaining_limit_amount);
@@ -32,6 +34,7 @@ export default function AddFundsModal({ next }) {
     addFunds(api, cleanAmount)
     .then(() => {
       makeToast(`Added ${formatCurrency(cleanAmount)} to card`, 'success'); 
+      refetchBalance();
       next();
     })
     .catch(() => makeToast('Failed to add funds to card', 'error'))
