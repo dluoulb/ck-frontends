@@ -8,8 +8,7 @@ import SetDefaultTermsModal from './SetDefaultTermsModal';
 import CardholderAgreementModal from './CardholderAgreementModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
 import AddFundsModal from './AddFundsModal';
-import { useEntity } from '@contexts/EntityContext';
-import PaymentMethodModal from '@apps/borrower/components/payment_methods/modals/PaymentMethodModal';
+import VcFlowDefaultPaymentMethodModal from '@apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal';
 
 export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleModal }) {
   const [hasAlert, setHasAlert] = useState(false);
@@ -26,7 +25,7 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
     },
     {
       id: 'add_payment_method',
-      component: PaymentMethodModal,
+      component: VcFlowDefaultPaymentMethodModal,
       hide: false,
     },
     {

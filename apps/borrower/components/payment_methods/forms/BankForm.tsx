@@ -26,7 +26,7 @@ type FormValues = {
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, createVcFlow }) {
+export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, createVcFlow, submitButtonText='Save Payment Method' }) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
@@ -125,7 +125,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
         const disabled = Object.values(errors).some((e) => !!e);
         return (
           <Form>
-            <div className="flex flex-col m-auto w-full sm:w-4/5">
+            <div className="flex flex-col m-auto w-full">
               <ErrorAlert hasAlert={hasAlert} next={next} />
               <ColumnInput
                 error={errors.bank_routing}
@@ -161,7 +161,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
                   values={values}
                 />
               </ColumnInput>
-              <div className="form-control block w-full p-3 text-xs sm:text-sm font-normal text-secondary-gray bg-white bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
+              <div className="form-control block w-full bg-secondary-blue p-3 text-xs sm:text-sm font-normal text-secondary-gray bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
                 {agreementLoading ? (
                   <Loading className="w-5 h-5 my-2 !text-primary" />
                 ) : (
@@ -169,17 +169,21 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
                 )}
               </div>
 
-              <div className="px-1 sm:px-0 my-2">
+              <div className="p-3 pt-1.5 my-2 bg-gray-50 border border-gray-200 rounded">
                 <StickyCheckbox
                   id="agree"
                   placeholder="I authorize Credit Key to charge scheduled payments to my bank account."
+                  placeholderClass="font-semibold"
                   errors={errors}
                   setFieldValue={setFieldValue}
                 />
+                <div className="text-xs text-gray-500 mt-2 ml-5">
+                  This authorization will remain in effect until canceled.
+                </div>
               </div>
               <PrimaryButton
                 ariaLabel="save-payment-method-button"
-                buttonText="Save Payment Method"
+                buttonText={submitButtonText}
                 buttonColor="bg-primary-blue"
                 hoverClass="hover:bg-primary-blue-hover"
                 disabled={disabled || loading || agreementLoading}
