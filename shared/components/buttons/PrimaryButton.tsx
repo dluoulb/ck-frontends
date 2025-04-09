@@ -14,6 +14,7 @@ interface PrimaryButtonProps {
   isLoading?: boolean;
   onClick?: () => void;
   isSmall?: boolean;
+  pill?: boolean;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -27,17 +28,19 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
   isLoading,
   onClick,
   isSmall,
+  pill,
 }) => {
   return (
     <div className={classNames('flex', containerClass)}>
       <button
         aria-label={ariaLabel}
         className={classNames(
-          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block mx-auto my-1 sm:my-2 tracking-wider rounded-lg flex justify-center items-center text-white py-2 px-3',
+          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block mx-auto my-1 sm:my-2 tracking-wider flex justify-center items-center text-white py-2 px-3',
           buttonColor,
           isSmall ? 'text-xs' : 'text-xs md:text-sm',
           { '!cursor-not-allowed !bg-disabled': disabled },
-          !isLoading && !disabled ? hoverClass : ''
+          !isLoading && !disabled ? hoverClass : '',
+          pill ? 'rounded-full' : 'rounded-lg',
         )}
         type="submit"
         role="submit"
