@@ -3,6 +3,8 @@ import Loading from '@components/Loading';
 import React, { useEffect, useState } from 'react';
 import AddToDigitalWalletInstructions from '../AddToDigitalWalletInstructions';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 // import { useEntity } from '@contexts/EntityContext';
 
 declare const window: any;
@@ -70,7 +72,7 @@ export default function MultiUseVirtualCardDetails() {
         },
       },
       content: {
-        copy_clipboard_text: 'Copy card number to clipboard',
+        copy_clipboard_text: 'Copy card number',
         // vc_name: `${entity?.borrower?.first_name}`,
       },
       remove: {
@@ -93,15 +95,16 @@ export default function MultiUseVirtualCardDetails() {
 
   return (
     <>
-      <div
-        className="rounded-lg border border-black border-opacity-5"
-        id='widget_container'
-      >
+      <div className="bg-background-success/60 text-success p-3 rounded-lg">
+        <FontAwesomeIcon icon={faCheckCircle} className="text-success/80 mr-2" />
+        Success! Your card is ready to use
+      </div>
+      <div id='widget_container'>
         {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
       </div>
-      <p className="m-4 mb-0">{status}</p>
+      <p className="m-4 mb-0 bg-gray-50 p-4 rounded-lg">{status}</p>
       {virtualCard?.pci_token && (
-        <div className="mt-4">
+        <div className="mt-4 border-t border-gray-100">
           <AddToDigitalWalletInstructions />
         </div>
       )}
