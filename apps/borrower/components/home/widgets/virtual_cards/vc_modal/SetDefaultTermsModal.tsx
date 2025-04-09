@@ -122,22 +122,22 @@ export default function SetDefaultTermsModal({ next }) {
         ) : (
         <>
           <div className="flex items-end justify-center px-4 text-center sm:block sm:px-0 max-w-md max-h-md mx-auto">
-            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <div className="mx-6 text-center text-navy-blue">
-                <p className="text-lg my-2 font-avenir-black">
-                  Set Your Default Term Length for Virtual Card Purchases
+            <div className="mt-3 text-left sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="text-navy-blue">
+                <p className="text-lg my-2 font-semibold font-avenir-black">
+                  Default Repayment
                 </p>
                 <p className="my-2">
-                  All purchases on your card will be set to this default term, but no worries -- you can always update the term length of each purchase, even after your order is placed.
+                  All purchases on your card will be set to this default term, but no worries -- you can always update the term length of each purchase before you transact.
                 </p>
               </div>
-              <div className="my-10 text-center">
+              <div className="my-5">
                 <ListBox
                   initialValue={defaultTerm?.default_term?.term}
                   buttonText={term?.term || 'Select Default Term'}
                   handleChange={handleChange}
                   value={term}
-                  listBoxClass="w-4/5 my-3 mx-auto rounded-md border border-dark-gray transition ease-in-out duration-150 sm:text-sm sm:leading-5 relative"
+                  listBoxClass="my-3 rounded-md border border-dark-gray transition ease-in-out duration-150 sm:text-sm sm:leading-5 relative"
                 >
                   {terms?.map((op) => (
                     <ListboxOption
@@ -152,10 +152,10 @@ export default function SetDefaultTermsModal({ next }) {
               </div>
             </div>
         </div>
-        <div className="sm:mb-8 w-full m-auto px-4 py-3 sm:px-6 flex justify-center items-center">
+        <div className="sm:mb-8 w-full m-auto px-4 sm:pr-0 py-3 flex justify-center items-center">
           <PrimaryButton
             ariaLabel="save-default-terms-button"
-            buttonText="Save"
+            buttonText="Next"
             buttonColor="bg-primary-blue"
             hoverClass="hover:bg-primary-blue-hover"
             containerClass="w-full"
