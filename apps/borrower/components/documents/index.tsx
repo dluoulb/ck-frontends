@@ -1,4 +1,5 @@
 import DocumentUploadForm from "./document_upload_form";
+import DocumentList from "./document_list";
 
 export default function DocumentIndex() {
 
@@ -11,6 +12,7 @@ export default function DocumentIndex() {
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">Documents</p>
         <DocumentUploadForm />
+        <DocumentList />
       </div>
     </div>
   );
