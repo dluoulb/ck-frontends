@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DownloadDocument from '@apps/reports/components/entity_detail/widgets/Attachments/table/DownloadDocument';
 import { reformatDate } from '@lib/utils/datetime_formatters';
-
-const documentTypesMap = {
-  bank_statements: 'Bank Statement',
-  invoice: 'Invoice',
-  id_proof: 'ID Proof',
-  tax_document: 'Tax Document',
-};
+import { DOCUMENT_TYPE_LABELS } from './documentTypes';
 
 export const DocumentTableColumns = [
   {
@@ -32,7 +26,7 @@ export const DocumentTableColumns = [
     accessorKey: 'attributes.file_type',
     header: 'TYPE',
     cell: ({ row }) =>
-      documentTypesMap[row.original.attributes.file_type] || 'Other',
+      DOCUMENT_TYPE_LABELS[row.original.attributes.file_type] || 'Other',
   },
   {
     id: 'created_at',
