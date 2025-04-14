@@ -21,7 +21,11 @@ export default function PrepaidCardBalance({ allowCardClose }) {
     if (!balance?.next_sweep_at) return <AddFundsMessage />
     const diff = new Date(balance?.next_sweep_at).getTime() - Date.now();
 
-    if (diff < minute) return <AddFundsMessage />;
+    if (diff < minute) {
+      if (balance?.amount) return <FundsExpirationMessage />
+      
+      return <AddFundsMessage />;
+    }
     
     const hours = diff / hour;
     if (hours >= 1) return <FundsExpirationMessage duration={`${Math.ceil(hours)} ${hours === 1 ? 'hour' : 'hours'}`} />;
@@ -31,12 +35,7 @@ export default function PrepaidCardBalance({ allowCardClose }) {
   };
 
   const displayCardBalance = () => {
-    let amount = balance?.amount || 0;
-    if (!balance.next_sweep_at) amount = 0;
-    const diff = new Date(balance?.next_sweep_at).getTime() - Date.now();
-    if (diff < minute) amount = 0;
-
-    return formatCurrency(amount)
+    return formatCurrency(balance?.amount || 0)
   };
 
   if (balanceLoading) return <Loading />;
