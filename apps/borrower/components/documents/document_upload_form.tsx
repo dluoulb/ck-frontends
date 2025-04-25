@@ -9,6 +9,7 @@ import useDocuments from '@hooks/useDocuments';
 import useToast from '@hooks/useToast';
 import { uploadConsumerDocument } from '@lib/actions/accounts';
 import { uploadCompanyDocument } from '@lib/actions/companies';
+import { DOCUMENT_TYPES } from './documentTypes';
 import FileUploader from './file_uploader';
 
 export default function DocumentUploadForm() {
@@ -16,14 +17,7 @@ export default function DocumentUploadForm() {
   const api = useApi();
   const { makeToast } = useToast();
 
-  const documentTypes = [
-    { id: 'bank_statements', name: 'Bank Statement' },
-    { id: 'invoice', name: 'Invoice' },
-    { id: 'id_proof', name: 'ID Proof' },
-    { id: 'tax_document', name: 'Tax Document' },
-  ];
-
-  const [selectedType, setSelectedType] = useState(documentTypes[0]);
+  const [selectedType, setSelectedType] = useState(DOCUMENT_TYPES[0]);
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -55,7 +49,7 @@ export default function DocumentUploadForm() {
 
       setFile(null);
       setDescription('');
-      setSelectedType(documentTypes[0]);
+      setSelectedType(DOCUMENT_TYPES[0]);
       makeToast('File uploaded', 'success');
       refetch();
     } catch (err) {
@@ -90,7 +84,7 @@ export default function DocumentUploadForm() {
                 buttonText={selectedType.name}
                 listBoxClass="border border-gray-300 rounded-md shadow-sm text-sm w-full"
               >
-                {documentTypes.map((doc) => (
+                {DOCUMENT_TYPES.map((doc) => (
                   <ListboxOption
                     key={doc.id}
                     value={doc}
