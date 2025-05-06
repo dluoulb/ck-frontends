@@ -17,7 +17,7 @@ type FormValues = {
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
 export default function AddFundsModal({ next }) {
-  const { entity } = useEntity();
+  const { entity, fetchEntity } = useEntity();
   const api = useApi();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -35,6 +35,7 @@ export default function AddFundsModal({ next }) {
     .then(() => {
       makeToast(`Added ${formatCurrency(cleanAmount)} to card`, 'success'); 
       refetchBalance();
+      fetchEntity();
       next();
     })
     .catch(() => makeToast('Failed to add funds to card', 'error'))
