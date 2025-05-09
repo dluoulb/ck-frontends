@@ -75,6 +75,20 @@ _init () {
       ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
       rm -rf aws awscli.zip
     fi
+
+    export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/web-identity-token
+    echo $BITBUCKET_STEP_OIDC_TOKEN > $AWS_WEB_IDENTITY_TOKEN_FILE
+
+    oidc_creds=$(
+      aws sts assume-role-with-web-identity \
+        --role-arn $AWS_ROLE_ARN \
+        --role-session-name bitbucket-session \
+        --web-identity-token "$BITBUCKET_STEP_OIDC_TOKEN" \
+        --duration-seconds 3600
+    )
+    export AWS_ACCESS_KEY_ID=$(echo $oidc_creds | jq -r '.Credentials.AccessKeyId')
+    export AWS_SECRET_ACCESS_KEY=$(echo $oidc_creds | jq -r '.Credentials.SecretAccessKey')
+    export AWS_SESSION_TOKEN=$(echo $oidc_creds | jq -r '.Credentials.SessionToken')
   fi
 }
 _init

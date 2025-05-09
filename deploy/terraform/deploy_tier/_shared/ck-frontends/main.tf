@@ -6,19 +6,20 @@ module "app-vars" {
 }
 
 module "ck-shared-vars" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ck-shared-vars?ref=v0.1.27"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ck-shared-vars?ref=v0.1.30"
   deploy_tier = var.deploy_tier
 }
 
 module "ck-frontends" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.27"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.30"
 
   app_name = module.app-vars.app_name
   deploy_tier = var.deploy_tier
   task_command = ["dumb-init","node","server.js"]
   task_entrypoint = [ "/usr/local/bin/entrypoint.sh" ]
 
-  deploy_user_name = "deploy-${ module.app-vars.app_name}-${var.deploy_tier}"
+  bitbucket_repo_uuid = module.app-vars.bitbucket_repo_uuid
+  bitbucket_env_uuid = module.app-vars.bitbucket_env_uuid
 
   #networking
   app_port = module.app-vars.app_port
