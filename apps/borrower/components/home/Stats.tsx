@@ -11,12 +11,15 @@ export default function Stats() {
   const { entity } = useEntity();
   const { stats, statsError, isLoading } = useBorrowerDeps();
 
+  const remainingCredit = entity?.credit_line !== undefined ?
+    entity.credit_line.remaining_amount :
+    entity.max_purchase_amount - stats?.credit_utilized;
   let approvedUser = entity?.status === 'approved';
 
   const entityData = [
     {
       name: 'Maximum Credit',
-      value: !approvedUser ? '--' : formatCurrency(entity?.credit_line?.amount),
+      value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
     },
     {
@@ -26,7 +29,7 @@ export default function Stats() {
     },
     {
       name: 'Remaining Credit',
-      value: !approvedUser ? '--' : formatCurrency(entity?.credit_line?.remaining_amount),
+      value: !approvedUser ? '--' : formatCurrency(remainingCredit),
       className: 'text-success',
     },
     {
