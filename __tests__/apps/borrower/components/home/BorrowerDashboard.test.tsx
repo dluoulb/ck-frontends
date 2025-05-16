@@ -15,7 +15,7 @@ describe('Main Dashbboard Home Page', () => {
     await waitFor(() => expect(screen.getByText('Widget Maker Co.')));
 
     const widgets = screen.getAllByRole('base-grid-item-component');
-    expect(widgets).toHaveLength(6);
+    expect(widgets).toHaveLength(5);
   });
 
   test('displays error page when entity not fetched', async () => {

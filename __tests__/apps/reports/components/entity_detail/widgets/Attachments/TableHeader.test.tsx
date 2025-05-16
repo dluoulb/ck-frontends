@@ -10,6 +10,9 @@ describe('TableHeader Component', () => {
         globalFilter: '',
       })),
       setColumnFilters: jest.fn(),
+      getRowModel: jest.fn(() => ({
+        rows: [],
+      })), 
     };
 
     const statusTabs = [

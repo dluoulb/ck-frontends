@@ -26,7 +26,7 @@ describe('Virtual Card Widget Component', () => {
 
     customRender(<VirtualCard bannerName="virtual_card" />, { withBorrowerProviders: true });
 
-    expect(screen.getByText(/Request a virtual card/));
+    expect(screen.getByText(/Create My Virtual Card/));
     expect(screen.getByText('Learn More'));
   });
 
