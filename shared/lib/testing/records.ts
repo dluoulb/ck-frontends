@@ -67,7 +67,7 @@ const companyApproved = new CompanyRecord({
   gross_annual_revenue: '1500000.00',
   credit_line: {
     amount: 20000.0,
-    remaining_amount: 15000.0,
+    remaining_amount: 6080.0,
   },
   address: {
     address1: '123 Super Dr',

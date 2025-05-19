@@ -38,7 +38,13 @@ export default function AddFundsModal({ next }) {
       fetchEntity();
       next();
     })
-    .catch(() => makeToast('Failed to add funds to card', 'error'))
+    .catch(error => {
+      if (error?.response?.data?.error === 'Balance addition error, balance already covered') {
+        makeToast('Amount already covered by card balance. If you need additional funds, enter the total desired amount.', 'error');
+      } else {
+        makeToast('Failed to add funds to card', 'error');
+      }
+    })
     .finally(() => setLoading(false));
   };
 
