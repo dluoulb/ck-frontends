@@ -14,6 +14,7 @@ interface OutlineButtonProps {
   isLoading?: boolean;
   onClick?: () => void;
   isSmall?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const OutlineButton: FC<OutlineButtonProps> = ({
@@ -27,6 +28,7 @@ const OutlineButton: FC<OutlineButtonProps> = ({
   isLoading,
   onClick,
   isSmall,
+  type,
 }) => {
   return (
     <div className={classNames('flex w-full', containerClass)}>
@@ -41,8 +43,8 @@ const OutlineButton: FC<OutlineButtonProps> = ({
           },
           !isLoading && !disabled && hoverClass
         )}
-        type="submit"
-        role="submit"
+        type={type || 'submit'}
+        role={type || 'submit'}
         onClick={onClick}
         disabled={disabled}
       >

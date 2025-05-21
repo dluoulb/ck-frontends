@@ -20,20 +20,15 @@ export const getOrders = async (api, entity, pageIndex) => {
       return {
         data: orders.data.data,
         metadata: orders.data.metadata,
-        hasMore: orders.data.metadata.total_pages > pageIndex + 1 
+        hasMore: orders.data.metadata.total_pages > pageIndex + 1,
       };
     }
     return { data: [], metadata: { total_pages: 0 }, hasMore: false };
   }
 };
 
-export const exportOrders = async ({
-  api,
-  userId,
-  entity,
-}) => {
-  const path =
-    `/api/orders/export?user_id=${userId}&filter[${entity?.type}]=${entity?.id}`;
+export const exportOrders = async ({ api, userId, entity }) => {
+  const path = `/api/orders/export?user_id=${userId}&filter[${entity?.type}]=${entity?.id}`;
 
   return await api.get(path);
 };
@@ -79,4 +74,20 @@ export const getInvoice = async (order, documentID) => {
   });
 
   return invoiceDownload;
+};
+
+export const updatePaymentTerms = async (
+  api,
+  orderId,
+  numberOfInstallments
+) => {
+  const order = await api.put(`/api/orders/${orderId}/term`, {
+    installments: numberOfInstallments,
+  });
+  return new OrderRecord(order?.data.data.attributes);
+};
+
+export const getApprovedTerms = async (api, orderId) => {
+  const terms = await api.get(`/api/orders/${orderId}/approved_terms`);
+  return terms?.data?.data?.attributes;
 };

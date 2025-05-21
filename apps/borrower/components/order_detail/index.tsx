@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
@@ -15,6 +15,7 @@ import OrderOverview from './OrderOverview';
 import PaymentScheduleDisclosure from './payment_schedule/PaymentScheduleDisclosure';
 import PaymentProgress from './PaymentProgress';
 import Stats from './Stats';
+import UpdateTermsModalWrapper from '../terms/UpdateTermsModalWrapper';
 
 export default function OrderDetail() {
   const api = useApi();
@@ -37,6 +38,8 @@ export default function OrderDetail() {
 
   const { paymentMethods, paymentMethodsLoading } = useBorrowerDeps();
   const { isModalActive, toggleModal } = useModal();
+  const { isModalActive: isTermsModalOpen, toggleModal: toggleTermsModal } =
+    useModal();
 
   const { data: documents, isLoading: documentsLoading } = useQuery({
     queryKey: ['documents', order?.id],
@@ -73,6 +76,7 @@ export default function OrderDetail() {
               order={order}
               product={order?.product}
               documents={documents}
+              toggleTermsModal={toggleTermsModal}
             />
             <Stats order={order} />
             <PaymentProgress
@@ -83,7 +87,10 @@ export default function OrderDetail() {
             {parseFloat(order?.expected_fees) > 0 && (
               <AdditionalFeesDisclosure order={order} />
             )}
-            <PaymentScheduleDisclosure order={order} />
+            <PaymentScheduleDisclosure
+              order={order}
+              toggleTermsModal={toggleTermsModal}
+            />
           </div>
         </div>
       </div>
@@ -92,6 +99,12 @@ export default function OrderDetail() {
         paymentMethods={paymentMethods}
         isModalActive={isModalActive}
         toggleModal={toggleModal}
+        refetchOrder={refetchOrder}
+      />
+      <UpdateTermsModalWrapper
+        loan={order}
+        isTermsModalOpen={isTermsModalOpen}
+        toggleTermsModal={toggleTermsModal}
         refetchOrder={refetchOrder}
       />
     </div>

@@ -9,7 +9,7 @@ import {
 
 import Schedule from './Schedule';
 
-export default function PaymentScheduleDisclosure({ order }) {
+export default function PaymentScheduleDisclosure({ order, toggleTermsModal }) {
   return (
     <div className="w-full my-4">
       <div className="mx-auto w-full">
@@ -26,7 +26,7 @@ export default function PaymentScheduleDisclosure({ order }) {
                 />
               </DisclosureButton>
               <DisclosurePanel className="text-sm">
-                <Schedule order={order} />
+                <Schedule order={order} toggleTermsModal={toggleTermsModal} />
               </DisclosurePanel>
             </>
           )}

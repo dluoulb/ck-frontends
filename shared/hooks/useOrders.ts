@@ -19,6 +19,7 @@ function useOrders(entity, depsLoading = false, pageIndex = 0) {
     isLoading: ordersLoading,
     isFetching,
     isPlaceholderData,
+    refetch,
   } = useQuery({
     queryKey: ['orders', entity, entity?.type, pageIndex],
     queryFn: () => getOrders(api, entity, pageIndex),
@@ -46,6 +47,7 @@ function useOrders(entity, depsLoading = false, pageIndex = 0) {
     ordersError,
     pageCount,
     totalOrderCount,
+    refetchOrders: refetch,
   };
 }
 

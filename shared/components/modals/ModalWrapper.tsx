@@ -16,6 +16,7 @@ interface ModalWrapperProps {
   isModalActive: boolean;
   toggleModal: () => void;
   modalHeight?: string;
+  modalWidth?: string;
   header?: any;
   headerIcon?: any;
 }
@@ -25,6 +26,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
   isModalActive,
   toggleModal,
   modalHeight,
+  modalWidth,
   header,
   headerIcon,
 }) => {
@@ -68,7 +70,10 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                 <div className="flex min-h-full items-center justify-center text-center sm:items-center">
                   <DialogPanel
                     transition
-                    className="relative transform overflow-hidden rounded-lg bg-white text-left sm:max-w-lg p-4 shadow-xl transition-all"
+                    className={classNames(
+                      'relative transform overflow-hidden rounded-lg bg-white text-left  p-4 shadow-xl transition-all',
+                      modalWidth || 'sm:max-w-lg'
+                    )}
                   >
                     {header && (
                       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
@@ -99,7 +104,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     </div>
                     <div
                       className={classNames(
-                        'px-4 sm:px-6 sm:py-3 overflow-y-scroll z-10',
+                        'px-4 sm:px-6 overflow-y-auto sm:py-3 z-10',
                         modalHeight ? modalHeight : 'max-h-modal'
                       )}
                     >

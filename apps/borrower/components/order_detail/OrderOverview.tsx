@@ -9,7 +9,12 @@ import { reformatDate } from '@lib/utils/datetime_formatters';
 import Documents from './Documents';
 import ReturnsModal from './modals/ReturnsModal';
 
-export default function OrderOverview({ order, product, documents }) {
+export default function OrderOverview({
+  order,
+  product,
+  documents,
+  toggleTermsModal,
+}) {
   let statusColor;
   let statusText;
   const { user, isAdminUser } = useUser();
@@ -41,6 +46,7 @@ export default function OrderOverview({ order, product, documents }) {
       statusText = status;
       break;
   }
+
   if (!user) return <Loading className="w-14 h-14 mt-5 mb-10" />;
 
   return (
@@ -120,6 +126,14 @@ export default function OrderOverview({ order, product, documents }) {
             >
               Cancellations and Returns Policy
             </p>
+            {order.terms_editable && (
+              <p
+                onClick={toggleTermsModal}
+                className="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center font-medium border-b border-transparent hover:border-primary-blue-hover"
+              >
+                Update Payment Terms
+              </p>
+            )}
             <ReturnsModal
               isModalActive={isModalActive}
               toggleModal={toggleModal}
