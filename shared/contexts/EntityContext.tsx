@@ -7,6 +7,7 @@ import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
 import AccountRecord from '@lib/records/account';
 import CompanyRecord from '@lib/records/company';
+import {supportPhone} from "@lib/constants/SiteVariables";
 
 type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
@@ -53,6 +54,12 @@ export const EntityProvider = ({ children }) => {
     },
     retry: 1,
   });
+
+  useEffect(() => {
+    if (entity?.borrower?.is_phone_verified !== true) {
+      throw new Error('Please Call Support to Validate Your Phone Number: ' + supportPhone);
+    }
+  }, [entity?.borrower?.is_phone_verified])
 
   const fetchEntity = (id, type) => {
     setLoading(true);
