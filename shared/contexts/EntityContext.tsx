@@ -8,6 +8,7 @@ import { getCompany } from '@lib/actions/companies';
 import AccountRecord from '@lib/records/account';
 import CompanyRecord from '@lib/records/company';
 import {supportPhone} from "@lib/constants/SiteVariables";
+import useToast from "@hooks/useToast";
 
 type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
@@ -19,6 +20,7 @@ export const EntityProvider = ({ children }) => {
   const [entity, setEntity] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { makeToast } = useToast();
   const loggedInUserType = loggedInUser?.converted_entity_type || (loggedInUser?.company_id ? 'company' : 'account');
   const loggedInUserId = loggedInUser?.converted_entity_id || loggedInUser?.company_id || loggedInUser?.account_id;
 
@@ -57,7 +59,9 @@ export const EntityProvider = ({ children }) => {
 
   useEffect(() => {
     if (entity?.borrower?.is_phone_verified !== true) {
-      throw new Error('Please Call Support to Validate Your Phone Number: ' + supportPhone);
+      setLoading(false);
+      setError(true);
+      makeToast("Please Call Support to Validate Your Phone Number: " + supportPhone, 'error');
     }
   }, [entity?.borrower?.is_phone_verified])
 
