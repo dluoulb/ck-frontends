@@ -16,6 +16,7 @@ export default class UserRecord {
   converted_entity_id: string | null;
   converted_entity_type: string | null;
   role: string;
+  is_phone_verified: boolean;
 
   constructor(data) {
     Object.assign(this, removeNulls(data));
