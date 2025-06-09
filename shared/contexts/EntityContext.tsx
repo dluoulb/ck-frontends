@@ -58,12 +58,12 @@ export const EntityProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (entity?.borrower?.is_phone_verified !== true) {
+    if (entity && entity?.borrower?.is_verified !== true) {
       setLoading(false);
       setError(true);
       makeToast("Please Call Support to Validate Your Phone Number: " + supportPhone, 'error');
     }
-  }, [entity?.borrower?.is_phone_verified])
+  }, [entity])
 
   const fetchEntity = (id, type) => {
     setLoading(true);
