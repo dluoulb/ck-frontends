@@ -1,4 +1,5 @@
 import { removeNulls } from '@lib/utils/record_utils';
+import UserRecord from './user';
 
 export default class AccountRecord {
   id: string | null;
@@ -13,6 +14,7 @@ export default class AccountRecord {
   is_past_due: boolean;
   is_bank_connected: string;
   is_bank_connection_pending: string;
+  user: UserRecord;
 
   constructor(data) {
     Object.assign(this, removeNulls(data));
@@ -28,4 +30,7 @@ export default class AccountRecord {
     return parseFloat(this.tier_limit);
   }
 
+  get borrower() {
+    return this.user;
+  }
 }
