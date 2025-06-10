@@ -21,7 +21,7 @@ export default function AddFundsModal({ next }) {
   const api = useApi();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const { refetchBalance } = useVirtualCardBalance();
+  const { balance, refetchBalance } = useVirtualCardBalance();
 
   const vcSubLimit = parseFloat(entity?.vc_sub_limits?.limit_amount);
   const remainingVcSubLimit = parseFloat(entity?.vc_sub_limits?.remaining_limit_amount);
@@ -88,7 +88,7 @@ export default function AddFundsModal({ next }) {
               errors.amount = '* Amount must be greater than zero (0)';
             }
 
-            if (cleanAmount > remainingVcSubLimit) {
+            if (cleanAmount > (remainingVcSubLimit + (balance?.amount || 0))) {
               errors.amount =
                 '* Amount exceeds remaining card limit. Please lower amount and try again.';
             }
