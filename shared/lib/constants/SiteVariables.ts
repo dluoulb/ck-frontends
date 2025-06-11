@@ -29,6 +29,7 @@ export const server = (api = true) => {
 
 export const supportPhone = '+1 (844) 334-3636';
 export const declinedSupportPhone = '+1 (844) 900-3330';
+export const multiUseVcIvrPhone = '+1 (833) 425-5888';
 
 export const formStyles = {
   error: (error) =>

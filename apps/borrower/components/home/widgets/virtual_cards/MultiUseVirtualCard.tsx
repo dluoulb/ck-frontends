@@ -1,5 +1,5 @@
 import React from 'react';
-import { faCreditCard } from '@fortawesome/pro-regular-svg-icons';
+import { faCreditCard, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
@@ -7,11 +7,10 @@ import Script from 'next/script';
 import Loading from '@components/Loading';
 import useModal from '@hooks/useModal';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
-import SuttonVcDisclosure from './SuttonVcDisclosure';
 import PrepaidCardBalance from './PrepaidCardBalance';
 import ExampleVirtualCard from './ExampleVirtualCard';
 import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
-import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
+import { multiUseVcIvrPhone, qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import CkaInfo from './CkaInfo';
 
 export default function MultiUseVirtualCard() {
@@ -66,6 +65,12 @@ export default function MultiUseVirtualCard() {
                 <PrepaidCardBalance allowCardClose={false} />
               </div>
               <div className="col-span-2 mt-5 border-t border-gray-300"></div>
+              <div className="col-span-2 mt-2">
+                <span className="text-gray-600 text-sm">
+                  <FontAwesomeIcon icon={faInfoCircle} className="text-primary-blue mr-2" />
+                  When purchasing in-person, you may be asked for a PIN. Call <span className="font-semibold">{multiUseVcIvrPhone}</span> to set your pin.
+                </span>
+              </div>
               <div className="col-span-2 mt-2">
                 <CkaInfo />
               </div>
