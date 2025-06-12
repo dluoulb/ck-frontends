@@ -5,14 +5,12 @@ import AddToDigitalWalletInstructions from '../AddToDigitalWalletInstructions';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
-// import { useEntity } from '@contexts/EntityContext';
 
 declare const window: any;
 
 export default function MultiUseVirtualCardDetails() {
-  const { virtualCard } = useCompanyVirtualCard();
+  const { virtualCard, refetchVirtualCard, virtualCardRefetching } = useCompanyVirtualCard();
   const [status, setStatus] = useState('');
-  // const { entity } = useEntity();
 
   const widget = {
     onSuccess: () => {
@@ -87,7 +85,11 @@ export default function MultiUseVirtualCardDetails() {
   };
 
   useEffect(() => {
-    if (virtualCard?.pci_token) {
+    refetchVirtualCard();
+  }, []);
+
+  useEffect(() => {
+    if (!virtualCardRefetching && virtualCard?.pci_token) {
       widget.config.token = virtualCard.pci_token;
       window.pciWidget(widget);
     }
@@ -100,7 +102,7 @@ export default function MultiUseVirtualCardDetails() {
         Success! Your card is ready to use
       </div>
       <div id='widget_container'>
-        {!virtualCard?.pci_token && <Loading className="w-14 h-14 my-20 !text-primary" />}
+        {virtualCardRefetching && <Loading className="w-14 h-14 my-20 !text-primary" />}
       </div>
       <p className="m-4 mb-0 bg-gray-50 p-4 rounded-lg">{status}</p>
       {virtualCard?.pci_token && (
