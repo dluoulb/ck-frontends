@@ -36,6 +36,10 @@ export const BuildStack = ({ original }) => {
         <OrderStatus order={original} isTable={true} />
       </p>
       <div className="block 2xl:hidden font-semibold flex gap-1">
+        <span className="font-normal">Payment Terms:</span>
+        <span>{original.product?.installments}</span>
+      </div>
+      <div className="block 2xl:hidden font-semibold flex gap-1">
         <span className="font-normal">Next Payment Date:</span>
         {reformatDate(original.product?.next_payment_date)}
       </div>

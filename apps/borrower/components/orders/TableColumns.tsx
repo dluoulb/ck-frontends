@@ -1,12 +1,14 @@
 import React from 'react';
+import { faEdit } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
 import { formatCurrency } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
 import OrderStatus from '../home/table/OrderStatus';
-  
-export const TableColumns = [
+
+export const TableColumns = (openModalForLoan) => [
   {
     id: 'created_at',
     header: 'Order Date',
@@ -75,18 +77,43 @@ export const TableColumns = [
     cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {
+    id: 'terms',
+    header: 'Payment Terms',
+    hideColumn: 1536,
+    accessorFn: (row) => row.product?.installments,
+    cell: ({ row }) => {
+      return (
+        <div
+          className={
+            row.original.terms_editable
+              ? 'flex items-center gap-2 cursor-pointer'
+              : 'flex items-center gap-2'
+          }
+          onClick={() =>
+            row.original.terms_editable && openModalForLoan(row.original)
+          }
+        >
+          <span>{row.original.product?.installments}</span>
+          {row.original.terms_editable && (
+            <FontAwesomeIcon icon={faEdit} className="text-gray-400 w-4 h-4" />
+          )}
+        </div>
+      );
+    },
+  },
+  {
     id: 'next_payment_date',
     header: 'Next Payment Date',
     hideColumn: 1536,
     accessorFn: (row) => row.product?.next_payment_date,
-    cell: ({ row }) => <NextPayment order={row.original} type="date"/>,
+    cell: ({ row }) => <NextPayment order={row.original} type="date" />,
   },
   {
     id: 'next_payment_amount',
     header: 'Next Payment Amount',
     hideColumn: 1536,
     accessorFn: (row) => row.product?.next_payment_amount,
-    cell: ({ row }) => <NextPayment order={row.original} type="amount"/>,
+    cell: ({ row }) => <NextPayment order={row.original} type="amount" />,
   },
   {
     id: 'isPastDue',
