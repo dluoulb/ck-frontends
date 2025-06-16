@@ -21,7 +21,7 @@ export default function MultiUseVirtualCardDetails() {
     },
     frame: {
       container_id: 'widget_container',
-      iframe_class: 'widget-iframe min-h-[276px] md:min-h-[338px] w-full mx-auto overflow-y-scroll border-0',
+      iframe_class: 'fs-exclude widget-iframe min-h-[276px] md:min-h-[338px] w-full mx-auto overflow-y-scroll border-0',
       //loading spinner
       // src: 'https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/eclipse-black-36.svg',
       spinner: true,
