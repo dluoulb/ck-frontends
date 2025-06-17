@@ -34,7 +34,7 @@ export default function AddToDigitalWalletInstructions() {
               <li>Head to your Wallet app</li>
               <li>Select the plus sign in the upper right corner</li>
               <li>Choose "Debit or Credit Card"</li>
-              <li>Select "Enter card details manually" and enter your Virtual Card information from above</li>
+              <li>Select "Enter card details manually" and enter your Credit Key Card information from above</li>
             </ol>
           </div>
         </div>
