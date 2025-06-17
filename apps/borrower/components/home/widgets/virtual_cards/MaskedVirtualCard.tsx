@@ -19,7 +19,7 @@ export default function MaskedVirtualCard({virtualCard, onView}) {
       <div className="text-md sm:text-sm lg:text-base relative w-72 sm:w-64 lg:w-80 mx-auto">
         <Image
           src={vcMastercard}
-          alt="Virtual Card Image"
+          alt="Credit Key Card Image"
           className="rounded-xl shadow-lg shadow-slate-600"
         />
         <div className="text-white absolute left-5 top-[116px] sm:left-4 sm:top-[104px] lg:left-5 lg:top-32">

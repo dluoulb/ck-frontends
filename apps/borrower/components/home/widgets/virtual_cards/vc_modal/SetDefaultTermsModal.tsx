@@ -62,11 +62,11 @@ export default function SetDefaultTermsModal({ next }) {
     });
     createVirtualCard(api, entity?.id)
     .then(() => {
-      makeToast('Virtual Card Successfully Created', 'success');
+      makeToast('Credit Key Card Successfully Created', 'success');
       next();
     })
     .catch(() => {
-      makeToast('Failed to create virtual card. Please contact Credit Key Support', 'error');
+      makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
       setLoading(false);
     });
   };

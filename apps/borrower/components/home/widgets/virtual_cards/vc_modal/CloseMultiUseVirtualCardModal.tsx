@@ -18,10 +18,10 @@ export default function CloseMultiUseVirtualCardModal({ isModalActive, toggleMod
     closeVirtualCard(api, entity.id)
     .then(() => {
       refetchVirtualCard();
-      makeToast('Virtual card successfully closed', 'success');
+      makeToast('Credit Key Card successfully closed', 'success');
     })
     .catch(() => {
-      makeToast('Failed to close virtual card. Please contact Credit Key Support', 'error');
+      makeToast('Failed to close Credit Key Card. Please contact Credit Key Support', 'error');
     });
     toggleModal();
   };
@@ -36,7 +36,7 @@ export default function CloseMultiUseVirtualCardModal({ isModalActive, toggleMod
         <section>
           <div className="my-2 space-y-4">
             <p className="text-center text-2xl font-bold tracking-wider">
-              Close Virtual Card
+              Close Credit Key Card
             </p>
             <div>
               <p>Are you sure you want to close this card? Once this card has been closed, it can no longer be used.</p>

@@ -59,7 +59,7 @@ export default function PrepaidCardBalance({ allowCardClose }) {
         {allowCardClose && <>
           <PrimaryButton
             ariaLabel="close-virtual-card-button"
-            buttonText="Close virtual card"
+            buttonText="Close Credit Key Card"
             buttonColor="bg-red-700"
             hoverClass="hover:bg-red-900"
             containerClass="w-max absolute bottom-0 -my-1 sm:-my-2"

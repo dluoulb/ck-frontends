@@ -8,7 +8,7 @@ export default function ExampleVirtualCard() {
       <div className="w-[275px] lg:w-[315px] mx-auto py-5">
         <Image
           src={vc}
-          alt="Virtual Card Example Image"
+          alt="Credit Key Card Example Image"
           className="rounded-xl shadow-lg shadow-slate-800"
         />
       </div>

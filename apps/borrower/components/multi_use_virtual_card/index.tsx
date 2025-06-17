@@ -21,7 +21,7 @@ export default function MultiUseVirtualCard() {
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Virtual Card
+          Credit Key Card
         </p>
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <div className="py-2 md:py-3 px-2 md:px-3">
