@@ -9,6 +9,9 @@ import Image from 'next/image';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
 import Plaid from '../Plaid';
+import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function VcFlowDefaultPaymentMethodModal({
   hasAlert,
@@ -17,13 +20,22 @@ export default function VcFlowDefaultPaymentMethodModal({
   toggleModal,
 }) {
   const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
+  const { entity } = useEntity();
+  const { user } = useUser();
+
+  const handleSubmit = () => {
+    const fullstory = new FullStory();
+    fullstory.newPaymentMethodEvent(user?.id, entity?.id);
+
+    next();
+  };
 
   const BankComponent = () => {
     if (usePlaid) {
       return (
         <Plaid
           hasAlert={hasAlert}
-          next={next}
+          next={handleSubmit}
           toggleModal={toggleModal}
           setHasAlert={setHasAlert}
           setUsePlaid={setUsePlaid}
@@ -33,7 +45,7 @@ export default function VcFlowDefaultPaymentMethodModal({
       return (
         <BankForm
           hasAlert={hasAlert}
-          next={next}
+          next={handleSubmit}
           toggleModal={toggleModal}
           setHasAlert={setHasAlert}
           createVcFlow={true}

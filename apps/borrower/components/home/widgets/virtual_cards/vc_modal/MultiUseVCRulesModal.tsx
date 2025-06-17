@@ -2,9 +2,20 @@ import React, { useState } from 'react';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import OutlineButton from '@components/buttons/OutlineButton';
+import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function MultiUseVCRulesModal({ next, toggleModal }) {
   const [agree, setAgree] = useState(false);
+  const { entity } = useEntity();
+  const { user } = useUser();
+
+  const handleClick = () => {
+    const fullstory = new FullStory();
+    fullstory.agreeVcRulesEvent(user?.id, entity?.id);
+    next();
+  };
 
   return (
     <div role={MultiUseVCRulesModal.role}>
@@ -59,7 +70,7 @@ export default function MultiUseVCRulesModal({ next, toggleModal }) {
             buttonColor="bg-primary-blue"
             hoverClass="hover:bg-primary-blue-hover"
             containerClass="w-max"
-            onClick={next}
+            onClick={handleClick}
             disabled={!agree}
           />
         </div>

@@ -9,6 +9,9 @@ import AddFundsModalWrapper from './vc_modal/AddFundsModalWrapper';
 import AddFundsMessage from './AddFundsMessage';
 import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
 import FundsExpirationMessage from './FundsExpirationMessage';
+import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function PrepaidCardBalance({ allowCardClose }) {
   const { isModalActive, toggleModal } = useModal();
@@ -16,6 +19,8 @@ export default function PrepaidCardBalance({ allowCardClose }) {
   const { balance, balanceLoading } = useVirtualCardBalance();
   const minute = 1000 * 60;
   const hour = minute * 60;
+  const { entity } = useEntity();
+  const { user } = useUser();
 
   const displayExpirationClock = () => {
     if (!balance?.next_sweep_at) return <AddFundsMessage />
@@ -38,6 +43,12 @@ export default function PrepaidCardBalance({ allowCardClose }) {
     return formatCurrency(balance?.amount || 0)
   };
 
+  const handleAddFunds = () => {
+    const fullstory = new FullStory();
+    fullstory.initiateAddFundsEvent(user?.id, entity?.id);
+    toggleAddFunds();
+  };
+
   if (balanceLoading) return <Loading />;
 
   return (
@@ -54,7 +65,7 @@ export default function PrepaidCardBalance({ allowCardClose }) {
           buttonColor="bg-primary-blue"
           hoverClass="hover:bg-primary-blue-hover"
           textSize="text-md xl:text-xl"
-          onClick={toggleAddFunds}
+          onClick={handleAddFunds}
         />
         {allowCardClose && <>
           <PrimaryButton

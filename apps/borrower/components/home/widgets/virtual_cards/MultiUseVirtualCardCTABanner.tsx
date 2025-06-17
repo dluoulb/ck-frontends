@@ -6,9 +6,12 @@ import Notification from '@components/Notification';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { faPartyHorn } from '@fortawesome/pro-solid-svg-icons';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function MultiUseVirtualCardCTABanner() {
   const { entity } = useEntity();
+  const { user } = useUser();
   const vcProps = useCompanyVirtualCard();
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
   const multiUseVcEnabled = activeBanner?.name === 'multi_use_virtual_card';
@@ -19,7 +22,13 @@ export default function MultiUseVirtualCardCTABanner() {
   const oneDay = 1000*60*60*24;
   const displayCtaExpired = () => {
     return (vcCtaDisplayedOn && Date.now() > (vcCtaDisplayedOn + oneDay));
-  }
+  };
+
+  const handleClick = () => {
+    const fullstory = new FullStory();
+    fullstory.activateCardEvent(user?.id, entity?.id);
+    toggleModal();
+  };
 
   useEffect(() => {
     if (!multiUseVcEnabled) return;
@@ -54,7 +63,7 @@ export default function MultiUseVirtualCardCTABanner() {
                 buttonText="Create my card today"
                 buttonColor="bg-primary-blue"
                 hoverClass="hover:bg-primary-blue-hover"
-                onClick={toggleModal}
+                onClick={handleClick}
               />
             }
             buttonClass="border-0"

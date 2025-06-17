@@ -11,11 +11,14 @@ import { ListboxOption } from '@headlessui/react';
 import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import MerchantRecord from '@lib/records/merchant';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function SetDefaultTermsModal({ next }) {
   const api = useApi();
   const { makeToast } = useToast();
   const { entity, fetchEntity } = useEntity();
+  const { user } = useUser();
   const [merchant, setMerchant] = useState<MerchantRecord>();
   const [terms, setTerms] = useState<any>();
   const [defaultTerm, setDefaultTerm] = useState<any>();
@@ -53,6 +56,8 @@ export default function SetDefaultTermsModal({ next }) {
     setLoading(true);
     updateRechargeTerm(merchant_id, term)
     .then(() => {
+      const fullstory = new FullStory();
+      fullstory.setDefaultTermsEvent(user?.id, entity?.id, term?.term);
       makeToast('Default Term Successfully Updated', 'success');
       fetchEntity({ company_id: entity?.id });
     })

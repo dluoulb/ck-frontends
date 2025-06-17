@@ -3,12 +3,18 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import CardholderAgreement from './CardholderAgreement';
 import OutlineButton from '@components/buttons/OutlineButton';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
   const [agree, setAgree] = useState(false);
   const { entity } = useEntity();
+  const { user } = useUser();
 
   const handleAgree = () => {
+    const fullstory = new FullStory();
+    fullstory.acceptCardholderAgreementEvent(user?.id, entity?.id);
+
     if (entity.is_bank_connected) {
       goTo('set_default_terms');
     } else {

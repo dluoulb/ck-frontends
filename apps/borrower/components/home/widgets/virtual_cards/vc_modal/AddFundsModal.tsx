@@ -9,6 +9,8 @@ import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
 import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 type FormValues = {
   amount: string;
@@ -18,6 +20,7 @@ type FormErrors = Partial<Record<keyof FormValues, string>>;
 
 export default function AddFundsModal({ next }) {
   const { entity, fetchEntity } = useEntity();
+  const { user } = useUser();
   const api = useApi();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -33,7 +36,10 @@ export default function AddFundsModal({ next }) {
     setLoading(true);
     addFunds(api, cleanAmount)
     .then(() => {
-      makeToast(`Added ${formatCurrency(cleanAmount)} to card`, 'success'); 
+      const fullstory = new FullStory();
+      const formattedAmount = formatCurrency(cleanAmount);
+      makeToast(`Added ${formattedAmount} to card`, 'success'); 
+      fullstory.addFundsToCardEvent(user?.id, entity?.id, formattedAmount);
       refetchBalance();
       fetchEntity();
       next();

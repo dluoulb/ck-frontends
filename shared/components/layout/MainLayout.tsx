@@ -41,7 +41,7 @@ export default function MainLayout({ children }) {
     if (user && !isImpersonating) {
       const fullstory = new FullStory();
       fullstory.identifyUser(user.email, { displayName: user.full_name });
-      fullstory.trackEvent({ user: user });
+      fullstory.bpEvent(user.email);
     }
   }, [user]);
 
