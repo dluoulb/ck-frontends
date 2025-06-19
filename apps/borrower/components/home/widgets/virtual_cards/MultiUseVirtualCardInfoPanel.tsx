@@ -3,8 +3,20 @@ import { faCircleCheck } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import CkaInfo from './CkaInfo';
+import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
+import FullStory from '@lib/utils/fullstory';
 
 export default function MultiUseVirtualCardInfoPanel({ toggleModal }) {
+  const { entity } = useEntity();
+  const { user } = useUser();
+
+  const handleClick = () => {
+    const fullstory = new FullStory();
+    fullstory.activateCardEvent(user?.id, entity?.id);
+    toggleModal();
+  };
+
   return (
     <div className="text-sm lg:text-base h-full">
       <ul className="pt-2">
@@ -37,7 +49,7 @@ export default function MultiUseVirtualCardInfoPanel({ toggleModal }) {
         hoverClass="hover:bg-primary-blue-hover"
         containerClass="w-48 h-14 mt-2"
         pill={true}
-        onClick={toggleModal}
+        onClick={handleClick}
       />
       <div className="hidden xl:block mt-2">
         <CkaInfo />

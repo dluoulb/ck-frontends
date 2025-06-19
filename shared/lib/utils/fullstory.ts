@@ -7,6 +7,8 @@ import {
 
 import { platform } from '@lib/constants/SiteVariables';
 import { rollbarConfig } from './rollbar';
+import UserRecord from '@lib/records/user';
+import CompanyRecord from '@lib/records/company';
 
 const iframedMerchants = ['chargeafter', 'samsung', 'lenovo'];
 
@@ -49,11 +51,43 @@ export default class FullStory {
     });
   }
 
-  trackEvent({ user = {} }: { user?: any }) {
+  trackEvent(name: string, properties: any = {}) {
     FS('trackEvent', {
-      name: 'Borrower Portal',
-      properties: { email: user.email },
+      name,
+      properties,
     });
+  }
+
+  bpEvent(email: string) {
+    this.trackEvent('Borrower Portal', { email });
+  }
+
+  activateCardEvent(userId: string, companyId: string) {
+    this.trackEvent('Activate Card', { companyId, userId });
+  }
+
+  agreeVcRulesEvent(userId: string, companyId: string) {
+    this.trackEvent('Agreed to VC Rules', { companyId, userId });
+  }
+
+  acceptCardholderAgreementEvent(userId: string, companyId: string) {
+    this.trackEvent('Accepted Cardholder Agreement', { companyId, userId });
+  }
+
+  newPaymentMethodEvent(userId: string, companyId: string) {
+    this.trackEvent('Created New Payment Method', { companyId, userId });
+  }
+
+  setDefaultTermsEvent(userId: string, companyId: string, months: number) {
+    this.trackEvent('Select Default Payment Terms', { companyId, userId, months });
+  }
+
+  initiateAddFundsEvent(userId: string, companyId: string) {
+    this.trackEvent('Clicked Add Funds to Card', { companyId, userId });
+  }
+
+  addFundsToCardEvent(userId: string, companyId: string, amount: string) {
+    this.trackEvent('Added Funds', { companyId, userId, amount });
   }
 }
 
