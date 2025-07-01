@@ -10,6 +10,7 @@ import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import DefaultTermsDisplay from './DefaultTermsDisplay';
 import Loading from '@components/Loading';
+import BillingCycleDisplay from './BillingCycleDisplay';
 
 export default function DefaultSettings() {
   const { entity, entityLoading } = useEntity();
@@ -64,6 +65,7 @@ export default function DefaultSettings() {
                 </Link>
               </div>
             </div>
+              <BillingCycleDisplay />
             <div className="flex flex-col">
               <div className="font-semibold text-secondary-gray text-base md:text-lg">
                 {!defaultTermSettings?.length ? null : <p>Default Terms</p>}
