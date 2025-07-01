@@ -21,6 +21,10 @@ export default function Stats() {
       name: 'Maximum Credit',
       value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
+      link: {
+        url: 'https://www.creditkey.com/credit-key-increase-request',
+        name: 'Request Increase',
+      }
     },
     {
       name: 'Credit in Use',
@@ -72,7 +76,24 @@ export default function Stats() {
                 stat.className
               )}
             >
-              {stat.value}
+              {stat.link ? (
+                <div className="flex flex-col items-start">
+                  <span>{stat.value}</span>
+                  <a
+                    href={stat.link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-primary-blue no-underline hover:underline mt-1 inline-block"
+                  >
+                    {stat.link.name}
+                  </a>
+                </div>
+              ) : (
+                <div className="flex flex-col items-start">
+                  <span>{stat.value}</span>
+                  <span className="mt-1 text-xs invisible">placeholder</span>
+                </div>
+              )}
             </dd>
           </div>
         );
