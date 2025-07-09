@@ -13,7 +13,6 @@ import ExportPaymentHistory from './ExportPaymentHistory';
 import Promo from './Promo';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
-import MultiUseVirtualCardCTABanner from './widgets/virtual_cards/MultiUseVirtualCardCTABanner';
 import SingleUseVirtualCardCTABanner from './widgets/virtual_cards/SingleUseVirtualCardCTABanner';
 
 type NotificationData = {
@@ -86,7 +85,6 @@ export default function BorrowerDashboard() {
             }
           />
         )}
-        <MultiUseVirtualCardCTABanner />
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">
