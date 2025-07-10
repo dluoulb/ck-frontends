@@ -1,10 +1,12 @@
 import Link from 'next/link';
+import { faEdit } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 import OrderStatus from '../home/table/OrderStatus';
 
-export const BuildStack = ({ original }) => {
+export const BuildStack = ({ original, onEditPaymentTerm }) => {
   return (
     <>
       <p className="block xl:hidden font-semibold flex items-center gap-1">
@@ -37,7 +39,21 @@ export const BuildStack = ({ original }) => {
       </p>
       <div className="block 2xl:hidden font-semibold flex gap-1">
         <span className="font-normal">Payment Terms:</span>
-        <span>{original.product?.installments}</span>
+        <div
+          className={
+            original.terms_editable
+              ? 'flex items-center gap-2 cursor-pointer'
+              : 'flex items-center gap-2'
+          }
+          onClick={() =>
+            original.terms_editable && onEditPaymentTerm?.(original)
+          }
+        >
+          <span>{original.product?.installments}</span>
+          {original.terms_editable && (
+            <FontAwesomeIcon icon={faEdit} className="text-gray-400 w-4 h-4" />
+          )}
+        </div>
       </div>
       <div className="block 2xl:hidden font-semibold flex gap-1">
         <span className="font-normal">Next Payment Date:</span>
