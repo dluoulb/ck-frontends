@@ -13,7 +13,6 @@ import ExportPaymentHistory from './ExportPaymentHistory';
 import Promo from './Promo';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
-import SingleUseVirtualCardCTABanner from './widgets/virtual_cards/SingleUseVirtualCardCTABanner';
 
 type NotificationData = {
   Active: boolean;

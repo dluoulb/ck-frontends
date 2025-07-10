@@ -64,4 +64,9 @@ export default class CompanyRecord {
   get max_purchase_amount() {
     return this.credit_line.amount;
   }
+
+  get vc_enabled() {
+    // keeping this garbage for now in case we need to swap back to stripe cards
+    return this.cta_banners?.find((b) => b.enabled)?.name === 'multi_use_virtual_card';
+  }
 }

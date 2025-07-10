@@ -33,4 +33,8 @@ export default class AccountRecord {
   get borrower() {
     return this.user;
   }
+
+  get vc_enabled() {
+    return false;
+  }
 }

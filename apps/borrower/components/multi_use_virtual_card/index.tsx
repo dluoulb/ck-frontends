@@ -3,15 +3,21 @@ import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import MultiUseVirtualCardWidget from '../home/widgets/virtual_cards/MultiUseVirtualCard';
 import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 import useModal from '@hooks/useModal';
-import DefaultVirtualCardTerms from '../home/widgets/default_settings/DefaultVirtualCardTerms';
-import AddToDigitalWalletInstructions from '../home/widgets/virtual_cards/AddToDigitalWalletInstructions';
 import HowToUse from '../home/widgets/virtual_cards/HowToUse';
+import Error from 'next/error';
+import Loading from '@components/Loading';
 
 export default function MultiUseVirtualCard() {
   const { entity } = useEntity();
   const { isModalActive, toggleModal } = useModal();
 
-  if (!entity) return;
+  if (!entity) {
+    return <Loading />
+  }
+
+  if (!entity?.vc_enabled) {
+    return <Error statusCode={404} />
+  }
 
   return (
     <div
