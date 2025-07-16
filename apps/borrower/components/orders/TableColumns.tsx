@@ -14,7 +14,7 @@ export const TableColumns = (openModalForLoan) => [
     header: 'Order Date',
     accessorKey: 'created_at',
     hideColumn: 0,
-    cell: ({ row }) => <BuildStack original={row?.original} />,
+    cell: ({ row }) => <BuildStack original={row?.original} onEditPaymentTerm={openModalForLoan} />,
   },
   {
     id: 'order_key',

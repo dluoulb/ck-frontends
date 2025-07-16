@@ -15,6 +15,14 @@ import TableHeader from '@components/TableHeader';
 import { useWindowSize } from '@hooks/useWindowSize';
 import UpdateTermsModalWrapper from '../../../apps/borrower/components/terms/UpdateTermsModalWrapper';
 
+function isColumnVisible(hideColumn, viewportWidth) {
+  if (typeof hideColumn === 'number') {
+    return viewportWidth >= hideColumn;
+  }
+  
+  return hideColumn !== true;
+}
+
 export default function OrdersTable({
   orders,
   entity,
@@ -51,10 +59,7 @@ export default function OrdersTable({
       ...col,
       meta: {
         ...col.meta,
-        isVisible:
-          col.hideColumn !== true
-            ? size.width >= col.hideColumn
-            : !col.hideColumn,
+        isVisible: isColumnVisible(col.hideColumn, size.width)
       },
     }));
   }, [size.width, openModalForLoan]);
