@@ -6,7 +6,6 @@ import { supportLink } from '@lib/constants/SiteVariables';
 
 function usePrimaryRoutes() {
   const { entity } = useEntity();
-  const multiUseVcEnabled = entity?.cta_banners?.find((b) => b.enabled)?.name === 'multi_use_virtual_card';
   const mobileApp = localStorage.getItem('mobileApp') === 'true'
 
   const routes = [
@@ -38,7 +37,7 @@ function usePrimaryRoutes() {
       icon: faCreditCard,
       name: 'Virtual Card',
       url: '/virtual_card',
-      enabled: multiUseVcEnabled && !mobileApp,
+      enabled: entity?.vc_enabled && !mobileApp,
     },
     {
       icon: faUser,
