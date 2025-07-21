@@ -57,14 +57,6 @@ export const EntityProvider = ({ children }) => {
     retry: 1,
   });
 
-  useEffect(() => {
-    if (entity && entity?.borrower?.is_verified !== true) {
-      setLoading(false);
-      setError(true);
-      makeToast("Please Call Support to Validate Your Phone Number: " + supportPhone, 'error');
-    }
-  }, [entity])
-
   const fetchEntity = (id, type) => {
     setLoading(true);
     getEntity.mutateAsync({ id, type });
