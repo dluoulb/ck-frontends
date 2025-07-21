@@ -1,8 +1,13 @@
 import React from 'react';
-import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faExclamationTriangle,
+  faInfoCircle,
+} from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 import Notification from '@components/Notification';
+import Tooltip from '@components/Tooltip';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import { formatCurrency } from '@lib/utils/formatters';
@@ -11,9 +16,10 @@ export default function Stats() {
   const { entity } = useEntity();
   const { stats, statsError, isLoading } = useBorrowerDeps();
 
-  const remainingCredit = entity?.credit_line !== undefined ?
-    entity.credit_line.remaining_amount :
-    entity.max_purchase_amount - stats?.credit_utilized;
+  const remainingCredit =
+    entity?.credit_line !== undefined
+      ? entity.credit_line.remaining_amount
+      : entity.max_purchase_amount - stats?.credit_utilized;
   let approvedUser = entity?.status === 'approved';
 
   const entityData = [
@@ -24,7 +30,7 @@ export default function Stats() {
       link: {
         url: 'https://www.creditkey.com/credit-key-increase-request',
         name: 'Request Increase',
-      }
+      },
     },
     {
       name: 'Credit in Use',
@@ -50,7 +56,7 @@ export default function Stats() {
         iconBorderColor="border-error"
         textColor="text-error"
         bgColor="bg-error/20"
-        buttonClass='hover:border-error'
+        buttonClass="hover:border-error"
         headline="An Error Occurred"
         message={`Unable to collect available ${entity?.type} credit and order data. Please contact Credit Key Support for assistance.`}
       />
@@ -79,14 +85,26 @@ export default function Stats() {
               {stat.link ? (
                 <div className="flex flex-col items-start">
                   <span>{stat.value}</span>
-                  <a
-                    href={stat.link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-primary-blue no-underline hover:underline mt-1 inline-block"
-                  >
-                    {stat.link.name}
-                  </a>
+                  <div className='flex items-center text-sm'>
+                    <a
+                      href={stat.link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary-blue no-underline hover:underline inline-block"
+                    >
+                      {stat.link.name}
+                    </a>
+                    <Tooltip
+                      tooltip_text="You are able to request a line increase once every 6 months"
+                      trigger_class="cursor-pointer max-w-max border-none"
+                      container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
+                    >
+                      <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        className="text-primary-blue ml-2 text-base"
+                      />
+                    </Tooltip>
+                  </div>
                 </div>
               ) : (
                 <div className="flex flex-col items-start">
