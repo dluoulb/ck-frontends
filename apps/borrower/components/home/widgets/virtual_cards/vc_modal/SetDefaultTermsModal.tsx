@@ -53,6 +53,10 @@ export default function SetDefaultTermsModal({ next }) {
   };
 
   const onSave = (merchant_id, term) => {
+    if (!term) {
+      makeToast('Please select a default term', 'error');
+      return;
+    }
     setLoading(true);
     updateRechargeTerm(merchant_id, term)
     .then(() => {
@@ -165,7 +169,7 @@ export default function SetDefaultTermsModal({ next }) {
             hoverClass="hover:bg-primary-blue-hover"
             containerClass="w-full"
             icon={faLockAlt}
-            disabled={loading}
+            disabled={loading || !term}
             isLoading={loading}
             onClick={() => onSave(defaultTerm?.merchant_id, term)}
           />
