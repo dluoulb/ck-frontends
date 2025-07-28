@@ -18,6 +18,7 @@ import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
 import FullStory from '@lib/utils/fullstory';
 import { rollbarConfig } from '@lib/utils/rollbar';
+import Head from 'next/head';
 
 config.autoAddCss = false;
 
@@ -40,6 +41,9 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider config={rollbarConfig}>
+      <Head>
+        <meta name="apple-itunes-app" content="app-id=6503043940" />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <SuperTokensWrapper>
           <ApiContext.Provider value={api}>
