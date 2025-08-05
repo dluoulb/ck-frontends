@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { faEdit, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
 import { updateRechargeTerm } from '@lib/actions/companies';
-import DefaultTermSettingsModal from './DefaultTermsModal';
-import { getMerchant } from '@lib/actions/merchants';
-import { faEdit, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
-import MerchantRecord from '@lib/records/merchant';
 import { getApprovedTerms } from '@lib/actions/entities';
-import Loading from '@components/Loading';
+import { getMerchant } from '@lib/actions/merchants';
+import MerchantRecord from '@lib/records/merchant';
+import { getTermDisplay } from '@lib/utils/formatters';
+import DefaultTermSettingsModal from './DefaultTermsModal';
 
 export default function DefaultVirtualCardTerms() {
   const api = useApi();
   const { makeToast } = useToast();
   const { entity, fetchEntity } = useEntity();
-  const { defaultTermSettings } = useBorrowerDeps();
+  const { defaultTermSettings = [] } = useBorrowerDeps();
   const [merchant, setMerchant] = useState<MerchantRecord>();
   const [defaultVCTerm, setDefaultVCTerm] = useState<any>();
   const [error, setError] = useState(false);
@@ -27,16 +28,6 @@ export default function DefaultVirtualCardTerms() {
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
     defaultTermSettings[0]
   );
-
-  const getTermDisplay = (term) => {
-    if (term.default_term?.term_period === 'days') return '30 Days';
-
-    if (term.default_term?.term > 1) {
-      return `${term.default_term?.term} Months`;
-    } else {
-      return `${term.default_term?.term} Month`;
-    }
-  };
 
   const onSave = (merchant_id, term) => {
     setLoading(true);
@@ -61,7 +52,10 @@ export default function DefaultVirtualCardTerms() {
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast('An error occurred. Please contact Credit Key Support', 'error');
+        makeToast(
+          'An error occurred. Please contact Credit Key Support',
+          'error'
+        );
         setError(true);
       });
   }, []);
@@ -69,30 +63,37 @@ export default function DefaultVirtualCardTerms() {
   useEffect(() => {
     if (!merchant) return;
 
-    const virtualCardDefaultTerm = (defaultTermSettings || []).find(setting => {
+    const virtualCardDefaultTerm = (defaultTermSettings || []).find(
+      (setting) => {
         return setting.merchant_id === merchant.id;
-      });
+      }
+    );
     setDefaultVCTerm(virtualCardDefaultTerm);
 
     if (!virtualCardDefaultTerm) {
       getApprovedTerms(api, entity.id, merchant.id)
-      .then((resp) => {
-        setDefaultVCTerm({
-          merchant_id: merchant.id,
-          merchant_name: merchant.name,
-          term_options: resp.terms,
+        .then((resp) => {
+          setDefaultVCTerm({
+            merchant_id: merchant.id,
+            merchant_name: merchant.name,
+            term_options: resp.terms,
+          });
+        })
+        .catch(() => {
+          setError(true);
         });
-      })
-      .catch(() => {
-        setError(true);
-      });
     }
   }, [defaultTermSettings, merchant]);
 
   return (
-    <div className="flex flex-col gap-2 w-full" role={DefaultVirtualCardTerms.role}>
-      {!defaultVCTerm && !error && (<Loading />)}
-      {!defaultVCTerm && error && (<p className="text-rose-600">Error loading default terms</p>)}
+    <div
+      className="flex flex-col gap-2 w-full"
+      role={DefaultVirtualCardTerms.role}
+    >
+      {!defaultVCTerm && !error && <Loading />}
+      {!defaultVCTerm && error && (
+        <p className="text-rose-600">Error loading default terms</p>
+      )}
       {defaultTermSettings && (
         <DefaultTermSettingsModal
           modalState={modalState}
@@ -120,7 +121,7 @@ export default function DefaultVirtualCardTerms() {
             <div className="flex items-center">
               {!defaultVCTerm?.default_term ? (
                 <strong
-                  className="text-primary-blue-hover text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
+                  className="text-primary-blue text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
                   onClick={() => {
                     setModalState(defaultVCTerm);
                     toggleModal();
@@ -131,7 +132,9 @@ export default function DefaultVirtualCardTerms() {
               ) : (
                 <p className="font-avenir-book text-opaque-navy text-sm pr-1">
                   Default Term:
-                  <strong className="ml-1">{getTermDisplay(defaultVCTerm)}</strong>
+                  <strong className="ml-1">
+                    {getTermDisplay(defaultVCTerm)}
+                  </strong>
                   {entity?.tier !== 'NETX' && (
                     <FontAwesomeIcon
                       className="ml-2 text-primary-blue cursor-pointer"
@@ -153,4 +156,3 @@ export default function DefaultVirtualCardTerms() {
 }
 
 DefaultVirtualCardTerms.role = 'default-virtual-card-terms-component';
-

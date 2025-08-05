@@ -54,7 +54,7 @@ export default function DeletePmModal({
               ? 'Are you sure?'
               : 'Default payment methods cannot be deleted.'}
           </div>
-          <div className='text-sm sm:text-base'>
+          <div className="text-sm sm:text-base">
             {!payment_method?.is_default ? (
               <p>
                 Please confirm you'd like to delete
@@ -74,7 +74,7 @@ export default function DeletePmModal({
                 contact our support team for further assistance.
                 <p className="my-2">
                   <a
-                    href="mailto: support@creditkey.com"
+                    href="mailto:support@creditkey.com"
                     className="no-underline text-primary-blue mr-2 cursor-pointer"
                   >
                     support@creditkey.com

@@ -56,8 +56,8 @@ export default function BorrowerDashboard() {
       role={BorrowerDashboard.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Borrower Dashboard
+        <p className="text-2xl md:text-3xl font-bold text-primary capitalize pt-3">
+          Dashboard
         </p>
         <Promo />
         {notification && notification?.Active && (
@@ -84,21 +84,20 @@ export default function BorrowerDashboard() {
             }
           />
         )}
-        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
+        <div className="relative rounded-md">
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">
             <BaseGrid gridContainerClass="grid grid-cols-1 md:grid-cols-6 gap-y-1.5 md:gap-y-3">
-              <BaseGridItem gridConfig="!py-2 md:!py-3 col-span-7 row-span-1 !border-gray-200 !border-x-0 !rounded-none !px-2 md:!px-3">
+              <BaseGridItem gridConfig="border border-border-grey rounded-md col-span-7 row-span-1 !px-2 md:!px-3">
                 <Stats />
               </BaseGridItem>
-
               <Widgets />
 
               <ActiveOrdersTable />
 
-              <BaseGridItem gridConfig="col-span-7 mx-2 md:mx-3 !py-1 !px-2 mb-2 md:mb-3">
+              <div className="col-span-7">
                 <ExportPaymentHistory />
-              </BaseGridItem>
+              </div>
             </BaseGrid>
           </div>
         </div>

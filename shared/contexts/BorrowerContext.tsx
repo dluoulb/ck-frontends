@@ -1,14 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import PortalLayout from '@apps/borrower/components/layout/PortalLayout';
 import { useUser } from '@contexts/UserContext';
 import useDefaultTerms from '@hooks/useDefaultTerms';
 import useOrders from '@hooks/useOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
 import { useEntity } from './EntityContext';
-import { PromoContextProvider } from './PromoContext';
 import useCompanyUsers from '../hooks/useCompanyUsers';
 
 const BorrowerContext = createContext(null);
@@ -28,7 +26,7 @@ export const BorrowerContextProvider = ({ children }) => {
   );
   const defaultTermsProps = useDefaultTerms(
     entity,
-    ['/borrower', '/borrower/virtual_card'].includes(router?.pathname)
+    ['/borrower', '/borrower/virtual_card', '/borrower/wallet'].includes(router?.pathname)
   );
   const paymentMethodProps = usePaymentMethods(
     user,
@@ -66,9 +64,7 @@ export const BorrowerContextProvider = ({ children }) => {
 
   return (
     <BorrowerContext.Provider value={dependencies}>
-      <PromoContextProvider>
-        <PortalLayout>{children}</PortalLayout>
-      </PromoContextProvider>
+      {children}
     </BorrowerContext.Provider>
   );
 };

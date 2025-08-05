@@ -57,7 +57,7 @@ export default function SettingsWidget() {
     );
 
   return (
-    <BaseGridItem gridConfig="col-span-7 md:col-span-3 !bg-background-success/60 mx-2 md:ml-3 md:mr-1.5">
+    <BaseGridItem gridConfig="col-span-7 md:col-span-3 rounded-md !bg-[#F4F8FF] border border-border-gray rounded-md md:mr-2">
       <DefaultSettings />
     </BaseGridItem>
   );

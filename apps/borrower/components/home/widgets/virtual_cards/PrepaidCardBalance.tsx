@@ -1,8 +1,10 @@
 import React from 'react';
 import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
 
+import usePendingAuthorizations from '@apps/borrower/hooks/usePendingAuthorizations';
 import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import { Skeleton } from '@components/components/ui/skeleton';
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
@@ -19,9 +21,13 @@ export default function PrepaidCardBalance({ allowCardClose, isJitEnabled }) {
   const { isModalActive: isAddFundsActive, toggleModal: toggleAddFunds } =
     useModal();
   const { balance, balanceLoading } = useVirtualCardBalance();
+  const { entity } = useEntity();
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
+    entity?.id
+  );
+
   const minute = 1000 * 60;
   const hour = minute * 60;
-  const { entity } = useEntity();
   const { user } = useUser();
 
   const displayExpirationClock = () => {
@@ -62,14 +68,26 @@ export default function PrepaidCardBalance({ allowCardClose, isJitEnabled }) {
 
   if (balanceLoading) return <Loading />;
 
+  const pendingCharges = pendingAuths?.pending_total || 0;
+
   return (
     <>
       {isJitEnabled ? (
-        <div className="relative text-base text-neutral-800 h-full min-h-36 bg-white rounded-lg p-5 shadow-lg shadow-slate-400 grid gap-y-4">
+        <div className="relative text-base text-neutral-800 bg-white rounded-lg p-5 shadow-slate-400">
           <div className="flex justify-between xl:text-xl">
-            <span className="font-semibold">Able to Spend:</span>
+            <span>Able to Spend:</span>
             <span className="font-bold">
               {formatCurrency(entity.vc_sub_limits.remaining_limit_amount || 0)}
+            </span>
+          </div>
+          <div className="flex justify-between xl:text-xl">
+            <span>Pending charges:</span>
+            <span className="font-bold">
+              {pendingAuthsLoading ? (
+                <Skeleton className="w-20 h-7" />
+              ) : (
+                formatCurrency(pendingCharges)
+              )}
             </span>
           </div>
         </div>

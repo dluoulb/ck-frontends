@@ -10,6 +10,13 @@ import { parseUserJwt } from '@lib/utils/authorization';
 import FullStory from '@lib/utils/fullstory';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
+import { Manrope } from 'next/font/google';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['200','500', '600', '700'],
+  display: 'swap',
+})
 
 type TokenData = {
   userID: string;
@@ -49,11 +56,11 @@ export default function MainLayout({ children }) {
     return <Loading className="w-14 h-14 my-36" />;
 
   return (
-    <div className="flex flex-col min-h-screen font-manrope relative">
+    <div className={`flex flex-col min-h-screen relative font-sans ${manrope.className}`}>
       <Title pathname={router.pathname} />
       <StaticHeader />
-      <div className="flex-grow flex flex-col min-h-screen sm:min-h-auto w-full mb-48 lg:mb-0 pb-48">
-        <div className="w-[90%] xl:container 2xl:max-w-full mx-auto 2xl:px-8 pt-16 flex-grow">
+      <div className="flex-grow flex flex-col min-h-screen sm:min-h-auto w-full mb-48 lg:mb-0 pb-48 bg-gray-50">
+        <div className="w-[90%] xl:container 2xl:max-w-7xl mx-auto 2xl:px-8 pt-16 flex-grow">
           {children}
         </div>
       </div>

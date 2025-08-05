@@ -3,7 +3,7 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
  */
-export const formatCurrency = (value, removeDecimal=false) => {
+export const formatCurrency = (value, removeDecimal = false) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -65,13 +65,31 @@ export const formatZip = (value) => {
 export function getDaySuffix(day: number): string {
   if (day >= 11 && day <= 13) return 'th';
   switch (day % 10) {
-    case 1: return 'st';
-    case 2: return 'nd';
-    case 3: return 'rd';
-    default: return 'th';
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
   }
 }
 
 export function formatBillingCycleDay(day: number): string {
   return `${day}${getDaySuffix(day)}`;
 }
+
+export const getTermDisplay = (term) => {
+  if (term.default_term?.term_period === 'days') return '30 Days';
+
+  if (term.default_term?.term > 1) {
+    return `${term.default_term?.term} Months`;
+  } else {
+    return `${term.default_term?.term} Month`;
+  }
+};
+
+export const formatCardNumber = (lastFour: string) => {
+  return `•••• •••• •••• ${lastFour}`;
+};

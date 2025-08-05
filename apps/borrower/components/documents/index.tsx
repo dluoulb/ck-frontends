@@ -10,7 +10,7 @@ export default function DocumentIndex() {
       role={DocumentIndex.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">Documents</p>
+        <p className="text-2xl md:text-3xl font-bold text-primary capitalize">Documents</p>
         <DocumentUploadForm />
         <DocumentList />
       </div>

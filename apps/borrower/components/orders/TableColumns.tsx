@@ -1,26 +1,42 @@
 import React from 'react';
-import { faEdit } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
-import { formatCurrency } from '@lib/utils/formatters';
+import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
 import OrderStatus from '../home/table/OrderStatus';
+import OrderTotalColumn from '../home/table/OrderTotalColumn';
+import TermsColumn from '../home/table/TermsColumn';
+
+const TermsCell = ({ order }) => {
+  const isEditable = order.terms_editable;
+  const installments = Number(order.product?.installments ?? 0);
+  const label = installments
+    ? `${installments} ${installments === 1 ? 'month' : 'months'}`
+    : '—';
+
+  const { terms } = useApprovedTerms(order.id);
+
+  if (isEditable) {
+    return <TermsColumn order={order} terms={terms} />;
+  }
+
+  return <span className="font-medium">{label}</span>;
+};
 
 export const TableColumns = (openModalForLoan) => [
   {
     id: 'created_at',
-    header: 'Order Date',
+    header: 'Date',
     accessorKey: 'created_at',
     hideColumn: 0,
-    cell: ({ row }) => <BuildStack original={row?.original} onEditPaymentTerm={openModalForLoan} />,
+    cell: ({ row }) => <BuildStack original={row?.original} />,
   },
   {
     id: 'order_key',
-    header: 'Order Key',
+    header: 'ID',
     accessorKey: 'order_key',
-    hideColumn: 1280,
+    hideColumn: 640,
     cell: ({ getValue }) => {
       const value = getValue();
       return (
@@ -34,86 +50,56 @@ export const TableColumns = (openModalForLoan) => [
     },
   },
   {
-    id: 'merchant_name',
-    header: 'Merchant Name',
-    hideColumn: 1575,
-    meta: {},
-    accessorFn: (row) => row.merchant?.name,
-  },
-  {
-    id: 'merchant_order_id',
-    header: 'Merchant Order ID',
-    accessorKey: 'merchant_order_id',
-    hideColumn: 1575,
-  },
-  {
-    id: 'amount',
-    header: 'Total Amount',
-    accessorKey: 'amount',
+    id: 'merchant_info',
+    header: 'Merchant',
     hideColumn: 640,
-    enableSorting: true,
-    cell: ({ getValue }) => formatCurrency(getValue()),
-    sortingFn: (rowA, rowB, columnId) => {
-      const a = parseFloat(rowA.getValue(columnId)) || 0;
-      const b = parseFloat(rowB.getValue(columnId)) || 0;
-      return a - b;
-    },
-  },
-  {
-    id: 'total_balance',
-    header: 'Remaining Balance',
-    accessorKey: 'total_balance',
-    hideColumn: 640,
-    cell: ({ getValue }) => formatCurrency(getValue()),
-  },
-  {
-    id: 'status',
-    header: 'Order Status',
-    hideColumn: 856,
-    accessorFn: (row) => row.product?.status,
-    filterFn: (row, columnId, filterValue) => {
-      return filterValue.includes(row.original.product?.status);
-    },
-    cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
-  },
-  {
-    id: 'terms',
-    header: 'Payment Terms',
-    hideColumn: 1536,
-    accessorFn: (row) => row.product?.installments,
+    accessorFn: (row) => row.merchant?.name || '',
     cell: ({ row }) => {
+      const merchant = row.original.merchant?.name || '—';
+      const merchantOrderId = row.original.merchant_order_id || '—';
       return (
-        <div
-          className={
-            row.original.terms_editable
-              ? 'flex items-center gap-2 cursor-pointer'
-              : 'flex items-center gap-2'
-          }
-          onClick={() =>
-            row.original.terms_editable && openModalForLoan(row.original)
-          }
-        >
-          <span>{row.original.product?.installments}</span>
-          {row.original.terms_editable && (
-            <FontAwesomeIcon icon={faEdit} className="text-gray-400 w-4 h-4" />
-          )}
+        <div className="flex flex-col leading-tight">
+          <span className="font-medium">{merchant}</span>
+          <span className="text-xs text-tertiary-gray">{merchantOrderId}</span>
         </div>
       );
     },
   },
   {
-    id: 'next_payment_date',
-    header: 'Next Payment Date',
-    hideColumn: 1536,
-    accessorFn: (row) => row.product?.next_payment_date,
-    cell: ({ row }) => <NextPayment order={row.original} type="date" />,
+    id: 'amount_and_balance',
+    header: 'Order Total',
+    hideColumn: 640,
+    accessorFn: (row) => row.amount,
+    cell: ({ row }) => <OrderTotalColumn order={row.original} />,
+    sortingFn: (rowA, rowB) => {
+      const a = parseFloat(rowA.original.amount) || 0;
+      const b = parseFloat(rowB.original.amount) || 0;
+      return a - b;
+    },
   },
   {
-    id: 'next_payment_amount',
-    header: 'Next Payment Amount',
-    hideColumn: 1536,
-    accessorFn: (row) => row.product?.next_payment_amount,
-    cell: ({ row }) => <NextPayment order={row.original} type="amount" />,
+    id: 'next_payment',
+    header: 'Next Payment',
+    hideColumn: 640,
+    accessorFn: (row) => row.product?.next_payment_due_amount,
+    cell: ({ row }) => <NextPayment order={row.original} />,
+  },
+  {
+    id: 'terms',
+    header: 'Terms',
+    hideColumn: 640,
+    accessorFn: (row) => row.product?.installments,
+    cell: ({ row }) => <TermsCell order={row.original} />,
+  },
+  {
+    id: 'status',
+    header: 'Status',
+    hideColumn: 640,
+    accessorFn: (row) => row.product?.status,
+    filterFn: (row, columnId, filterValue) => {
+      return filterValue.includes(row.original.product?.status);
+    },
+    cell: ({ row }) => <OrderStatus order={row.original} isTable={true} />,
   },
   {
     id: 'isPastDue',

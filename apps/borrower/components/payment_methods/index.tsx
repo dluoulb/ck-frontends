@@ -52,7 +52,7 @@ export default function PaymentMethods() {
       />
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center w-full my-4 sm:py-4 sm:my-8">
-          <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
+          <p className="text-2xl md:text-3xl font-bold text-primary capitalize">
             Payment Methods
           </p>
           <PrimaryButton
@@ -66,7 +66,7 @@ export default function PaymentMethods() {
             isSmall={true}
           />
         </div>
-        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm">
+        <div className="relative rounded-md border-t border-x border-border-gray shadow-sm bg-white">
           <div className="flex-1">
             <div className="mx-auto">
               {entity?.type === 'company' && (

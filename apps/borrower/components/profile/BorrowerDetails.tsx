@@ -63,9 +63,7 @@ export default function BorrowerDetails() {
                       Email:
                     </span>
                   </td>
-                  <td className="pt-2 pl-4">
-                    {owner?.email}
-                  </td>
+                  <td className="pt-2 pl-4">{owner?.email}</td>
                 </tr>
               </tbody>
             </table>
@@ -121,11 +119,9 @@ export default function BorrowerDetails() {
                       </span>
                     </td>
                     <td className="pl-4 pt-2">
-                      {entity?.phone ? (
-                        formatPhoneNumber(normalizePhone(entity?.phone))
-                      ) : (
-                        'Not Provided'
-                      )}
+                      {entity?.phone
+                        ? formatPhoneNumber(normalizePhone(entity?.phone))
+                        : 'Not Provided'}
                     </td>
                   </tr>
                   <tr>
@@ -134,9 +130,7 @@ export default function BorrowerDetails() {
                         EIN:
                       </span>
                     </td>
-                    <td className="pl-4 pt-2">
-                      {entity?.ein}
-                    </td>
+                    <td className="pl-4 pt-2">{entity?.ein}</td>
                   </tr>
                 </tbody>
               </table>
@@ -175,7 +169,7 @@ export default function BorrowerDetails() {
           </div>
           <div className="mt-4 lg:mt-0 font-semibold flex flex-col xs:flex-row lg:flex-col justify-between items-start xs:items-end gap-1">
             <a
-              href="mailto: support@creditkey.com"
+              href="mailto:support@creditkey.com"
               className="flex items-center gap-1.5"
             >
               <FontAwesomeIcon icon={faEnvelope} />

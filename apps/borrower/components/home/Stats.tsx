@@ -19,7 +19,7 @@ export default function Stats() {
   const remainingCredit =
     entity?.credit_line !== undefined
       ? entity.credit_line.remaining_amount
-      : entity.max_purchase_amount - stats?.credit_utilized;
+      : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
   let approvedUser = entity?.status === 'approved';
 
   const entityData = [
@@ -35,12 +35,12 @@ export default function Stats() {
     {
       name: 'Credit in Use',
       value: !approvedUser ? '--' : formatCurrency(stats?.credit_utilized),
-      className: 'text-tertiary-gray',
+      className: '',
     },
     {
       name: 'Remaining Credit',
       value: !approvedUser ? '--' : formatCurrency(remainingCredit),
-      className: 'text-success',
+      className: '',
     },
     {
       name: 'Active Orders',
@@ -63,14 +63,14 @@ export default function Stats() {
     );
 
   return (
-    <dl className="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+    <dl className="mx-auto grid grid-cols-2 gap-px lg:grid-cols-4">
       {entityData.map((stat, idx) => {
         return (
           <div
             key={stat.name}
             className={classNames(
-              'flex flex-wrap items-baseline justify-between md:gap-x-4 md:gap-y-2 bg-white pt-4 pb-2 md:pb-3',
-              idx === 0 ? 'px-4' : 'px-4 md:px-6'
+              'flex flex-col md:gap-x-4 md:gap-y-2 bg-white pt-4 pb-2 md:pb-3',
+              idx === 0 ? 'px-4' : 'px-4 md:pt-7 md:px-6'
             )}
           >
             <dt className="text-sm leading-3 text-tertiary-gray">
@@ -85,7 +85,7 @@ export default function Stats() {
               {stat.link ? (
                 <div className="flex flex-col items-start">
                   <span>{stat.value}</span>
-                  <div className='flex items-center text-sm'>
+                  <div className="flex items-center text-sm">
                     <a
                       href={stat.link.url}
                       target="_blank"
@@ -101,7 +101,7 @@ export default function Stats() {
                     >
                       <FontAwesomeIcon
                         icon={faInfoCircle}
-                        className="text-primary-blue ml-2 text-base"
+                        className="text-tertiary-gray ml-2 text-base"
                       />
                     </Tooltip>
                   </div>
@@ -109,7 +109,6 @@ export default function Stats() {
               ) : (
                 <div className="flex flex-col items-start">
                   <span>{stat.value}</span>
-                  <span className="mt-1 text-xs invisible">placeholder</span>
                 </div>
               )}
             </dd>

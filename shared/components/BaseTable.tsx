@@ -17,6 +17,7 @@ export default function BaseTable({
   isFetching = false,
   isPageCached = false,
   usePagination = true,
+  hideHeader = false,
 }) {
   const emptyRows = 0;
 
@@ -24,46 +25,45 @@ export default function BaseTable({
     <div>
       <div className="overflow-x-auto">
         <table className={`min-w-full text-primary ${tableClass}`}>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="h-full">
-                {headerGroup.headers.map(
-                  (header) =>
-                    header.column.getIsVisible() && (
-                      <th
-                        key={header.id}
-                        onClick={header.column.getToggleSortingHandler()}
-                        className={classNames(
-                          'px-6 py-4 text-left text-sm bg-secondary-blue sticky top-0 z-10 h-full',
-                          {
-                            'flex items-center gap-1':
-                              header.column.getIsSorted(),
-                          },
-                          { 'cursor-pointer': header.column.getCanSort() },
-                          headerClass
-                        )}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        <span
-                          className={classNames('inline-block w-4', {
-                            invisible: !header.column.getIsSorted(),
-                          })}
+          {!hideHeader && (
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id} className="h-full">
+                  {headerGroup.headers.map(
+                    (header) =>
+                      header.column.getIsVisible() && (
+                        <th
+                          key={header.id}
+                          onClick={header.column.getToggleSortingHandler()}
+                          className={classNames(
+                            'px-6 py-4 text-left text-sm bg-[#F4F8FF] sticky top-0 z-10 h-full border-b border-border-gray',
+                            { 'cursor-pointer': header.column.getCanSort() },
+                            headerClass
+                          )}
                         >
-                          {{
-                            asc: <FontAwesomeIcon icon={faAngleUp} />,
-                            desc: <FontAwesomeIcon icon={faAngleDown} />,
-                          }[header.column.getIsSorted()] ?? null}
-                        </span>
-                      </th>
-                    )
-                )}
-              </tr>
-            ))}
-          </thead>
-
+                          <div className="flex items-center gap-1">
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            <span
+                              className={classNames('inline-block w-4', {
+                                invisible: !header.column.getIsSorted(),
+                              })}
+                            >
+                              {{
+                                asc: <FontAwesomeIcon icon={faAngleUp} />,
+                                desc: <FontAwesomeIcon icon={faAngleDown} />,
+                              }[header.column.getIsSorted()] ?? null}
+                            </span>
+                          </div>
+                        </th>
+                      )
+                  )}
+                </tr>
+              ))}
+            </thead>
+          )}
           <tbody className="text-sm mid:text-base">
             {isFetching && !isPageCached ? (
               <tr>
@@ -79,7 +79,7 @@ export default function BaseTable({
               </tr>
             ) : !table.getRowModel().rows.length ? (
               <>
-                <tr className="border-b">
+                <tr>
                   <td
                     className="py-3 whitespace-nowrap px-4 text-sm normal-case"
                     colSpan={table.getHeaderGroups()[0].headers.length}
@@ -100,12 +100,16 @@ export default function BaseTable({
                         : ''
                     )}
                   >
-                    {row.getVisibleCells().map((cell) => {
+                    {row.getVisibleCells().map((cell, cellIndex) => {
                       const className = classNames(
                         'py-3 whitespace-nowrap w-max',
                         rowClass,
                         cell.column.columnDef.className,
-                        cell.column.getIsSorted() ? 'px-5 sm:px-6' : 'px-6'
+                        cell.column.getIsSorted() ? 'px-5 sm:px-6' : 'px-6',
+                        cellIndex === 0 && hideHeader && 'pl-0',
+                        cellIndex === row.getVisibleCells().length - 1 &&
+                          hideHeader &&
+                          'pr-0'
                       );
 
                       return (
@@ -133,7 +137,12 @@ export default function BaseTable({
           </tbody>
         </table>
       </div>
-      {usePagination && table.getRowModel().rows.length > 0 && <Pagination table={table} totalCount={table.getRowModel().rows.length} />}
+      {usePagination && table.getRowModel().rows.length > 0 && (
+        <Pagination
+          table={table}
+          totalCount={table.getRowModel().rows.length}
+        />
+      )}
     </div>
   );
 }

@@ -13,7 +13,7 @@ export default function Pagination({ totalCount, table }) {
 
   return (
     <div
-      className="normal-case flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+      className="normal-case flex items-center justify-between border-t border-border-gray bg-white px-4 py-3 sm:px-6"
       role={Pagination.role}
     >
       {table.getPageCount() > 1 && (

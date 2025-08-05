@@ -7,15 +7,9 @@ import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
-import { getApprovedTerms, updatePaymentTerms } from '@lib/actions/orders';
+import { updatePaymentTerms } from '@lib/actions/orders';
 import UpdateTermsModalForm from './UpdateTermsModalForm';
-
-type ApprovedTerm = {
-  available: boolean;
-  term: number;
-  term_period: string;
-};
-
+import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
 export default function UpdateTermsModalWrapper({
   loan,
   isTermsModalOpen,
@@ -27,30 +21,15 @@ export default function UpdateTermsModalWrapper({
   toggleTermsModal: () => void;
   refetchOrder?: () => Promise<any>;
 }) {
-  const api = useApi();
   const { makeToast } = useToast();
   const { refetchOrders } = useBorrowerDeps();
   const { modalState, setModalState, resetModalState } = useModal();
-  const [terms, setTerms] = useState<ApprovedTerm[]>([]);
-  const [termsLoading, setTermsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { terms, loading: termsLoading } = useApprovedTerms(loan.id);
+  const api = useApi();
 
   useEffect(() => {
     resetModalState();
   }, [isTermsModalOpen]);
-
-  useEffect(() => {
-    getApprovedTerms(api, loan.id)
-      .then((resp) => {
-        setTerms(resp.terms);
-      })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => {
-        setTermsLoading(false);
-      });
-  }, [loan]);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {

@@ -1,40 +1,78 @@
 import React from 'react';
-import vcMastercard from '@lib/images/vc-cardart-mastercard.png';
+import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 
-export default function MaskedVirtualCard({virtualCard, onView}) {
-  const cardNumberDisplay = (vc) => {
-    return (
-      <>
-        ••••{'  '}
-        ••••{'  '}
-        ••••{'  '}
-        {vc.last_four}
-      </>
-    );
-  };
+import usePendingAuthorizations from '@apps/borrower/hooks/usePendingAuthorizations';
+import PrimaryButton from '@components/buttons/PrimaryButton';
+import { Skeleton } from '@components/components/ui/skeleton';
+import Tooltip from '@components/Tooltip';
+import { useEntity } from '@contexts/EntityContext';
+import mcSvg from '@lib/images/mastercard.svg';
+import { formatCurrency } from '@lib/utils/formatters';
+
+export default function MaskedVirtualCard({ virtualCard, onView }) {
+  const { entity } = useEntity();
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
+    entity?.id
+  );
+
+  const pendingCharges = pendingAuths?.pending_total || 0;
 
   return (
     <div className="w-full">
-      <div className="text-md sm:text-sm lg:text-base relative w-72 sm:w-64 lg:w-80 mx-auto">
-        <Image
-          src={vcMastercard}
-          alt="Credit Key Card Image"
-          className="rounded-xl shadow-lg shadow-slate-600"
-        />
-        <div className="text-white absolute left-5 top-[116px] sm:left-4 sm:top-[104px] lg:left-5 lg:top-32">
-          {cardNumberDisplay(virtualCard)}
+      <div className="flex flex-col md:flex-row justify-between border border-border-grey rounded-md px-6 p-4">
+        <div className="flex gap-3">
+          <Image
+            src={mcSvg}
+            alt="Credit Key Card Image"
+            className="rounded-xl w-[32px]"
+          />
+          <div>
+            <p className="text-lg md:text-xl text-primary font-semibold">
+              Credit Key Virtual Card ({virtualCard.last_four})
+            </p>
+            <p>
+              Able to spend:{' '}
+              <span className="font-semibold">
+                {formatCurrency(
+                  entity.vc_sub_limits.remaining_limit_amount || 0
+                )}
+                <Tooltip
+                  tooltip_text={`Your remaining spend on your card is ${formatCurrency(
+                    entity.vc_sub_limits.remaining_limit_amount || 0
+                  )}`}
+                  trigger_class="cursor-pointer max-w-max border-none"
+                  container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
+                >
+                  <FontAwesomeIcon
+                    icon={faInfoCircle}
+                    className="text-tertiary-gray ml-2 text-base"
+                  />
+                </Tooltip>
+              </span>
+            </p>
+          </div>
         </div>
-        <span className="text-white absolute left-5 top-[146px] sm:left-4 sm:top-[130px] lg:left-5 lg:top-40">EXP ••/••</span>
-        <span className="text-white absolute left-28 top-[146px] sm:left-28 sm:top-[130px] lg:left-32 lg:top-40">CVV •••</span>
-        <button
-          type="button"
-          className="bg-white text-primary-blue transition duration-150 ease-in-out hover:bg-slate-300 px-3 py-1.5 rounded-lg font-semibold absolute top-5 right-5 disabled:text-white disabled:bg-disabled disabled:hover-none disabled:cursor-not-allowed"
-          onClick={onView}
-        >
-          View
-        </button>
+        <div className="flex flex-col md:items-center md:flex-row justify-between gap-2 md:gap-3 mt-2 md:m-0">
+          <div className="flex items-center justify-center text-sm gap-2 py-1 md:py-2 px-3 rounded-[8px] disabled bg-[#eef1f6] cursor-default">
+            <p>Pending</p>{' '}
+            {pendingAuthsLoading ? (
+              <Skeleton className="w-14 h-full" />
+            ) : (
+              <span className="font-semibold">
+                {formatCurrency(pendingCharges)}
+              </span>
+            )}
+          </div>
+          <PrimaryButton
+            buttonText="View Card"
+            buttonColor="whitespace-nowrap bg-primary-blue !rounded-[8px] max-h-[44px]"
+            hoverClass="hover:bg-primary-blue-hover"
+            onClick={onView}
+          />
+        </div>
       </div>
     </div>
   );
-};
+}

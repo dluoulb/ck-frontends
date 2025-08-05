@@ -22,6 +22,7 @@ type Merchant = {
   name: string;
   supports_instore: boolean;
   supports_recharge: boolean;
+  slug: string;
 };
 
 function useDefaultTerms(company, shouldFetch) {
@@ -88,6 +89,7 @@ function useDefaultTerms(company, shouldFetch) {
     return {
       merchant_id: merchant.id,
       merchant_name: merchant.name,
+      merchant_slug: merchant.slug,
       default_term: (() => {
         const merchantTerm = defaultTermsList.find(
           (term) => term.merchant_id === merchant.id

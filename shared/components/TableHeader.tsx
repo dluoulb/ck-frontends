@@ -57,7 +57,7 @@ export default function TableHeader({
   return (
     <div
       className={classNames(
-        'border-b border-primary-gray-border !z-50',
+        'border-b border-border-gray !z-50',
         headerClass
       )}
     >

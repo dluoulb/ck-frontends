@@ -63,7 +63,7 @@ export default function DocumentUploadForm() {
   };
 
   return (
-    <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max">
+    <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max bg-white">
       <div className="py-8 px-6 border-b border-primary-gray-border">
         <p className="text-2xl font-bold text-primary">Upload Document</p>
       </div>

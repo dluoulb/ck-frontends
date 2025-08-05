@@ -19,7 +19,7 @@ export default function BillingCycleDisplay() {
         {consolidationSettings?.map((setting, idx) => (
           <div
             key={setting.id || setting.merchant_id || idx}
-            className="flex flex-row justify-between items-center text-sm"
+            className="flex flex-col sm:flex-row md:flex-col xl:flex-row justify-between items-start sm:items-center md:items-start xl:items-center text-sm"
           >
             <span className="font-avenir-book text-opaque-navy text-sm pr-1">
               Merchant Name: <strong>{setting.merchant_name}</strong>

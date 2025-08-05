@@ -63,7 +63,7 @@ const Notification: FC<NotificationProps> = ({
             ) : (
               <>
                 <a
-                  href="mailto: support@creditkey.com"
+                  href="mailto:support@creditkey.com"
                   className="flex gap-1 items-center"
                 >
                   Contact Credit Key Support

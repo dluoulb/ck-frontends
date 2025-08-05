@@ -45,7 +45,7 @@ export default function DefaultTermSettingsModal({
               </p>
               <p>
                 {!modalState?.default_term ? 'Set' : 'Change'} the default term
-                length for future in-store or replenishment purchases.
+                length for future purchases.
               </p>
             </div>
             <h1 className="font-medium text-center">Adjust Number of Months</h1>

@@ -1,6 +1,5 @@
 import { FC, Fragment } from 'react';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
-import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Dialog,
@@ -33,7 +32,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
   return (
     <div className="hidden">
       <Transition show={isModalActive} as={Fragment}>
-        <Dialog onClose={toggleModal} className="relative z-10 !font-manrope">
+        <Dialog onClose={toggleModal} className="relative z-50 !font-manrope">
           <DialogBackdrop
             transition
             className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
@@ -104,7 +103,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     </div>
                     <div
                       className={classNames(
-                        'px-4 sm:px-6 overflow-y-auto sm:py-3 z-10',
+                        'px-4 overflow-y-auto sm:py-3 z-10',
                         modalHeight ? modalHeight : 'max-h-modal'
                       )}
                     >
