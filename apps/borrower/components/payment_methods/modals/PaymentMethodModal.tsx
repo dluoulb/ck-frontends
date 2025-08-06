@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ListboxOption,
   Popover,
@@ -30,6 +31,7 @@ export default function PaymentMethodModal({
   toggleModal,
   createVcFlow = false,
 }) {
+  const [usePlaid, setUsePlaid] = useState(plaidEnabled);
   const { entity } = useEntity();
   const { orders } = useBorrowerDeps();
 
@@ -43,7 +45,7 @@ export default function PaymentMethodModal({
   const { contentId, setContent } = useDropdown(defaultContentId);
 
   const BankComponent = () => {
-    if (plaidEnabled) {
+    if (usePlaid) {
       return (
         <Plaid
           hasAlert={hasAlert}
@@ -68,7 +70,7 @@ export default function PaymentMethodModal({
   const ConnectBankHeader = () => {
     if (contentId !== 'ach') return null;
 
-    if (!plaidEnabled) {
+    if (!usePlaid) {
       return (
         <Popover className="relative">
           <PopoverButton className="text-xs text-center text-primary-blue underline cursor-pointer">
