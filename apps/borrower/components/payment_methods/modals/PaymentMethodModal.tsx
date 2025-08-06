@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   ListboxOption,
   Popover,
@@ -16,6 +15,7 @@ import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
 import CreditCardForm from '../forms/CreditCardForm';
 import Plaid from '../Plaid';
+import { plaidEnabled } from '@lib/constants/SiteVariables';
 
 // which type of PMs are available to create
 const listOptions = [
@@ -30,7 +30,6 @@ export default function PaymentMethodModal({
   toggleModal,
   createVcFlow = false,
 }) {
-  const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
   const { entity } = useEntity();
   const { orders } = useBorrowerDeps();
 
@@ -44,7 +43,7 @@ export default function PaymentMethodModal({
   const { contentId, setContent } = useDropdown(defaultContentId);
 
   const BankComponent = () => {
-    if (usePlaid) {
+    if (plaidEnabled) {
       return (
         <Plaid
           hasAlert={hasAlert}
@@ -69,7 +68,7 @@ export default function PaymentMethodModal({
   const ConnectBankHeader = () => {
     if (contentId !== 'ach') return null;
 
-    if (!usePlaid) {
+    if (!plaidEnabled) {
       return (
         <Popover className="relative">
           <PopoverButton className="text-xs text-center text-primary-blue underline cursor-pointer">

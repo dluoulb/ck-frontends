@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Popover,
   PopoverButton,
@@ -12,6 +11,7 @@ import Plaid from '../Plaid';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import FullStory from '@lib/utils/fullstory';
+import { plaidEnabled } from '@lib/constants/SiteVariables';
 
 export default function VcFlowDefaultPaymentMethodModal({
   hasAlert,
@@ -19,7 +19,6 @@ export default function VcFlowDefaultPaymentMethodModal({
   next,
   toggleModal,
 }) {
-  const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
   const { entity } = useEntity();
   const { user } = useUser();
 
@@ -31,7 +30,7 @@ export default function VcFlowDefaultPaymentMethodModal({
   };
 
   const BankComponent = () => {
-    if (usePlaid) {
+    if (plaidEnabled) {
       return (
         <Plaid
           hasAlert={hasAlert}
@@ -55,7 +54,7 @@ export default function VcFlowDefaultPaymentMethodModal({
     }
   };
   const ConnectBankHeader = () => {
-    if (!usePlaid) {
+    if (!plaidEnabled) {
       return (
         <Popover className="relative">
           <PopoverButton className="text-xs text-left text-primary-blue underline cursor-pointer">
