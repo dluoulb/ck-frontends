@@ -12,7 +12,7 @@ export default class CompanyVirtualCardRecord {
   pci_token: string;
   status: string;
   next_sweep_at: string;
-
+  just_in_time_funding: boolean;
   constructor(data) {
     const cleanedData = removeNulls(data);
     Object.assign(

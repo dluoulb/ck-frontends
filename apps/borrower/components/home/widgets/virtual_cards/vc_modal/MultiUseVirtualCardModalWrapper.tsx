@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { defineStepper } from '@stepperize/react';
-import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
 import { faCirclePlus } from '@fortawesome/pro-solid-svg-icons';
-import useModal from '@hooks/useModal';
+import { defineStepper } from '@stepperize/react';
+
+import VcFlowDefaultPaymentMethodModal from '@apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal';
 import ModalWrapper from '@components/modals/ModalWrapper';
-import SetDefaultTermsModal from './SetDefaultTermsModal';
+import useModal from '@hooks/useModal';
+import AddFundsModal from './AddFundsModal';
 import CardholderAgreementModal from './CardholderAgreementModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
-import AddFundsModal from './AddFundsModal';
-import VcFlowDefaultPaymentMethodModal from '@apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal';
+import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
+import SetDefaultTermsModal from './SetDefaultTermsModal';
+import { JIT_ENABLED } from '@lib/constants/SiteVariables';
 
-export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleModal }) {
+export default function MultiUseVirtualCardModalWrapper({
+  isModalActive,
+  toggleModal,
+}) {
   const [hasAlert, setHasAlert] = useState(false);
+
   const orderedScreens = [
     {
       id: 'vc_rules',
@@ -36,7 +42,7 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
     {
       id: 'add_funds',
       component: AddFundsModal,
-      hide: false,
+      hide: JIT_ENABLED,
     },
     {
       id: 'show_vc',
@@ -87,12 +93,15 @@ export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleM
         header="Your Credit Key Prepaid Mastercard®"
         headerIcon={faCirclePlus}
       >
-        {orderedScreens.map(
-          (step) =>
-            !step.hide &&
-            when(step.id, () => (
-              <step.component {...modalProps} key={step.id} />
-            ))
+        {orderedScreens.map((step) =>
+          when(step.id, () => {
+            if (step.hide) {
+              next();
+              return null;
+            }
+            const StepComponent = step.component;
+            return <StepComponent key={step.id} {...modalProps} />;
+          })
         )}
       </ModalWrapper>
     </div>

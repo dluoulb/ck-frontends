@@ -13,7 +13,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import MerchantRecord from '@lib/records/merchant';
 import { useUser } from '@contexts/UserContext';
 import FullStory from '@lib/utils/fullstory';
-
+import { JIT_ENABLED } from '@lib/constants/SiteVariables';
 export default function SetDefaultTermsModal({ next }) {
   const api = useApi();
   const { makeToast } = useToast();
@@ -69,7 +69,7 @@ export default function SetDefaultTermsModal({ next }) {
       makeToast('An error occurred. Please contact Credit Key Support', 'error');
       setLoading(false);
     });
-    createVirtualCard(api, entity?.id)
+    createVirtualCard(api, entity?.id, {just_in_time_funding: JIT_ENABLED})
     .then(() => {
       makeToast('Credit Key Card Successfully Created', 'success');
       next();

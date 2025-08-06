@@ -62,7 +62,7 @@ export default function MultiUseVirtualCard() {
                 <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
               </div>
               <div className="col-span-2 md:col-span-1 mt-5">
-                <PrepaidCardBalance allowCardClose={false} />
+                <PrepaidCardBalance allowCardClose={false} isJitEnabled={vcProps.virtualCard.just_in_time_funding}/>
               </div>
               <div className="col-span-2 mt-5 border-t border-gray-300"></div>
               <div className="col-span-2 mt-2">
