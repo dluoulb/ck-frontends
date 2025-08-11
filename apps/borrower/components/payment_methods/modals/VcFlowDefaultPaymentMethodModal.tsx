@@ -12,6 +12,7 @@ import Plaid from '../Plaid';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import FullStory from '@lib/utils/fullstory';
+import { plaidEnabled } from '@lib/constants/SiteVariables';
 
 export default function VcFlowDefaultPaymentMethodModal({
   hasAlert,
@@ -19,7 +20,7 @@ export default function VcFlowDefaultPaymentMethodModal({
   next,
   toggleModal,
 }) {
-  const [usePlaid, setUsePlaid] = useState(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS === 'true');
+  const [usePlaid, setUsePlaid] = useState(plaidEnabled);
   const { entity } = useEntity();
   const { user } = useUser();
 

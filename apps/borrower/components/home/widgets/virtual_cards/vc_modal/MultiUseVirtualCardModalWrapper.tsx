@@ -10,7 +10,7 @@ import CardholderAgreementModal from './CardholderAgreementModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
 import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
-import { JIT_ENABLED } from '@lib/constants/SiteVariables';
+import { jitEnabled } from '@lib/constants/SiteVariables';
 
 export default function MultiUseVirtualCardModalWrapper({
   isModalActive,
@@ -42,7 +42,7 @@ export default function MultiUseVirtualCardModalWrapper({
     {
       id: 'add_funds',
       component: AddFundsModal,
-      hide: JIT_ENABLED,
+      hide: jitEnabled,
     },
     {
       id: 'show_vc',
