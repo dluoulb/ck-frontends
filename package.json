@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@fullstory/browser": "^2.0.5",
     "@headlessui/react": "^2.1.2",
+    "@radix-ui/react-collapsible": "^1.1.12",
     "@rollbar/react": "^0.12.0-beta",
     "@stepperize/react": "^3.0.1",
     "@strapi/blocks-react-renderer": "^1.0.1",

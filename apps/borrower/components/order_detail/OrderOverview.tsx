@@ -108,8 +108,9 @@ export default function OrderOverview({
                   : defaultCardLabel}
               </p>
             )}
+            <Documents order={order} documents={documents} />
           </div>
-          <div className="text-right flex flex-col items-end gap-1">
+          <div className="text-right flex flex-col items-end gap-1 self-start">
             {isAdminUser && (
               <a
                 href={order?.checkout_url}
@@ -119,7 +120,6 @@ export default function OrderOverview({
                 Checkout Session URL
               </a>
             )}
-            <Documents order={order} documents={documents} />
             <p
               onClick={toggleModal}
               className="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center font-medium border-b border-transparent hover:border-primary-blue-hover"
