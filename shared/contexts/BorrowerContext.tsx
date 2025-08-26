@@ -33,7 +33,7 @@ export const BorrowerContextProvider = ({ children }) => {
   const paymentMethodProps = usePaymentMethods(
     user,
     entity,
-    ['/borrower', '/borrower/payment_methods'].includes(router?.pathname)
+    ['/borrower', '/borrower/payment_methods', '/borrower/orders', '/borrower/orders/[id]'].includes(router?.pathname)
   );
   const orderProps = useOrders(entity, shouldNotFetchOrders);
 
