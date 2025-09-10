@@ -13,16 +13,15 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-import { authRedirectLink } from '@lib/constants/SiteVariables';
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
-
+import { authRedirectLink } from '@lib/constants/SiteVariables';
 
 export default function MobileNav() {
   const router = useRouter();
   const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
   const { primaryRoutes } = usePrimaryRoutes();
   const navigation = [{ route: '/borrower', routes: primaryRoutes }];
-  const mobileApp = localStorage.getItem('mobileApp') === 'true'
+  const mobileApp = localStorage.getItem('mobileApp') === 'true';
 
   const getRoutes = () => {
     const route = navigation.find((item) =>
@@ -53,35 +52,41 @@ export default function MobileNav() {
             <DisclosurePanel className="absolute right-0 bg-secondary-blue min-w-60 rounded-md">
               <div className="space-y-1 px-2 pb-3 pt-2">
                 {getRoutes().map((item) => (
-                  <DisclosureButton
-                    key={item.name}
-                    as="a"
-                    href={item.url}
-                    target={item.target}
-                    aria-current={
-                      router.pathname === item.url ? 'page' : undefined
-                    }
-                    className={classNames(
-                      router.pathname === item.url
-                        ? 'bg-primary-blue-hover text-white'
-                        : 'text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white',
-                      'block rounded-md px-3 py-2 text-sm font-medium'
+                  <div key={item.name}>
+                    <DisclosureButton
+                      as="a"
+                      href={item.url}
+                      target={item.target}
+                      aria-current={
+                        router.pathname === item.url ? 'page' : undefined
+                      }
+                      className={classNames(
+                        router.pathname === item.url
+                          ? 'bg-primary-blue-hover text-white'
+                          : 'text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white',
+                        'block rounded-md px-3 py-2 text-sm font-medium'
+                      )}
+                    >
+                      {item.name}
+                    </DisclosureButton>
+                    {item.separator && (
+                      <div className="border-t border-blue-300 my-2" />
                     )}
-                  >
-                    {item.name}
-                  </DisclosureButton>
+                  </div>
                 ))}
-                {!mobileApp && <DisclosureButton
-                  as="div"
-                  onClick={async () => {
-                    await signOut();
-                    router.push(href);
-                  }}
-                  className="text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white block rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
-                >
-                  <p>Sign Out</p>
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                </DisclosureButton>}
+                {!mobileApp && (
+                  <DisclosureButton
+                    as="div"
+                    onClick={async () => {
+                      await signOut();
+                      router.push(href);
+                    }}
+                    className="text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white block rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"
+                  >
+                    <p>Sign Out</p>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                  </DisclosureButton>
+                )}
               </div>
             </DisclosurePanel>
           </div>

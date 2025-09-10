@@ -26,7 +26,7 @@ export default function Orders() {
       role={Orders.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="mb-4 text-2xl md:text-4xl font-bold text-primary capitalize">
+        <p className="mb-4 text-2xl md:text-3xl font-bold text-primary capitalize">
           My Orders
         </p>
         <OrdersTable
@@ -36,7 +36,7 @@ export default function Orders() {
           pageSize={25}
           pageCount={pageCount}
           tableColumns={TableColumns}
-          rowClass="!text-sm"
+          rowClass="!text-sm bg-white"
           withHeader={true}
           isFetching={isFetching}
           setOrdersPageIndex={setOrdersPageIndex}

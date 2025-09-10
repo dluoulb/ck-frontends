@@ -8,10 +8,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from 'next/router';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
+import PortalLayout from '@apps/borrower/components/layout/PortalLayout';
 import MainLayout from '@components/layout/MainLayout';
 import SearchConfig from '@components/SearchConfig';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { EntityProvider } from '@contexts/EntityContext';
+import { PromoContextProvider } from '@contexts/PromoContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -51,17 +53,21 @@ function App({ Component, pageProps }) {
               <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
                 <EntityProvider>
                   <ErrorBoundary>
-                    <MainLayout>
-                      <SearchConfig>
-                        {isBorrowerRoute ? (
-                          <BorrowerContextProvider>
-                            <Component {...pageProps} />
-                          </BorrowerContextProvider>
-                        ) : (
-                          <Component {...pageProps} />
-                        )}
-                      </SearchConfig>
-                    </MainLayout>
+                    <PromoContextProvider>
+                      <MainLayout>
+                        <SearchConfig>
+                          <PortalLayout>
+                            {isBorrowerRoute ? (
+                              <BorrowerContextProvider>
+                                <Component {...pageProps} />
+                              </BorrowerContextProvider>
+                            ) : (
+                              <Component {...pageProps} />
+                            )}
+                          </PortalLayout>
+                        </SearchConfig>
+                      </MainLayout>
+                    </PromoContextProvider>
                   </ErrorBoundary>
                 </EntityProvider>
               </QueryContext.Provider>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { faEdit } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
@@ -7,29 +8,19 @@ import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
 import { updateRechargeTerm } from '@lib/actions/companies';
+import { getTermDisplay } from '@lib/utils/formatters';
 import DefaultTermSettingsModal from './DefaultTermsModal';
-import { faEdit } from '@fortawesome/pro-regular-svg-icons';
 
 export default function DefaultTermsDisplay() {
   const api = useApi();
   const { makeToast } = useToast();
   const { entity, fetchEntity } = useEntity();
-  const { defaultTermSettings } = useBorrowerDeps();
+  const { defaultTermSettings = [] } = useBorrowerDeps();
 
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
     defaultTermSettings[0]
   );
-
-  const getTermDisplay = (term) => {
-    if (term.default_term?.term_period === 'days') return '30 Days';
-
-    if (term.default_term?.term > 1) {
-      return `${term.default_term?.term} Months`;
-    } else {
-      return `${term.default_term?.term} Month`;
-    }
-  };
 
   const onSave = (merchant_id, term) => {
     setLoading(true);
@@ -65,7 +56,7 @@ export default function DefaultTermsDisplay() {
         return (
           <div
             key={idx}
-            className="flex flex-col xs:flex-row md:flex-col xl:flex-row gap-1 justify-between items-start xs:items-center md:items-start xl:items-center"
+            className="flex flex-col sm:flex-row md:flex-col xl:flex-row gap-1 justify-between items-start sm:items-center md:items-start xl:items-center"
           >
             <p className="font-avenir-book text-opaque-navy text-sm pr-1">
               Merchant Name:
@@ -74,7 +65,7 @@ export default function DefaultTermsDisplay() {
             <div className="flex items-center">
               {!s.default_term ? (
                 <strong
-                  className="text-primary-blue-hover text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
+                  className="text-primary-blue text-sm cursor-pointer border-b border-transparent hover:border-primary-blue"
                   onClick={() => {
                     setModalState(s);
                     toggleModal();

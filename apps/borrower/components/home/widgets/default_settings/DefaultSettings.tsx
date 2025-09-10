@@ -27,24 +27,19 @@ export default function DefaultSettings() {
   }, [entity, paymentMethods]);
 
   return (
-    <div className="px-3 p-2">
-      <div className="flex items-center gap-2.5 border-b border-primary-blue-hover/30 pb-3">
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className="text-primary-blue text-base lg:text-xl"
-        />
-
+    <div className="p-6">
+      <div className="flex items-center gap-2.5 border-b border-border-gray pb-2">
         <p className="text-lg md:text-xl font-bold">Default Settings</p>
       </div>
-      <div className="space-y-4 md:space-y-7 mt-3 md:mt-6">
+      <div className="mt-2">
         {entityLoading ? <Loading className="w-14 h-14 my-36" /> :
           <>
             <div className="flex flex-col">
               <div className="font-semibold text-secondary-gray text-base md:text-lg">
                 Primary Payment Method
               </div>
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between text-sm">
-                <div className="flex flex-col lg:flex-row lg:gap-1 pb-1">
+              <div className="flex flex-col sm:flex-row md:flex-col xl:flex-row justify-between items-start sm:items-center md:items-start xl:items-center text-sm">
+                <div className="flex flex-row lg:gap-1 pb-1">
                   <p>Default:</p>
                   <strong>
                     {defaultPM?.label || defaultPM?.account_holder}{' '}
@@ -53,9 +48,9 @@ export default function DefaultSettings() {
                 </div>
                 <Link
                   href="/payment_methods"
-                  className="font-semibold text-primary-blue-hover flex gap-1 hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover"
+                  className="font-semibold text-primary-blue flex gap-1 hover:text-blue-900 border-b border-transparent hover:border-primary-blue-hover"
                 >
-                  <span className="hidden xs:inline">Change</span>
+                  <span className="hidden xs:inline">Manage</span>
                   <span>
                     <FontAwesomeIcon
                       icon={faPenToSquare}

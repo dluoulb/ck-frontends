@@ -126,7 +126,7 @@ export default function OrdersTable({
             </p>
           </div>
         )}
-        <div className="col-span-full rounded-lg border border-primary-gray-border overflow-x-scroll">
+        <div className="col-span-full border border-border-gray rounded-md">
           {withHeader && (
             <TableHeader
               table={table}

@@ -29,7 +29,7 @@ export default function BorrowerOverview() {
       statusColor = 'bg-secondary-blue text-primary-blue';
   }
   return (
-    <div className="px-6 pt-6">
+    <div className="pt-6">
       <div className="flex justify-between items-center">
         {entityLoading ? <Loading className="w-14 h-14 my-36" /> :
           <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
@@ -63,7 +63,7 @@ export default function BorrowerOverview() {
                           </p>
                         )
                       }
-                      trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray !border-none"
+                      trigger_class="hover:text-primary-blue cursor-pointer text-tertiary-gray !border-none"
                       container_class="text-center p-4 px-6 text-sm bg-secondary-blue"
                     >
                       <FontAwesomeIcon icon={faCircleInfo} />
@@ -76,7 +76,7 @@ export default function BorrowerOverview() {
               <span
                 role="status"
                 className={classNames(
-                  'inline-flex items-center text-sm sm:text-lg rounded-md px-3 sm:px-4 py-2 font-semibold tracking-wide mb-2 sm:mb-0 w-max sm:w-auto',
+                  'inline-flex items-center text-sm sm:text-md rounded-md px-3 sm:px-4 py-2 font-semibold tracking-wide mb-2 sm:mb-0 w-max sm:w-auto',
                   statusColor
                 )}
               >

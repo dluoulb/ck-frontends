@@ -1,8 +1,7 @@
 import React from 'react';
+import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-
-import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 
 export default function ErrorAlert({ hasAlert, next }) {
   return (
@@ -31,7 +30,7 @@ export default function ErrorAlert({ hasAlert, next }) {
               <li>
                 Contact
                 <a
-                  href="mailto: support@creditkey.com"
+                  href="mailto:support@creditkey.com"
                   className="mx-1 cursor-pointer underline"
                 >
                   Credit Key Support

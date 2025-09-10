@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import SideNav from '@components/layout/SideNav';
 import Scripts from '@components/Scripts';
 import { usePromo } from '@contexts/PromoContext';
 import { useUser } from '@contexts/UserContext';
 import { platform } from '@lib/constants/SiteVariables';
 import PossessUser from './PossessUser';
-import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 import { useEntity } from '@contexts/EntityContext';
 import useOrders from '@hooks/useOrders';
 import { fromISO } from '@lib/utils/datetime_formatters';
@@ -16,7 +14,6 @@ declare const window: any;
 
 export default function PortalLayout({ children }) {
   const searchParams = useSearchParams();
-  const { primaryRoutes } = usePrimaryRoutes();
 
   const { setPromoId } = usePromo();
   const { isAdminUser, isImpersonating } = useUser();
@@ -70,8 +67,7 @@ export default function PortalLayout({ children }) {
   return (
     <div className="flex" role={PortalLayout.role}>
       <Scripts />
-      <SideNav primaryRoutes={primaryRoutes} />
-      <div className="flex-grow w-full xl:w-portal ml-0 lg:ml-24 xl:ml-20">
+      <div className="flex-grow w-full xl:w-portal">
         {(isAdminUser || isImpersonating) && <PossessUser />}
         {children}
       </div>

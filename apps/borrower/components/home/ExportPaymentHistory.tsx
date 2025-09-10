@@ -14,7 +14,7 @@ export default function ExportPaymentHistory() {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
 
-  const format = (d) => DateTime.fromJSDate(d).toFormat('yyyy-M-d');
+  const format = (d) => (d ? DateTime.fromJSDate(d).toFormat('yyyy-M-d') : '');
 
   const [dateRange, setDateRange] = useState({
     startDate: null,
@@ -59,19 +59,19 @@ export default function ExportPaymentHistory() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between px-2 py-2 md:py-0">
-      <p className="text-lg md:text-xl font-bold mx-0.5 md:mx-0">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+      <p className="text-xl font-medium">
         Export Payment History
       </p>
-      <div className="flex flex-col xs:flex-row md:items-center gap-0 xs:gap-2 md:gap-2 text-sm md:text-base">
+      <div className="flex md:items-center gap-2 xs:gap-2 md:gap-2 text-sm">
         <Datepicker
           popoverDirection="up"
           displayFormat="MM/DD/YYYY"
           separator="to"
           placeholder="Select Date Range"
           onChange={(newValue) => setDateRange(newValue)}
-          containerClassName="relative my-2 max-w-max md:min-w-56 md:max-w-60 border border-primary-gray-border rounded-md"
-          inputClassName="pl-3 pr-4 py-2 max-w-max md:min-w-56 md:max-w-60 focus-visible:outline-none border border-primary-gray-border rounded-md"
+          containerClassName="relative my-2 max-w-max md:min-w-56 md:max-w-60"
+          inputClassName="pl-3 pr-4 py-1.5 max-w-max md:min-w-56 md:max-w-60 focus-visible:outline-none border border-primary-gray-border rounded-md"
           showShortcuts={true}
           useRange={false}
           value={dateRange}
@@ -79,9 +79,8 @@ export default function ExportPaymentHistory() {
         <PrimaryButton
           ariaLabel="export-payment-history"
           buttonText="Export"
-          buttonColor="bg-primary-blue-hover !font-normal py-2 sm:py-3 px-4 !md:px-8 xs:!my-2 md:!py-2.5"
-          hoverClass="hover:bg-primary-blue-hover/80"
-          containerClass="2xs:max-w-max md:max-w-auto"
+          buttonColor="bg-white !text-primary !font-medium border border-border-grey !py-1.5 !rounded-md"
+          hoverClass="hover:bg-gray-100"
           onClick={handleSubmit}
           disabled={!dateRange?.startDate || !dateRange?.endDate || loading}
           isLoading={loading}

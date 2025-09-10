@@ -60,10 +60,10 @@ export default function ProfileIndex() {
       role={ProfileIndex.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
+        <p className="text-2xl md:text-3xl font-bold text-primary capitalize">
           {entity?.type === 'company' ? 'Company' : 'User'} Profile
         </p>
-        <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max">
+        <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max bg-white">
           <div className="py-8 px-6 border-b border-primary-gray-border">
             <div className="flex items-center gap-2">
               <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">

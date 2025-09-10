@@ -1,43 +1,55 @@
 import Link from 'next/link';
 
-import { reformatDate } from '@lib/utils/datetime_formatters';
-import { formatCurrency } from '@lib/utils/formatters';
-import OrderStatus from './OrderStatus';
+import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
+import { formatShortDate } from '@lib/utils/datetime_formatters';
+import NextPayment from './NextPayment';
+import OrderTotalColumn from './OrderTotalColumn';
+import TermsColumn from './TermsColumn';
 
 export const BuildStack = ({ original }) => {
+  const isEditable = original.terms_editable;
+  const installments = Number(original.product?.installments ?? 0);
+  const label = installments
+    ? `${installments} ${installments === 1 ? 'month' : 'months'}`
+    : '—';
+
+  const { terms } = useApprovedTerms(original.id);
+
   return (
     <>
-      <p className="block lg:hidden font-semibold flex items-center gap-1">
-        <Link
-          className="text-primary-blue text-base font-semibold cursor-pointer hover:text-primary-blue-hover"
-          href={`/orders/${original.order_key}`}
-        >
-          {original.order_key}
-        </Link>
-      </p>
-      <p className="font-semibold md:font-normal flex gap-1">
-        <span className="lg:hidden font-normal">Order Date:</span>
-        {reformatDate(original.created_at)}
-      </p>
-      <p className="block xl:hidden font-semibold flex gap-1">
-        <span className="font-normal">Merchant Name:</span>
-        <span>{original.merchant?.name}</span>
-      </p>
-      <div className="block sm:hidden font-semibold flex gap-1">
-        <span className="font-normal">Amount:</span>
-        {formatCurrency(original.amount)}
+      <div className="flex items-center justify-between">
+        <p className="sm:hidden font-medium flex items-center gap-1">
+          <Link
+            className="text-primary-blue text-base font-medium cursor-pointer hover:text-primary-blue-hover"
+            href={`/orders/${original.order_key}`}
+          >
+            {original.order_key}
+          </Link>
+        </p>
+
+        {isEditable ? (
+          <div className="sm:hidden">
+            <TermsColumn order={original} terms={terms} />
+          </div>
+        ) : (
+          <span className="sm:hidden font-medium">{label}</span>
+        )}
       </div>
-      <p className="flex mid:hidden font-semibold flex gap-1">
-        <span className="font-normal">Status:</span>
-        <OrderStatus order={original} isTable={true} />
-      </p>
-      <div className="block xl:hidden font-semibold flex gap-1">
-        <span className="font-normal">Next Payment Date:</span>
-        {reformatDate(original.product?.next_payment_date)}
-      </div>
-      <div className="block xl:hidden font-semibold flex gap-1">
-        <span className="font-normal">Next Payment Amount:</span>
-        {formatCurrency(original.product?.next_payment_due_amount)}
+      <div className="flex items-center justify-between space-x-3 mt-1">
+        <div>
+          <p className="sm:hidden font-medium flex gap-1">
+            <span>{original.merchant?.name}</span>
+          </p>
+          <p className="font-medium text-tertiary-gray flex gap-1">
+            {formatShortDate(original.created_at)}
+          </p>
+        </div>
+        <div className="sm:hidden font-medium flex gap-1">
+          <OrderTotalColumn order={original} />
+        </div>
+        <div className="sm:hidden font-medium flex gap-1">
+          <NextPayment order={original} />
+        </div>
       </div>
     </>
   );

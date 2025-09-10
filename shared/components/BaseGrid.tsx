@@ -4,7 +4,7 @@ function BaseGridItem({ children, gridConfig, ...config }) {
   return (
     <div
       className={classNames(
-        'rounded-lg border border-gray-300 bg-white p-3',
+        'bg-white',
         gridConfig
       )}
       role={BaseGridItem.role}

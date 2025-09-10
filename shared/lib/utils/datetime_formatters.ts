@@ -29,3 +29,8 @@ export const reformatDate = (
 export const differenceOfDays = (start_date, end_date) => {
   return Math.floor(start_date.diff(end_date, 'days').toObject().days);
 };
+
+export const formatShortDate = (date: string) => {
+  if (!date) return '';
+  return DateTime.fromISO(toISO(date)).toFormat('M/d/yy');
+};

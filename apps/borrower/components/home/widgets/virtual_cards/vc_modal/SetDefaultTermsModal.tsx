@@ -131,7 +131,7 @@ export default function SetDefaultTermsModal({ next }) {
         ) : (
         <>
           <div className="flex items-end justify-center px-4 text-center sm:block sm:px-0 max-w-md max-h-md mx-auto">
-            <div className="mt-3 text-left sm:mt-0 sm:ml-4 sm:text-left">
+            <div className="mt-3 text-left sm:mt-0 sm:text-left">
               <div className="text-navy-blue">
                 <p className="text-lg my-2 font-semibold font-avenir-black">
                   Default Repayment
@@ -161,7 +161,7 @@ export default function SetDefaultTermsModal({ next }) {
               </div>
             </div>
         </div>
-        <div className="sm:mb-8 w-full m-auto px-4 sm:pr-0 py-3 flex justify-center items-center">
+        <div className="sm:mb-8 w-full m-auto pr-4 sm:pr-0 py-3 flex justify-center items-center">
           <PrimaryButton
             ariaLabel="save-default-terms-button"
             buttonText="Next"

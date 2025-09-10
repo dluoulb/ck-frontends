@@ -52,13 +52,13 @@ export default function OrderOverview({
   return (
     <div className="flex justify-between items-center px-8">
       <div className="w-full flex flex-col capitalize">
-        <div className="flex items-start justify-between w-full">
-          <p className="font-bold text-3xl text-primary-blue-hover mb-1">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full">
+          <p className="font-bold text-2xl sm:text-3xl text-primary-blue-hover mb-1">
             {order?.order_key}
           </p>
           <span
             className={classNames(
-              'inline-flex items-center text-lg rounded-md px-4 py-2 font-semibold tracking-wide',
+              'inline-flex items-center text-lg rounded-md px-4 py-2 font-semibold tracking-wide w-fit',
               statusColor
             )}
           >
@@ -108,9 +108,8 @@ export default function OrderOverview({
                   : defaultCardLabel}
               </p>
             )}
-            <Documents order={order} documents={documents} />
           </div>
-          <div className="text-right flex flex-col items-end gap-1 self-start">
+          <div className="text-right flex flex-col items-end gap-1">
             {isAdminUser && (
               <a
                 href={order?.checkout_url}
@@ -120,6 +119,7 @@ export default function OrderOverview({
                 Checkout Session URL
               </a>
             )}
+            <Documents order={order} documents={documents} />
             <p
               onClick={toggleModal}
               className="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover flex items-center font-medium border-b border-transparent hover:border-primary-blue-hover"

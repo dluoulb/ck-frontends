@@ -34,7 +34,7 @@ const Support: FC<SupportProps> = ({ asText, declined, containerClass }) => {
       Contact Credit Key Support at
       <div>
         <a
-          href="mailto: support@creditkey.com"
+          href="mailto:support@creditkey.com"
           className="mx-1 text-primary-blue hover:text-primary-blue-hover"
         >
           support@creditkey.com
