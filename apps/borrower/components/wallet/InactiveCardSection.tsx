@@ -6,27 +6,34 @@ import useModal from '@hooks/useModal';
 import ActivationBenefits from './ActivationBenefits';
 import HowToUseModal from './HowToUseModal';
 import InactiveVirtualCard from './InactiveVirtualCard';
+import InactivePhysicalCard from './InactivePhysicalCard';
 
-export default function InactiveCardSection() {
+export default function InactiveCardSection({
+    title,
+    bgColor,
+    cardType="virtual",
+    benefitsConfig={},
+  }) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
     <>
       <div className="space-y-4">
-        <div className="bg-[#F4F8FF] shadow-sm p-6 border rounded-md">
-          <div className="flex flex-col lg:flex-row">
-            <div className="w-full lg:w-1/2 rounded-2xl bg-white border max-w-lg mx-auto py-2">
+        <div className={`bg-[#${bgColor}] shadow-sm border rounded-2xl`}>
+          <div className="flex flex-col">
+            <div className="w-full rounded-2xl bg-white border mx-auto py-2">
               <div className="space-y-2 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
                   <h3 className="text-lg font-bold text-gray-900">
-                    Credit Key Virtual Card
+                    {title}
                   </h3>
                   <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg">
                     Inactive
                   </span>
                 </div>
 
-                <InactiveVirtualCard />
+                {cardType === "virtual" && <InactiveVirtualCard cardTitle={title} />}
+                {cardType === "physical" && <InactivePhysicalCard cardTitle={title} />}
 
                 <button
                   onClick={toggleModal}
@@ -40,14 +47,16 @@ export default function InactiveCardSection() {
                 </button>
               </div>
             </div>
-            <div className="w-full lg:w-1/2">
-              <ActivationBenefits />
+            <div className="w-full">
+              <ActivationBenefits {...benefitsConfig} />
             </div>
           </div>
         </div>
       </div>
 
       <HowToUseModal isModalActive={isModalActive} toggleModal={toggleModal} />
+      <div className="bg-[#F4F8FF]"></div>
+      <div className="bg-[#fff7ec]"></div>
     </>
   );
 }

@@ -4,6 +4,7 @@ import ActiveCardSection from '@apps/borrower/components/wallet/ActiveCardSectio
 import InactiveCardSection from '@apps/borrower/components/wallet/InactiveCardSection';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
+import { physicalCardBenefitsConfig, virtualCardBenefitsConfig } from '@lib/constants/SiteVariables';
 
 export default function MultiUseVirtualCardDetails() {
   const vcProps = useCompanyVirtualCard();
@@ -28,7 +29,22 @@ export default function MultiUseVirtualCardDetails() {
           )}
 
           {(!vcProps.virtualCard ||
-            vcProps.virtualCard.status !== 'ACTIVE') && <InactiveCardSection />}
+            vcProps.virtualCard.status !== 'ACTIVE') && (
+            <InactiveCardSection 
+              title="Credit Key Virtual Card" 
+              bgColor="F4F8FF"
+              benefitsConfig={virtualCardBenefitsConfig}
+            />
+          )}
+
+          {(!vcProps.virtualCard ||
+            vcProps.virtualCard.status !== 'ACTIVE') && (
+            <InactiveCardSection 
+              title="Credit Key Physical Card" 
+              bgColor="fff7ec"
+              benefitsConfig={physicalCardBenefitsConfig}
+            />
+          )}
 
           {!vcProps.virtualCard && vcProps.virtualCardError && (
             <div className="text-center py-8 text-error">

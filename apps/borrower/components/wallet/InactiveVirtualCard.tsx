@@ -5,7 +5,7 @@ import useModal from '@hooks/useModal';
 import vcSvg from '@lib/images/vc.svg';
 import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 
-export default function InactiveVirtualCard() {
+export default function InactiveVirtualCard({ cardTitle }) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
@@ -14,7 +14,7 @@ export default function InactiveVirtualCard() {
         <div className="relative rounded-xl overflow-hidden flex flex-col aspect-[385/244]">
           <Image
             src={vcSvg}
-            alt="Credit Key Virtual Card"
+            alt={cardTitle}
             className="absolute inset-0 w-full h-full object-contain"
             fill
           />

@@ -89,6 +89,10 @@ export default class FullStory {
   addFundsToCardEvent(userId: string, companyId: string, amount: string) {
     this.trackEvent('Added Funds', { companyId, userId, amount });
   }
+
+  confirmMailingAddressEvent(userId: string, companyId: string) {
+    this.trackEvent('Confirmed Mailing Address', { companyId, userId });
+  }
 }
 
 // TODO fix!

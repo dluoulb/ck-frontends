@@ -8,6 +8,7 @@ import useModal from '@hooks/useModal';
 import {
   multiUseVcIvrPhone,
   qoloWidgetOrigin,
+  virtualCardBenefitsConfig,
 } from '@lib/constants/SiteVariables';
 import mcSvg from '@lib/images/mastercard.svg';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
@@ -35,7 +36,13 @@ export default function MultiUseVirtualCard() {
         )}
       {!vcProps.virtualCardLoading &&
         !vcProps.virtualCard &&
-        !vcProps.virtualCardError && <InactiveCardSection />}
+        !vcProps.virtualCardError && (
+        <InactiveCardSection 
+          title="Credit Key Virtual Card" 
+          bgColor="F4F8FF"
+          benefitsConfig={virtualCardBenefitsConfig}
+        />
+      )}
       {!vcProps.virtualCardLoading && vcProps.virtualCard && (
         <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
       )}

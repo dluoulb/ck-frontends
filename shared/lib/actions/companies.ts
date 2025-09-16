@@ -1,3 +1,5 @@
+import { CardType } from '@lib/constants/Enums';
+import { jitEnabled } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 
@@ -65,9 +67,29 @@ export const getVirtualCardToken = async (api, company_id, card_id) => {
 export const createVirtualCard = async (
   api,
   company_id,
-  options: CreateVirtualCardOptions
 ) => {
   if (!company_id) return;
+  const options = {
+    type: CardType.VIRTUAL,
+    just_in_time_funding: jitEnabled,
+  };
+  const resp = await api.post(
+    `/api/companies/${company_id}/virtual_cards`,
+    options
+  );
+
+  return new CompanyVirtualCardRecord(resp.data.virtual_card);
+};
+
+export const createPhysicalCard = async (
+  api,
+  company_id,
+) => {
+  if (!company_id) return;
+  const options = {
+    type: CardType.PHYSICAL,
+    just_in_time_funding: jitEnabled, 
+  };
   const resp = await api.post(
     `/api/companies/${company_id}/virtual_cards`,
     options
