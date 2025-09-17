@@ -12,7 +12,6 @@ export default function Promo() {
 
   const promo = getPromoFromMerchant(entity?.promo_id || promoId);
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
-  console.log(promo)
 
   if (!promo || !activeBanner) return <></>;
 
