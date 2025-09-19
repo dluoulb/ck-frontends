@@ -34,3 +34,16 @@ export const formatShortDate = (date: string) => {
   if (!date) return '';
   return DateTime.fromISO(toISO(date)).toFormat('M/d/yy');
 };
+
+export const addMonths = (date: string | Date, months: number): string => {
+  let dt: DateTime;
+  if (!date || typeof months !== 'number') return '';
+  if (typeof date === 'string') {
+    dt = DateTime.fromISO(toISO(date));
+  } else if (date instanceof Date) {
+    dt = DateTime.fromJSDate(date);
+  } else {
+    return '';
+  }
+  return dt.plus({ months }).toISO();
+};

@@ -6,7 +6,7 @@ import NextPayment from '../home/table/NextPayment';
 import OrderTotalColumn from '../home/table/OrderTotalColumn';
 import TermsColumn from '../home/table/TermsColumn';
 
-export const BuildStack = ({ original }) => {
+export const BuildStack = ({ original, openModalForLoan }) => {
   const isEditable = original.terms_editable;
   const installments = Number(original.product?.installments ?? 0);
   const label = installments
@@ -29,7 +29,11 @@ export const BuildStack = ({ original }) => {
 
         {isEditable ? (
           <div className="sm:hidden">
-            <TermsColumn order={original} terms={terms} />
+            <TermsColumn
+              order={original}
+              terms={terms}
+              openModalForLoan={openModalForLoan}
+            />
           </div>
         ) : (
           <span className="sm:hidden font-medium">{label}</span>

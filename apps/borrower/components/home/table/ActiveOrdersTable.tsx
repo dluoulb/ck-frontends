@@ -109,6 +109,7 @@ export default function ActiveOrdersTable() {
           loan={selectedLoan}
           isTermsModalOpen={isTermsModalOpen}
           toggleTermsModal={toggleTermsModal}
+          startStep={2}
         />
       )}
     </>

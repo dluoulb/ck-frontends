@@ -17,8 +17,9 @@ type ApprovedTerm = {
 export default function TermsColumn(props: {
   order: any;
   terms: ApprovedTerm[];
+  openModalForLoan: (loan: any) => void;
 }) {
-  const { order, terms = [] } = props;
+  const { order, terms = [], openModalForLoan } = props;
   const api = useApi();
   const { makeToast } = useToast();
   const { refetchOrders } = useBorrowerDeps();
@@ -45,28 +46,19 @@ export default function TermsColumn(props: {
   }, [value]);
 
   const handleChange = async (newValue: string) => {
-    const newTerm = Number(newValue);
-    if (!newTerm || newTerm === currentInstallments) {
-      setValue(String(currentInstallments));
-      return;
-    }
-
-    try {
-      await updatePaymentTerms(api, order.id, newTerm);
-      setValue(String(newTerm));
-      makeToast(
-        `Updated ${order.order_key} terms to ${newTerm} month${newTerm > 1 ? 's' : ''}`,
-        'success'
-      );
-      await refetchOrders();
-    } catch (e) {
-      makeToast(
-        'An error occurred. Please contact our support team (support@creditkey.com)',
-        'error'
-      );
-      setValue(String(currentInstallments));
+    if (openModalForLoan) {
+      openModalForLoan({ ...order, newTerm: newValue });
     }
   };
+
+  React.useEffect(() => {
+    if (
+      order?.product?.installments &&
+      String(order.product.installments) !== value
+    ) {
+      setValue(String(order.product.installments));
+    }
+  }, [order?.product?.installments]);
 
   return (
     <Select.Root value={value} onValueChange={handleChange}>

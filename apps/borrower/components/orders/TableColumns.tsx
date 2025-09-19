@@ -8,7 +8,7 @@ import OrderStatus from '../home/table/OrderStatus';
 import OrderTotalColumn from '../home/table/OrderTotalColumn';
 import TermsColumn from '../home/table/TermsColumn';
 
-const TermsCell = ({ order }) => {
+const TermsCell = ({ order, openModalForLoan }) => {
   const isEditable = order.terms_editable;
   const installments = Number(order.product?.installments ?? 0);
   const label = installments
@@ -18,7 +18,13 @@ const TermsCell = ({ order }) => {
   const { terms } = useApprovedTerms(order.id);
 
   if (isEditable) {
-    return <TermsColumn order={order} terms={terms} />;
+    return (
+      <TermsColumn
+        order={order}
+        terms={terms}
+        openModalForLoan={openModalForLoan}
+      />
+    );
   }
 
   return <span className="font-medium">{label}</span>;
@@ -30,7 +36,7 @@ export const TableColumns = (openModalForLoan) => [
     header: 'Date',
     accessorKey: 'created_at',
     hideColumn: 0,
-    cell: ({ row }) => <BuildStack original={row?.original} />,
+    cell: ({ row }) => <BuildStack original={row?.original} openModalForLoan={openModalForLoan}/>,
   },
   {
     id: 'order_key',
@@ -89,7 +95,9 @@ export const TableColumns = (openModalForLoan) => [
     header: 'Terms',
     hideColumn: 640,
     accessorFn: (row) => row.product?.installments,
-    cell: ({ row }) => <TermsCell order={row.original} />,
+    cell: ({ row }) => (
+      <TermsCell order={row.original} openModalForLoan={openModalForLoan} />
+    ),
   },
   {
     id: 'status',
