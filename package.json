@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@bharathvaj/fullstory-rollbar": "^1.0.0",
+    "@customerio/cdp-analytics-browser": "^0.3.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",

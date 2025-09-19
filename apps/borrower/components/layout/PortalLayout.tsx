@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import Scripts from '@components/Scripts';
+import { useEntity } from '@contexts/EntityContext';
 import { usePromo } from '@contexts/PromoContext';
 import { useUser } from '@contexts/UserContext';
-import { platform } from '@lib/constants/SiteVariables';
-import PossessUser from './PossessUser';
-import { useEntity } from '@contexts/EntityContext';
+import { useCustomerIO } from '@hooks/useCustomerio';
 import useOrders from '@hooks/useOrders';
+import { platform } from '@lib/constants/SiteVariables';
 import { fromISO } from '@lib/utils/datetime_formatters';
+import PossessUser from './PossessUser';
 
 declare const window: any;
 
@@ -19,6 +20,7 @@ export default function PortalLayout({ children }) {
   const { isAdminUser, isImpersonating } = useUser();
   const { entity } = useEntity();
   const { totalOrderCount } = useOrders(entity);
+  useCustomerIO();
 
   const promo_id = searchParams.get('promo_id');
 
@@ -27,11 +29,11 @@ export default function PortalLayout({ children }) {
       chat: {
         notifications: {
           mobile: {
-            disable: true
-          }
-        }
-      }
-    }
+            disable: true,
+          },
+        },
+      },
+    },
   };
 
   useEffect(() => {
