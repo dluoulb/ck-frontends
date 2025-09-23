@@ -2,16 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
-import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import usePlaid from '@hooks/usePlaid';
 import useToast from '@hooks/useToast';
-import {
-  createPaymentMethodBank,
-  generateBankAgreement,
-} from '@lib/actions/payment_methods';
+import { createPaymentMethodBank } from '@lib/actions/payment_methods';
 import PaymentMethodRecord from '@lib/records/payment_method';
 
 export default function Plaid({
@@ -20,6 +16,7 @@ export default function Plaid({
   setHasAlert,
   toggleModal,
   setUsePlaid,
+  createVcFlow = false,
 }) {
   const [loading, setLoading] = useState(false);
   const { refetchPaymentMethods } = useBorrowerDeps();
@@ -37,9 +34,11 @@ export default function Plaid({
   const onSuccess = useCallback(async (publicToken) => {
     exchangePublicToken(publicToken);
   }, []);
+
   const onExit = useCallback(async (err) => {
     console.log(err);
   }, []);
+
   const linkConfig = {
     token: linkToken,
     onSuccess,
@@ -57,7 +56,12 @@ export default function Plaid({
         refetchPaymentMethods();
         makeToast('Payment Method Successfully Created', 'success');
         resetLinkFlow();
-        toggleModal();
+
+        if (createVcFlow) {
+          next();
+        } else {
+          toggleModal();
+        }
       })
       .catch((err) => {
         console.error('SAD', err?.response?.data?.error);

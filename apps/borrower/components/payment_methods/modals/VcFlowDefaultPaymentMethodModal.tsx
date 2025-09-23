@@ -1,18 +1,14 @@
 import { useState } from 'react';
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-} from '@headlessui/react';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import Image from 'next/image';
 
-import check from '@lib/images/check.gif';
-import BankForm from '../forms/BankForm';
-import Plaid from '../Plaid';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
-import FullStory from '@lib/utils/fullstory';
 import { plaidEnabled } from '@lib/constants/SiteVariables';
+import check from '@lib/images/check.gif';
+import FullStory from '@lib/utils/fullstory';
+import BankForm from '../forms/BankForm';
+import Plaid from '../Plaid';
 
 export default function VcFlowDefaultPaymentMethodModal({
   hasAlert,
@@ -40,6 +36,7 @@ export default function VcFlowDefaultPaymentMethodModal({
           toggleModal={toggleModal}
           setHasAlert={setHasAlert}
           setUsePlaid={setUsePlaid}
+          createVcFlow={true}
         />
       );
     } else {
@@ -75,10 +72,13 @@ export default function VcFlowDefaultPaymentMethodModal({
     <>
       <div className="mb-5">
         <div className="my-4 sm:my-2">
-          <p className="text-lg font-semibold">Please add default repayment method</p>
+          <p className="text-lg font-semibold">
+            Please add default repayment method
+          </p>
           <div className="my-1 sm:my-2 text-left">
             <p className="text-sm sm:text-base">
-              This is the bank account where Credit Key will deduct funds according to the payment schedule agreed to for each purchase.
+              This is the bank account where Credit Key will deduct funds
+              according to the payment schedule agreed to for each purchase.
             </p>
             {<ConnectBankHeader />}
           </div>
@@ -91,4 +91,3 @@ export default function VcFlowDefaultPaymentMethodModal({
     </>
   );
 }
-
