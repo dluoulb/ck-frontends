@@ -19,7 +19,7 @@ function isColumnVisible(hideColumn, viewportWidth) {
   if (typeof hideColumn === 'number') {
     return viewportWidth >= hideColumn;
   }
-  
+
   return hideColumn !== true;
 }
 
@@ -44,6 +44,7 @@ export default function OrdersTable({
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([{ id: defaultSort, desc: true }]);
+  const [startStep, setStartStep] = useState(1);
 
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
@@ -51,6 +52,7 @@ export default function OrdersTable({
   const openModalForLoan = useCallback((loan) => {
     setSelectedLoan(loan);
     setIsTermsModalOpen(true);
+    setStartStep(2);
   }, []);
 
   const data = useMemo(() => orders || [], [orders, orders?.length]);
@@ -59,7 +61,7 @@ export default function OrdersTable({
       ...col,
       meta: {
         ...col.meta,
-        isVisible: isColumnVisible(col.hideColumn, size.width)
+        isVisible: isColumnVisible(col.hideColumn, size.width),
       },
     }));
   }, [size.width, openModalForLoan]);
@@ -114,6 +116,12 @@ export default function OrdersTable({
     setOrdersPageIndex(pageIndex);
   }, [pageIndex]);
 
+  useEffect(() => {
+    if (!isTermsModalOpen) {
+      setStartStep(1);
+    }
+  }, [isTermsModalOpen]);
+
   return (
     <>
       <div role={OrdersTable.role}>
@@ -153,6 +161,7 @@ export default function OrdersTable({
           loan={selectedLoan}
           isTermsModalOpen={isTermsModalOpen}
           toggleTermsModal={toggleTermsModal}
+          startStep={startStep}
         />
       )}
     </>

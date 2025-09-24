@@ -15,7 +15,7 @@ export const DashboardTableColumns = (openModalForLoan) => [
     accessorKey: 'created_at',
     hideColumn: 0,
     meta: {},
-    cell: ({ row }) => <BuildStack original={row?.original} />,
+    cell: ({ row }) => <BuildStack original={row?.original} openModalForLoan={openModalForLoan} />,
   },
   {
     id: 'order_key',
@@ -83,7 +83,7 @@ export const DashboardTableColumns = (openModalForLoan) => [
 
       const { terms } = useApprovedTerms(row.original.id);
       if (isEditable) {
-        return <TermsColumn order={row.original} terms={terms} />;
+        return <TermsColumn order={row.original} terms={terms} openModalForLoan={openModalForLoan} />;
       }
 
       return <span className="font-medium">{label}</span>;
