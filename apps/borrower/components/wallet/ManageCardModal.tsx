@@ -3,6 +3,7 @@ import {
   faCopy,
   faEnvelope,
   faPhone,
+  faCreditCard
 } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -133,8 +134,12 @@ export default function ManageCardModal({
   }, [entity]);
 
   return (
-    <ModalWrapper isModalActive={isModalActive} toggleModal={toggleModal}>
-      <h2 className="font-bold text-xl">Manage Card</h2>
+    <ModalWrapper
+      isModalActive={isModalActive}
+      toggleModal={toggleModal}
+      header="Manage Card"
+      headerIcon={faCreditCard}
+    >
       <div className="space-y-6 mt-4">
         <div className="space-y-1">
           <h3 className="text-lg font-semibold text-gray-900">
@@ -270,13 +275,6 @@ export default function ManageCardModal({
               </a>
             </div>
           </div>
-        </div>
-
-        <div className="mt-4">
-          <p className="text-xs text-secondary-gray">
-            This card is issued by Sutton Bank, Member FDIC, pursuant to license
-            by Mastercard International Inc.
-          </p>
         </div>
       </div>
 

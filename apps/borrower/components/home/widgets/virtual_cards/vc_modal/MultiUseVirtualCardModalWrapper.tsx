@@ -3,20 +3,24 @@ import { faCirclePlus } from '@fortawesome/pro-solid-svg-icons';
 import { defineStepper } from '@stepperize/react';
 
 import VcFlowDefaultPaymentMethodModal from '@apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal';
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import useModal from '@hooks/useModal';
+import { jitEnabled } from '@lib/constants/SiteVariables';
 import AddFundsModal from './AddFundsModal';
 import CardholderAgreementModal from './CardholderAgreementModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
 import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
-import { jitEnabled } from '@lib/constants/SiteVariables';
 
 export default function MultiUseVirtualCardModalWrapper({
   isModalActive,
   toggleModal,
 }) {
   const [hasAlert, setHasAlert] = useState(false);
+  const { physicalCard } = useCompanyPhysicalCard();
+
+  const skipAgreementAndTerms = !!physicalCard
 
   const orderedScreens = [
     {
@@ -27,17 +31,17 @@ export default function MultiUseVirtualCardModalWrapper({
     {
       id: 'cardholder_agreement',
       component: CardholderAgreementModal,
-      hide: false,
+      hide: skipAgreementAndTerms,
     },
     {
       id: 'add_payment_method',
       component: VcFlowDefaultPaymentMethodModal,
-      hide: false,
+      hide: skipAgreementAndTerms,
     },
     {
       id: 'set_default_terms',
       component: SetDefaultTermsModal,
-      hide: false,
+      hide: skipAgreementAndTerms,
     },
     {
       id: 'add_funds',
@@ -77,6 +81,7 @@ export default function MultiUseVirtualCardModalWrapper({
     hasAlert,
     setHasAlert,
     createVcFlow: true,
+    skipCardCreate: skipAgreementAndTerms
   };
 
   useEffect(() => {

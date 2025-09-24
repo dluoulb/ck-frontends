@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
 
-import PrimaryButton from '@components/buttons/PrimaryButton';
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import OutlineButton from '@components/buttons/OutlineButton';
+import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
+import useApi from '@hooks/useApi';
+import useToast from '@hooks/useToast';
+import { createVirtualCard } from '@lib/actions/companies';
 import FullStory from '@lib/utils/fullstory';
 
 export default function MultiUseVCRulesModal({ next, toggleModal }) {
   const [agree, setAgree] = useState(false);
-  const { entity } = useEntity();
+  const [loading, setLoading] = useState(false);
+  const { entity, fetchEntity } = useEntity();
   const { user } = useUser();
+  const api = useApi();
+  const { makeToast } = useToast();
+  const { physicalCard } = useCompanyPhysicalCard();
 
-  const handleClick = () => {
+  const skipAgreementAndTerms = !!physicalCard;
+
+  const handleClick = async () => {
     const fullstory = new FullStory();
     fullstory.agreeVcRulesEvent(user?.id, entity?.id);
-    next();
+    
+    if (skipAgreementAndTerms) {
+      setLoading(true);
+      try {
+        await createVirtualCard(api, entity?.id);
+        makeToast('Credit Key Card Successfully Created', 'success');
+        fetchEntity({ company_id: entity?.id });
+        next();
+      } catch (error) {
+        makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      next();
+    }
   };
 
   return (
@@ -25,7 +50,9 @@ export default function MultiUseVCRulesModal({ next, toggleModal }) {
             Credit Key Card Usage
           </p>
           <div>
-            <p>Use of Credit Key Cards are for commercial loan purposes only.</p>
+            <p>
+              Use of Credit Key Cards are for commercial loan purposes only.
+            </p>
             <ul role="list" className="list-disc text-left space-y-1 pl-3 my-3">
               <li>
                 Credit Key Cards are not to be used for personal, family, or
@@ -37,9 +64,9 @@ export default function MultiUseVCRulesModal({ next, toggleModal }) {
               </li>
             </ul>
             <p>
-              Transactions found to be in violation will result in Credit Key Card
-              access being revoked and potential suspension of your Credit Key
-              account.
+              Transactions found to be in violation will result in Credit Key
+              Card access being revoked and potential suspension of your Credit
+              Key account.
             </p>
           </div>
         </div>
@@ -71,7 +98,8 @@ export default function MultiUseVCRulesModal({ next, toggleModal }) {
             hoverClass="hover:bg-primary-blue-hover"
             containerClass="w-max"
             onClick={handleClick}
-            disabled={!agree}
+            disabled={!agree || loading}
+            isLoading={loading}
           />
         </div>
       </section>
@@ -80,4 +108,3 @@ export default function MultiUseVCRulesModal({ next, toggleModal }) {
 }
 
 MultiUseVCRulesModal.role = 'multi-use-vc-rules-modal-component';
-

@@ -1,19 +1,29 @@
-import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
-import Loading from '@components/Loading';
-import ActiveCardSection from './ActiveCardSection';
-import InactiveCardSection from './InactiveCardSection';
-import PendingTransactionsSection from './PendingTransactionsSection';
-import { physicalCardBenefitsConfig, virtualCardBenefitsConfig } from '@lib/constants/SiteVariables';
-import SelectionWidget from '../home/widgets/SelectionWidget';
 import { useState } from 'react';
 import classNames from 'classnames';
+
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
+import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
+import Loading from '@components/Loading';
+import {
+  physicalCardBenefitsConfig,
+  virtualCardBenefitsConfig,
+} from '@lib/constants/SiteVariables';
+import ActiveCardSection from './ActiveCardSection';
+import InactiveCardSection from './InactiveCardSection';
+import PendingPhysicalCard from './PendingPhysicalCard';
+import PendingTransactionsSection from './PendingTransactionsSection';
+import SelectionWidget from '../home/widgets/SelectionWidget';
 import SuttonVcDisclosure from '../home/widgets/virtual_cards/SuttonVcDisclosure';
 
 export default function Wallet() {
   const vcProps = useCompanyVirtualCard();
+  const pcProps = useCompanyPhysicalCard();
   const [active, setActive] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [activeWidget, setActiveWidget] = useState<
+    'virtual' | 'physical' | null
+  >(null);
 
   const handleSelect = (index) => {
     setActive(index);
@@ -37,7 +47,7 @@ export default function Wallet() {
     }
   };
 
-  if (!vcProps) {
+  if (vcProps.virtualCardLoading && pcProps.physicalCardLoading) {
     return (
       <div className="h-full flex justify-center items-center">
         <Loading />
@@ -56,52 +66,86 @@ export default function Wallet() {
         </h1>
 
         <div className="space-y-8">
-          {vcProps.virtualCardLoading ? (
+          {vcProps.virtualCardLoading || pcProps.physicalCardLoading ? (
             <div className="flex justify-center items-center py-8">
               <Loading />
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 gap-4 md:gap-12 md:px-7"
-                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
-                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+              <div
+                className="grid grid-cols-2 gap-4 md:gap-8 lg:gap-12 xl:gap-16"
+                onTouchStart={(touchStartEvent) =>
+                  handleTouchStart(touchStartEvent)
+                }
+                onTouchMove={(touchMoveEvent) =>
+                  handleTouchMove(touchMoveEvent)
+                }
                 onTouchEnd={() => handleTouchEnd()}
               >
-                <div className={classNames(
-                  "col-span-2 md:col-span-1 md:block",
-                  active !== 0 ? 'hidden' : '')}
+                <div
+                  className={classNames(
+                    'col-span-2 md:col-span-1 md:block',
+                    active !== 0 ? 'hidden' : ''
+                  )}
                 >
                   {vcProps.virtualCard &&
                     vcProps.virtualCard.status === 'ACTIVE' && (
-                      <ActiveCardSection virtualCard={vcProps.virtualCard} />
+                      <ActiveCardSection
+                        card={vcProps.virtualCard}
+                        cardType="virtual"
+                        showWidget={activeWidget === 'virtual'}
+                        onShowWidget={() => setActiveWidget('virtual')}
+                        onHideWidget={() => setActiveWidget(null)}
+                      />
                     )}
 
                   {(!vcProps.virtualCard ||
                     vcProps.virtualCard.status !== 'ACTIVE') && (
-                      <InactiveCardSection 
-                        title="Credit Key Virtual Card" 
-                        bgColor="F4F8FF"
-                        benefitsConfig={virtualCardBenefitsConfig}
-                      />
+                    <InactiveCardSection
+                      title="Credit Key Virtual Card"
+                      bgColor="F4F8FF"
+                      benefitsConfig={virtualCardBenefitsConfig}
+                    />
                   )}
                 </div>
 
-                <div className={classNames(
-                  "col-span-2 md:col-span-1 md:block",
-                  active !== 1 ? 'hidden' : '')}
+                <div
+                  className={classNames(
+                    'col-span-2 md:col-span-1 md:block',
+                    active !== 1 ? 'hidden' : ''
+                  )}
                 >
-                  {(!vcProps.virtualCard ||
-                    vcProps.virtualCard.status !== 'ACTIVE') && (
-                      <InactiveCardSection 
-                        title="Credit Key Physical Card" 
-                        bgColor="fff7ec"
+                  {pcProps.physicalCard &&
+                    pcProps.physicalCard.status === 'ACTIVE' && (
+                      <ActiveCardSection
+                        card={pcProps.physicalCard}
                         cardType="physical"
-                        benefitsConfig={physicalCardBenefitsConfig}
+                        showWidget={activeWidget === 'physical'}
+                        onShowWidget={() => setActiveWidget('physical')}
+                        onHideWidget={() => setActiveWidget(null)}
                       />
+                    )}
+                  {pcProps.physicalCard &&
+                    pcProps.physicalCard.status === 'PENDING' && (
+                      <PendingPhysicalCard />
+                    )}
+                  {(!pcProps.physicalCard ||
+                    (pcProps.physicalCard.status !== 'ACTIVE' &&
+                      pcProps.physicalCard.status !== 'PENDING')) && (
+                    <InactiveCardSection
+                      title="Credit Key Physical Card"
+                      bgColor="fff7ec"
+                      cardType="physical"
+                      benefitsConfig={physicalCardBenefitsConfig}
+                    />
                   )}
                 </div>
                 <div className="flex justify-center items-center col-span-2">
-                  <SelectionWidget count={2} activeIndex={active} onSelect={handleSelect} />
+                  <SelectionWidget
+                    count={2}
+                    activeIndex={active}
+                    onSelect={handleSelect}
+                  />
                 </div>
               </div>
 

@@ -37,22 +37,14 @@ export const updateRechargeTerm = async (api, company, merchant_id, term) => {
   return new CompanyRecord(updatedCompany);
 };
 
-export const getVirtualCard = async (api, company_id) => {
-  const cards = await getVirtualCards(api, company_id);
-  if (cards?.length) {
-    return cards.find(card => card.is_default === true);
-  }
-  return null;
-};
-
 export const getVirtualCards = async (api, company_id) => {
   if (!company_id) return;
+
   const resp = await api.get(`/api/companies/${company_id}/virtual_cards/all`);
 
   if (resp?.data?.cards) {
-    return resp.data.cards.map(card => new CompanyVirtualCardRecord(card));
+    return resp.data.cards.map((card) => new CompanyVirtualCardRecord(card));
   }
-
   return null;
 };
 
@@ -64,10 +56,7 @@ export const getVirtualCardToken = async (api, company_id, card_id) => {
   return resp?.data?.token;
 };
 
-export const createVirtualCard = async (
-  api,
-  company_id,
-) => {
+export const createVirtualCard = async (api, company_id) => {
   if (!company_id) return;
   const options = {
     type: CardType.VIRTUAL,
@@ -81,14 +70,11 @@ export const createVirtualCard = async (
   return new CompanyVirtualCardRecord(resp.data.virtual_card);
 };
 
-export const createPhysicalCard = async (
-  api,
-  company_id,
-) => {
+export const createPhysicalCard = async (api, company_id) => {
   if (!company_id) return;
   const options = {
     type: CardType.PHYSICAL,
-    just_in_time_funding: jitEnabled, 
+    just_in_time_funding: jitEnabled,
   };
   const resp = await api.post(
     `/api/companies/${company_id}/virtual_cards`,
@@ -96,6 +82,20 @@ export const createPhysicalCard = async (
   );
 
   return new CompanyVirtualCardRecord(resp.data.virtual_card);
+};
+
+export const activatePhysicalCard = async (
+  api,
+  company_id,
+  card_id,
+  last_four
+) => {
+  return api.post(
+    `/api/companies/${company_id}/virtual_cards/${card_id}/activation`,
+    {
+      last_four,
+    }
+  );
 };
 
 export const closeVirtualCard = async (api, company_id) => {

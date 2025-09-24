@@ -5,7 +5,7 @@ import useModal from '@hooks/useModal';
 import vcSvg from '@lib/images/vc-blue.svg';
 import PhysicalCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/PhysicalCardModalWrapper';
 
-export default function InactivePhysicalCard() {
+export default function InactivePhysicalCard({ cardTitle }) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
@@ -14,7 +14,7 @@ export default function InactivePhysicalCard() {
         <div className="relative rounded-xl overflow-hidden flex flex-col aspect-[385/244]">
           <Image
             src={vcSvg}
-            alt="Credit Key Physical Card"
+            alt={cardTitle}
             className="absolute inset-0 w-full h-full object-contain"
             fill
           />
@@ -39,4 +39,3 @@ export default function InactivePhysicalCard() {
     </>
   );
 }
-

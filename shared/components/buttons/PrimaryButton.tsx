@@ -37,7 +37,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
       <button
         aria-label={ariaLabel}
         className={classNames(
-          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer mx-auto my-1 sm:my-2 tracking-wider flex justify-center items-center text-white py-1 md:py-2 px-3',
+          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer mx-auto my-1 sm:my-2 tracking-wider flex justify-center items-center text-white py-2 px-3',
           buttonColor,
           isSmall ? 'text-xs' : textSize ? textSize : 'text-xs md:text-sm',
           { '!cursor-not-allowed !bg-disabled': disabled },

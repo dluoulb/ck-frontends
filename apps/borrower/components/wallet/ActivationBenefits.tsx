@@ -2,11 +2,19 @@ import React from 'react';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+interface ActivationBenefitsProps {
+  title?: string;
+  description?: string;
+  benefits?: any;
+  bgColor?: string;
+}
+
 export default function ActivationBenefits({
-    title,
-    description,
-    benefits,
-  }) {
+    title = '',
+    description = '',
+    benefits = [],
+    bgColor = 'transparent'
+  }: ActivationBenefitsProps) {
 
   const renderBenefits = () => {
     if (!benefits) return null;
@@ -24,7 +32,7 @@ export default function ActivationBenefits({
   }
 
   return (
-    <div className="h-full p-6 flex flex-col justify-center">
+    <div className="h-full p-6 flex flex-col justify-center" style={{ backgroundColor: `#${bgColor}` }}>
       <h3 className="text-lg font-bold mb-4">
         {title}
       </h3>

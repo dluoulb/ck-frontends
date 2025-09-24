@@ -1,23 +1,13 @@
 import React from 'react';
-import Image from 'next/image';
 import Script from 'next/script';
 
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import useModal from '@hooks/useModal';
-import {
-  multiUseVcIvrPhone,
-  qoloWidgetOrigin,
-  virtualCardBenefitsConfig,
-} from '@lib/constants/SiteVariables';
-import mcSvg from '@lib/images/mastercard.svg';
+import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
-import CkaInfo from './CkaInfo';
-import ExampleVirtualCard from './ExampleVirtualCard';
-import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
-import PrepaidCardBalance from './PrepaidCardBalance';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
-import InactiveCardSection from '../../../wallet/InactiveCardSection';
+import DashboardVCSection from '../DashboardVCSection';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -36,13 +26,7 @@ export default function MultiUseVirtualCard() {
         )}
       {!vcProps.virtualCardLoading &&
         !vcProps.virtualCard &&
-        !vcProps.virtualCardError && (
-        <InactiveCardSection 
-          title="Credit Key Virtual Card" 
-          bgColor="F4F8FF"
-          benefitsConfig={virtualCardBenefitsConfig}
-        />
-      )}
+        !vcProps.virtualCardError && <DashboardVCSection />}
       {!vcProps.virtualCardLoading && vcProps.virtualCard && (
         <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
       )}

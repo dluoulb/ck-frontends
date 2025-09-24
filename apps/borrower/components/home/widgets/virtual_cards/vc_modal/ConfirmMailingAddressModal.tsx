@@ -6,13 +6,15 @@ import FullStory from '@lib/utils/fullstory';
 import useToast from '@hooks/useToast';
 import { createPhysicalCard } from '@lib/actions/companies';
 import useApi from '@hooks/useApi';
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 
 export default function ConfirmMailingAddressModal({ next }) {
   const api = useApi();
-  const { entity } = useEntity();
+  const { entity, fetchEntity } = useEntity();
   const { user } = useUser();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
+  const {refetchPhysicalCard} = useCompanyPhysicalCard();
 
   const handleConfirm = () => {
     setLoading(true);
@@ -21,7 +23,10 @@ export default function ConfirmMailingAddressModal({ next }) {
 
     createPhysicalCard(api, entity?.id)
     .then(() => {
+      fetchEntity({ company_id: entity?.id });
+      refetchPhysicalCard();
       makeToast('Credit Key Card Successfully Requested', 'success');
+      setLoading(false);
       next();
     })
     .catch(() => {
@@ -50,7 +55,7 @@ export default function ConfirmMailingAddressModal({ next }) {
               <p>{entity.address?.city}, {entity.address?.state} {entity.address?.zip?.substring(0,5)}</p>
             </div>
             <div className="p-3 flex-1 flex justify-end items-center">
-              <a className="font-semibold text-primary-blue" href="#">Contact us to edit</a>
+              <a className="font-semibold text-primary-blue" href="https://creditkey.zendesk.com/hc/en-us">Contact us to edit</a>
             </div>
           </div>
         </div>
@@ -62,7 +67,7 @@ export default function ConfirmMailingAddressModal({ next }) {
             hoverClass="hover:bg-primary-blue-hover"
             containerClass="w-full"
             onClick={handleConfirm}
-            loading={loading}
+            isLoading={loading}
           />
         </div>
       </section>

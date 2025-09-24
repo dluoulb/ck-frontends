@@ -217,7 +217,7 @@ export default function VirtualCard({
                   onClick={onActivate}
                   className="w-full bg-primary-blue text-white px-4 py-3 text-xs sm:text-base rounded-lg font-semibold hover:bg-primary-blue-hover transition-colors"
                 >
-                  Activate Virtual Card
+                  Activate Virtual Card Instantly
                 </button>
               </div>
             )}
