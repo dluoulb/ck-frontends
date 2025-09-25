@@ -36,14 +36,30 @@ export const updateRechargeTerm = async (api, company, merchant_id, term) => {
 };
 
 export const getVirtualCard = async (api, company_id) => {
-  if (!company_id) return;
-  const resp = await api.get(`/api/companies/${company_id}/virtual_cards`);
+  const cards = await getVirtualCards(api, company_id);
+  if (cards?.length) {
+    return cards.find(card => card.is_default === true);
+  }
+  return null;
+};
 
-  if (resp?.data?.virtual_card) {
-    return new CompanyVirtualCardRecord(resp.data.virtual_card);
+export const getVirtualCards = async (api, company_id) => {
+  if (!company_id) return;
+  const resp = await api.get(`/api/companies/${company_id}/virtual_cards/all`);
+
+  if (resp?.data?.cards) {
+    return resp.data.cards.map(card => new CompanyVirtualCardRecord(card));
   }
 
   return null;
+};
+
+export const getVirtualCardToken = async (api, company_id, card_id) => {
+  if (!company_id) return;
+  if (!card_id) return;
+  const resp = await api.get(`/api/companies/${company_id}/virtual_cards/${card_id}/token`);
+
+  return resp?.data?.token;
 };
 
 export const createVirtualCard = async (

@@ -7,6 +7,9 @@ import Loading from '@components/Loading';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import vcSvg from '@lib/images/vc.svg';
 import { VirtualCardAssets } from './virtualCardAssets';
+import useApi from '@hooks/useApi';
+import { getVirtualCardToken } from '@lib/actions/companies';
+import { useEntity } from '@contexts/EntityContext';
 
 declare const window: any;
 
@@ -17,8 +20,10 @@ interface ActiveVirtualCardProps {
 export default function ActiveVirtualCard({
   cardNumber,
 }: ActiveVirtualCardProps) {
-  const { virtualCard, refetchVirtualCard, virtualCardRefetching } =
-    useCompanyVirtualCard();
+  const api = useApi();
+  const [token, setToken] = useState();
+  const { entity } = useEntity();
+  const { virtualCard } = useCompanyVirtualCard();
   const [showWidget, setShowWidget] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
@@ -123,14 +128,14 @@ export default function ActiveVirtualCard({
   }, []);
 
   useEffect(() => {
-    if (virtualCard?.pci_token && showWidget && scriptLoaded) {
-      widget.config.token = virtualCard.pci_token;
+    if (token && showWidget && scriptLoaded) {
+      widget.config.token = token;
       window.pciWidget(widget);
     }
-  }, [virtualCard, showWidget, scriptLoaded]);
+  }, [token, showWidget, scriptLoaded]);
 
-  const handleViewCardInfo = () => {
-    refetchVirtualCard();
+  const handleViewCardInfo = async () => {
+    setToken(await getVirtualCardToken(api, entity.id, virtualCard.id));
     if (showWidget) {
       setShowWidget(false);
     } else {
@@ -157,13 +162,7 @@ export default function ActiveVirtualCard({
             id="widget_container"
             className="aspect-[385/244] relative overflow-hidden rounded-xl"
           >
-            {virtualCardRefetching && (
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-20">
-                <Loading className="w-14 h-14 !text-primary" />
-              </div>
-            )}
-
-            {!virtualCard?.pci_token && !virtualCardRefetching && (
+            {!token && (
               <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-20">
                 <div className="text-center text-gray-500">
                   No card data available
