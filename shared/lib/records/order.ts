@@ -2,6 +2,7 @@ import { removeNulls } from '@lib/utils/record_utils';
 import LoanRecord from './loan';
 import MerchantRecord from './merchant';
 import PaymentPlanRecord from './payment_plan';
+import CreditCardTransactionRecord from './credit_card_transaction';
 
 export default class OrderRecord {
   id: string | null;
@@ -21,6 +22,7 @@ export default class OrderRecord {
   product: LoanRecord | PaymentPlanRecord | {};
   virtual_card_details: any[];
   transaction_type: string;
+  card_transactions: CreditCardTransactionRecord[] | [];
 
   constructor(data) {
     Object.assign(this, removeNulls(data));
@@ -34,6 +36,7 @@ export default class OrderRecord {
     }
 
     this.merchant = data.merchant ? new MerchantRecord(data.merchant) : {};
+    this.card_transactions = data.card_transactions ? data.card_transactions.map(t => new CreditCardTransactionRecord(t)) : [];
   }
 
   get net_amount(): number {
