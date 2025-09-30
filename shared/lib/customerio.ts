@@ -42,6 +42,7 @@ export const identifyUser = (user: any, entity: any) => {
       isBankConnected: entity.is_bank_connected,
       isVirtualCardEnabled: entity.vc_enabled,
       phone: user.phone_number,
+      email: user.email,
       underwritingStatus: entity.underwriting_status,
       latestApprovalDate: entity.latest_approval_date,
       isPastDue: entity.is_past_due,
