@@ -4,12 +4,12 @@ const faqs = [
   {
     question: 'When do I get my cash back?',
     answer:
-      'Cash back is applied to your account after your loan is fully paid.',
+      'Points move from pending to redeemable after your loan is fully paid.',
   },
   {
     question: 'How much can I really earn?',
     answer:
-      "If you spend $4,000/month with Credit Key, that's $120 in cash back monthly - or S1,440/year. Your Plus membership pays for itself 4x over!",
+      "If you spend $4,000/month with Credit Key, that's $120 in cash back monthly - or $1,440/year. Your Plus membership pays for itself 4x over!",
   },
   {
     question: 'How do I use my cash back rewards?',
@@ -19,7 +19,7 @@ const faqs = [
   {
     question: 'What counts as an eligible purchase?',
     answer:
-      'In-network Credit Key purchases earn 3% back. Virtual card and physical card purchases earn 1% back. Finance fees, subscription payments, and late payments are not eligible for cash back.',
+      'In-network Credit Key purchases earn 3% back. Credit Key Card purchases earn 1% back. Finance fees, subscription payments, and late payments are not eligible for cash back. See <a href="https://www.creditkey.com/legal/credit-key-plus-terms" target="_blank" class="text-primary-blue hover:text-primary-blue-hover font-medium">terms</a>.',
   },
   {
     question: 'Are there Cash Back caps?',
@@ -34,7 +34,10 @@ export default function FAQs() {
       {faqs.map((faq, index) => (
         <div key={index} className="">
           <div className="font-bold text-sm">{faq.question}</div>
-          <div className="text-sm">{faq.answer}</div>
+          <div
+            className="text-sm"
+            dangerouslySetInnerHTML={{ __html: faq.answer }}
+          />
         </div>
       ))}
     </div>

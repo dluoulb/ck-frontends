@@ -22,7 +22,7 @@ const benefits = [
   {
     title: 'Build Business Credit Faster',
     description:
-      'Credit Key will report repayments to the 3 major business credit bureaus to help build your business credit.',
+      'Credit Key will report repayments to major business credit bureaus to help build your business credit.',
     icon: shieldCheck,
   },
   {
@@ -35,9 +35,9 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col gap-4">
       <h3 className="text-lg font-bold text-primary">
-        Unlock exclusive benefits:
+        All Credit Key Plus benefits:
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {benefits.map((benefit, index) => (
