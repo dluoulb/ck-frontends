@@ -16,6 +16,7 @@ import PaymentScheduleDisclosure from './payment_schedule/PaymentScheduleDisclos
 import PaymentProgress from './PaymentProgress';
 import Stats from './Stats';
 import UpdateTermsModalWrapper from '../terms/UpdateTermsModalWrapper';
+import CardTransactionsDisclosure from './card_transactions/CardTransactionsDisclosure';
 
 export default function OrderDetail() {
   const api = useApi();
@@ -84,6 +85,7 @@ export default function OrderDetail() {
               paymentMethods={paymentMethods}
               toggleModal={toggleModal}
             />
+            <CardTransactionsDisclosure order={order} />
             {parseFloat(order?.expected_fees) > 0 && (
               <AdditionalFeesDisclosure order={order} />
             )}
