@@ -26,7 +26,7 @@ function useSecondaryRoutes() {
           type: 'link',
           name: 'Wallet',
           url: '/wallet',
-          enabled: entity?.vc_enabled,
+          enabled: !!entity?.vc_enabled,
         },
         {
           type: 'link',

@@ -10,11 +10,14 @@ import useOrders from '@hooks/useOrders';
 import { platform } from '@lib/constants/SiteVariables';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import PossessUser from './PossessUser';
+import useAuthorizedRoute from '@apps/borrower/hooks/useAuthorizedRoute';
+import NotFound from '@components/NotFound';
 
 declare const window: any;
 
 export default function PortalLayout({ children }) {
   const searchParams = useSearchParams();
+  const { isAuthorized } = useAuthorizedRoute();
 
   const { setPromoId } = usePromo();
   const { isAdminUser, isImpersonating } = useUser();
@@ -71,7 +74,7 @@ export default function PortalLayout({ children }) {
       <Scripts />
       <div className="flex-grow w-full xl:w-portal">
         {(isAdminUser || isImpersonating) && <PossessUser />}
-        {children}
+        {isAuthorized ? children : <NotFound />}
       </div>
     </div>
   );

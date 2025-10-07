@@ -56,7 +56,7 @@ export default function TopNav() {
 
     if (item.type === 'info') {
       return (
-        <BorrowerContextProvider>
+        <BorrowerContextProvider key={item.name}>
           <TclWidget />
         </BorrowerContextProvider>
       );
