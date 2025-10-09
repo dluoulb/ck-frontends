@@ -25,13 +25,9 @@ export default function CkaLink() {
               <p className="flex gap-2 text-[#333333]">
                 <span>
                   Pay invoices using your available credit.{' '}
-                  <a
-                    href={ckaLink}
-                    target="_blank"
-                    className="items-center cursor-pointer text-primary-blue hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium"
-                  >
+                  <span className="items-center cursor-pointer text-primary-blue hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium">
                     Learn more
-                  </a>
+                  </span>
                 </span>
               </p>
             </div>
