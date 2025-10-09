@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { useEntity } from '@contexts/EntityContext';
-import { createVirtualCard, updateCompany } from '@lib/actions/companies';
+import { createVirtualCard, updateRechargeTerm } from '@lib/actions/companies';
 import { getMerchant } from '@lib/actions/merchants';
 import { getApprovedTerms } from '@lib/actions/entities';
 import Loading from '@components/Loading';
@@ -29,53 +29,30 @@ export default function SetDefaultTermsModal({ next }) {
     setTerm(value);
   };
 
-  const updateRechargeTerm = (merchant_id, term) => {
-    const existingTermIndex = entity?.recharge_settings.findIndex(
-      (setting) => {
-        return setting.merchant_id === merchant_id;
-      }
-    );
-
-    if (existingTermIndex < 0) {
-      entity?.recharge_settings.push({
-        merchant_id,
-        default_term: term?.term,
-        default_term_period: term?.term_period,
-      });
-    } else {
-      entity.recharge_settings[existingTermIndex].default_term = term?.term;
-      entity.recharge_settings[existingTermIndex].default_term_period = term?.term_period;
-    }
-
-    return updateCompany(api, {
-      ...entity,
-    }, 'include=cta_banners');
-  };
-
   const onSave = (merchant_id, term) => {
     if (!term) {
       makeToast('Please select a default term', 'error');
       return;
     }
     setLoading(true);
-    updateRechargeTerm(merchant_id, term)
+    updateRechargeTerm(api, entity, merchant_id, term?.term)
     .then(() => {
       const fullstory = new FullStory();
       fullstory.setDefaultTermsEvent(user?.id, entity?.id, term?.term);
       makeToast('Default Term Successfully Updated', 'success');
       fetchEntity({ company_id: entity?.id });
+      createVirtualCard(api, entity?.id, {just_in_time_funding: jitEnabled})
+      .then(() => {
+        makeToast('Credit Key Card Successfully Created', 'success');
+        next();
+      })
+      .catch(() => {
+        makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
+        setLoading(false);
+      });
     })
     .catch(() => {
       makeToast('An error occurred. Please contact Credit Key Support', 'error');
-      setLoading(false);
-    });
-    createVirtualCard(api, entity?.id, {just_in_time_funding: jitEnabled})
-    .then(() => {
-      makeToast('Credit Key Card Successfully Created', 'success');
-      next();
-    })
-    .catch(() => {
-      makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
       setLoading(false);
     });
   };
