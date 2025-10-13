@@ -2,23 +2,28 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import Scripts from '@components/Scripts';
+import { useEntity } from '@contexts/EntityContext';
 import { usePromo } from '@contexts/PromoContext';
 import { useUser } from '@contexts/UserContext';
-import { platform } from '@lib/constants/SiteVariables';
-import PossessUser from './PossessUser';
-import { useEntity } from '@contexts/EntityContext';
+import { useCustomerIO } from '@hooks/useCustomerio';
 import useOrders from '@hooks/useOrders';
+import { platform } from '@lib/constants/SiteVariables';
 import { fromISO } from '@lib/utils/datetime_formatters';
+import PossessUser from './PossessUser';
+import useAuthorizedRoute from '@apps/borrower/hooks/useAuthorizedRoute';
+import NotFound from '@components/NotFound';
 
 declare const window: any;
 
 export default function PortalLayout({ children }) {
   const searchParams = useSearchParams();
+  const { isAuthorized } = useAuthorizedRoute();
 
   const { setPromoId } = usePromo();
   const { isAdminUser, isImpersonating } = useUser();
   const { entity } = useEntity();
   const { totalOrderCount } = useOrders(entity);
+  useCustomerIO();
 
   const promo_id = searchParams.get('promo_id');
 
@@ -27,11 +32,11 @@ export default function PortalLayout({ children }) {
       chat: {
         notifications: {
           mobile: {
-            disable: true
-          }
-        }
-      }
-    }
+            disable: true,
+          },
+        },
+      },
+    },
   };
 
   useEffect(() => {
@@ -69,7 +74,7 @@ export default function PortalLayout({ children }) {
       <Scripts />
       <div className="flex-grow w-full xl:w-portal">
         {(isAdminUser || isImpersonating) && <PossessUser />}
-        {children}
+        {isAuthorized ? children : <NotFound />}
       </div>
     </div>
   );

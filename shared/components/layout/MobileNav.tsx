@@ -15,6 +15,7 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import Link from 'next/link';
 
 export default function MobileNav() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function MobileNav() {
                 {getRoutes().map((item) => (
                   <div key={item.name}>
                     <DisclosureButton
-                      as="a"
+                      as={Link}
                       href={item.url}
                       target={item.target}
                       aria-current={

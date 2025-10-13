@@ -27,13 +27,14 @@ export default function Widgets() {
             href="/wallet"
             className="py-1 mid:py-0 flex items-center gap-1 text-primary-blue-hover font-medium group text-sm min-w-24 max-h-max"
           >
+          {!!entity?.vc_enabled &&
             <OutlineButton
               ariaLabel="export-payment-history"
               buttonText="Open Wallet"
               buttonColor="bg-white !text-primary !font-medium border border-border-grey !mt-0 !rounded-[8px]"
               hoverClass="hover:bg-gray-100"
               containerClass="2xs:max-w-max md:max-w-auto"
-            />
+            />}
           </Link>
         </div>
       </div>

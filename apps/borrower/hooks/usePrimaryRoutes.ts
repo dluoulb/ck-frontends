@@ -34,7 +34,7 @@ function usePrimaryRoutes() {
       icon: faCreditCard,
       name: 'Wallet',
       url: '/wallet',
-      enabled: entity?.vc_enabled && !mobileApp,
+      enabled: !!entity?.vc_enabled && !mobileApp,
     },
     {
       icon: faStore,

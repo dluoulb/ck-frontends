@@ -28,6 +28,7 @@ export default class CompanyRecord {
   recharge_settings: any[];
   promo_id: string;
   merchant_applied_with: MerchantRecord;
+  orders_count: number;
 
   constructor(data) {
     const cleanedData = removeNulls(data);
@@ -67,6 +68,9 @@ export default class CompanyRecord {
 
   get vc_enabled() {
     // keeping this garbage for now in case we need to swap back to stripe cards
-    return this.cta_banners?.find((b) => b.enabled)?.name === 'multi_use_virtual_card';
+    return (
+      this.cta_banners?.find((b) => b.enabled)?.name ===
+      'multi_use_virtual_card'
+    );
   }
 }
