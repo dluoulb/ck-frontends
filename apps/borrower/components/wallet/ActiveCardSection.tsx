@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useModal from '@hooks/useModal';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
-import ActivePhysicalCard from './ActivePhysicalCard';
-import ActiveVirtualCard from './ActiveVirtualCard';
 import CardFinancialInfo from './CardFinancialInfo';
-import HowToUseModal from './HowToUseModal';
 import ManageCardModal from './ManageCardModal';
+import ActivePhysicalCard from './physical_card/ActivePhysicalCard';
+import ActiveVirtualCard from './virtual_card/ActiveVirtualCard';
+import HowToUseModal from './virtual_card/HowToUseModal';
 
 interface ActiveCardSectionProps {
   card: CompanyVirtualCardRecord;
