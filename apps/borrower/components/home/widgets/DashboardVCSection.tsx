@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useModal from '@hooks/useModal';
 import { virtualCardBenefitsConfig } from '@lib/constants/SiteVariables';
 import ActivationBenefits from '../../wallet/ActivationBenefits';
-import HowToUseModal from '../../wallet/HowToUseModal';
-import InactiveVirtualCard from '../../wallet/InactiveVirtualCard';
+import HowToUseModal from '../../wallet/virtual_card/HowToUseModal';
+import InactiveVirtualCard from '../../wallet/virtual_card/InactiveVirtualCard';
 
 export default function DashboardVCSection() {
   const { isModalActive, toggleModal } = useModal();

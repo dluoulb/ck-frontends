@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useModal from '@hooks/useModal';
 import ActivationBenefits from './ActivationBenefits';
-import HowToUseModal from './HowToUseModal';
-import InactivePhysicalCard from './InactivePhysicalCard';
-import InactiveVirtualCard from './InactiveVirtualCard';
+import PhysicalHowToUseModal from './physical_card/HowToUseModal';
+import InactivePhysicalCard from './physical_card/InactivePhysicalCard';
+import VirtualHowToUseModal from './virtual_card/HowToUseModal';
+import InactiveVirtualCard from './virtual_card/InactiveVirtualCard';
 
 interface BenefitsConfig {
   title?: string;
@@ -50,23 +51,16 @@ export default function InactiveCardSection({
                   <InactivePhysicalCard cardTitle={title} />
                 )}
 
-                {cardType === 'virtual' ? (
-                  <button
-                    onClick={toggleModal}
-                    className="w-full max-w-lg text-bas pb-1 font-semibold text-primary-blue hover:text-primary-blue-hover flex items-center justify-center gap-2"
-                  >
-                    <FontAwesomeIcon
-                      icon={faQuestionCircle}
-                      className="text-sm"
-                    />
-                    How to Use
-                  </button>
-                ) : (
-                  <div
-                    className="w-full max-w-lg pb-1"
-                    style={{ height: '30px' }}
+                <button
+                  onClick={toggleModal}
+                  className="w-full max-w-lg text-bas pb-1 font-semibold text-primary-blue hover:text-primary-blue-hover flex items-center justify-center gap-2"
+                >
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    className="text-sm"
                   />
-                )}
+                  How to Use
+                </button>
               </div>
             </div>
             <ActivationBenefits
@@ -79,7 +73,17 @@ export default function InactiveCardSection({
         </div>
       </div>
 
-      <HowToUseModal isModalActive={isModalActive} toggleModal={toggleModal} />
+      {cardType === 'virtual' ? (
+        <VirtualHowToUseModal
+          isModalActive={isModalActive}
+          toggleModal={toggleModal}
+        />
+      ) : (
+        <PhysicalHowToUseModal
+          isModalActive={isModalActive}
+          toggleModal={toggleModal}
+        />
+      )}
     </>
   );
 }

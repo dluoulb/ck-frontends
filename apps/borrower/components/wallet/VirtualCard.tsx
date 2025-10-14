@@ -6,7 +6,7 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import vcSvg from '@lib/images/vc.svg';
-import { VirtualCardAssets } from './virtualCardAssets';
+import { CardAssets } from './cardAssets';
 
 declare const window: any;
 
@@ -59,7 +59,7 @@ export default function VirtualCard({
           display: 'none',
         },
         vc_bg: {
-          background: `url("${VirtualCardAssets.BACKGROUND_BASE_64}")`,
+          background: `url("${CardAssets.BACKGROUND_BASE_64}")`,
           'background-size': 'cover',
         },
         vc_number: {

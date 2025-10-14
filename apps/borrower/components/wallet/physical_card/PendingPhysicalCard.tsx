@@ -1,11 +1,11 @@
 import React from 'react';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 
 import useModal from '@hooks/useModal';
 import vcSvg from '@lib/images/vc-blue.svg';
-import PhysicalCardActivationModal from '../home/widgets/virtual_cards/vc_modal/PhysicalCardActivationModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import PhysicalCardActivationModal from '../../home/widgets/virtual_cards/vc_modal/PhysicalCardActivationModal';
 
 export default function PendingPhysicalCard() {
   const { isModalActive, toggleModal } = useModal();
@@ -18,7 +18,9 @@ export default function PendingPhysicalCard() {
             <div className="w-full rounded-2xl bg-white border mx-auto py-3">
               <div className="space-y-3 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
-                  <h3 className="text-lg font-bold text-gray-900">Credit Key Physical Card</h3>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    Credit Key Physical Card
+                  </h3>
                   <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg">
                     Pending
                   </span>
@@ -45,23 +47,27 @@ export default function PendingPhysicalCard() {
                     </div>
                   </div>
                 </div>
-                <div className='flex px-5 gap-3'>
-                  <span className='p-3 my-auto bg-gray-200 rounded-[50%]'>
-                    <FontAwesomeIcon icon={faEnvelope} className='text-2xl text-primary-blue' />
+                <div className="flex px-5 gap-3">
+                  <span className="p-3 my-auto bg-gray-200 rounded-[50%]">
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      className="text-2xl text-primary-blue"
+                    />
                   </span>
-                  <span className='text-sm'>
-                    <p className='font-bold'>Received your card in the mail?</p>
-                    <p>Your card is currently on the way. Activate it here after you receive it in the mail.</p>
+                  <span className="text-sm">
+                    <p className="font-bold">Received your card in the mail?</p>
+                    <p>
+                      Your card is currently on the way. Activate it here after
+                      you receive it in the mail.
+                    </p>
                   </span>
                 </div>
               </div>
             </div>
-            <div className="w-full">
-            </div>
+            <div className="w-full"></div>
           </div>
         </div>
       </div>
-
 
       <PhysicalCardActivationModal
         isModalActive={isModalActive}

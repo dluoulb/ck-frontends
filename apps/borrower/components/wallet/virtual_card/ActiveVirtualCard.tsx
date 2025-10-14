@@ -6,26 +6,26 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import { getVirtualCardToken } from '@lib/actions/companies';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
-import vcSvg from '@lib/images/vc-blue.svg';
-import { VirtualCardAssets } from './virtualCardAssets';
+import vcSvg from '@lib/images/vc.svg';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
-import { formatCardNumber } from '@lib/utils/formatters';
+import { formatCardNumber } from '../../../../../shared/lib/utils/formatters';
+import { CardAssets } from '../cardAssets';
 
 declare const window: any;
 
-interface ActivePhysicalCardProps {
+interface ActiveVirtualCardProps {
   card: CompanyVirtualCardRecord;
   showWidget: boolean;
   onShowWidget: () => void;
   onHideWidget: () => void;
 }
 
-export default function ActivePhysicalCard({
+export default function ActiveVirtualCard({
   card,
   showWidget,
   onShowWidget,
-  onHideWidget
-}: ActivePhysicalCardProps) {
+  onHideWidget,
+}: ActiveVirtualCardProps) {
   const api = useApi();
   const [token, setToken] = useState();
   const { entity } = useEntity();
@@ -35,7 +35,7 @@ export default function ActivePhysicalCard({
 
   const widget = {
     frame: {
-      container_id: 'widget_container_physical',
+      container_id: 'widget_container_virtual',
       iframe_class:
         'fs-exclude widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
       spinner: false,
@@ -65,7 +65,7 @@ export default function ActivePhysicalCard({
           display: 'none',
         },
         vc_bg: {
-          background: `url("${VirtualCardAssets.BLUE_BACKGROUND_BASE_64}")`,
+          background: `url("${CardAssets.BACKGROUND_BASE_64}")`,
           'background-size': 'cover',
         },
         vc_number: {
@@ -95,7 +95,7 @@ export default function ActivePhysicalCard({
           padding: 0,
           top: '45vw',
           left: '58vw',
-          'background-image': `url("${VirtualCardAssets.COPY_ICON_SVG}")`,
+          'background-image': `url("${CardAssets.COPY_ICON_SVG}")`,
           'background-repeat': 'no-repeat',
           'background-position': 'center',
           'background-size': 'contain',
@@ -159,7 +159,7 @@ export default function ActivePhysicalCard({
       {showWidget ? (
         <div className="relative">
           <div
-            id="widget_container_physical"
+            id="widget_container_virtual"
             className="aspect-[385/244] relative overflow-hidden rounded-xl"
           >
             {!token && (
@@ -197,7 +197,7 @@ export default function ActivePhysicalCard({
                     Card Number
                   </span>
                 </div>
-                <div className="text-sm sm:text-xl tracking-wider" style={{ wordSpacing: '0.3em' }}>
+                <div className="text-sm sm:text-xl tracking-wider">
                   {formatCardNumber(card.last_four)}
                 </div>
               </div>

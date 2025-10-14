@@ -10,8 +10,8 @@ import {
 } from '@lib/constants/SiteVariables';
 import ActiveCardSection from './ActiveCardSection';
 import InactiveCardSection from './InactiveCardSection';
-import PendingPhysicalCard from './PendingPhysicalCard';
 import PendingTransactionsSection from './PendingTransactionsSection';
+import PendingPhysicalCard from './physical_card/PendingPhysicalCard';
 import SelectionWidget from '../home/widgets/SelectionWidget';
 import SuttonVcDisclosure from '../home/widgets/virtual_cards/SuttonVcDisclosure';
 
