@@ -1,19 +1,27 @@
 import React from 'react';
 import Script from 'next/script';
 
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import useModal from '@hooks/useModal';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
+import DashboardPCSection from '../DashboardPCSection';
 import DashboardVCSection from '../DashboardVCSection';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
   const vcProps = useCompanyVirtualCard();
+  const { physicalCard } = useCompanyPhysicalCard();
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
+
+  const showPhysicalCardPresentment =
+    vcProps.virtualCard &&
+    vcProps.virtualCard.status === 'ACTIVE' &&
+    !physicalCard;
 
   return (
     <div className="h-full">
@@ -28,7 +36,10 @@ export default function MultiUseVirtualCard() {
         !vcProps.virtualCard &&
         !vcProps.virtualCardError && <DashboardVCSection />}
       {!vcProps.virtualCardLoading && vcProps.virtualCard && (
-        <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
+        <div className="space-y-4">
+          {showPhysicalCardPresentment && <DashboardPCSection />}
+          <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
+        </div>
       )}
       <MultiUseVirtualCardModalWrapper
         isModalActive={isModalActive}

@@ -39,9 +39,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
                   entity.vc_sub_limits.remaining_limit_amount || 0
                 )}
                 <Tooltip
-                  tooltip_text={`Your remaining spend on your card is ${formatCurrency(
-                    entity.vc_sub_limits.remaining_limit_amount || 0
-                  )}`}
+                  tooltip_text={`The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.`}
                   trigger_class="cursor-pointer max-w-max border-none"
                   container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
                 >
