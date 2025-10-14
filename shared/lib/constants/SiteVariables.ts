@@ -12,8 +12,9 @@ import {
   faTrashCanXmark,
   faUser,
 } from '@fortawesome/pro-regular-svg-icons';
-import { isEnabled } from '@lib/utils/envvar';
 import classNames from 'classnames';
+
+import { isEnabled } from '@lib/utils/envvar';
 
 const protocol = 'https://';
 const rootURI = 'creditkey.com';
@@ -24,7 +25,8 @@ export const platform = () => {
 
 export const server = (api = true) => {
   //TODO why do both NEXT_PUBLIC_API_URL and NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST need to exist?
-  const baseURI = process.env.NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100'
+  const baseURI =
+    process.env.NEXT_PUBLIC_CK_WEB_VIRTUAL_HOST || 'http://localhost:9100';
   return api ? `${baseURI}/app` : baseURI;
 };
 
@@ -48,7 +50,8 @@ export const supportLink = 'https://creditkey.zendesk.com/hc/en-us';
 export const ckaLink = 'https://www.creditkey.com/anywhere';
 export const virtualCardLink =
   'https://creditkey.zendesk.com/hc/en-us/articles/360060554031-How-can-I-use-the-Credit-Key-Virtual-Card-';
-export const restrictedVcPurchasesLink = 'https://creditkey.zendesk.com/hc/en-us/articles/360060555071-What-purchases-can-I-finance-through-Credit-Key?_hsenc=p2ANqtz--IdY_aRmZNhyR0jBsYgKwHmQpEQHMf4kWYfGJ--bW32I_y5tb-YmkwXqkzxoZOlwG9vEnd&utm_medium=email&utm_source=hs_email'
+export const restrictedVcPurchasesLink =
+  'https://creditkey.zendesk.com/hc/en-us/articles/360060555071-What-purchases-can-I-finance-through-Credit-Key?_hsenc=p2ANqtz--IdY_aRmZNhyR0jBsYgKwHmQpEQHMf4kWYfGJ--bW32I_y5tb-YmkwXqkzxoZOlwG9vEnd&utm_medium=email&utm_source=hs_email';
 
 const invalidRedirectPaths = ['[id]', '[type]', '/unauthorized'];
 
@@ -60,21 +63,25 @@ export const authRedirectLink = (href) => {
   if (isInvalidPath) {
     url.pathname = '';
   }
-  return encodeURI(`${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${url.href}`);
+  return encodeURI(
+    `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${url.href}`
+  );
 };
 
 export const qoloWidgetOrigin = () => {
   if (platform() === 'production') {
-    return "https://widgets.qolopay.com";
+    return 'https://widgets.qolopay.com';
   }
 
-  return "https://stg-widgets.qolopay.com";
+  return 'https://stg-widgets.qolopay.com';
 };
 
-export const mobileAppDownloadLink = 'https://www.creditkey.com/mobile-app-download';
+export const mobileAppDownloadLink =
+  'https://www.creditkey.com/mobile-app-download';
 
 export const jitEnabled = isEnabled(process.env.NEXT_PUBLIC_JIT_ENABLED);
 export const plaidEnabled = isEnabled(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS);
+export const plusEnabled = isEnabled(process.env.NEXT_PUBLIC_PLUS_ENABLED);
 
 export const emailRegex =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;

@@ -1,5 +1,6 @@
 import { useEntity } from '@contexts/EntityContext';
 import { marketplace } from '@lib/actions/marketplace';
+import { plusEnabled } from '@lib/constants/SiteVariables';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function useSecondaryRoutes() {
@@ -34,6 +35,12 @@ function useSecondaryRoutes() {
           url: marketplace.url,
           target: '_blank',
           enabled: !mobileApp && marketplace.enabled,
+        },
+        {
+          type: 'link',
+          name: 'Plus+',
+          url: '/plus',
+          enabled: plusEnabled,
         },
       ],
     },
