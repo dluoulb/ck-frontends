@@ -8,6 +8,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ListBox } from '@components/Dropdown';
 import Loading from '@components/Loading';
 import ModalWrapper from '@components/modals/ModalWrapper';
+import { getTermLabel } from '@lib/utils/formatters';
 
 export default function DefaultTermSettingsModal({
   loading,
@@ -52,7 +53,7 @@ export default function DefaultTermSettingsModal({
             <Field disabled={loading}>
               <ListBox
                 initialValue={modalState?.default_term?.term}
-                buttonText={term?.term || 'Select Default Term'}
+                buttonText={getTermLabel(term)}
                 handleChange={handleChange}
                 value={term}
                 listBoxClass={classNames(
@@ -64,7 +65,7 @@ export default function DefaultTermSettingsModal({
               >
                 {modalState?.term_options?.map((op) => (
                   <ListboxOption
-                    key={op.term}
+                    key={`${op.term}-${op.term_period}`}
                     value={op}
                     className={classNames(
                       'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
@@ -77,7 +78,7 @@ export default function DefaultTermSettingsModal({
                       }
                     )}
                   >
-                    {op.term}
+                    {getTermLabel(op)}
                   </ListboxOption>
                 ))}
               </ListBox>
