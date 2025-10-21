@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
+
+import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import { useEntity } from '@contexts/EntityContext';
 import { createVirtualCard, updateRechargeTerm } from '@lib/actions/companies';
-import { getMerchant } from '@lib/actions/merchants';
 import { getApprovedTerms } from '@lib/actions/entities';
 import Loading from '@components/Loading';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import MerchantRecord from '@lib/records/merchant';
-import { useUser } from '@contexts/UserContext';
+import { getTermLabel } from '@lib/utils/formatters';
 import FullStory from '@lib/utils/fullstory';
 export default function SetDefaultTermsModal({ next, skipCardCreate }) {
   const api = useApi();
@@ -66,7 +67,10 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast('An error occurred. Please contact Credit Key Support', 'error');
+        makeToast(
+          'An error occurred. Please contact Credit Key Support',
+          'error'
+        );
         setError(true);
       });
   }, []);
@@ -105,10 +109,12 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
           {!error ? (
             <Loading className="w-14 h-14" />
           ) : (
-            <p className="text-rose-600">An error occurred. Please contact Credit Key Support</p>
+            <p className="text-rose-600">
+              An error occurred. Please contact Credit Key Support
+            </p>
           )}
         </>
-        ) : (
+      ) : (
         <>
           <div className="flex items-end justify-center px-4 text-center sm:block sm:px-0 max-w-md max-h-md mx-auto">
             <div className="mt-3 text-left sm:mt-0 sm:text-left">
