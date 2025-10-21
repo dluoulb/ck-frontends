@@ -10,8 +10,10 @@ import Loading from '@components/Loading';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import MerchantRecord from '@lib/records/merchant';
-import { getTermLabel } from '@lib/utils/formatters';
+import { getMerchant } from '@lib/actions/merchants';
 import FullStory from '@lib/utils/fullstory';
+import { getTermLabel } from '@lib/utils/formatters';
+
 export default function SetDefaultTermsModal({ next, skipCardCreate }) {
   const api = useApi();
   const { makeToast } = useToast();
@@ -148,7 +150,7 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                         htmlFor={`term-${op.term}`}
                         className="flex-1 cursor-pointer text-sm font-semibold text-gray-900 flex justify-between items-center"
                       >
-                        {op.term} {op.term === 1 ? 'month' : 'months'}
+                        {getTermLabel(op)} {op.term === 1 ? 'month' : 'months'}
                         {op.rate && (
                           <span className="font-normal">
                             {op.rate}% monthly
