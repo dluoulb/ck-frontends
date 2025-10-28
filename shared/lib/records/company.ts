@@ -29,6 +29,7 @@ export default class CompanyRecord {
   promo_id: string;
   merchant_applied_with: MerchantRecord;
   orders_count: number;
+  active_cohorts: string[];
 
   constructor(data) {
     const cleanedData = removeNulls(data);
