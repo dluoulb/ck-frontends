@@ -57,8 +57,7 @@ export default function PendingPhysicalCard() {
                   <span className="text-sm">
                     <p className="font-bold">Received your card in the mail?</p>
                     <p>
-                      Your card is currently on the way. Activate it here after
-                      you receive it in the mail.
+                      Your card is on the way, and usually arrives in 5-7 business days. Activate it here after you receive it in the mail.
                     </p>
                   </span>
                 </div>
