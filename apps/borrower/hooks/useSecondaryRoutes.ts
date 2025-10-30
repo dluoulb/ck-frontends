@@ -1,6 +1,6 @@
 import { useEntity } from '@contexts/EntityContext';
 import { marketplace } from '@lib/actions/marketplace';
-import { plusEnabled } from '@lib/constants/SiteVariables';
+import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function useSecondaryRoutes() {
@@ -40,7 +40,8 @@ function useSecondaryRoutes() {
           type: 'link',
           name: 'Plus+',
           url: '/plus',
-          enabled: plusEnabled,
+          enabled: plusEnabled && 
+            plusCohorts.some(cohort => entity?.active_cohorts.includes(cohort)),
         },
       ],
     },

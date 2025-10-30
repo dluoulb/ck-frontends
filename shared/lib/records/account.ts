@@ -37,4 +37,8 @@ export default class AccountRecord {
   get vc_enabled() {
     return false;
   }
+
+  get active_cohorts() {
+    return [];
+  }
 }
