@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
+import { ListboxOption } from '@headlessui/react';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
@@ -104,6 +106,24 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
     }
   }, [merchant, terms]);
 
+  const sortedTerms = useMemo(() => {
+    if (!terms) return [];
+    
+    return [...terms].sort((a, b) => {
+      if (a.term === 4 && a.term_period === 'biweekly') return -1;
+      if (b.term === 4 && b.term_period === 'biweekly') return 1;
+      
+      if (a.term_period === 'monthly' && b.term_period === 'monthly') {
+        return a.term - b.term;
+      }
+      
+      if (a.term_period === 'monthly') return 1;
+      if (b.term_period === 'monthly') return -1;
+      
+      return 0;
+    });
+  }, [terms]);
+
   return (
     <div role={SetDefaultTermsModal.role} className="text-center">
       {!defaultTerm?.term_options ? (
@@ -137,27 +157,14 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                   }}
                   className="my-3 space-y-3"
                 >
-                  {terms?.map((op) => (
-                    <div key={op.term} className="flex items-center space-x-3 p-3 rounded-md border border-gray-300 hover:border-primary-blue transition-colors">
-                      <RadioGroup.Item
-                        value={op.term.toString()}
-                        id={`term-${op.term}`}
-                        className="w-5 h-5 rounded-full border-2 border-gray-300 data-[state=checked]:border-primary-blue data-[state=checked]:bg-primary-blue flex items-center justify-center outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2"
-                      >
-                        <RadioGroup.Indicator className="w-2 h-2 rounded-full bg-white" />
-                      </RadioGroup.Item>
-                      <label
-                        htmlFor={`term-${op.term}`}
-                        className="flex-1 cursor-pointer text-sm font-semibold text-gray-900 flex justify-between items-center"
-                      >
-                        {getTermLabel(op)} {op.term === 1 ? 'month' : 'months'}
-                        {op.rate && (
-                          <span className="font-normal">
-                            {op.rate}% monthly
-                          </span>
-                        )}
-                      </label>
-                    </div>
+                  {sortedTerms?.map((op) => (
+                    <ListboxOption
+                      key={`${op.term}-${op.term_period}`}
+                      value={op}
+                      className="cursor-pointer p-2 hover:bg-primary-blue hover:bg-opacity-70 hover:text-white last:hover:rounded-b-md"
+                    >
+                      {getTermLabel(op)}
+                    </ListboxOption>
                   ))}
                 </RadioGroup.Root>
               </div>
