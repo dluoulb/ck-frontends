@@ -34,7 +34,7 @@ export default function CardFinancialInfo() {
   return (
     <div className="flex justify-between px-6 items-center max-w-lg mx-auto">
       <div className="flex flex-col">
-        <span className="text-sm sm:text-lg font-semibold text-gray-900">
+        <span className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
           {ableToSpend}
         </span>
         <span className="text-xs sm:text-sm text-gray-400 flex items-center gap-1">
@@ -53,7 +53,7 @@ export default function CardFinancialInfo() {
       </div>
 
       <div className="flex flex-col">
-        <span className="text-sm sm:text-lg font-semibold text-gray-900">
+        <span className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
           {pendingAuthsLoading ? (
             <Skeleton className="w-full h-7" />
           ) : (
@@ -66,7 +66,7 @@ export default function CardFinancialInfo() {
       </div>
 
       <div className="flex flex-col ">
-        <span className="text-sm sm:text-lg font-semibold text-gray-900">
+        <span className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
           {defaultTermSettings?.length > 0 ? (
             defaultTerm
           ) : (

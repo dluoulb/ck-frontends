@@ -1,28 +1,27 @@
 import React from 'react';
-import Image from 'next/image';
 import Script from 'next/script';
 
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import useModal from '@hooks/useModal';
-import {
-  multiUseVcIvrPhone,
-  qoloWidgetOrigin,
-} from '@lib/constants/SiteVariables';
-import mcSvg from '@lib/images/mastercard.svg';
+import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
-import CkaInfo from './CkaInfo';
-import ExampleVirtualCard from './ExampleVirtualCard';
-import MultiUseVirtualCardInfoPanel from './MultiUseVirtualCardInfoPanel';
-import PrepaidCardBalance from './PrepaidCardBalance';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
-import InactiveCardSection from '../../../wallet/InactiveCardSection';
+import DashboardPCSection from '../DashboardPCSection';
+import DashboardVCSection from '../DashboardVCSection';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
   const vcProps = useCompanyVirtualCard();
+  const { physicalCard } = useCompanyPhysicalCard();
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
+
+  const showPhysicalCardPresentment =
+    vcProps.virtualCard &&
+    vcProps.virtualCard.status === 'ACTIVE' &&
+    !physicalCard;
 
   return (
     <div className="h-full">
@@ -35,9 +34,12 @@ export default function MultiUseVirtualCard() {
         )}
       {!vcProps.virtualCardLoading &&
         !vcProps.virtualCard &&
-        !vcProps.virtualCardError && <InactiveCardSection />}
+        !vcProps.virtualCardError && <DashboardVCSection />}
       {!vcProps.virtualCardLoading && vcProps.virtualCard && (
-        <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
+        <div className="space-y-4">
+          {showPhysicalCardPresentment && <DashboardPCSection />}
+          <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
+        </div>
       )}
       <MultiUseVirtualCardModalWrapper
         isModalActive={isModalActive}

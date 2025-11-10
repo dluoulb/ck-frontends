@@ -13,6 +13,7 @@ import TclWidget from '@components/layout/TclWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
 import OrdersBadge from './OrdersBadge';
+import WalletBadge from './WalletBadge';
 
 export default function TopNav() {
   const { secondaryRoutes } = useSecondaryRoutes();
@@ -47,6 +48,11 @@ export default function TopNav() {
             {item.name === 'Orders' && (
               <BorrowerContextProvider>
                 <OrdersBadge />
+              </BorrowerContextProvider>
+            )}
+            {item.name === 'Wallet' && (
+              <BorrowerContextProvider>
+                <WalletBadge />
               </BorrowerContextProvider>
             )}
           </Link>

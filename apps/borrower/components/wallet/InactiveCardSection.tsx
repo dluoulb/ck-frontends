@@ -4,29 +4,52 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useModal from '@hooks/useModal';
 import ActivationBenefits from './ActivationBenefits';
-import HowToUseModal from './HowToUseModal';
-import InactiveVirtualCard from './InactiveVirtualCard';
+import PhysicalHowToUseModal from './physical_card/HowToUseModal';
+import InactivePhysicalCard from './physical_card/InactivePhysicalCard';
+import VirtualHowToUseModal from './virtual_card/HowToUseModal';
+import InactiveVirtualCard from './virtual_card/InactiveVirtualCard';
 
-export default function InactiveCardSection() {
+interface BenefitsConfig {
+  title?: string;
+  description?: string;
+  benefits?: any[];
+}
+
+interface InactiveCardSectionProps {
+  title: string;
+  bgColor: string;
+  cardType?: 'virtual' | 'physical';
+  benefitsConfig?: BenefitsConfig;
+}
+
+export default function InactiveCardSection({
+  title,
+  bgColor,
+  cardType = 'virtual',
+  benefitsConfig = {},
+}: InactiveCardSectionProps) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
     <>
       <div className="space-y-4">
-        <div className="bg-[#F4F8FF] shadow-sm p-6 border rounded-md">
-          <div className="flex flex-col lg:flex-row">
-            <div className="w-full lg:w-1/2 rounded-2xl bg-white border max-w-lg mx-auto py-2">
-              <div className="space-y-2 flex flex-col items-center">
+        <div className={`bg-[#${bgColor}] shadow-sm border rounded-2xl`}>
+          <div className="flex flex-col">
+            <div className="w-full rounded-2xl bg-white border mx-auto py-3">
+              <div className="space-y-3 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
-                  <h3 className="text-lg font-bold text-gray-900">
-                    Credit Key Virtual Card
-                  </h3>
+                  <h3 className="text-lg font-bold text-gray-900">{title}</h3>
                   <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg">
                     Inactive
                   </span>
                 </div>
 
-                <InactiveVirtualCard />
+                {cardType === 'virtual' && (
+                  <InactiveVirtualCard cardTitle={title} />
+                )}
+                {cardType === 'physical' && (
+                  <InactivePhysicalCard cardTitle={title} />
+                )}
 
                 <button
                   onClick={toggleModal}
@@ -40,14 +63,27 @@ export default function InactiveCardSection() {
                 </button>
               </div>
             </div>
-            <div className="w-full lg:w-1/2">
-              <ActivationBenefits />
-            </div>
+            <ActivationBenefits
+              title={benefitsConfig.title ?? ''}
+              description={benefitsConfig.description ?? ''}
+              benefits={benefitsConfig.benefits ?? []}
+              bgColor={bgColor}
+            />
           </div>
         </div>
       </div>
 
-      <HowToUseModal isModalActive={isModalActive} toggleModal={toggleModal} />
+      {cardType === 'virtual' ? (
+        <VirtualHowToUseModal
+          isModalActive={isModalActive}
+          toggleModal={toggleModal}
+        />
+      ) : (
+        <PhysicalHowToUseModal
+          isModalActive={isModalActive}
+          toggleModal={toggleModal}
+        />
+      )}
     </>
   );
 }

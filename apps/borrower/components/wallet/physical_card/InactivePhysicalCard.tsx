@@ -2,10 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 
 import useModal from '@hooks/useModal';
-import vcSvg from '@lib/images/vc.svg';
-import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
+import vcSvg from '@lib/images/vc-blue.svg';
+import PhysicalCardModalWrapper from '../../home/widgets/virtual_cards/vc_modal/PhysicalCardModalWrapper';
 
-export default function InactiveVirtualCard() {
+export default function InactivePhysicalCard({ cardTitle }) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
@@ -14,7 +14,7 @@ export default function InactiveVirtualCard() {
         <div className="relative rounded-xl overflow-hidden flex flex-col aspect-[385/244]">
           <Image
             src={vcSvg}
-            alt="Credit Key Virtual Card"
+            alt={cardTitle}
             className="absolute inset-0 w-full h-full object-contain"
             fill
           />
@@ -25,14 +25,14 @@ export default function InactiveVirtualCard() {
                 onClick={toggleModal}
                 className="w-full bg-primary-blue text-white px-4 py-3 text-xs sm:text-base rounded-lg font-semibold hover:bg-primary-blue-hover transition-colors"
               >
-                Activate Virtual Card
+                Mail physical card
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <MultiUseVirtualCardModalWrapper
+      <PhysicalCardModalWrapper
         isModalActive={isModalActive}
         toggleModal={toggleModal}
       />

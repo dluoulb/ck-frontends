@@ -2,36 +2,40 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
-import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
-import Loading from '@components/Loading';
-import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
-import vcSvg from '@lib/images/vc.svg';
-import { VirtualCardAssets } from './virtualCardAssets';
+import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import { getVirtualCardToken } from '@lib/actions/companies';
-import { useEntity } from '@contexts/EntityContext';
+import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
+import vcSvg from '@lib/images/vc-blue.svg';
+import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
+import { formatCardNumber } from '@lib/utils/formatters';
+import { CardAssets } from '../cardAssets';
 
 declare const window: any;
 
-interface ActiveVirtualCardProps {
-  cardNumber?: string;
+interface ActivePhysicalCardProps {
+  card: CompanyVirtualCardRecord;
+  showWidget: boolean;
+  onShowWidget: () => void;
+  onHideWidget: () => void;
 }
 
-export default function ActiveVirtualCard({
-  cardNumber,
-}: ActiveVirtualCardProps) {
+export default function ActivePhysicalCard({
+  card,
+  showWidget,
+  onShowWidget,
+  onHideWidget,
+}: ActivePhysicalCardProps) {
   const api = useApi();
   const [token, setToken] = useState();
   const { entity } = useEntity();
-  const { virtualCard } = useCompanyVirtualCard();
-  const [showWidget, setShowWidget] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
 
   const widget = {
     frame: {
-      container_id: 'widget_container',
+      container_id: 'widget_container_physical',
       iframe_class:
         'fs-exclude widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
       spinner: false,
@@ -42,7 +46,7 @@ export default function ActiveVirtualCard({
     },
     target_origin: qoloWidgetOrigin(),
     config: {
-      token: virtualCard?.pci_token,
+      token: token,
       copy_to_clipboard: true,
       main: 'show_pan',
       timeout: 90,
@@ -61,7 +65,7 @@ export default function ActiveVirtualCard({
           display: 'none',
         },
         vc_bg: {
-          background: `url("${VirtualCardAssets.BACKGROUND_BASE_64}")`,
+          background: `url("${CardAssets.BLUE_BACKGROUND_BASE_64}")`,
           'background-size': 'cover',
         },
         vc_number: {
@@ -91,7 +95,7 @@ export default function ActiveVirtualCard({
           padding: 0,
           top: '45vw',
           left: '58vw',
-          'background-image': `url("${VirtualCardAssets.COPY_ICON_SVG}")`,
+          'background-image': `url("${CardAssets.COPY_ICON_SVG}")`,
           'background-repeat': 'no-repeat',
           'background-position': 'center',
           'background-size': 'contain',
@@ -132,19 +136,15 @@ export default function ActiveVirtualCard({
       widget.config.token = token;
       window.pciWidget(widget);
     }
-  }, [token, showWidget, scriptLoaded]);
+  }, [card, token, showWidget, scriptLoaded]);
 
   const handleViewCardInfo = async () => {
-    setToken(await getVirtualCardToken(api, entity.id, virtualCard.id));
-    if (showWidget) {
-      setShowWidget(false);
-    } else {
-      setShowWidget(true);
-    }
+    setToken(await getVirtualCardToken(api, entity.id, card.id));
+    onShowWidget();
   };
 
   return (
-    <div className="relative w-full max-w-lg mx-auto">
+    <div className="relative w-full mx-auto">
       <Script
         src={qoloWidgetUrl}
         onLoad={() => {
@@ -159,7 +159,7 @@ export default function ActiveVirtualCard({
       {showWidget ? (
         <div className="relative">
           <div
-            id="widget_container"
+            id="widget_container_physical"
             className="aspect-[385/244] relative overflow-hidden rounded-xl"
           >
             {!token && (
@@ -173,7 +173,7 @@ export default function ActiveVirtualCard({
 
           <div className="absolute bottom-6 right-6 flex justify-center z-30">
             <button
-              onClick={handleViewCardInfo}
+              onClick={() => onHideWidget()}
               className="bg-white hover:bg-white/90 text-primary-blue px-3 py-2 rounded-lg text-sm font-bold transition-colors shadow-lg"
             >
               Hide
@@ -190,15 +190,18 @@ export default function ActiveVirtualCard({
           />
 
           <div className="absolute inset-0 p-6 text-white flex flex-col justify-end z-10">
-            {cardNumber && (
+            {card.last_four && (
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-semibold text-gray-200">
                     Card Number
                   </span>
                 </div>
-                <div className="text-sm sm:text-xl tracking-wider">
-                  {cardNumber}
+                <div
+                  className="text-sm sm:text-xl tracking-wider"
+                  style={{ wordSpacing: '0.3em' }}
+                >
+                  {formatCardNumber(card.last_four)}
                 </div>
               </div>
             )}
