@@ -7,8 +7,6 @@ import {
 
 import { platform } from '@lib/constants/SiteVariables';
 import { rollbarConfig } from './rollbar';
-import UserRecord from '@lib/records/user';
-import CompanyRecord from '@lib/records/company';
 
 const iframedMerchants = ['chargeafter', 'samsung', 'lenovo'];
 
@@ -79,7 +77,11 @@ export default class FullStory {
   }
 
   setDefaultTermsEvent(userId: string, companyId: string, months: number) {
-    this.trackEvent('Select Default Payment Terms', { companyId, userId, months });
+    this.trackEvent('Select Default Payment Terms', {
+      companyId,
+      userId,
+      months,
+    });
   }
 
   initiateAddFundsEvent(userId: string, companyId: string) {
@@ -92,6 +94,22 @@ export default class FullStory {
 
   confirmMailingAddressEvent(userId: string, companyId: string) {
     this.trackEvent('Confirmed Mailing Address', { companyId, userId });
+  }
+
+  viewedPlusSubscriptionModalEvent(userId: string, companyId: string) {
+    this.trackEvent('Viewed Plus Subscription Modal', { companyId, userId });
+  }
+
+  plusSubscriptionSuccessfulEvent(
+    userId: string,
+    companyId: string,
+    planType: string
+  ) {
+    this.trackEvent('Plus Subscription Successful', {
+      companyId,
+      userId,
+      planType,
+    });
   }
 }
 
