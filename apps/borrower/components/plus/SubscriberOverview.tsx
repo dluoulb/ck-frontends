@@ -1,5 +1,8 @@
 import React from 'react';
 
+import Loading from '@components/Loading';
+import { useEntity } from '@contexts/EntityContext';
+import { useRewardPointsBalance } from '@hooks/useReward';
 import { plusSupportPhone, supportEmail } from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
 
@@ -10,9 +13,20 @@ type SubscriberOverviewProps = {
 export default function SubscriberOverview({
   subscription,
 }: SubscriberOverviewProps) {
+  const { entity } = useEntity();
   const memberSinceYear = subscription?.start_date
     ? new Date(subscription.start_date).getFullYear()
     : '';
+
+  const {
+    rewardPointsBalance,
+    rewardPointsBalanceLoading,
+    rewardPointsBalanceError,
+  } = useRewardPointsBalance(entity.id);
+
+  const pendingPoints = rewardPointsBalance?.pending || 0;
+  const postedPoints = rewardPointsBalance?.posted || 0;
+  const lifetimePoints = rewardPointsBalance?.lifetime || 0;
 
   return (
     <div className="flex flex-col gap-4 mt-2">
@@ -22,7 +36,30 @@ export default function SubscriberOverview({
         <div className="border border-primary-gray-border rounded-md bg-[#F4F8FF] p-6 w-full">
           <div className="text-sm font-bold">Rewards Balance</div>
           <hr className="border-t border-primary-gray-border mb-3 mt-1 w-3/4" />
-          <div className="text-sm mt-6">Ready to redeem: 0 pts</div>
+          {rewardPointsBalanceLoading ? (
+            <div className="flex justify-center py-4">
+              <Loading className="w-6 h-6" />
+            </div>
+          ) : rewardPointsBalanceError ? (
+            <div className="text-red-600 text-sm">
+              Unable to load reward points
+            </div>
+          ) : (
+            <div className="space-y-2 mt-4">
+              <div className="text-sm">
+                Pending:{' '}
+                <span className="font-semibold">{pendingPoints} pts</span>
+              </div>
+              <div className="text-sm">
+                Ready to redeem:{' '}
+                <span className="font-semibold">{postedPoints} pts</span>
+              </div>
+              <div className="text-sm">
+                Lifetime earned:{' '}
+                <span className="font-semibold">{lifetimePoints} pts</span>
+              </div>
+            </div>
+          )}
           <button
             type="button"
             className="px-4 py-2 mt-2 rounded-md text-white text-sm font-semibold bg-gray-500 cursor-not-allowed"
