@@ -1,12 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import {
   useActiveSubscription,
   useCreateSubscription,
 } from '@hooks/useSubscription';
+import FullStory from '@lib/utils/fullstory';
 import ActivationModal from './ActivationModal';
 import Banner from './Banner';
 import Benefits from './Benefits';
@@ -17,6 +19,7 @@ import SubscriberOverview from './SubscriberOverview';
 
 export default function Plus() {
   const { entity } = useEntity();
+  const { user } = useUser();
   const {
     isModalActive: isActivationModalActive,
     toggleModal: toggleActivationModal,
@@ -38,6 +41,10 @@ export default function Plus() {
   const handleActivate = async (planType: string) => {
     await createSubscription({ planType, companyId: entity?.id });
     await refetchActiveSubscription();
+
+    const fullstory = new FullStory();
+    fullstory.plusSubscriptionSuccessfulEvent(user?.id, entity?.id, planType);
+
     toggleActivationModal();
   };
 

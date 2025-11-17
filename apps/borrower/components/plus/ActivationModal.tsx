@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
@@ -11,6 +11,7 @@ import usePaymentMethods from '@hooks/usePaymentMethods';
 import { useSubscriptionPlans } from '@hooks/useSubscription';
 import SubscriptionPlanRecord from '@lib/records/subscription_plan';
 import { formatCurrency } from '@lib/utils/formatters';
+import FullStory from '@lib/utils/fullstory';
 import PaymentMethodModalWrapper from '../payment_methods/modals/PaymentMethodModalWrapper';
 
 enum PlanType {
@@ -111,6 +112,13 @@ export default function ActivationModal({
     [planOptions, selectedPlan]
   );
 
+  useEffect(() => {
+    if (isModalActive && user?.id && entity?.id) {
+      const fullstory = new FullStory();
+      fullstory.viewedPlusSubscriptionModalEvent(user.id, entity.id);
+    }
+  }, [isModalActive, user?.id, entity?.id]);
+
   const handleActivate = () => {
     if (!hasPaymentMethods) {
       togglePaymentModal();
@@ -174,7 +182,10 @@ export default function ActivationModal({
         {!hasPaymentMethods && (
           <div className="bg-[#FFF7EC] rounded px-4 py-3 mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div className="font-light text-sm flex-1" style={{ color: '#853918' }}>
+              <div
+                className="font-light text-sm flex-1"
+                style={{ color: '#853918' }}
+              >
                 A payment method is required to activate Credit Key Plus
               </div>
               <PrimaryButton
@@ -214,7 +225,12 @@ export default function ActivationModal({
         <PrimaryButton
           buttonColor="w-full bg-primary-blue hover:bg-primary-blue-hover transition-colors text-white px-4 py-2 text-xs sm:text-sm rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           hoverClass="hover:bg-gray-100"
-          disabled={!isAgreed || !selectedPlan || !hasPaymentMethods || createSubscriptionLoading}
+          disabled={
+            !isAgreed ||
+            !selectedPlan ||
+            !hasPaymentMethods ||
+            createSubscriptionLoading
+          }
           onClick={handleActivate}
           buttonText="Activate Credit Key Plus"
           isLoading={createSubscriptionLoading}
