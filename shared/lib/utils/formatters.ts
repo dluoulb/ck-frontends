@@ -90,7 +90,7 @@ export const getTermDisplay = (term) => {
     term.default_term?.term_period === 'biweekly' &&
     term.default_term?.term === 4
   )
-    return 'Pi4';
+    return 'Pay in 4';
 
   if (term.default_term?.term > 1) {
     return `${term.default_term?.term} Months`;
@@ -107,7 +107,7 @@ export const getTermLabel = (term, defaultText = 'Select Default Term') => {
   if (!term) return defaultText;
 
   if (term?.term_period === 'biweekly' && term?.term === 4) {
-    return 'Pi4';
+    return 'Pay in 4';
   }
   return term?.term?.toString() || '';
 };
