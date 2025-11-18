@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
-import { ListboxOption } from '@headlessui/react';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
@@ -158,13 +156,26 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                   className="my-3 space-y-3"
                 >
                   {sortedTerms?.map((op) => (
-                    <ListboxOption
+                    <label 
                       key={`${op.term}-${op.term_period}`}
-                      value={op}
-                      className="cursor-pointer p-2 hover:bg-primary-blue hover:bg-opacity-70 hover:text-white last:hover:rounded-b-md"
+                      className="flex items-center justify-between p-3 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-50 data-[state=checked]:border-primary-blue data-[state=checked]:bg-blue-50"
+                      onClick={() => handleChange(op)}
                     >
-                      {getTermLabel(op)}
-                    </ListboxOption>
+                      <div className="flex items-center space-x-3">
+                        <RadioGroup.Item
+                          value={op.term.toString()}
+                          className="w-4 h-4 rounded-full border border-gray-300 data-[state=checked]:bg-primary-blue data-[state=checked]:border-primary-blue flex items-center justify-center"
+                        >
+                          <RadioGroup.Indicator className="w-2 h-2 rounded-full bg-white" />
+                        </RadioGroup.Item>
+                        <span className="font-medium text-gray-900">
+                          {getTermLabel(op)}
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {op.rate === 0 ? '0%' : `${op.rate.toFixed(2)}% monthly`}
+                      </span>
+                    </label>
                   ))}
                 </RadioGroup.Root>
               </div>
