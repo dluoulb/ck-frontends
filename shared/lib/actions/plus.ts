@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 
+import RewardPointsRecord from '@lib/records/reward';
 import SubscriptionRecord from '@lib/records/subscription';
 import SubscriptionPlanRecord from '@lib/records/subscription_plan';
 
@@ -53,6 +54,21 @@ export const createSubscription = async (
 
   if (response?.data?.data) {
     return new SubscriptionRecord(response.data.data.attributes);
+  }
+
+  return null;
+};
+
+export const getRewardPointsBalance = async (
+  api: AxiosInstance,
+  companyId: string
+) => {
+  const response = await api.get(
+    `/api/reward_points/balances?company_id=${companyId}`
+  );
+
+  if (response?.data?.data) {
+    return new RewardPointsRecord(response.data.data.attributes);
   }
 
   return null;
