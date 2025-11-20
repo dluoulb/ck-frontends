@@ -111,3 +111,9 @@ export const getTermLabel = (term, defaultText = 'Select Default Term') => {
   }
   return term?.term?.toString() || '';
 };
+
+export const formatCreditTransactionAmount = (value, entryType) => {
+  const absoluteValue = Math.abs(value);
+  const isCredit = entryType === 'CREDIT' || entryType === 'credit';
+  return formatCurrency(isCredit ? -absoluteValue : absoluteValue);
+};
