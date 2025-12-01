@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { faCirclePlus } from '@fortawesome/pro-solid-svg-icons';
 import { defineStepper } from '@stepperize/react';
 
 import VcFlowDefaultPaymentMethodModal from '@apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import ModalWrapper from '@components/modals/ModalWrapper';
+import { useEntity } from '@contexts/EntityContext';
+import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
+import { getMerchant } from '@lib/actions/merchants';
 import { jitEnabled } from '@lib/constants/SiteVariables';
 import AddFundsModal from './AddFundsModal';
 import CardholderAgreementModal from './CardholderAgreementModal';
@@ -19,8 +22,36 @@ export default function MultiUseVirtualCardModalWrapper({
 }) {
   const [hasAlert, setHasAlert] = useState(false);
   const { physicalCard } = useCompanyPhysicalCard();
+  const { entity } = useEntity();
+  const api = useApi();
+  const [hasDefaultTerm, setHasDefaultTerm] = useState<boolean | null>(null);
+  const hasCheckedDefaultTermRef = useRef(false);
+  const skipAgreementAndTerms = !!physicalCard;
 
-  const skipAgreementAndTerms = !!physicalCard
+  useEffect(() => {
+    if (!isModalActive) {
+      setHasDefaultTerm(null);
+      hasCheckedDefaultTermRef.current = false;
+      return;
+    }
+
+    if (hasCheckedDefaultTermRef.current || !entity?.id) {
+      return;
+    }
+
+    hasCheckedDefaultTermRef.current = true;
+
+    getMerchant(api, 'virtual')
+      .then((merchant) => {
+        const existingTerm = entity?.recharge_settings?.find(
+          (setting) => setting.merchant_id === merchant.id
+        );
+        setHasDefaultTerm(!!existingTerm);
+      })
+      .catch(() => {
+        setHasDefaultTerm(false);
+      });
+  }, [entity, isModalActive]);
 
   const orderedScreens = [
     {
@@ -36,12 +67,12 @@ export default function MultiUseVirtualCardModalWrapper({
     {
       id: 'add_payment_method',
       component: VcFlowDefaultPaymentMethodModal,
-      hide: skipAgreementAndTerms,
+      hide: !!entity?.is_bank_connected,
     },
     {
       id: 'set_default_terms',
       component: SetDefaultTermsModal,
-      hide: skipAgreementAndTerms,
+      hide: hasDefaultTerm,
     },
     {
       id: 'add_funds',
@@ -81,7 +112,8 @@ export default function MultiUseVirtualCardModalWrapper({
     hasAlert,
     setHasAlert,
     createVcFlow: true,
-    skipCardCreate: skipAgreementAndTerms
+    skipCardCreate: false,
+    hasDefaultTerm: hasDefaultTerm,
   };
 
   useEffect(() => {

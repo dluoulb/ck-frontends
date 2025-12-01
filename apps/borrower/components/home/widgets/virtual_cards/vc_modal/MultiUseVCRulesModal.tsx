@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useEntity } from '@contexts/EntityContext';
@@ -10,16 +9,15 @@ import useToast from '@hooks/useToast';
 import { createVirtualCard } from '@lib/actions/companies';
 import FullStory from '@lib/utils/fullstory';
 
-export default function MultiUseVCRulesModal({ next, toggleModal }) {
+export default function MultiUseVCRulesModal({ next, toggleModal, hasDefaultTerm = false }) {
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const { entity, fetchEntity } = useEntity();
   const { user } = useUser();
   const api = useApi();
   const { makeToast } = useToast();
-  const { physicalCard } = useCompanyPhysicalCard();
 
-  const skipAgreementAndTerms = !!physicalCard;
+  const skipAgreementAndTerms = !!entity?.is_bank_connected && hasDefaultTerm;
 
   const handleClick = async () => {
     const fullstory = new FullStory();

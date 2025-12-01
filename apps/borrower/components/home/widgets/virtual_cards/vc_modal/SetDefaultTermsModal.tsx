@@ -29,38 +29,37 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
     setTerm(value);
   };
 
-  const onSave = (merchant_id, term) => {
+  const onSave = async (merchant_id, term) => {
     if (!term) {
       makeToast('Please select a default term', 'error');
       return;
     }
     setLoading(true);
-    updateRechargeTerm(api, entity, merchant_id, term?.term)
-    .then(() => {
+    try {
+      await updateRechargeTerm(api, entity, merchant_id, term?.term);
+      
       const fullstory = new FullStory();
       fullstory.setDefaultTermsEvent(user?.id, entity?.id, term?.term);
       makeToast('Default Term Successfully Updated', 'success');
       fetchEntity({ company_id: entity?.id });
-    })
-    .catch(() => {
+      
+      if (skipCardCreate) {
+        next();
+        return;
+      }
+
+      try {
+        await createVirtualCard(api, entity?.id);
+        makeToast('Credit Key Card Successfully Created', 'success');
+        next();
+      } catch (error) {
+        makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
+      }
+    } catch (error) {
       makeToast('An error occurred. Please contact Credit Key Support', 'error');
+    } finally {
       setLoading(false);
-    });
-
-    if (skipCardCreate) {
-      next();
-      return;
     }
-
-    createVirtualCard(api, entity?.id)
-    .then(() => {
-      makeToast('Credit Key Card Successfully Created', 'success');
-      next();
-    })
-    .catch(() => {
-      makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
-      setLoading(false);
-    });
   };
 
   useEffect(() => {
