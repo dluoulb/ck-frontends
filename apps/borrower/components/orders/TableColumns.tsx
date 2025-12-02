@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
+import { formatInstallments } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
 import OrderStatus from '../home/table/OrderStatus';
@@ -11,9 +12,7 @@ import TermsColumn from '../home/table/TermsColumn';
 const TermsCell = ({ order, openModalForLoan }) => {
   const isEditable = order.terms_editable;
   const installments = Number(order.product?.installments ?? 0);
-  const label = installments
-    ? `${installments} ${installments === 1 ? 'month' : 'months'}`
-    : '—';
+  const label = formatInstallments(installments);
 
   const { terms } = useApprovedTerms(order.id);
 
