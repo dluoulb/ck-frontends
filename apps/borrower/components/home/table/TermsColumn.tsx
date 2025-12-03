@@ -3,11 +3,6 @@ import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Select from '@radix-ui/react-select';
 
-import { useBorrowerDeps } from '@contexts/BorrowerContext';
-import useApi from '@hooks/useApi';
-import useToast from '@hooks/useToast';
-import { updatePaymentTerms } from '@lib/actions/orders';
-
 type ApprovedTerm = {
   available: boolean;
   term: number;
@@ -20,9 +15,6 @@ export default function TermsColumn(props: {
   openModalForLoan: (loan: any) => void;
 }) {
   const { order, terms = [], openModalForLoan } = props;
-  const api = useApi();
-  const { makeToast } = useToast();
-  const { refetchOrders } = useBorrowerDeps();
 
   const currentInstallments = Number(order?.product?.installments ?? 0);
   const [value, setValue] = useState<string>(
