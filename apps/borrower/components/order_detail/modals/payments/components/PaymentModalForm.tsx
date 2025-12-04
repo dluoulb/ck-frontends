@@ -5,6 +5,7 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import PaymentMethods from './PaymentMethods';
 import PaymentOptions from './PaymentOptions';
+import AutoPayBanner from './AutoPayBanner';
 
 export default function PaymentModalForm({
   order,
@@ -15,8 +16,11 @@ export default function PaymentModalForm({
   paymentMethods,
   isSubmitting,
 }) {
+
   return (
     <Form>
+      <AutoPayBanner order={order} />
+    
       <h2 className="font-bold text-lg">Choose Payment Option</h2>
       <div className="my-4">
         <PaymentOptions
