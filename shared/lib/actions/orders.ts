@@ -27,6 +27,22 @@ export const getOrders = async (api, entity, pageIndex) => {
   }
 };
 
+export const getActiveOrders = async (api, entity, limit = 10) => {
+  const path =
+    `/api/orders/active?filter[${entity?.type}]=${entity?.id}` +
+    `&limit=${limit}` +
+    `&include=payment_schedule`;
+
+  if (entity) {
+    const orders = await api.get(path);
+    if (orders?.data?.data) {
+      return orders.data.data.map((o) => new OrderRecord(o.attributes));
+    }
+    return [];
+  }
+  return [];
+};
+
 export const exportOrders = async ({ api, userId, entity }) => {
   const path = `/api/orders/export?user_id=${userId}&filter[${entity?.type}]=${entity?.id}`;
 
