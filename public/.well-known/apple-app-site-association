@@ -1,0 +1,22 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appID": "RX856F3JF2.com.creditkey.ios",
+        "paths": [
+          "/wallet",
+          "/wallet/*",
+          "/",
+          "/orders",
+          "/orders/*",
+          "/profile",
+          "/profile/*",
+          "/payment_methods",
+          "/payment_methods/*",
+          "/documents",
+          "/documents/*"
+        ]
+      }
+    ]
+  }
+}

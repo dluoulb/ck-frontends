@@ -49,6 +49,11 @@ export default async function middleware(req: NextRequest) {
       : route.href === pathname;
   });
 
+  // short-ciruit for /.well-known paths (e.g. apple site association file)
+  if (pathname.startsWith('/.well-known')) {
+    return NextResponse.next();
+  }
+
   const sessionToken = req.cookies.get('st-access-token');
   const parsedToken = parseUserJwt(sessionToken);
 
