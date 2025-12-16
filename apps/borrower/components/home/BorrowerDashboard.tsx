@@ -8,8 +8,10 @@ import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import NoDataError from '@components/NoDataError';
 import Notification from '@components/Notification';
+import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import ExportPaymentHistory from './ExportPaymentHistory';
+import OverdueLoansBanner from './OverdueLoansBanner';
 import Promo from './Promo';
 import ActiveOrdersTable from './table/ActiveOrdersTable';
 import Widgets from './widgets';
@@ -22,6 +24,7 @@ type NotificationData = {
 
 export default function BorrowerDashboard() {
   const { entity, entityError } = useEntity();
+  const { orders } = useBorrowerDeps();
   const [notification, setNotification] = useState<NotificationData | null>(
     null
   );
@@ -45,6 +48,8 @@ export default function BorrowerDashboard() {
       .catch((err) => [console.log(err)]);
   }, []);
 
+  const overdueOrders = orders?.filter(order => order?.product?.isPastDue) || [];
+
   if (entityError) return <NoDataError tag="borrower" withButton={false} />;
 
   if (!entity) return;
@@ -60,6 +65,7 @@ export default function BorrowerDashboard() {
           Dashboard
         </p>
         <Promo />
+        <OverdueLoansBanner overdueOrders={overdueOrders} />
         {notification && notification?.Active && (
           <Notification
             icon={faMegaphone}
