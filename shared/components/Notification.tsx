@@ -33,13 +33,13 @@ const Notification: FC<NotificationProps> = ({
 }) => {
   return (
     <div
-      className={classNames('rounded-md py-4 px-6 w-full', bgColor, textColor)}
+      className={classNames('rounded-md py-4 px-6 mt-4 w-full', bgColor, textColor)}
     >
-      <div className="flex gap-3">
+      <div className="flex gap-5">
         <FontAwesomeIcon
           icon={icon}
           className={classNames(
-            'hidden sm:inline text-xl mt-1.5 border-2 p-2 rounded-md',
+            'hidden sm:inline text-xl mt-3 border-2 p-2 rounded-md',
             iconBorderColor
           )}
         />
