@@ -6,16 +6,22 @@ import {
   faMoneyBillTransfer,
   faStore,
   faUser,
+  faGift,
+  faStar,
 } from '@fortawesome/pro-light-svg-icons';
 import { useEntity } from '@contexts/EntityContext';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import { marketplace } from '@lib/actions/marketplace';
-import { supportLink } from '@lib/constants/SiteVariables';
+import { supportLink, plusEnabled, plusCohorts, rewardsEnabled } from '@lib/constants/SiteVariables';
+import { useActiveSubscription } from '@hooks/useSubscription';
 
 function usePrimaryRoutes() {
   const { entity } = useEntity();
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
+  
+  const canSeePlus = plusEnabled && 
+    plusCohorts.some(cohort => entity?.active_cohorts?.includes(cohort));
 
   const routes = [
     {
@@ -42,7 +48,19 @@ function usePrimaryRoutes() {
       url: marketplace.url,
       target: '_blank',
       enabled: !mobileApp && marketplace.enabled,
+    },
+    {
+      icon: faGift,
+      name: 'Plus+',
+      url: '/plus',
+      enabled: canSeePlus,
       separator: true,
+    },
+    {
+      icon: faGift,
+      name: 'Rewards',
+      url: '/rewards',
+      enabled: canSeePlus,
     },
     {
       icon: faUser,

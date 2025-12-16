@@ -1,101 +1,108 @@
-import { useEntity } from '@contexts/EntityContext';
-import { marketplace } from '@lib/actions/marketplace';
-import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
-import { supportLink } from '@lib/constants/SiteVariables';
+import {useEntity} from '@contexts/EntityContext';
+import {marketplace} from '@lib/actions/marketplace';
+import {plusCohorts, plusEnabled, rewardsEnabled, supportLink} from '@lib/constants/SiteVariables';
+import {useActiveSubscription} from '@hooks/useSubscription';
 
 function useSecondaryRoutes() {
-  const { entity } = useEntity();
-  const mobileApp = localStorage.getItem('mobileApp') === 'true';
+    const {entity} = useEntity();
+    const mobileApp = localStorage.getItem('mobileApp') === 'true';
 
-  const routes = [
-    {
-      section: 'left',
-      items: [
-        {
-          type: 'link',
-          name: 'Dashboard',
-          url: '/',
-          enabled: true,
-        },
-        {
-          type: 'link',
-          name: 'Orders',
-          url: '/orders',
-          enabled: true,
-        },
-        {
-          type: 'link',
-          name: 'Wallet',
-          url: '/wallet',
-          enabled: !!entity?.vc_enabled,
-        },
-        {
-          type: 'link',
-          name: 'Discover',
-          url: marketplace.url,
-          target: '_blank',
-          enabled: !mobileApp && marketplace.enabled,
-        },
-        {
-          type: 'link',
-          name: 'Plus+',
-          url: '/plus',
-          enabled: plusEnabled && 
-            plusCohorts.some(cohort => entity?.active_cohorts.includes(cohort)),
-        },
-      ],
-    },
-    {
-      section: 'right',
-      items: [
-        {
-          type: 'info',
-          name: 'Remaining Credit',
-          key: 'remainingCredit',
-          enabled: !mobileApp,
-        },
-        {
-          type: 'dropdown',
-          name: 'Account',
-          enabled: !mobileApp,
+    const canSeePlus = plusEnabled &&
+        plusCohorts.some(cohort => entity?.active_cohorts?.includes(cohort));
 
-          children: [
-            {
-              name: 'Profile',
-              url: '/profile',
-            },
-            {
-              name: 'Payment Methods',
-              url: '/payment_methods',
-            },
-            {
-              name: 'Documents',
-              url: '/documents',
-            },
-            {
-              name: 'Sign out',
-              action: 'signout',
-              separator: true,
-            },
-          ],
+    const routes = [
+        {
+            section: 'left',
+            items: [
+                {
+                    type: 'link',
+                    name: 'Dashboard',
+                    url: '/',
+                    enabled: true,
+                },
+                {
+                    type: 'link',
+                    name: 'Orders',
+                    url: '/orders',
+                    enabled: true,
+                },
+                {
+                    type: 'link',
+                    name: 'Wallet',
+                    url: '/wallet',
+                    enabled: !!entity?.vc_enabled,
+                },
+                {
+                    type: 'link',
+                    name: 'Discover',
+                    url: marketplace.url,
+                    target: '_blank',
+                    enabled: !mobileApp && marketplace.enabled,
+                },
+                {
+                    type: 'link',
+                    name: 'Plus+',
+                    url: '/plus',
+                    enabled: canSeePlus,
+                },
+            ],
         },
         {
-          type: 'link',
-          name: 'Support',
-          url: supportLink,
-          enabled: !mobileApp,
-          target: '_blank',
-        },
-      ],
-    },
-  ];
+            section: 'right',
+            items: [
+                {
+                    type: 'info',
+                    name: 'Remaining Credit',
+                    key: 'remainingCredit',
+                    enabled: !mobileApp,
+                },
+                {
+                    type: 'info',
+                    name: 'Reward Points',
+                    key: 'rewardPoints',
+                    url: '/rewards',
+                    enabled: !mobileApp && canSeePlus,
+                },
+                {
+                    type: 'dropdown',
+                    name: 'Account',
+                    enabled: !mobileApp,
 
-  return {
-    secondaryRoutes: routes.map((section) => ({
-      ...section,
-      items: section.items.filter((item) => item.enabled !== false),
-    })),
-  };
+                    children: [
+                        {
+                            name: 'Profile',
+                            url: '/profile',
+                        },
+                        {
+                            name: 'Payment Methods',
+                            url: '/payment_methods',
+                        },
+                        {
+                            name: 'Documents',
+                            url: '/documents',
+                        },
+                        {
+                            name: 'Support',
+                            url: supportLink,
+                            target: '_blank',
+                        },
+                        {
+                            name: 'Sign out',
+                            action: 'signout',
+                            separator: true,
+                        },
+                    ],
+                },
+            ],
+        },
+    ];
+
+    return {
+        secondaryRoutes: routes.map((section) => ({
+            ...section,
+            items: section.items.filter((item) => item.enabled !== false),
+        })),
+    };
 }
 
 export default useSecondaryRoutes;

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance } from '@hooks/useReward';
 import { plusSupportPhone, supportEmail } from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
+import RewardsBalanceCard from './RewardsBalanceCard';
 
 type SubscriberOverviewProps = {
   subscription: SubscriptionRecord;
@@ -33,40 +33,13 @@ export default function SubscriberOverview({
       <h3 className="text-lg">Member since {memberSinceYear}</h3>
       <h3 className="text-lg font-bold">Rewards Balance</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="border border-primary-gray-border rounded-md bg-[#F4F8FF] p-6 w-full">
-          <div className="text-sm font-bold">Rewards Balance</div>
-          <hr className="border-t border-primary-gray-border mb-3 mt-1 w-3/4" />
-          {rewardPointsBalanceLoading ? (
-            <div className="flex justify-center py-4">
-              <Loading className="w-6 h-6" />
-            </div>
-          ) : rewardPointsBalanceError ? (
-            <div className="text-red-600 text-sm">
-              Unable to load reward points
-            </div>
-          ) : (
-            <div className="space-y-2 mt-4">
-              <div className="text-sm">
-                Pending:{' '}
-                <span className="font-semibold">{pendingPoints} pts</span>
-              </div>
-              <div className="text-sm">
-                Ready to redeem:{' '}
-                <span className="font-semibold">{postedPoints} pts</span>
-              </div>
-              <div className="text-sm">
-                Lifetime earned:{' '}
-                <span className="font-semibold">{lifetimePoints} pts</span>
-              </div>
-            </div>
-          )}
-          <button
-            type="button"
-            className="px-4 py-2 mt-2 rounded-md text-white text-sm font-semibold bg-gray-500 cursor-not-allowed"
-          >
-            Redeem
-          </button>
-        </div>
+        <RewardsBalanceCard
+          rewardPointsBalanceLoading={rewardPointsBalanceLoading}
+          rewardPointsBalanceError={rewardPointsBalanceError}
+          pendingPoints={pendingPoints}
+          postedPoints={postedPoints}
+          lifetimePoints={lifetimePoints}
+        />
         <div className="border border-primary-gray-border rounded-md bg-[#F4F8FF] p-6 w-full">
           <div className="text-sm font-bold">Credit Key Plus VIP Support</div>
           <hr className="border-t border-primary-gray-border mb-3 mt-1 w-3/4" />
