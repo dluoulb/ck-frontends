@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
 import { formatInstallments } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from './NextPayment';
@@ -80,9 +79,8 @@ export const DashboardTableColumns = (openModalForLoan) => [
       const installments = Number(row.original.product?.installments ?? 0);
       const label = formatInstallments(installments);
 
-      const { terms } = useApprovedTerms(row.original.id);
       if (isEditable) {
-        return <TermsColumn order={row.original} terms={terms} openModalForLoan={openModalForLoan} />;
+        return <TermsColumn order={row.original} openModalForLoan={openModalForLoan} />;
       }
 
       return <span className="font-medium">{label}</span>;

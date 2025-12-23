@@ -137,10 +137,10 @@ export default function BaseTable({
           </tbody>
         </table>
       </div>
-      {usePagination && table.getRowModel().rows.length > 0 && (
+      {usePagination && table.getRowCount() > 0 && (
         <Pagination
           table={table}
-          totalCount={table.getRowModel().rows.length}
+          totalCount={table.getRowCount()}
         />
       )}
     </div>

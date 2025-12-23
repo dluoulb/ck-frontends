@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { faCalendar } from '@fortawesome/pro-regular-svg-icons';
 
-import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
-import Loading from '@components/Loading';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
-import useModal from '@hooks/useModal';
 import useToast from '@hooks/useToast';
 import { updatePaymentTerms } from '@lib/actions/orders';
 import UpdateTermsModalForm from './UpdateTermsModalForm';
@@ -27,7 +24,6 @@ export default function UpdateTermsModalWrapper({
 }) {
   const { makeToast } = useToast();
   const { refetchOrders } = useBorrowerDeps();
-  const { terms, loading: termsLoading } = useApprovedTerms(loan.id);
   const [step, setStep] = useState(1);
   const [selectedTerm, setSelectedTerm] = useState(null);
 
@@ -94,11 +90,9 @@ export default function UpdateTermsModalWrapper({
         headerIcon={faCalendar}
       >
         {isTermsModalOpen &&
-          (termsLoading ? (
-            <Loading className="w-10 h-10 my-8" />
-          ) : step === 1 ? (
+          (step === 1 ? (
             <UpdateTermsSelect
-              terms={terms}
+              terms={loan.approved_terms}
               oldTerm={loan.product?.installments}
               selectedTerm={selectedTerm}
               setSelectedTerm={setSelectedTerm}
@@ -107,7 +101,6 @@ export default function UpdateTermsModalWrapper({
           ) : (
             <UpdateTermsModalForm
               loan={{ ...loan, newTerm: selectedTerm }}
-              terms={terms}
               onSubmit={handleSubmit}
               toggleTermsModal={toggleTermsModal}
               

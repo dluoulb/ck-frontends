@@ -28,6 +28,7 @@ export default function OrdersTable({
   entity,
   pageSize,
   pageCount,
+  rowCount,
   tableClass = '',
   tableColumns,
   rowClass = '',
@@ -73,7 +74,7 @@ export default function OrdersTable({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    pageCount,
+    rowCount,
     initialState: {
       columnVisibility: { isPastDue: false },
       pagination: {

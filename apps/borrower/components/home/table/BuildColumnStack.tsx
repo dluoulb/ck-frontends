@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
 import { formatShortDate } from '@lib/utils/datetime_formatters';
 import { formatInstallments } from '@lib/utils/formatters';
 import NextPayment from './NextPayment';
@@ -11,8 +10,6 @@ export const BuildStack = ({ original, openModalForLoan }) => {
   const isEditable = original.terms_editable;
   const installments = Number(original.product?.installments ?? 0);
   const label = formatInstallments(installments);
-
-  const { terms } = useApprovedTerms(original.id);
 
   return (
     <>
@@ -30,7 +27,6 @@ export const BuildStack = ({ original, openModalForLoan }) => {
           <div className="sm:hidden">
             <TermsColumn
               order={original}
-              terms={terms}
               openModalForLoan={openModalForLoan}
             />
           </div>

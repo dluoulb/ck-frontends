@@ -102,8 +102,3 @@ export const updatePaymentTerms = async (
   });
   return new OrderRecord(order?.data.data.attributes);
 };
-
-export const getApprovedTerms = async (api, orderId) => {
-  const terms = await api.get(`/api/orders/${orderId}/approved_terms`);
-  return terms?.data?.data?.attributes;
-};

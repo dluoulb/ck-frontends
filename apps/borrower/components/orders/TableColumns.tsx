@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { useApprovedTerms } from '@apps/borrower/hooks/useApprovedTerms';
 import { formatInstallments } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
@@ -14,13 +13,10 @@ const TermsCell = ({ order, openModalForLoan }) => {
   const installments = Number(order.product?.installments ?? 0);
   const label = formatInstallments(installments);
 
-  const { terms } = useApprovedTerms(order.id);
-
   if (isEditable) {
     return (
       <TermsColumn
         order={order}
-        terms={terms}
         openModalForLoan={openModalForLoan}
       />
     );
