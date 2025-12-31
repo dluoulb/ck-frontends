@@ -75,7 +75,7 @@ export default function TclWidget() {
   return (
     <DropdownMenu.Root modal={false} open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger asChild>
-        <div className="hidden lg:flex items-center px-4 text-sm min-w-[130px] hover:cursor-pointer">
+        <div className="hidden lg:flex text-center items-center px-4 text-sm min-w-[130px] hover:cursor-pointer">
           <div className="lg:flex lg:flex-col items-center">
             <span className="font-medium">
               {formatCurrency(remainingCredit)}

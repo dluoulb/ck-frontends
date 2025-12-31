@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
-import { getRewardPointsBalance } from '@lib/actions/plus';
+import { getRewardPointsBalance, getRewardPointsLedger } from '@lib/actions/plus';
 import RewardPointsRecord from '@lib/records/reward';
 
 export function useRewardPointsBalance(companyId: string) {
@@ -24,5 +24,28 @@ export function useRewardPointsBalance(companyId: string) {
     rewardPointsBalanceError,
     rewardPointsBalanceLoading,
     refetchRewardPointsBalance,
+  };
+}
+
+export function useRewardPointsLedger(companyId: string) {
+  const api = useApi();
+
+  const {
+    data: rewardPointsLedger,
+    error: rewardPointsLedgerError,
+    isPending: rewardPointsLedgerLoading,
+    refetch: refetchRewardPointsLedger,
+  } = useQuery({
+    queryKey: ['rewardPointsLedger', companyId],
+    queryFn: () => getRewardPointsLedger(api, companyId),
+    enabled: !!companyId,
+    retry: 1,
+  });
+
+  return {
+    rewardPointsLedger,
+    rewardPointsLedgerError,
+    rewardPointsLedgerLoading,
+    refetchRewardPointsLedger,
   };
 }

@@ -10,6 +10,7 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import useSecondaryRoutes from '@apps/borrower/hooks/useSecondaryRoutes';
 import TclWidget from '@components/layout/TclWidget';
+import RewardPointsWidget from '@components/layout/RewardPointsWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
 import OrdersBadge from './OrdersBadge';
@@ -61,6 +62,34 @@ export default function TopNav() {
     }
 
     if (item.type === 'info') {
+      if (item.key === 'rewardPoints' && item.url) {
+        const isActive = router.asPath === item.url;
+        return (
+          <NavigationMenu.Item key={item.name}>
+            <Link
+              href={item.url}
+              className={classNames(
+                'flex px-4 py-2 text-sm rounded transition-colors',
+                {
+                  'bg-[#f1f2f5]': isActive,
+                  'hover:bg-gray-100': !isActive,
+                }
+              )}
+            >
+              <BorrowerContextProvider>
+                <RewardPointsWidget />
+              </BorrowerContextProvider>
+            </Link>
+          </NavigationMenu.Item>
+        );
+      }
+      if (item.key === 'rewardPoints') {
+        return (
+          <BorrowerContextProvider key={item.name}>
+            <RewardPointsWidget />
+          </BorrowerContextProvider>
+        );
+      }
       return (
         <BorrowerContextProvider key={item.name}>
           <TclWidget />

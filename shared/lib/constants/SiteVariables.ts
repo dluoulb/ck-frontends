@@ -84,6 +84,7 @@ export const mobileAppDownloadLink =
 export const jitEnabled = isEnabled(process.env.NEXT_PUBLIC_JIT_ENABLED);
 export const plaidEnabled = isEnabled(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS);
 export const plusEnabled = isEnabled(process.env.NEXT_PUBLIC_PLUS_ENABLED);
+export const rewardsEnabled = isEnabled(process.env.NEXT_PUBLIC_REWARDS_ENABLED);
 
 export const plusCohorts = ['credit_key_plus_test1'];
 
