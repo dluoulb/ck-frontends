@@ -8,7 +8,7 @@ type RewardsBalanceCardProps = {
   pendingPoints: number;
   postedPoints: number;
   lifetimePoints: number;
-  manage: boolean;
+  manage?: boolean;
 };
 
 export default function RewardsBalanceCard({
