@@ -7,21 +7,16 @@ import {
   faStore,
   faUser,
   faGift,
-  faStar,
 } from '@fortawesome/pro-light-svg-icons';
 import { useEntity } from '@contexts/EntityContext';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import { marketplace } from '@lib/actions/marketplace';
-import { supportLink, plusEnabled, plusCohorts, rewardsEnabled } from '@lib/constants/SiteVariables';
-import { useActiveSubscription } from '@hooks/useSubscription';
+import { supportLink } from '@lib/constants/SiteVariables';
 
 function usePrimaryRoutes() {
   const { entity } = useEntity();
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
-  
-  const canSeePlus = plusEnabled && 
-    plusCohorts.some(cohort => entity?.active_cohorts?.includes(cohort));
 
   const routes = [
     {
@@ -53,14 +48,14 @@ function usePrimaryRoutes() {
       icon: faGift,
       name: 'Plus+',
       url: '/plus',
-      enabled: canSeePlus,
+      enabled: entity?.plus_enabled,
       separator: true,
     },
     {
       icon: faGift,
       name: 'Rewards',
       url: '/rewards',
-      enabled: canSeePlus,
+      enabled: entity?.plus_enabled,
     },
     {
       icon: faUser,

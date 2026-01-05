@@ -1,5 +1,4 @@
 import { useEntity } from '@contexts/EntityContext';
-import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -14,8 +13,7 @@ function useAuthorizedRoute() {
         setIsAuthorized(!!entity?.vc_enabled);
         break;
       case '/plus':
-        setIsAuthorized(plusEnabled && 
-          plusCohorts.some(cohort => entity?.active_cohorts.includes(cohort)));
+        setIsAuthorized(entity?.plus_enabled);
         break;
       default:
         setIsAuthorized(true);
