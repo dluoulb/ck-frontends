@@ -2,7 +2,11 @@ import React from 'react';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance } from '@hooks/useReward';
-import { plusSupportPhone, supportEmail, plusSupportSms } from '@lib/constants/SiteVariables';
+import {
+  plusSupportPhone,
+  plusSupportSms,
+  supportEmail,
+} from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
 import RewardsBalanceCard from './RewardsBalanceCard';
 
