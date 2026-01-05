@@ -8,6 +8,7 @@ type RewardsBalanceCardProps = {
   pendingPoints: number;
   postedPoints: number;
   lifetimePoints: number;
+  manage: boolean;
 };
 
 export default function RewardsBalanceCard({
@@ -16,6 +17,7 @@ export default function RewardsBalanceCard({
   pendingPoints,
   postedPoints,
   lifetimePoints,
+  manage=false,
 }: RewardsBalanceCardProps) {
   return (
     <div className="border border-primary-gray-border rounded-md bg-[#F4F8FF] p-6 w-full">
@@ -45,12 +47,12 @@ export default function RewardsBalanceCard({
               <span className="font-semibold">{lifetimePoints} pts</span>
             </div>
           </div>
-          <button
-            type="button"
+          {!manage && <a
+            href="/rewards"
             className="px-6 py-2 rounded-md text-white text-sm font-semibold bg-primary-blue hover:bg-primary-blue-hover"
           >
-            Redeem
-          </button>
+            Manage Rewards
+          </a>}
         </div>
       )}
     </div>
