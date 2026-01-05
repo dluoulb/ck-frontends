@@ -15,8 +15,10 @@ import {
 } from '@lib/records/reward';
 import { formatCurrency } from '@lib/utils/formatters';
 import { fromISO, toISO } from '@lib/utils/datetime_formatters';
+import SubscriptionRecord from '@lib/records/subscription';
 
 type RewardsActivityTableProps = {
+  activeSubscription: SubscriptionRecord;
   transactions: RewardTransactionRecord[];
   loading?: boolean;
   error?: any;
@@ -40,6 +42,7 @@ const getRewardPercentage = (type: RewardType) => {
 };
 
 export default function RewardsActivityTable({
+                                               activeSubscription,
                                                transactions,
                                                loading,
                                                error,
@@ -166,7 +169,7 @@ export default function RewardsActivityTable({
     onSortingChange: setSorting,
   });
 
-  const showEmptyState = !loading && data.length === 0;
+  const showPlusCTA = !loading && !activeSubscription;
 
   return (
       <div className="border border-primary-gray-border rounded-md bg-white">
@@ -174,7 +177,7 @@ export default function RewardsActivityTable({
           <h2 className="text-lg font-bold text-primary">Rewards Activity</h2>
         </div>
 
-        {showEmptyState ? (
+        {showPlusCTA ? (
             <div className="p-6 text-sm text-gray-600 text-center">
               Activities you perform that earn rewards will be listed here.
               <br />

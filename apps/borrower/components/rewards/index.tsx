@@ -5,9 +5,16 @@ import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance, useRewardPointsLedger } from '@hooks/useReward';
 import RewardsBalanceCard from '@apps/borrower/components/plus/RewardsBalanceCard';
 import RewardsActivityTable from '@apps/borrower/components/rewards/RewardsActivityTable';
+import { useActiveSubscription } from '@hooks/useSubscription';
 
 export default function Rewards() {
   const { entity } = useEntity();
+
+  const {
+    activeSubscription,
+    activeSubscriptionLoading,
+    refetchActiveSubscription,
+  } = useActiveSubscription(entity?.id);
 
   const {
     rewardPointsBalance,
@@ -52,8 +59,9 @@ export default function Rewards() {
 
       <div className="mt-6">
         <RewardsActivityTable
+          activeSubscription={activeSubscription}
           transactions={rewardPointsLedger || []}
-          loading={rewardPointsLedgerLoading}
+          loading={rewardPointsLedgerLoading && activeSubscriptionLoading}
           error={rewardPointsLedgerError}
         />
       </div>
