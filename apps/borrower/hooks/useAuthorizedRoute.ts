@@ -13,7 +13,7 @@ function useAuthorizedRoute() {
         setIsAuthorized(!!entity?.vc_enabled);
         break;
       case '/plus':
-        setIsAuthorized(entity?.plus_enabled);
+        setIsAuthorized(!!entity?.plus_enabled);
         break;
       default:
         setIsAuthorized(true);
