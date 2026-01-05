@@ -41,4 +41,8 @@ export default class AccountRecord {
   get active_cohorts() {
     return [];
   }
+
+  get plus_enabled() {
+    return false;
+  }
 }

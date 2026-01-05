@@ -1,14 +1,10 @@
 import {useEntity} from '@contexts/EntityContext';
 import {marketplace} from '@lib/actions/marketplace';
-import {plusCohorts, plusEnabled, rewardsEnabled, supportLink} from '@lib/constants/SiteVariables';
-import {useActiveSubscription} from '@hooks/useSubscription';
+import {supportLink} from '@lib/constants/SiteVariables';
 
 function useSecondaryRoutes() {
     const {entity} = useEntity();
     const mobileApp = localStorage.getItem('mobileApp') === 'true';
-
-    const canSeePlus = plusEnabled &&
-        plusCohorts.some(cohort => entity?.active_cohorts?.includes(cohort));
 
     const routes = [
         {
@@ -43,7 +39,7 @@ function useSecondaryRoutes() {
                     type: 'link',
                     name: 'Plus+',
                     url: '/plus',
-                    enabled: canSeePlus,
+                    enabled: entity?.plus_enabled,
                 },
             ],
         },
@@ -61,7 +57,7 @@ function useSecondaryRoutes() {
                     name: 'Reward Points',
                     key: 'rewardPoints',
                     url: '/rewards',
-                    enabled: !mobileApp && canSeePlus,
+                    enabled: !mobileApp && entity?.plus_enabled,
                 },
                 {
                     type: 'dropdown',

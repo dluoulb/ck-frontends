@@ -35,6 +35,7 @@ export const declinedSupportPhone = '+1 (844) 900-3330';
 export const multiUseVcIvrPhone = '+1 (833) 425-5888';
 export const supportEmail = 'support@creditkey.com';
 export const plusSupportPhone = '888-886-1950';
+export const plusSupportSms = '857-832-5183';
 
 export const formStyles = {
   error: (error) =>

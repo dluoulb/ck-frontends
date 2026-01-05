@@ -3,6 +3,7 @@ import AddressRecord from './address';
 import CreditLine from './credit_line';
 import MerchantRecord from './merchant';
 import UserRecord from './user';
+import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
 
 export default class CompanyRecord {
   id: string | null;
@@ -73,5 +74,10 @@ export default class CompanyRecord {
       this.cta_banners?.find((b) => b.enabled)?.name ===
       'multi_use_virtual_card'
     );
+  }
+
+  get plus_enabled() {
+    return plusEnabled && plusCohorts
+    .some(cohort => this.active_cohorts.includes(cohort));
   }
 }

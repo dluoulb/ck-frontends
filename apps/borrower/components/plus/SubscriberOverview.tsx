@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance } from '@hooks/useReward';
-import { plusSupportPhone, supportEmail } from '@lib/constants/SiteVariables';
+import { plusSupportPhone, supportEmail, plusSupportSms } from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
 import RewardsBalanceCard from './RewardsBalanceCard';
 
@@ -64,6 +64,15 @@ export default function SubscriberOverview({
                 className="text-primary-blue hover:text-primary-blue-hover"
               >
                 {plusSupportPhone}
+              </a>
+            </div>
+            <div>
+              Text:{' '}
+              <a
+                href={`sms:${plusSupportSms}`}
+                className="text-primary-blue hover:text-primary-blue-hover"
+              >
+                {plusSupportSms}
               </a>
             </div>
           </div>
