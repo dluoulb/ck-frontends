@@ -46,6 +46,7 @@ export default function Rewards() {
           pendingPoints={pendingPoints}
           postedPoints={postedPoints}
           lifetimePoints={lifetimePoints}
+          manage={true}
         />
       </div>
 
