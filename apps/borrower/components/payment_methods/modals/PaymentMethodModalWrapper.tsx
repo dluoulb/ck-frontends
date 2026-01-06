@@ -5,6 +5,8 @@ import { defineStepper } from '@stepperize/react';
 import ModalWrapper from '@components/modals/ModalWrapper';
 import BankPendHelp from './BankPendHelp';
 import PaymentMethodModal from './PaymentMethodModal';
+import { useEntity } from '@contexts/EntityContext';
+import SupportRequiredModal from './SupportRequiredModal';
 
 export default function PaymentMethodModalWrapper({
   isModalActive,
@@ -12,6 +14,10 @@ export default function PaymentMethodModalWrapper({
 }) {
   const [hasAlert, setHasAlert] = useState(false);
   const orderedScreens = [
+    {
+      id: 'add_pm_locked',
+      component: SupportRequiredModal,
+    },
     {
       id: 'payment_modal',
       component: PaymentMethodModal,
@@ -24,12 +30,17 @@ export default function PaymentMethodModalWrapper({
 
   const stepDefinitions = orderedScreens.map(({ id }) => ({ id }));
   const { useStepper } = defineStepper(...stepDefinitions);
-  const { next, reset, when } = useStepper();
+  const { next, reset, when, goTo } = useStepper();
+  const { entity } = useEntity();
 
   useEffect(() => {
     // Start at the first screen in the list
     reset();
-  }, []);
+
+    if (entity?.bank_verification_attempts !== null && entity.bank_verification_attempts < 2) {
+      goTo('payment_modal');
+    }
+  }, [isModalActive]);
 
   const modalProps = {
     next,

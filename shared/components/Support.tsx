@@ -10,9 +10,17 @@ interface SupportProps {
   asText?: boolean;
   declined?: string;
   containerClass?: string;
+  showTagLine?: boolean;
+  message?: string;
 }
 
-const Support: FC<SupportProps> = ({ asText, declined, containerClass }) => {
+const Support: FC<SupportProps> = ({ 
+  asText, 
+  declined, 
+  containerClass,
+  showTagLine=true,
+  message='Contact Credit Key Support at',
+  }) => {
   return (
     <div
       className={classNames(
@@ -23,15 +31,15 @@ const Support: FC<SupportProps> = ({ asText, declined, containerClass }) => {
         }
       )}
     >
-      <div
+      {showTagLine && <div
         className={classNames(
           'text-sm sm:text-base modal:text-xl mb-2',
           asText ? 'font-semibold' : 'font-extrabold'
         )}
       >
         Any questions or issues?
-      </div>
-      Contact Credit Key Support at
+      </div>}
+      {message}
       <div>
         <a
           href="mailto:support@creditkey.com"

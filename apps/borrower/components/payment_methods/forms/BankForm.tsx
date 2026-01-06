@@ -74,6 +74,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
           err?.response?.data?.error?.includes('excessive_attempts');
 
         if (excessive) {
+          fetchEntity();
           setHasAlert(true);
         } else if (invalid) {
           setFieldError(
