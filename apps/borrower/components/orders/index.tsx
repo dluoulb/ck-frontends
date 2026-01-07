@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 
 import Loading from '@components/Loading';
 import OrdersTable from '@components/orders_table/OrdersTable';
-import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useOrders from '@hooks/useOrders';
 import { TableColumns } from './TableColumns';
 
 export default function Orders() {
   const { entity, entityLoading } = useEntity();
-  const { isLoading } = useBorrowerDeps();
   const [ordersPageIndex, setOrdersPageIndex] = useState(0);
   const { orders, ordersLoading, pageCount, isFetching } =
-    useOrders(entity, isLoading, ordersPageIndex);
+    useOrders(entity, false, ordersPageIndex);
 
-  if (isLoading || ordersLoading || entityLoading)
+  if (ordersLoading || entityLoading)
     return <Loading className="w-14 h-14 my-20" />;
 
   if (!entity) return;

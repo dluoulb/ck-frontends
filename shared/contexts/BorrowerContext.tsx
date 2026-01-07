@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { useUser } from '@contexts/UserContext';
 import useDefaultTerms from '@hooks/useDefaultTerms';
-import useOrders from '@hooks/useOrders';
+import useActiveOrders from '@hooks/useActiveOrders';
 import usePaymentMethods from '@hooks/usePaymentMethods';
 import useStats from '@hooks/useStats';
 import { useEntity } from './EntityContext';
@@ -16,8 +16,12 @@ export const BorrowerContextProvider = ({ children }) => {
   const { user } = useUser();
   const { entity, entityLoading } = useEntity();
   const [isLoading, setIsLoading] = useState(false);
-  const shouldNotFetchOrders =
-    isLoading || !['/borrower', '/borrower/orders'].includes(router?.pathname);
+  
+  const shouldFetchDashboardOrders = router?.pathname === '/borrower';
+  const activeOrderProps = useActiveOrders(
+    shouldFetchDashboardOrders ? entity : null,
+    10
+  );
 
   const stats = useStats(entity);
   const companyUserProps = useCompanyUsers(
@@ -33,7 +37,6 @@ export const BorrowerContextProvider = ({ children }) => {
     entity,
     ['/borrower', '/borrower/payment_methods', '/borrower/orders', '/borrower/orders/[id]'].includes(router?.pathname)
   );
-  const orderProps = useOrders(entity, shouldNotFetchOrders);
 
   useEffect(() => {
     setIsLoading(
@@ -58,7 +61,7 @@ export const BorrowerContextProvider = ({ children }) => {
     ...stats,
     ...defaultTermsProps,
     ...paymentMethodProps,
-    ...orderProps,
+    ...activeOrderProps,
     ...companyUserProps,
   };
 

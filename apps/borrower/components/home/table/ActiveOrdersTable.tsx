@@ -17,7 +17,7 @@ import UpdateTermsModalWrapper from '../../terms/UpdateTermsModalWrapper';
 
 export default function ActiveOrdersTable() {
   const size = useWindowSize();
-  const { orders, ordersLoading } = useBorrowerDeps();
+  const { activeOrders, activeOrdersLoading } = useBorrowerDeps();
   const [sorting, setSorting] = useState([
     { id: 'created_at', desc: true },
     { id: 'status', desc: true },
@@ -30,17 +30,7 @@ export default function ActiveOrdersTable() {
     setIsTermsModalOpen(true);
   }, []);
 
-  const activeOrders = useMemo(() => {
-    return (
-      orders
-        ?.filter((i) =>
-          ['active', 'funded', 'created'].includes(i.product.status)
-        )
-        .slice(0, 10) || []
-    );
-  }, [orders]);
-
-  const data = useMemo(() => activeOrders, [activeOrders]);
+  const data = useMemo(() => activeOrders || [], [activeOrders]);
   const columns = useMemo(() => {
     return DashboardTableColumns(openModalForLoan).map((col) => ({
       ...col,
@@ -91,7 +81,7 @@ export default function ActiveOrdersTable() {
             </div>
           </div>
         </div>
-        {ordersLoading ? (
+        {activeOrdersLoading ? (
           <Loading className="w-14 h-14 my-20 !text-primary" />
         ) : (
           <div className="overflow-hidden border border-border-gray rounded-md">
