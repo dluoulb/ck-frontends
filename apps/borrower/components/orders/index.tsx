@@ -9,7 +9,7 @@ import { TableColumns } from './TableColumns';
 export default function Orders() {
   const { entity, entityLoading } = useEntity();
   const [ordersPageIndex, setOrdersPageIndex] = useState(0);
-  const { orders, ordersLoading, pageCount, isFetching } =
+  const { orders, ordersLoading, pageCount, totalOrderCount, isFetching } =
     useOrders(entity, false, ordersPageIndex);
 
   if (ordersLoading || entityLoading)
@@ -33,6 +33,7 @@ export default function Orders() {
           defaultSort="created_at"
           pageSize={25}
           pageCount={pageCount}
+          rowCount={totalOrderCount}
           tableColumns={TableColumns}
           rowClass="!text-sm bg-white"
           withHeader={true}

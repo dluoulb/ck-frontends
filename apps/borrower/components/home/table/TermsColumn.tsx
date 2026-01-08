@@ -3,18 +3,11 @@ import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Select from '@radix-ui/react-select';
 
-type ApprovedTerm = {
-  available: boolean;
-  term: number;
-  term_period: string;
-};
-
 export default function TermsColumn(props: {
   order: any;
-  terms: ApprovedTerm[];
   openModalForLoan: (loan: any) => void;
 }) {
-  const { order, terms = [], openModalForLoan } = props;
+  const { order, openModalForLoan } = props;
 
   const currentInstallments = Number(order?.product?.installments ?? 0);
   const [value, setValue] = useState<string>(
@@ -23,13 +16,13 @@ export default function TermsColumn(props: {
 
   const options = useMemo(
     () =>
-      (terms ?? [])
+      (order.approved_terms ?? [])
         .filter((t) => t?.available)
         .map((t) => ({
           label: `${t.term} ${t.term > 1 ? 'months' : 'month'}`,
           value: String(t.term),
         })),
-    [terms]
+    [order.approved_terms]
   );
 
   const label = useMemo(() => {

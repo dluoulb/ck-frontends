@@ -6,7 +6,7 @@ import { Form, Formik } from 'formik';
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { addMonths, formatShortDate } from '@lib/utils/datetime_formatters';
-import { formatCurrency, getTermDisplay } from '@lib/utils/formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 
 type UpdateTermsFormValues = {
   paymentTerms: string;
@@ -14,7 +14,6 @@ type UpdateTermsFormValues = {
 
 export default function UpdateTermsModalForm({
   loan,
-  terms,
   onSubmit,
   toggleTermsModal,
 }) {
@@ -26,10 +25,10 @@ export default function UpdateTermsModalForm({
   const oldTerm = loan.product?.installments;
   const newTerm = Number(loan.newTerm);
 
-  const oldTermInfo = terms?.find((t) => t.term === oldTerm);
+  const oldTermInfo = loan.approved_terms?.find((t) => t.term === oldTerm);
   const oldNextPayment = oldTermInfo?.monthly_payment;
 
-  const newTermInfo = terms?.find((t) => t.term === newTerm);
+  const newTermInfo = loan.approved_terms?.find((t) => t.term === newTerm);
   const newNextPayment = newTermInfo?.monthly_payment;
 
   const disbursementDate = loan.product?.disbursement_date || '';
