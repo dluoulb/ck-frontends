@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { faCalendar } from '@fortawesome/pro-regular-svg-icons';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
-import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { updatePaymentTerms } from '@lib/actions/orders';
 import UpdateTermsModalForm from './UpdateTermsModalForm';
 import UpdateTermsSelect from './UpdateTermsSelect';
+import useOrders from '../../../../shared/hooks/useOrders';
 
 export default function UpdateTermsModalWrapper({
   loan,
@@ -15,15 +15,16 @@ export default function UpdateTermsModalWrapper({
   toggleTermsModal,
   refetchOrder,
   startStep = 1,
+  refetchOrders,
 }: {
   loan: any;
   isTermsModalOpen: boolean;
   toggleTermsModal: () => void;
   refetchOrder?: () => Promise<any>;
   startStep?: number;
+  refetchOrders?: () => Promise<any>;
 }) {
   const { makeToast } = useToast();
-  const { refetchOrders } = useBorrowerDeps();
   const [step, setStep] = useState(1);
   const [selectedTerm, setSelectedTerm] = useState(null);
 
@@ -59,7 +60,7 @@ export default function UpdateTermsModalWrapper({
         `Updated ${loan.order_key} terms to ${values.paymentTerms} month${values.paymentTerms > 1 ? 's' : ''}`,
         'success'
       );
-      await refetchOrders(); // dashboard refresh
+      await refetchOrders?.(); // dashboard refresh
       await refetchOrder?.(); // optional order details page refresh
       toggleTermsModal();
     } catch (err) {

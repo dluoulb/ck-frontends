@@ -39,7 +39,7 @@ function useSecondaryRoutes() {
                     type: 'link',
                     name: 'Plus+',
                     url: '/plus',
-                    enabled: entity?.plus_enabled,
+                    enabled: !!entity?.plus_enabled,
                 },
             ],
         },
@@ -57,7 +57,7 @@ function useSecondaryRoutes() {
                     name: 'Reward Points',
                     key: 'rewardPoints',
                     url: '/rewards',
-                    enabled: !mobileApp && entity?.plus_enabled,
+                    enabled: !mobileApp && !!entity?.plus_enabled,
                 },
                 {
                     type: 'dropdown',

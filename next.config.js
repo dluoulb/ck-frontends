@@ -10,28 +10,16 @@ module.exports = {
   publicRuntimeConfig: {
     baseURL: baseURL || 'http://localhost:3000',
   },
-  webpack: (config, { isServer }) => {
-    config.resolve.alias['@components'] = path.join(
-      __dirname,
-      'shared/components'
-    );
-    config.resolve.alias['@contexts'] = path.join(__dirname, 'shared/contexts');
-    config.resolve.alias['@hooks'] = path.join(__dirname, 'shared/hooks');
-    config.resolve.alias['@lib'] = path.join(__dirname, 'shared/lib');
-    config.resolve.alias['@records'] = path.join(
-      __dirname,
-      'shared/lib/records'
-    );
-    config.resolve.alias['@apps/reports'] = path.join(
-      __dirname,
-      'apps/reports'
-    );
-    config.resolve.alias['@apps/borrower'] = path.join(
-      __dirname,
-      'apps/borrower'
-    );
-
-    return config;
+  turbopack: {
+    resolveAlias: {
+      '@components': path.join(__dirname, 'shared/components'),
+      '@contexts': path.join(__dirname, 'shared/contexts'),
+      '@hooks': path.join(__dirname, 'shared/hooks'),
+      '@lib': path.join(__dirname, 'shared/lib'),
+      '@records': path.join(__dirname, 'shared/lib/records'),
+      '@apps/reports': path.join(__dirname, 'apps/reports'),
+      '@apps/borrower': path.join(__dirname, 'apps/borrower'),
+    }
   },
   async rewrites() {
     return {

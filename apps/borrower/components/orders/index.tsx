@@ -9,7 +9,7 @@ import { TableColumns } from './TableColumns';
 export default function Orders() {
   const { entity, entityLoading } = useEntity();
   const [ordersPageIndex, setOrdersPageIndex] = useState(0);
-  const { orders, ordersLoading, pageCount, totalOrderCount, isFetching } =
+  const { orders, ordersLoading, pageCount, totalOrderCount, isFetching, refetchOrders } =
     useOrders(entity, false, ordersPageIndex);
 
   if (ordersLoading || entityLoading)
@@ -39,6 +39,7 @@ export default function Orders() {
           withHeader={true}
           isFetching={isFetching}
           setOrdersPageIndex={setOrdersPageIndex}
+          refetchOrders={refetchOrders}
         />
       </div>
     </div>

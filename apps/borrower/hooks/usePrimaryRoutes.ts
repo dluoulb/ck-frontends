@@ -48,14 +48,14 @@ function usePrimaryRoutes() {
       icon: faGift,
       name: 'Plus+',
       url: '/plus',
-      enabled: entity?.plus_enabled,
+      enabled: !!entity?.plus_enabled,
       separator: true,
     },
     {
       icon: faGift,
       name: 'Rewards',
       url: '/rewards',
-      enabled: entity?.plus_enabled,
+      enabled: !!entity?.plus_enabled,
     },
     {
       icon: faUser,
