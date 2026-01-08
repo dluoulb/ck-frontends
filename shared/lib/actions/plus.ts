@@ -90,3 +90,16 @@ export const getRewardPointsLedger = async (
     ) ?? []
   );
 };
+
+export const redeemPoints = async (
+  api: AxiosInstance,
+  companyId: string,
+  points: number
+) => {
+  const response = await api.post(
+    `/api/reward_points/redeem?company_id=${companyId}`,
+    { points }
+  );
+
+  return response?.data;
+};
