@@ -38,7 +38,7 @@ export default function OrdersTable({
   isFetching = false,
   setOrdersPageIndex = (pageIndex) => {},
   defaultSort = '',
-  refetchOrders,
+  refetchOrders = null,
 }) {
   const queryClient = useQueryClient();
   const size = useWindowSize();
