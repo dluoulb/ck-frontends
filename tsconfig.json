@@ -2,39 +2,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "shared/components/*"
-      ],
-      "@contexts/*": [
-        "shared/contexts/*"
-      ],
-      "@hooks/*": [
-        "shared/hooks/*"
-      ],
-      "@lib/*": [
-        "shared/lib/*"
-      ],
-      "@records/*": [
-        "shared/lib/records/*"
-      ],
-      "@apps/reports/*": [
-        "apps/reports/*"
-      ],
-      "@apps/borrower/*": [
-        "apps/borrower/*"
-      ],
-      "@pages/reports/*": [
-        "pages/reports/*"
-      ],
-      "@pages/borrower/*": [
-        "pages/borrower/*"
-      ]
+      "@components/*": ["shared/components/*"],
+      "@contexts/*": ["shared/contexts/*"],
+      "@hooks/*": ["shared/hooks/*"],
+      "@lib/*": ["shared/lib/*"],
+      "@records/*": ["shared/lib/records/*"],
+      "@apps/reports/*": ["apps/reports/*"],
+      "@apps/borrower/*": ["apps/borrower/*"],
+      "@pages/reports/*": ["pages/reports/*"],
+      "@pages/borrower/*": ["pages/borrower/*"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -46,18 +24,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "types": [
-      "@testing-library/jest-dom/jest-globals"
-    ]
+    "jsx": "preserve",
+    "types": ["@testing-library/jest-dom/jest-globals"]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next.config.js"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
+  "exclude": ["node_modules"]
 }
