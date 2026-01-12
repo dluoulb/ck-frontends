@@ -4,7 +4,11 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "format": "prettier       --write \"apps/**/*[.ts|.x]\" \"pages/**/*[.ts|.x]\" \"shared/**/*[.ts|.x]\" \"__tests__/**/*[.ts|.x]\" *.ts *.js",
+    "format:check": "prettier --check \"apps/**/*[.ts|.x]\" \"pages/**/*[.ts|.x]\" \"shared/**/*[.ts|.x]\" \"__tests__/**/*[.ts|.x]\" *.ts *.js",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint-ci": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix-dry-run --format unix"
   },
   "dependencies": {
     "@bharathvaj/fullstory-rollbar": "^1.0.0",
