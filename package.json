@@ -9,7 +9,7 @@
     "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
     "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
     "lint": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" --fix",
-    "lint:ci": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" --fix-dry-run"
+    "lint:ci": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\""
   },
   "dependencies": {
     "@bharathvaj/fullstory-rollbar": "^1.0.0",
