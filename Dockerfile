@@ -22,7 +22,7 @@ RUN adduser --system --uid 1001 nextjs
 FROM base AS builder
 WORKDIR /app
 
-COPY .npmrc package.json package-lock.json tsconfig.json postcss.config.js next.config.js tailwind.config.js globals.scss middleware.ts next-env.d.ts ./
+COPY .npmrc package.json package-lock.json tsconfig.json postcss.config.js next.config.js tailwind.config.js globals.scss middleware.ts next-env.d.ts eslint.config.mjs ./
 
 ENV NODE_ENV=production
 RUN npm install --only=production
@@ -41,6 +41,8 @@ RUN npm run build
 FROM builder AS dev
 
 RUN NODE_ENV=development npm install --save-dev
+
+COPY ./__tests__ ./__tests__
 
 CMD ["dumb-init","npm","run", "dev"]
 
