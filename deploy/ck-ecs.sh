@@ -48,51 +48,6 @@ fi
 APP_ROOT_DIR="$(pwd)/.."
 cd $APP_ROOT_DIR
 
-_init () {
-  if [ "$CI" = true ]; then
-    export DEBIAN_FRONTEND=noninteractive
-    if ! command -v terraform &> /dev/null; then
-      #install terraform
-      apt-get update && apt-get install -y gnupg software-properties-common
-      wget -O- https://apt.releases.hashicorp.com/gpg | \
-        gpg --dearmor | \
-        tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-      gpg --no-default-keyring \
-        --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
-        --fingerprint
-      echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-        https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-        tee /etc/apt/sources.list.d/hashicorp.list
-        apt-get update && apt-get install -y terraform python3-holidays
-    else
-      apt-get update && apt-get install -y python3-holidays
-    fi
-
-    if ! command -v aws &> /dev/null; then
-      #install awscli
-      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
-      unzip -q awscli.zip
-      ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-      rm -rf aws awscli.zip
-    fi
-
-    export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/web-identity-token
-    echo $BITBUCKET_STEP_OIDC_TOKEN > $AWS_WEB_IDENTITY_TOKEN_FILE
-
-    oidc_creds=$(
-      aws sts assume-role-with-web-identity \
-        --role-arn $AWS_ROLE_ARN \
-        --role-session-name bitbucket-session \
-        --web-identity-token "$BITBUCKET_STEP_OIDC_TOKEN" \
-        --duration-seconds 3600
-    )
-    export AWS_ACCESS_KEY_ID=$(echo $oidc_creds | jq -r '.Credentials.AccessKeyId')
-    export AWS_SECRET_ACCESS_KEY=$(echo $oidc_creds | jq -r '.Credentials.SecretAccessKey')
-    export AWS_SESSION_TOKEN=$(echo $oidc_creds | jq -r '.Credentials.SessionToken')
-  fi
-}
-_init
-
 inform () {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S' | tr '\n' ' ' | xargs echo)]" "$@"
 }
@@ -149,32 +104,6 @@ push_image () {
   inform "Finished pushing $VERSION_INFO"
 }
 
-run_deploy_tasks () {
-  if [[ -n "$ECS_DEPLOY_TASKS_DEF" ]]; then
-    network_config=$(aws ecs describe-services --region="$ECS_REGION" --services "$ECS_SERVICE" --cluster "$ECS_CLUSTER" | jq -r '.services[0].networkConfiguration' | tr '\n' ' ')
-    task_info=$(aws ecs run-task --launch-type FARGATE --region="$ECS_REGION" --cluster="$ECS_CLUSTER" --task-definition "$ECS_DEPLOY_TASKS_DEF" --network-configuration="$network_config")
-    echo "$task_info"
-    task_arn=$(echo "$task_info" | jq -r '.tasks[0].taskArn')
-    task_id=$(echo "$task_arn" | cut -d'/' -f3)
-    container_name=$(echo "$task_info" | jq -r '.tasks[0].containers[0].name')
-
-    echo "Task $task_id running, waiting for completion..."
-    if [ -z "$CI" ]; then
-      log_info=$(aws ecs describe-task-definition --task-definition "$ECS_DEPLOY_TASKS_DEF" --region "$ECS_REGION" | jq -r '.taskDefinition.containerDefinitions[0].logConfiguration.options | {logGroup: ."awslogs-group", logStreamPrefix: ."awslogs-stream-prefix"}')
-      log_group=$(echo "$log_info" | jq -r '.logGroup')
-      log_stream_name_prefix=$(echo "$log_info" | jq -r '.logStreamPrefix')
-      log_stream_name="$log_stream_name_prefix/$container_name/$task_id"
-      aws ecs wait tasks-running --cluster="$ECS_CLUSTER" --tasks $task_id
-      echo "Task $task_id has started, showing logs..."
-      aws logs tail "$ECS_LOG_GROUP" --log-stream-names "$log_stream_name" --follow & logs_pid=$!
-    else
-      echo "Task $task_id has started, no logs available via pipeline"
-    fi
-    aws ecs wait tasks-stopped --cluster="$ECS_CLUSTER" --tasks $task_id
-  fi
-}
-
-
 test_image () {
   set -x
   docker build --platform linux/amd64 -t "$IMAGE_NAME:test" \
@@ -209,8 +138,6 @@ deploy () {
 
   build_image
   push_image
-
-  run_deploy_tasks
 
   sleep 1
   restart

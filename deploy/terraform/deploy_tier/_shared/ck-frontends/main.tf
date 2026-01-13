@@ -6,12 +6,14 @@ module "app-vars" {
 }
 
 module "ck-frontends" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.33"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.40"
 
   app_name = module.app-vars.app_name
   deploy_tier = var.deploy_tier
   task_command = ["dumb-init","node","server.js"]
   task_entrypoint = [ "/usr/local/bin/entrypoint.sh" ]
+
+  bitbucket_repo = "n/a"
 
   app_port = module.app-vars.app_port
   app_secret_arn = module.app-vars.app_secret_arn

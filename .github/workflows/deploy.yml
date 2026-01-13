@@ -1,0 +1,66 @@
+name: Deploy Tools
+
+on:
+  workflow_call:
+    inputs:
+      tier:
+        required: true
+        type: string
+      command:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tier:
+        description: "Deploy tier (development|staging|production)"
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      command:
+        description: "What would you like to do?"
+        required: true
+        default: deploy
+        type: choice
+        options:
+          - deploy
+          - restart
+          - build_image
+          - push_image
+          - rollback
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_TIER:    ${{ inputs.tier || github.event.inputs.tier }}
+      DEPLOY_COMMAND: ${{ inputs.command || github.event.inputs.command }}
+
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: creditkey/ck-github-actions@main
+        with:
+          aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
+          aws-role-name: ${{ vars.AWS_ROLE_NAME_PREFIX }}-${{ github.event.inputs.tier }}
+          ssh-private-keys: |
+            ${{ secrets.TERRAFORM_GITHUB_SSH_KEY }}
+            ${{ secrets.BITBUCKET_SSH_KEY }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/buildx-cache
+          key: docker-buildx-cache
+          restore-keys: |
+            docker-buildx-cache-
+
+      - name: Run
+        run: ./deploy/ck-ecs.sh "$DEPLOY_COMMAND" "$DEPLOY_TIER"
+        env:
+          DOCKER_BUILDKIT: 1
+          BUILDX_CACHE_DIR: /tmp/buildx-cache
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
