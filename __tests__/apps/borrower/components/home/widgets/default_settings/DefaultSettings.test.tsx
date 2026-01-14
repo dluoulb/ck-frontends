@@ -1,4 +1,3 @@
-
 import DefaultSettings from '@apps/borrower/components/home/widgets/default_settings/DefaultSettings';
 import { customRender, screen } from '@lib/testing/test-utils';
 

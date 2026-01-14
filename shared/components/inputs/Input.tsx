@@ -16,7 +16,7 @@ export default function Input(props) {
         name={id}
         className={classNames(
           'peer w-full text-xs sm:text-sm px-3.5 pt-4 sm:pt-5 pb-1 block mt-0 bg-transparent border border-solid border-primary-gray-border rounded-lg appearance-none focus:outline-none focus:ring-0',
-          formStyles.error(hasFieldError)
+          formStyles.error(hasFieldError),
         )}
         id={id}
         placeholder=" "
@@ -25,7 +25,7 @@ export default function Input(props) {
         <div
           className={classNames(
             'z-40 absolute top-1/2 transform -translate-y-1/2 right-0 pr-3 flex items-center',
-            { 'top-[35%]': hasColumnError }
+            { 'top-[35%]': hasColumnError },
           )}
         >
           {disclaimer}

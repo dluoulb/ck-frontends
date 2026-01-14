@@ -8,8 +8,7 @@ export default function ZendeskChatLink({
   className = '',
   onClick = () => {},
 }) {
-  const zdAvailable =
-    (window.zEACLoaded || false) && platform() === 'production';
+  const zdAvailable = (window.zEACLoaded || false) && platform() === 'production';
 
   const openChat = () => {
     if (zdAvailable) {

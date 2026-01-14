@@ -17,11 +17,7 @@ describe('Entity Detail Page', () => {
     });
 
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityIndex />
       </ReportsContextProvider>,
       {
@@ -30,7 +26,7 @@ describe('Entity Detail Page', () => {
           type: 'companies',
           content: 'dashboard',
         },
-      }
+      },
     );
 
     expect(screen.getByText('No Company found'));
@@ -48,11 +44,7 @@ describe('Entity Detail Page', () => {
     });
 
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityIndex />
       </ReportsContextProvider>,
       {
@@ -61,7 +53,7 @@ describe('Entity Detail Page', () => {
           type: 'accounts',
           content: 'dashboard',
         },
-      }
+      },
     );
 
     await waitFor(() => screen.getByTestId('container'));
@@ -82,11 +74,7 @@ describe('Entity Detail Page', () => {
     });
 
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityIndex />
       </ReportsContextProvider>,
       {
@@ -95,7 +83,7 @@ describe('Entity Detail Page', () => {
           type: 'companies',
           content: 'dashboard',
         },
-      }
+      },
     );
 
     await waitFor(() => screen.getByTestId('container'));

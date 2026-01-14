@@ -3,11 +3,7 @@ import { ErrorMessage, Field } from 'formik';
 
 import { formStyles } from '@lib/constants/SiteVariables';
 
-export default function PaymentMethods({
-  order,
-  paymentMethods,
-  setFieldValue,
-}) {
+export default function PaymentMethods({ order, paymentMethods, setFieldValue }) {
   const pmType = order.entity_type === 'account' ? 'card' : 'bank_account';
   const paymentList = paymentMethods
     ?.filter((pm) => pm.payment_type === pmType)
@@ -31,9 +27,7 @@ export default function PaymentMethods({
                   />
                   <div
                     className="min-w-0 flex-1 cursor-pointer"
-                    onClick={() =>
-                      setFieldValue('payment_method_id', pm.id.toString())
-                    }
+                    onClick={() => setFieldValue('payment_method_id', pm.id.toString())}
                   >
                     <label className="font-bold">
                       {order.entity_type === 'account'
@@ -50,11 +44,7 @@ export default function PaymentMethods({
           })}
         </div>
       </fieldset>
-      <ErrorMessage
-        name="payment_method_id"
-        component="div"
-        className={formStyles.validation}
-      />
+      <ErrorMessage name="payment_method_id" component="div" className={formStyles.validation} />
     </div>
   );
 }

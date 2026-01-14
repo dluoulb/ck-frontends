@@ -41,8 +41,7 @@ export default function MultiUseVirtualCardDetails() {
             />
           )}
 
-          {(!vcProps.virtualCard ||
-            vcProps.virtualCard.status !== 'ACTIVE') && (
+          {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
             <InactiveCardSection
               title="Credit Key Virtual Card"
               bgColor="F4F8FF"
@@ -50,8 +49,7 @@ export default function MultiUseVirtualCardDetails() {
             />
           )}
 
-          {(!vcProps.virtualCard ||
-            vcProps.virtualCard.status !== 'ACTIVE') && (
+          {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
             <InactiveCardSection
               title="Credit Key Physical Card"
               bgColor="fff7ec"

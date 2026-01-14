@@ -35,16 +35,10 @@ export default function UserHit({ hit }) {
         </p>
         <div className="col-span-1">
           <span className="block">
-            Phone:{' '}
-            {hit.phone
-              ? formatPhoneNumber(normalizePhone(hit?.phone))
-              : 'Not Provided'}
+            Phone: {hit.phone ? formatPhoneNumber(normalizePhone(hit?.phone)) : 'Not Provided'}
           </span>
           <span className="block">
-            DOB:{' '}
-            {hit.birthdate
-              ? fromISO(hit.birthdate).toLocaleString()
-              : 'Not Provided'}
+            DOB: {hit.birthdate ? fromISO(hit.birthdate).toLocaleString() : 'Not Provided'}
           </span>
         </div>
       </div>

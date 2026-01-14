@@ -49,7 +49,7 @@ export default function UpdateTermsModalWrapper({
       if (values.paymentTerms == loan.product.installments) {
         makeToast(
           `Payment terms are already ${values.paymentTerms} month${values.paymentTerms > 1 ? 's' : ''}`,
-          'info'
+          'info',
         );
         toggleTermsModal();
         return;
@@ -58,7 +58,7 @@ export default function UpdateTermsModalWrapper({
       await updatePaymentTerms(api, loan.id, values.paymentTerms);
       makeToast(
         `Updated ${loan.order_key} terms to ${values.paymentTerms} month${values.paymentTerms > 1 ? 's' : ''}`,
-        'success'
+        'success',
       );
       await refetchOrders?.(); // dashboard refresh
       await refetchOrder?.(); // optional order details page refresh
@@ -66,7 +66,7 @@ export default function UpdateTermsModalWrapper({
     } catch (err) {
       makeToast(
         'An error occurred. Please contact our support team (support@creditkey.com)',
-        'error'
+        'error',
       );
     } finally {
       setSubmitting(false);
@@ -82,8 +82,7 @@ export default function UpdateTermsModalWrapper({
           <div>
             Confirm Term Change
             <p className="font-normal text-sm text-secondary-gray">
-              <span className="font-semibold">{loan.merchant.name}</span> •{' '}
-              {loan.order_key}
+              <span className="font-semibold">{loan.merchant.name}</span> • {loan.order_key}
             </p>
           </div>
         }
@@ -104,7 +103,6 @@ export default function UpdateTermsModalWrapper({
               loan={{ ...loan, newTerm: selectedTerm }}
               onSubmit={handleSubmit}
               toggleTermsModal={toggleTermsModal}
-              
             />
           ))}
       </ModalWrapper>

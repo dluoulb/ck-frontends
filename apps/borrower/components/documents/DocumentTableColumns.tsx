@@ -13,10 +13,7 @@ export const DocumentTableColumns = [
     header: 'DOCUMENT',
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <FontAwesomeIcon
-          icon={faFileLines}
-          className="text-gray-400 flex-shrink-0"
-        />
+        <FontAwesomeIcon icon={faFileLines} className="text-gray-400 flex-shrink-0" />
         <span className="break-words">{row.original.attributes.file_name}</span>
       </div>
     ),
@@ -25,8 +22,7 @@ export const DocumentTableColumns = [
     id: 'file_type',
     accessorKey: 'attributes.file_type',
     header: 'TYPE',
-    cell: ({ row }) =>
-      DOCUMENT_TYPE_LABELS[row.original.attributes.file_type] || 'Other',
+    cell: ({ row }) => DOCUMENT_TYPE_LABELS[row.original.attributes.file_type] || 'Other',
   },
   {
     id: 'created_at',

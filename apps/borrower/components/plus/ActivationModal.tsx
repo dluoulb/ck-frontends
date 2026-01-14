@@ -45,9 +45,7 @@ const planDurationMap = {
   365: { type: PlanType.ANNUAL, period: 'per year' },
 } as const;
 
-const createPlanOptions = (
-  subscriptionPlans: SubscriptionPlanRecord[]
-): PlanOption[] => {
+const createPlanOptions = (subscriptionPlans: SubscriptionPlanRecord[]): PlanOption[] => {
   const monthlyPlan = subscriptionPlans.find((plan) => plan.duration === 30);
 
   return subscriptionPlans.map((plan) => {
@@ -90,18 +88,10 @@ export default function ActivationModal({
   const [selectedPlan, setSelectedPlan] = useState<PlanType>(PlanType.ANNUAL);
   const [isAgreed, setIsAgreed] = useState(false);
 
-  const {
-    isModalActive: isPaymentModalActive,
-    toggleModal: togglePaymentModal,
-  } = useModal();
-  const { activePaymentMethods, refetchPaymentMethods } = usePaymentMethods(
-    user,
-    entity,
-    true
-  );
+  const { isModalActive: isPaymentModalActive, toggleModal: togglePaymentModal } = useModal();
+  const { activePaymentMethods, refetchPaymentMethods } = usePaymentMethods(user, entity, true);
 
-  const hasPaymentMethods =
-    activePaymentMethods && activePaymentMethods.length > 0;
+  const hasPaymentMethods = activePaymentMethods && activePaymentMethods.length > 0;
 
   const planOptions: PlanOption[] = useMemo(() => {
     return createPlanOptions(subscriptionPlans);
@@ -109,7 +99,7 @@ export default function ActivationModal({
 
   const selectedPlanOption = useMemo(
     () => planOptions.find((plan) => plan.type === selectedPlan),
-    [planOptions, selectedPlan]
+    [planOptions, selectedPlan],
   );
 
   useEffect(() => {
@@ -154,9 +144,7 @@ export default function ActivationModal({
             <div
               key={plan.type}
               className={`border-2 rounded px-6 py-2 cursor-pointer relative flex flex-col justify-center ${
-                selectedPlan === plan.type
-                  ? 'border-primary-blue'
-                  : 'border-primary-gray-border'
+                selectedPlan === plan.type ? 'border-primary-blue' : 'border-primary-gray-border'
               }`}
               onClick={() => setSelectedPlan(plan.type)}
             >
@@ -168,9 +156,7 @@ export default function ActivationModal({
               <div className="text-xl font-bold">{plan.price}</div>
               <div className="text-xs">{plan.period}</div>
               {plan.highlight && (
-                <div className="text-success text-sm font-bold mt-1">
-                  {plan.highlight}
-                </div>
+                <div className="text-success text-sm font-bold mt-1">{plan.highlight}</div>
               )}
             </div>
           ))}
@@ -182,10 +168,7 @@ export default function ActivationModal({
         {!hasPaymentMethods && (
           <div className="bg-[#FFF7EC] rounded px-4 py-3 mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div
-                className="font-light text-sm flex-1"
-                style={{ color: '#853918' }}
-              >
+              <div className="font-light text-sm flex-1" style={{ color: '#853918' }}>
                 A payment method is required to activate Credit Key Plus
               </div>
               <PrimaryButton
@@ -207,11 +190,10 @@ export default function ActivationModal({
             onCheckedChange={(checked) => setIsAgreed(checked === true)}
           />
           <label htmlFor="agree" className="text-xs">
-            I authorize Credit Key to charge my account{' '}
-            {selectedPlanOption?.price} {planTypeLabels[selectedPlan]} for
-            Credit Key Plus membership. I understand this is a recurring
-            subscription that will automatically renew until I cancel. I've
-            reviewed and agree to the{' '}
+            I authorize Credit Key to charge my account {selectedPlanOption?.price}{' '}
+            {planTypeLabels[selectedPlan]} for Credit Key Plus membership. I understand this is a
+            recurring subscription that will automatically renew until I cancel. I've reviewed and
+            agree to the{' '}
             <Link
               href="https://www.creditkey.com/legal/credit-key-plus-terms"
               className="text-primary-blue underline hover:text-primary-blue/80 cursor-pointer"
@@ -225,12 +207,7 @@ export default function ActivationModal({
         <PrimaryButton
           buttonColor="w-full bg-primary-blue hover:bg-primary-blue-hover transition-colors text-white px-4 py-2 text-xs sm:text-sm rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           hoverClass="hover:bg-gray-100"
-          disabled={
-            !isAgreed ||
-            !selectedPlan ||
-            !hasPaymentMethods ||
-            createSubscriptionLoading
-          }
+          disabled={!isAgreed || !selectedPlan || !hasPaymentMethods || createSubscriptionLoading}
           onClick={handleActivate}
           buttonText="Activate Credit Key Plus"
           isLoading={createSubscriptionLoading}

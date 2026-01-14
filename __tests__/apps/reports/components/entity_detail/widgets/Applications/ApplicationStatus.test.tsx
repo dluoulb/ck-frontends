@@ -3,7 +3,7 @@ import { application1, application2 } from '@lib/testing/records';
 import { render, renders, screen } from '@lib/testing/test-utils';
 
 describe('Application Status Component', () => {
-  let props = { app: application1 };
+  const props = { app: application1 };
   renders(ApplicationStatus, props);
 
   test('new app has tooltip', () => {

@@ -5,6 +5,6 @@ import { companyApproved, orderA } from '@lib/testing/records';
 import { renders } from '@lib/testing/test-utils';
 
 describe('BorrowerInfo Component', () => {
-  let props = { order: orderA, entity: companyApproved };
+  const props = { order: orderA, entity: companyApproved };
   renders(BorrowerInfo, props);
 });

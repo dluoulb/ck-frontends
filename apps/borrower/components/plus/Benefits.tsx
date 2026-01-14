@@ -36,22 +36,12 @@ const benefits = [
 export default function Benefits() {
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="text-lg font-bold text-primary">
-        All Credit Key Plus benefits:
-      </h3>
+      <h3 className="text-lg font-bold text-primary">All Credit Key Plus benefits:</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {benefits.map((benefit, index) => (
-          <div
-            key={index}
-            className="border border-gray-300 bg-white rounded-md p-6"
-          >
+          <div key={index} className="border border-gray-300 bg-white rounded-md p-6">
             <div className="flex flex-col items-start gap-2">
-              <Image
-                src={benefit.icon}
-                alt={`${benefit.title} icon`}
-                width={24}
-                height={24}
-              />
+              <Image src={benefit.icon} alt={`${benefit.title} icon`} width={24} height={24} />
               <div>
                 <h4 className="font-bold">{benefit.title}</h4>
                 <p className="text-sm mt-2">{benefit.description}</p>

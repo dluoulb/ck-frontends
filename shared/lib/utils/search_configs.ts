@@ -18,8 +18,7 @@ export const reportsRootConfig = {
     },
 
     orders: {
-      query_by:
-        'merchant_order_id, order_key, first_name, last_name, email, phone',
+      query_by: 'merchant_order_id, order_key, first_name, last_name, email, phone',
     },
 
     users: {

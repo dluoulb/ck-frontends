@@ -3,8 +3,7 @@ import React from 'react';
 const faqs = [
   {
     question: 'When do I get my cash back?',
-    answer:
-      'Points move from pending to redeemable after your loan is fully paid.',
+    answer: 'Points move from pending to redeemable after your loan is fully paid.',
   },
   {
     question: 'How much can I really earn?',
@@ -34,10 +33,7 @@ export default function FAQs() {
       {faqs.map((faq, index) => (
         <div key={index} className="">
           <div className="font-bold text-sm">{faq.question}</div>
-          <div
-            className="text-sm"
-            dangerouslySetInnerHTML={{ __html: faq.answer }}
-          />
+          <div className="text-sm" dangerouslySetInnerHTML={{ __html: faq.answer }} />
         </div>
       ))}
     </div>

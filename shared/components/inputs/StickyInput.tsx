@@ -10,8 +10,7 @@ export default function StickyInput(props) {
   const { id, placeholder } = props;
   if (!id || !placeholder) throw 'Missing required props';
 
-  const { multi, hasFieldError, hasColumnError, fieldErrMsg, fieldComplete } =
-    useInputs(props);
+  const { multi, hasFieldError, hasColumnError, fieldErrMsg, fieldComplete } = useInputs(props);
 
   return (
     <div className="form-floating flex flex-col items-start relative outline-none">
@@ -24,7 +23,7 @@ export default function StickyInput(props) {
           { '!top-[45%] sm:!top-[35%]': !hasFieldError && hasColumnError },
           fieldComplete
             ? 'text-tertiary-gray scale-75 -translate-y-4 sm:-translate-y-5 peer-focus:left-3.5'
-            : 'text-secondary-gray'
+            : 'text-secondary-gray',
         )}
       >
         {placeholder}
@@ -34,7 +33,7 @@ export default function StickyInput(props) {
           className={classNames(
             'sm:h-5',
             formStyles.validation,
-            hasFieldError ? 'my-0.5 sm:h-4' : 'h-0'
+            hasFieldError ? 'my-0.5 sm:h-4' : 'h-0',
           )}
         >
           {hasFieldError && fieldErrMsg}
@@ -46,7 +45,7 @@ export default function StickyInput(props) {
           className={classNames(
             'sm:h-5',
             formStyles.validation,
-            hasFieldError ? 'my-0.5 h-4' : 'h-0'
+            hasFieldError ? 'my-0.5 h-4' : 'h-0',
           )}
         />
       )}

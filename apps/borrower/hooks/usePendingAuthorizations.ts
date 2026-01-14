@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
-import {
-  getPendingAuthorizations,
-  PendingAuthorizationsResponse,
-} from '@lib/actions/virtualcards';
+import { getPendingAuthorizations, PendingAuthorizationsResponse } from '@lib/actions/virtualcards';
 
 function usePendingAuthorizations(companyId?: string) {
   const api = useApi();

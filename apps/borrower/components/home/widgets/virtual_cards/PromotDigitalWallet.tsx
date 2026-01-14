@@ -1,6 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function PromoteDigitalWallet() {
   const instructions = [
@@ -17,10 +17,13 @@ export default function PromoteDigitalWallet() {
       <div className="align-top text-base font-semibold">
         Add to your phone's digital wallet for seamless purchases
         <ol className="list-decimal font-normal ml-4 mt-2">
-          {instructions.map(step => <li key={step} className="text-primary-blue"><span className="text-black">{step}</span></li>)}
+          {instructions.map((step) => (
+            <li key={step} className="text-primary-blue">
+              <span className="text-black">{step}</span>
+            </li>
+          ))}
         </ol>
       </div>
     </div>
   );
 }
-

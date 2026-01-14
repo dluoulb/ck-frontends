@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import PrimaryButton from '@components/buttons/PrimaryButton';
 
 type ApprovedTerm = {

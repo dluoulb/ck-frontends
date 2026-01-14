@@ -11,12 +11,7 @@ import { getUser } from '@lib/actions/users';
 
 const ReportsContext = createContext(null);
 
-export const ReportsContextProvider = ({
-  entity,
-  entityLoading,
-  content = null,
-  children,
-}) => {
+export const ReportsContextProvider = ({ entity, entityLoading, content = null, children }) => {
   const api = useApi();
   const { user } = useUser();
   const { type } = useRouter().query;
@@ -34,14 +29,12 @@ export const ReportsContextProvider = ({
   const stats = useStats(entity);
   const documents = useDocuments(entity);
 
-  const { applications, applicationsError, applicationsLoading } =
-    useApplications(entity, content);
+  const { applications, applicationsError, applicationsLoading } = useApplications(entity, content);
 
   const sortedApps = Array.isArray(applications)
     ? applications.sort(
         (a, b) =>
-          new Date(b.attributes.created_at).getTime() -
-          new Date(a.attributes.created_at).getTime()
+          new Date(b.attributes.created_at).getTime() - new Date(a.attributes.created_at).getTime(),
       )
     : [];
 
@@ -52,7 +45,7 @@ export const ReportsContextProvider = ({
         ownerLoading ||
         applicationsLoading ||
         stats?.statsLoading ||
-        documents?.documentsLoading
+        documents?.documentsLoading,
     );
   }, [
     user,
@@ -75,19 +68,13 @@ export const ReportsContextProvider = ({
     applicationsLoading,
   };
 
-  return (
-    <ReportsContext.Provider value={dependencies}>
-      {children}
-    </ReportsContext.Provider>
-  );
+  return <ReportsContext.Provider value={dependencies}>{children}</ReportsContext.Provider>;
 };
 
 export const useReportsDeps = () => {
   const context = useContext(ReportsContext);
   if (!context) {
-    throw new Error(
-      'useReportsDeps must be used within a ReportsContextProvider'
-    );
+    throw new Error('useReportsDeps must be used within a ReportsContextProvider');
   }
   return context;
 };

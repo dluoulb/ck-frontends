@@ -10,13 +10,9 @@ jest.mock('@hooks/useOrders');
 describe('Order Dashboard Component', () => {
   test('displays dashboard', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <OrderDashboard />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     const element = await screen.findByRole('order-dashboard-component');

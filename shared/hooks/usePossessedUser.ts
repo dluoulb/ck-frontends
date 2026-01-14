@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import { deNormalizePhone } from '@lib/utils/formatters';
-import { useRouter } from 'next/router';
 
 function usePossessedUser() {
   const router = useRouter();
@@ -16,10 +16,8 @@ function usePossessedUser() {
   const [possessedUserContact, setPossessedUserContact] = useState('');
 
   const clearUserAndReload = () => {
-    clearUser()
-    .then(() => {
-      router.push('/')
-      .then(() => {
+    clearUser().then(() => {
+      router.push('/').then(() => {
         router.reload();
       });
     });
@@ -42,9 +40,7 @@ function usePossessedUser() {
     axios
       .post(`${process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN}/impersonate`, {
         [contactType]:
-          contactType === 'email'
-            ? possessedUserContact
-            : deNormalizePhone(possessedUserContact),
+          contactType === 'email' ? possessedUserContact : deNormalizePhone(possessedUserContact),
       })
       .then((res) => {
         setUserData(res);
@@ -66,16 +62,15 @@ function usePossessedUser() {
     setError(
       notFound
         ? `No user found with this ${contactType}`
-        : `An error occurred: ${err?.response?.data?.message}`
+        : `An error occurred: ${err?.response?.data?.message}`,
     );
   };
 
   const possessUserById = async (userId) => {
-    clearUser()
-    .then(() => {
+    clearUser().then(() => {
       axios
         .post(`${process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN}/impersonate`, {
-          userId
+          userId,
         })
         .then((res) => {
           setUserData(res);

@@ -13,7 +13,7 @@ export const BuildStack = ({ original }) => {
         {reformatDate(
           original.product.disbursement_date
             ? original.product.disbursement_date
-            : original.product.capture_date
+            : original.product.capture_date,
         )}
       </p>
       <p className="block lg:hidden font-semibold">
@@ -42,17 +42,13 @@ export const BuildStack = ({ original }) => {
         <OrderStatus
           order={original}
           status={
-            original.product.status
-              ? original.product.status
-              : original.product.payment_plan_status
+            original.product.status ? original.product.status : original.product.payment_plan_status
           }
         />
       </p>
       <div className="block mid:hidden">
         <DocumentLink
-          buttonText={
-            original.product_type ? 'Payment Plan Agreement' : 'Loan Agreement'
-          }
+          buttonText={original.product_type ? 'Payment Plan Agreement' : 'Loan Agreement'}
           buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover font-medium flex items-center"
           order={original}
           type="agreement"

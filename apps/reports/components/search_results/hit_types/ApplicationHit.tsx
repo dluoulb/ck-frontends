@@ -31,9 +31,7 @@ export default function ApplicationHit({ hit }) {
             Owner: {hit.first_name} {hit.last_name}
           </span>
           <span className="block normal-case">Email: {hit.email}</span>
-          <span className="block">
-            Business Address: {address(hit.business_address)}
-          </span>
+          <span className="block">Business Address: {address(hit.business_address)}</span>
         </p>
         <div className="col-span-1">
           <span className="block">Status: {hit.status}</span>

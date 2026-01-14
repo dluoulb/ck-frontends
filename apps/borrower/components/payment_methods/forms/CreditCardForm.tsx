@@ -34,10 +34,7 @@ function CreditCardForm({ toggleModal }) {
             toggleModal();
           })
           .catch((err) => {
-            makeToast(
-              'An error occurred. Please try again or contact our support team.',
-              'error'
-            );
+            makeToast('An error occurred. Please try again or contact our support team.', 'error');
             setSubmitting(false);
             toggleModal();
           });
@@ -46,14 +43,10 @@ function CreditCardForm({ toggleModal }) {
         // Error from API
         if (err.response?.status !== 401) {
           setCardErrors([
-            err.response.data.message ||
-              'Unknown API error. Please contact Credit Key Support.',
+            err.response.data.message || 'Unknown API error. Please contact Credit Key Support.',
           ]);
         } else {
-          makeToast(
-            'An error occurred. Please try again or contact our support team.',
-            'error'
-          );
+          makeToast('An error occurred. Please try again or contact our support team.', 'error');
           setSubmitting(false);
           toggleModal();
         }
@@ -71,9 +64,7 @@ function CreditCardForm({ toggleModal }) {
         cardForm={cardForm}
         setCardErrors={setCardErrors}
       />
-      {cardErrors.length > 0 && (
-        <CreditCardValidationMessages cardErrors={cardErrors} />
-      )}
+      {cardErrors.length > 0 && <CreditCardValidationMessages cardErrors={cardErrors} />}
       <PrimaryButton
         ariaLabel="save-payment-method-button"
         buttonText="Save Payment Method"
@@ -81,9 +72,7 @@ function CreditCardForm({ toggleModal }) {
         hoverClass="hover:bg-primary-blue-hover"
         onClick={onContinue}
         isLoading={submitting}
-        disabled={
-          cardErrors.length > 0 || formInteractedWith === false || submitting
-        }
+        disabled={cardErrors.length > 0 || formInteractedWith === false || submitting}
       />
     </div>
   );

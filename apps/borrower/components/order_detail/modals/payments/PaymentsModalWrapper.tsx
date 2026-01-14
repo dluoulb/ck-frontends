@@ -46,7 +46,7 @@ export default function PaymentsModalWrapper({
     reset,
     resetModalState,
     paymentMethods,
-    refetchOrder
+    refetchOrder,
   };
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function PaymentsModalWrapper({
         headerIcon={faFileInvoiceDollar}
       >
         {orderedScreens.map((step) =>
-          when(step.id, () => <step.component {...modalProps} key={step.id} />)
+          when(step.id, () => <step.component {...modalProps} key={step.id} />),
         )}
       </ModalWrapper>
     </div>

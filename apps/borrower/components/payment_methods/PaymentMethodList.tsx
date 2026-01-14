@@ -11,7 +11,7 @@ import { DeleteButton } from './DeleteButton';
 export default function PaymentMethodList({ payment_methods }) {
   const [loadingId, setLoadingId] = useState(null);
   const sortedPaymentMethods = payment_methods?.sort(
-    (a, b) => (b.is_default ? 1 : 0) - (a.is_default ? 1 : 0)
+    (a, b) => (b.is_default ? 1 : 0) - (a.is_default ? 1 : 0),
   );
 
   return sortedPaymentMethods?.map((pm, idx) => {
@@ -27,9 +27,7 @@ export default function PaymentMethodList({ payment_methods }) {
                 : pm.label}
             </div>
             {pm.payment_type === 'bank_account' && (
-              <div className="text-tertiary-gray text-sm capitalize">
-                {pm.account_holder}
-              </div>
+              <div className="text-tertiary-gray text-sm capitalize">{pm.account_holder}</div>
             )}
             <div className="text-primary-blue-hover text-sm capitalize">
               {pm.payment_type === 'bank_account'
@@ -50,15 +48,9 @@ export default function PaymentMethodList({ payment_methods }) {
               ) : (
                 <>
                   {!pm.is_default && (
-                    <DefaultButton
-                      payment_method={pm}
-                      setLoading={handleSetLoading}
-                    />
+                    <DefaultButton payment_method={pm} setLoading={handleSetLoading} />
                   )}
-                  <DeleteButton
-                    payment_method={pm}
-                    setLoading={handleSetLoading}
-                  />
+                  <DeleteButton payment_method={pm} setLoading={handleSetLoading} />
                 </>
               )}
             </div>
@@ -74,27 +66,14 @@ export default function PaymentMethodList({ payment_methods }) {
               {loadingId === pm.id ? (
                 <Loading className="w-5 h-5 my-2" />
               ) : (
-                <Dropdown
-                  button={
-                    <FontAwesomeIcon
-                      icon={faEllipsisVertical}
-                      className="w-4"
-                    />
-                  }
-                >
+                <Dropdown button={<FontAwesomeIcon icon={faEllipsisVertical} className="w-4" />}>
                   {!pm.is_default && (
                     <MenuItem>
-                      <DefaultButton
-                        payment_method={pm}
-                        setLoading={handleSetLoading}
-                      />
+                      <DefaultButton payment_method={pm} setLoading={handleSetLoading} />
                     </MenuItem>
                   )}
                   <MenuItem>
-                    <DeleteButton
-                      payment_method={pm}
-                      setLoading={handleSetLoading}
-                    />
+                    <DeleteButton payment_method={pm} setLoading={handleSetLoading} />
                   </MenuItem>
                 </Dropdown>
               )}

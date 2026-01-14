@@ -23,7 +23,7 @@ function customRender(
     routerQuery = {},
     withBorrowerProviders = false,
     ...renderOptions
-  } = {}
+  } = {},
 ) {
   const queryClient = new QueryClient();
 

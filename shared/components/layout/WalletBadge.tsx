@@ -1,15 +1,15 @@
-import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
+import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 
 export default function WalletBadge() {
   const { virtualCard } = useCompanyVirtualCard();
   const { physicalCard } = useCompanyPhysicalCard();
- 
+
   let count = 0;
 
   if (virtualCard) count++;
   if (physicalCard && physicalCard.status === 'ACTIVE') count++;
-  
+
   if (count <= 0) return null;
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
-import vc from '@lib/images/vc-blank-mastercard.png';
 import Image from 'next/image';
+
+import vc from '@lib/images/vc-blank-mastercard.png';
 
 export default function ExampleVirtualCard() {
   return (
@@ -15,5 +16,3 @@ export default function ExampleVirtualCard() {
     </div>
   );
 }
-
-

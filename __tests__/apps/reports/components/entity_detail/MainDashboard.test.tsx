@@ -17,13 +17,9 @@ describe('Main Dashboard Component', () => {
 
   test('displays dashboard', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <MainDashboard />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     const element = await screen.findByRole('main-dashboard-component');

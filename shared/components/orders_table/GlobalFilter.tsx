@@ -16,7 +16,7 @@ export default function GlobalFilter({
           type="search"
           className={classNames(
             'form-control relative flex-auto min-w-0 block py-2 px-3 leading-tight font-normal bg-white bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out focus:outline-none',
-            inputClass
+            inputClass,
           )}
           value={globalFilter || ''}
           onChange={(e) => table.setGlobalFilter(String(e.target.value))}

@@ -4,11 +4,7 @@ import {
   faClock,
   faDollarSign,
 } from '@fortawesome/pro-regular-svg-icons';
-import {
-  faArrowRotateLeft,
-  faExclamation,
-  faQuestion,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faArrowRotateLeft, faExclamation, faQuestion } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const getIcon = (status) => {

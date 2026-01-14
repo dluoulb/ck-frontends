@@ -26,7 +26,7 @@ export default function DefaultVirtualCardTerms() {
 
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
-    defaultTermSettings[0]
+    defaultTermSettings[0],
   );
 
   const onSave = (merchant_id, term) => {
@@ -38,10 +38,7 @@ export default function DefaultVirtualCardTerms() {
         makeToast('Recharge Settings Successfully Updated', 'success');
       })
       .catch((err) => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
       })
       .finally(() => setLoading(false));
   };
@@ -52,10 +49,7 @@ export default function DefaultVirtualCardTerms() {
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
         setError(true);
       });
   }, []);
@@ -63,11 +57,9 @@ export default function DefaultVirtualCardTerms() {
   useEffect(() => {
     if (!merchant) return;
 
-    const virtualCardDefaultTerm = (defaultTermSettings || []).find(
-      (setting) => {
-        return setting.merchant_id === merchant.id;
-      }
-    );
+    const virtualCardDefaultTerm = (defaultTermSettings || []).find((setting) => {
+      return setting.merchant_id === merchant.id;
+    });
     setDefaultVCTerm(virtualCardDefaultTerm);
 
     if (!virtualCardDefaultTerm) {
@@ -86,14 +78,9 @@ export default function DefaultVirtualCardTerms() {
   }, [defaultTermSettings, merchant]);
 
   return (
-    <div
-      className="flex flex-col gap-2 w-full"
-      role={DefaultVirtualCardTerms.role}
-    >
+    <div className="flex flex-col gap-2 w-full" role={DefaultVirtualCardTerms.role}>
       {!defaultVCTerm && !error && <Loading />}
-      {!defaultVCTerm && error && (
-        <p className="text-rose-600">Error loading default terms</p>
-      )}
+      {!defaultVCTerm && error && <p className="text-rose-600">Error loading default terms</p>}
       {defaultTermSettings && (
         <DefaultTermSettingsModal
           modalState={modalState}
@@ -132,9 +119,7 @@ export default function DefaultVirtualCardTerms() {
               ) : (
                 <p className="font-avenir-book text-opaque-navy text-sm pr-1">
                   Default Term:
-                  <strong className="ml-1">
-                    {getTermDisplay(defaultVCTerm)}
-                  </strong>
+                  <strong className="ml-1">{getTermDisplay(defaultVCTerm)}</strong>
                   {entity?.tier !== 'NETX' && (
                     <FontAwesomeIcon
                       className="ml-2 text-primary-blue cursor-pointer"

@@ -4,10 +4,7 @@ import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import {
-  useActiveSubscription,
-  useCreateSubscription,
-} from '@hooks/useSubscription';
+import { useActiveSubscription, useCreateSubscription } from '@hooks/useSubscription';
 import FullStory from '@lib/utils/fullstory';
 import ActivationModal from './ActivationModal';
 import Banner from './Banner';
@@ -20,19 +17,12 @@ import SubscriberOverview from './SubscriberOverview';
 export default function Plus() {
   const { entity } = useEntity();
   const { user } = useUser();
-  const {
-    isModalActive: isActivationModalActive,
-    toggleModal: toggleActivationModal,
-  } = useModal();
+  const { isModalActive: isActivationModalActive, toggleModal: toggleActivationModal } = useModal();
 
-  const {
-    activeSubscription,
-    activeSubscriptionLoading,
-    refetchActiveSubscription,
-  } = useActiveSubscription(entity?.id);
+  const { activeSubscription, activeSubscriptionLoading, refetchActiveSubscription } =
+    useActiveSubscription(entity?.id);
 
-  const { createSubscriptionLoading, createSubscription } =
-    useCreateSubscription();
+  const { createSubscriptionLoading, createSubscription } = useCreateSubscription();
 
   const handleJoinClick = () => {
     toggleActivationModal();
@@ -58,12 +48,8 @@ export default function Plus() {
       className="my-4 md:my-6 mx-auto h-full xl:max-w-[90%]"
       role={Plus.role}
     >
-      <h1 className="text-2xl font-bold text-primary capitalize">
-        Credit Key Plus
-      </h1>
-      {activeSubscription && (
-        <SubscriberOverview subscription={activeSubscription} />
-      )}
+      <h1 className="text-2xl font-bold text-primary capitalize">Credit Key Plus</h1>
+      {activeSubscription && <SubscriberOverview subscription={activeSubscription} />}
       {!activeSubscription && <Banner onJoinClick={handleJoinClick} />}
       <Benefits />
       {!activeSubscription && <ComparisonTable />}

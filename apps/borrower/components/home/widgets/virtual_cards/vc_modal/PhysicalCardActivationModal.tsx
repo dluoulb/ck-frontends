@@ -1,36 +1,34 @@
 import React, { useState } from 'react';
-import {
-  faCreditCard,
-  faEnvelope,
-  faPhone,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faCreditCard, faEnvelope, faPhone } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import ModalWrapper from '@components/modals/ModalWrapper';
-import useToast from '@hooks/useToast';
 import { useEntity } from '@contexts/EntityContext';
-import { supportPhone } from '@lib/constants/SiteVariables';
-import { activatePhysicalCard } from '@lib/actions/companies';
 import useApi from '@hooks/useApi';
-import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
+import useToast from '@hooks/useToast';
+import { activatePhysicalCard } from '@lib/actions/companies';
+import { supportPhone } from '@lib/constants/SiteVariables';
 
-export default function PhysicalCardActivationModal({
-  isModalActive,
-  toggleModal,
-}) {
+export default function PhysicalCardActivationModal({ isModalActive, toggleModal }) {
   const api = useApi();
   const { fetchEntity } = useEntity();
   const [lastFour, setLastFour] = useState('');
   const [loading, setLoading] = useState(false);
   const { makeToast } = useToast();
   const pcProps = useCompanyPhysicalCard();
-  const {refetchPhysicalCard} = pcProps;
+  const { refetchPhysicalCard } = pcProps;
 
   const handleActivate = async () => {
     setLoading(true);
     try {
-      await activatePhysicalCard(api, pcProps.physicalCard.external_company_id, pcProps.physicalCard.id, lastFour);
+      await activatePhysicalCard(
+        api,
+        pcProps.physicalCard.external_company_id,
+        pcProps.physicalCard.id,
+        lastFour,
+      );
       refetchPhysicalCard();
       fetchEntity({ company_id: pcProps.physicalCard.external_company_id });
       makeToast('Physical card activated successfully', 'success');
@@ -51,8 +49,8 @@ export default function PhysicalCardActivationModal({
     >
       <div className="space-y-2">
         <p>
-          To activate your physical card, please enter the last 4 numbers on the
-          front of your physical card
+          To activate your physical card, please enter the last 4 numbers on the front of your
+          physical card
         </p>
         <input
           type="text"
@@ -67,8 +65,8 @@ export default function PhysicalCardActivationModal({
           Support available Monday - Friday from 9AM - 1PM & 2PM - 6PM CT
         </p>
         <p className="text-sm text-gray-600 ">
-          When purchasing in-person, you may be asked for a PIN. Call +1 (833)
-          425-5888 to set your pin.
+          When purchasing in-person, you may be asked for a PIN. Call +1 (833) 425-5888 to set your
+          pin.
         </p>
         <div className="space-y-1">
           <a

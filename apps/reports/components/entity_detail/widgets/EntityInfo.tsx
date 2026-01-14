@@ -16,10 +16,7 @@ export default function EntityInfo() {
       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
         <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
           <FontAwesomeIcon icon={faSquare} className="text-secondary-blue" />
-          <FontAwesomeIcon
-            icon={faBuilding}
-            className="text-primary-blue text-base lg:text-xl"
-          />
+          <FontAwesomeIcon icon={faBuilding} className="text-primary-blue text-base lg:text-xl" />
         </span>
 
         <p className="font-bold tracking-wide text-primary-blue-hover px-2 md:px-0 md:text-lg lg:text-xl">
@@ -39,9 +36,7 @@ export default function EntityInfo() {
           {entity?.type === 'company' && (
             <>
               <p>
-                <span className="mr-1 font-normal">
-                  Next Credit Refresh Date:
-                </span>
+                <span className="mr-1 font-normal">Next Credit Refresh Date:</span>
                 {entity?.next_credit_refresh_on
                   ? fromISO(entity?.next_credit_refresh_on).toLocaleString()
                   : 'N/A'}
@@ -55,9 +50,7 @@ export default function EntityInfo() {
                 {formatCurrency(entity?.gross_annual_revenue)}
               </p>
               <p>
-                <span className="mr-1 font-normal">
-                  Number of Beneficial Owners:
-                </span>
+                <span className="mr-1 font-normal">Number of Beneficial Owners:</span>
                 {entity?.owner_count}
               </p>
               <p>

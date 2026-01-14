@@ -1,9 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { ApiContext } from 'pages/_app';
-import Session, {
-  attemptRefreshingSession,
-  signOut,
-} from 'supertokens-auth-react/recipe/session';
+import Session, { attemptRefreshingSession, signOut } from 'supertokens-auth-react/recipe/session';
 
 function useApi() {
   const api = useContext(ApiContext);
@@ -44,7 +41,7 @@ function useApi() {
           }
 
           return Promise.reject(error);
-        }
+        },
       );
 
       return () => {

@@ -25,30 +25,25 @@ type NotificationData = {
 export default function BorrowerDashboard() {
   const { entity, entityError } = useEntity();
   const { orders } = useBorrowerDeps();
-  const [notification, setNotification] = useState<NotificationData | null>(
-    null
-  );
+  const [notification, setNotification] = useState<NotificationData | null>(null);
 
   useEffect(() => {
     const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_CMS_BASE_URL}/api/borrower-portal-notice`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .get(`${process.env.NEXT_PUBLIC_CMS_BASE_URL}/api/borrower-portal-notice`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
       .then((data) => {
         setNotification(data.data.data);
       })
       .catch((err) => [console.log(err)]);
   }, []);
 
-  const overdueOrders = orders?.filter(order => order?.product?.isPastDue) || [];
+  const overdueOrders = orders?.filter((order) => order?.product?.isPastDue) || [];
 
   if (entityError) return <NoDataError tag="borrower" withButton={false} />;
 
@@ -61,9 +56,7 @@ export default function BorrowerDashboard() {
       role={BorrowerDashboard.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="text-2xl md:text-3xl font-bold text-primary capitalize pt-3">
-          Dashboard
-        </p>
+        <p className="text-2xl md:text-3xl font-bold text-primary capitalize pt-3">Dashboard</p>
         <Promo />
         <OverdueLoansBanner overdueOrders={overdueOrders} />
         {notification && notification?.Active && (
@@ -77,10 +70,7 @@ export default function BorrowerDashboard() {
                   blocks={{
                     paragraph: ({ children }) => <p>{children}</p>,
                     link: ({ children, url }) => (
-                      <a
-                        href={url}
-                        className="no-underline text-primary-blue cursor-pointer"
-                      >
+                      <a href={url} className="no-underline text-primary-blue cursor-pointer">
                         {children}
                       </a>
                     ),

@@ -1,11 +1,7 @@
 import React from 'react';
 import { faAngleUp } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 
 import CardTransactions from './CardTransactions';
 
@@ -28,7 +24,7 @@ export default function CardTransactionsDisclosure({ order }) {
                 />
               </DisclosureButton>
               <DisclosurePanel className="text-sm">
-                <CardTransactions order={order} /> 
+                <CardTransactions order={order} />
               </DisclosurePanel>
             </>
           )}
@@ -37,4 +33,3 @@ export default function CardTransactionsDisclosure({ order }) {
     </div>
   );
 }
-

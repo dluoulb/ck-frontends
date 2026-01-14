@@ -10,10 +10,7 @@ import OwnerInfo from './widgets/OwnerInfo';
 
 export default function MainDashboard() {
   const { isLoading } = useReportsDeps();
-  if (isLoading)
-    return (
-      <Loading className="w-14 h-14 my-20" containerClass="min-h-[72rem]" />
-    );
+  if (isLoading) return <Loading className="w-14 h-14 my-20" containerClass="min-h-[72rem]" />;
 
   return (
     <div className="p-2.5" role={MainDashboard.role}>

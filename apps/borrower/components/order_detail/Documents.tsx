@@ -5,15 +5,13 @@ import DocumentLink from '@components/DocumentLink';
 export default function Documents({ order, documents }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
 
-  const invoiceDocument = documents?.find(
-    (d) => d.attributes.file_type === 'invoice_document'
-  );
+  const invoiceDocument = documents?.find((d) => d.attributes.file_type === 'invoice_document');
   const net30InvoiceDocument = documents
     ?.filter((d) => d.attributes.file_type === 'invoice')
     ?.sort(
       (a, b) =>
         new Date(b.attributes.created_at as string).getTime() -
-        new Date(a.attributes.created_at as string).getTime()
+        new Date(a.attributes.created_at as string).getTime(),
     )[0];
 
   return (

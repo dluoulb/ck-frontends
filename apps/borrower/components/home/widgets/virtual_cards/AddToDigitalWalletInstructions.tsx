@@ -1,9 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobile } from '@fortawesome/pro-regular-svg-icons';
-import qrCode from '@lib/images/app_qr_code.png';
-import { mobileAppDownloadLink } from '@lib/constants/SiteVariables';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
+
+import { mobileAppDownloadLink } from '@lib/constants/SiteVariables';
+import qrCode from '@lib/images/app_qr_code.png';
 
 export default function AddToDigitalWalletInstructions() {
   return (
@@ -13,8 +14,19 @@ export default function AddToDigitalWalletInstructions() {
           Seamlessly add funds and explore merchants with the credit key app
         </div>
         <div className="">
-          <Image src={qrCode} alt="qr code for mobile app" width={150} className="hidden md:block mx-auto" />
-          <a href={mobileAppDownloadLink} target="_blank" className="md:hidden text-primary-blue hover:text-primary-blue-hover font-semibold">Download Credit Key App</a>
+          <Image
+            src={qrCode}
+            alt="qr code for mobile app"
+            width={150}
+            className="hidden md:block mx-auto"
+          />
+          <a
+            href={mobileAppDownloadLink}
+            target="_blank"
+            className="md:hidden text-primary-blue hover:text-primary-blue-hover font-semibold"
+          >
+            Download Credit Key App
+          </a>
         </div>
       </div>
       <div className="px-3 p-2">
@@ -26,7 +38,9 @@ export default function AddToDigitalWalletInstructions() {
             />
           </div>
 
-          <p className="text-lg md:text-xl font-bold text-primary-blue">Add to your phone's digital wallet</p>
+          <p className="text-lg md:text-xl font-bold text-primary-blue">
+            Add to your phone's digital wallet
+          </p>
         </div>
         <div className="mt-2 border border-gray-100 rounded-lg px-4 py-2">
           <div>
@@ -34,7 +48,10 @@ export default function AddToDigitalWalletInstructions() {
               <li>Head to your Wallet app</li>
               <li>Select the plus sign in the upper right corner</li>
               <li>Choose "Debit or Credit Card"</li>
-              <li>Select "Enter card details manually" and enter your Credit Key Card information from above</li>
+              <li>
+                Select "Enter card details manually" and enter your Credit Key Card information from
+                above
+              </li>
             </ol>
           </div>
         </div>
@@ -42,4 +59,3 @@ export default function AddToDigitalWalletInstructions() {
     </div>
   );
 }
-

@@ -8,13 +8,9 @@ import { customRender } from '@lib/testing/test-utils';
 describe('Attachments Component', () => {
   test('renders', () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <Attachments />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     expect(screen.getByText('Documents'));

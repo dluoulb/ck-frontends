@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import favicon from '../public/favicon.ico';
 
 export default function Admin() {

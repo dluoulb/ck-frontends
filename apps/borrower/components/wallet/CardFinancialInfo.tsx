@@ -11,13 +11,11 @@ import { formatCurrency, getTermDisplay } from '@lib/utils/formatters';
 
 export default function CardFinancialInfo() {
   const { entity } = useEntity();
-  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
-    entity?.id
-  );
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(entity?.id);
   const { defaultTermSettings } = useBorrowerDeps();
 
   const defaultTermSetting = defaultTermSettings.find(
-    (setting) => setting.merchant_slug === 'virtual'
+    (setting) => setting.merchant_slug === 'virtual',
   );
 
   const defaultTerm = useMemo(() => {
@@ -25,9 +23,7 @@ export default function CardFinancialInfo() {
     return getTermDisplay(defaultTermSetting);
   }, [defaultTermSetting]);
 
-  const ableToSpend = formatCurrency(
-    entity?.vc_sub_limits?.remaining_limit_amount || 0
-  );
+  const ableToSpend = formatCurrency(entity?.vc_sub_limits?.remaining_limit_amount || 0);
 
   const pendingCharges = pendingAuths?.pending_total || 0;
 
@@ -44,10 +40,7 @@ export default function CardFinancialInfo() {
             trigger_class="cursor-pointer border-none"
             container_class="bg-gray-800 text-white"
           >
-            <FontAwesomeIcon
-              icon={faQuestionCircle}
-              className="text-gray-400"
-            />
+            <FontAwesomeIcon icon={faQuestionCircle} className="text-gray-400" />
           </Tooltip>
         </span>
       </div>
@@ -60,18 +53,12 @@ export default function CardFinancialInfo() {
             formatCurrency(pendingCharges)
           )}
         </span>
-        <span className="text-xs sm:text-sm text-gray-400">
-          Pending charges
-        </span>
+        <span className="text-xs sm:text-sm text-gray-400">Pending charges</span>
       </div>
 
       <div className="flex flex-col ">
         <span className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
-          {defaultTermSettings?.length > 0 ? (
-            defaultTerm
-          ) : (
-            <Skeleton className="w-full h-7" />
-          )}
+          {defaultTermSettings?.length > 0 ? defaultTerm : <Skeleton className="w-full h-7" />}
         </span>
         <span className="text-xs sm:text-sm text-gray-400">Default term</span>
       </div>

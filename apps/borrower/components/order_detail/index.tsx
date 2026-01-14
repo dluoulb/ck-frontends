@@ -9,6 +9,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import { getDocuments, getOrder } from '@lib/actions/orders';
+import CardTransactionsDisclosure from './card_transactions/CardTransactionsDisclosure';
 import AdditionalFeesDisclosure from './fee_display/AdditionalFeesDisclosure';
 import { PaymentsModalWrapper } from './modals/payments';
 import OrderOverview from './OrderOverview';
@@ -16,7 +17,6 @@ import PaymentScheduleDisclosure from './payment_schedule/PaymentScheduleDisclos
 import PaymentProgress from './PaymentProgress';
 import Stats from './Stats';
 import UpdateTermsModalWrapper from '../terms/UpdateTermsModalWrapper';
-import CardTransactionsDisclosure from './card_transactions/CardTransactionsDisclosure';
 
 export default function OrderDetail() {
   const api = useApi();
@@ -39,8 +39,7 @@ export default function OrderDetail() {
 
   const { paymentMethods, paymentMethodsLoading } = useBorrowerDeps();
   const { isModalActive, toggleModal } = useModal();
-  const { isModalActive: isTermsModalOpen, toggleModal: toggleTermsModal } =
-    useModal();
+  const { isModalActive: isTermsModalOpen, toggleModal: toggleTermsModal } = useModal();
 
   const { data: documents, isLoading: documentsLoading } = useQuery({
     queryKey: ['documents', order?.id],
@@ -49,12 +48,7 @@ export default function OrderDetail() {
     retry: 1,
   });
 
-  if (
-    orderLoading ||
-    orderRefetching ||
-    paymentMethodsLoading ||
-    documentsLoading
-  )
+  if (orderLoading || orderRefetching || paymentMethodsLoading || documentsLoading)
     return <Loading className="w-14 h-14 my-20" />;
 
   if (orderError) return <NoDataError tag="order" withButton={false} />;
@@ -62,15 +56,9 @@ export default function OrderDetail() {
   if (!entity) return;
 
   return (
-    <div
-      data-testid="container"
-      className="my-4 md:my-6 mx-auto h-full"
-      role={OrderDetail.role}
-    >
+    <div data-testid="container" className="my-4 md:my-6 mx-auto h-full" role={OrderDetail.role}>
       <div className="mx-2 md:max-w-[90%] md:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Order Details
-        </p>
+        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">Order Details</p>
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-8 pb-16 min-h-full">
           <div className="pt-8">
             <OrderOverview
@@ -86,13 +74,8 @@ export default function OrderDetail() {
               toggleModal={toggleModal}
             />
             <CardTransactionsDisclosure order={order} />
-            {parseFloat(order?.expected_fees) > 0 && (
-              <AdditionalFeesDisclosure order={order} />
-            )}
-            <PaymentScheduleDisclosure
-              order={order}
-              toggleTermsModal={toggleTermsModal}
-            />
+            {parseFloat(order?.expected_fees) > 0 && <AdditionalFeesDisclosure order={order} />}
+            <PaymentScheduleDisclosure order={order} toggleTermsModal={toggleTermsModal} />
           </div>
         </div>
       </div>

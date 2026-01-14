@@ -35,11 +35,7 @@ interface NoResultsProps {
   hideFallbackMsg?: boolean;
 }
 
-export const NoResults: FC<NoResultsProps> = ({
-  query,
-  type,
-  hideFallbackMsg,
-}) => {
+export const NoResults: FC<NoResultsProps> = ({ query, type, hideFallbackMsg }) => {
   return (
     <p className={classnames({ hidden: !hideFallbackMsg })}>
       No matching {type} results for <q>{query}</q>.

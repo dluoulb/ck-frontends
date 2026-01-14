@@ -20,7 +20,7 @@ function usePlaid(user) {
     retry: 1,
   });
 
-  const { data: accessToken, refetch: fetchAccessToken } = useQuery({
+  const { data: accessToken } = useQuery({
     queryKey: ['plaid-access-token', user?.id],
     queryFn: () => setAccessToken(api, publicToken),
     enabled: !!(user && publicToken && linkToken),

@@ -7,12 +7,7 @@ import { ErrorMessage, Field } from 'formik';
 import { formStyles } from '@lib/constants/SiteVariables';
 import { formatCurrency } from '@lib/utils/formatters';
 
-export default function PaymentOptions({
-  setFieldValue,
-  disabled,
-  setDisabled,
-  order,
-}) {
+export default function PaymentOptions({ setFieldValue, disabled, setDisabled, order }) {
   const [active, setActive] = useState('minimum');
   const minimumRef = useRef(null);
   const remainingRef = useRef(null);
@@ -20,8 +15,7 @@ export default function PaymentOptions({
 
   useEffect(() => {
     if (minimumRef.current) {
-      minimumRef.current.value =
-        order.product.next_payment_due_amount.toString();
+      minimumRef.current.value = order.product.next_payment_due_amount.toString();
     }
     if (remainingRef.current) {
       remainingRef.current.value = order.product.payoff_balance.toString();
@@ -64,27 +58,19 @@ export default function PaymentOptions({
       <div className="flex justify-between items-stretch">
         {options.map((op) => {
           return (
-            <Field
-              name="amount"
-              value={op.ref.current ? op.ref.current.value : ''}
-              key={op.tag}
-            >
+            <Field name="amount" value={op.ref.current ? op.ref.current.value : ''} key={op.tag}>
               {() => (
                 <div
                   className={classNames(
                     'col-span-1 flex flex-col rounded-lg shadow cursor-pointer border-2 border-transparent hover:border-primary-blue w-1/3 mr-2 min-h-32 xs:min-h-28',
                     {
-                      '!border-primary-blue bg-primary-blue bg-opacity-10':
-                        active === op.tag,
-                    }
+                      '!border-primary-blue bg-primary-blue bg-opacity-10': active === op.tag,
+                    },
                   )}
                   onClick={() => {
                     setActive(op.tag);
                     setDisabled(op.setDisabled);
-                    setFieldValue(
-                      'amount',
-                      op.ref.current ? op.ref.current.value : ''
-                    );
+                    setFieldValue('amount', op.ref.current ? op.ref.current.value : '');
 
                     if (op.tag !== 'custom' && customPaymentRef.current) {
                       customPaymentRef.current.value = '';
@@ -96,9 +82,7 @@ export default function PaymentOptions({
                   }}
                 >
                   <div className="flex-1 flex flex-col p-4 justify-between">
-                    <h3 className="text-secondary-gray font-medium text-sm">
-                      {op.title}
-                    </h3>
+                    <h3 className="text-secondary-gray font-medium text-sm">{op.title}</h3>
                     <dl className="mt-1 flex flex-col">
                       <dt className="sr-only">{op.title}</dt>
                       <dd
@@ -131,10 +115,7 @@ export default function PaymentOptions({
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <FontAwesomeIcon
-              icon={faDollarSign}
-              className="h-4 w-4 text-gray-400"
-            />
+            <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 text-gray-400" />
           </div>
           <input
             ref={customPaymentRef}
@@ -151,17 +132,11 @@ export default function PaymentOptions({
             }}
             className={classNames(
               'block w-full rounded-md border py-1.5 pl-10 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6',
-              disabled
-                ? 'cursor-not-allowed border-primary-gray-border'
-                : 'border-primary-blue'
+              disabled ? 'cursor-not-allowed border-primary-gray-border' : 'border-primary-blue',
             )}
           />
         </div>
-        <ErrorMessage
-          name="amount"
-          component="div"
-          className={formStyles.validation}
-        />
+        <ErrorMessage name="amount" component="div" className={formStyles.validation} />
       </div>
     </>
   );

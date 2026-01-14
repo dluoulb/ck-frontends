@@ -63,9 +63,7 @@ export default function TransactionsTable({ transactions, err }) {
         table={table}
         tableClass="px-2 sm:px-6"
         noDataFoundWarning={
-          err
-            ? 'Error: Unable to retrieve order transactions.'
-            : 'No transactions found.'
+          err ? 'Error: Unable to retrieve order transactions.' : 'No transactions found.'
         }
       />
     </div>

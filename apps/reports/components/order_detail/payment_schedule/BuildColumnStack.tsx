@@ -14,13 +14,7 @@ export const BuildStack = ({ original }) => {
     'partial/pending/late',
   ];
 
-  const pendingStates = [
-    'created',
-    'pending',
-    'authorized',
-    'scheduled',
-    'pending',
-  ];
+  const pendingStates = ['created', 'pending', 'authorized', 'scheduled', 'pending'];
 
   const getStatusColor = () => {
     if (errorStates.includes(original?.status)) {
@@ -42,9 +36,7 @@ export const BuildStack = ({ original }) => {
       </p>
       <p className="block sm:hidden font-semibold flex gap-1">
         <span className="font-normal">Payment Total:</span>
-        <span className="text-primary-blue-hover">
-          {formatCurrency(original?.total_expected)}
-        </span>
+        <span className="text-primary-blue-hover">{formatCurrency(original?.total_expected)}</span>
       </p>
       <p className="block md:hidden font-semibold flex gap-1">
         <span className="font-normal">Total Fees:</span>

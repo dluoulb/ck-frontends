@@ -2,11 +2,7 @@ import React from 'react';
 
 import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance } from '@hooks/useReward';
-import {
-  plusSupportPhone,
-  plusSupportSms,
-  supportEmail,
-} from '@lib/constants/SiteVariables';
+import { plusSupportPhone, plusSupportSms, supportEmail } from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
 import RewardsBalanceCard from './RewardsBalanceCard';
 
@@ -14,19 +10,14 @@ type SubscriberOverviewProps = {
   subscription: SubscriptionRecord;
 };
 
-export default function SubscriberOverview({
-  subscription,
-}: SubscriberOverviewProps) {
+export default function SubscriberOverview({ subscription }: SubscriberOverviewProps) {
   const { entity } = useEntity();
   const memberSinceYear = subscription?.start_date
     ? new Date(subscription.start_date).getFullYear()
     : '';
 
-  const {
-    rewardPointsBalance,
-    rewardPointsBalanceLoading,
-    rewardPointsBalanceError,
-  } = useRewardPointsBalance(entity.id);
+  const { rewardPointsBalance, rewardPointsBalanceLoading, rewardPointsBalanceError } =
+    useRewardPointsBalance(entity.id);
 
   const pendingPoints = rewardPointsBalance?.pending || 0;
   const postedPoints = rewardPointsBalance?.posted || 0;
@@ -49,8 +40,7 @@ export default function SubscriberOverview({
           <hr className="border-t border-primary-gray-border mb-3 mt-1 w-3/4" />
           <div className="text-sm space-y-1">
             <div>
-              Monday - Friday:{' '}
-              <span className="font-semibold">9AM - 1PM & 2PM - 6PM CST</span>
+              Monday - Friday: <span className="font-semibold">9AM - 1PM & 2PM - 6PM CST</span>
             </div>
             <div>
               Email:{' '}

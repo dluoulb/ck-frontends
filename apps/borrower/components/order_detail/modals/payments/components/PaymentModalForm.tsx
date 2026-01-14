@@ -3,9 +3,9 @@ import { Form } from 'formik';
 
 import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import AutoPayBanner from './AutoPayBanner';
 import PaymentMethods from './PaymentMethods';
 import PaymentOptions from './PaymentOptions';
-import AutoPayBanner from './AutoPayBanner';
 
 export default function PaymentModalForm({
   order,
@@ -16,11 +16,10 @@ export default function PaymentModalForm({
   paymentMethods,
   isSubmitting,
 }) {
-
   return (
     <Form>
       <AutoPayBanner order={order} />
-    
+
       <h2 className="font-bold text-lg">Choose Payment Option</h2>
       <div className="my-4">
         <PaymentOptions
@@ -30,11 +29,13 @@ export default function PaymentModalForm({
           setDisabled={setDisabled}
         />
       </div>
-      <h2 className="font-bold text-lg mt-2">
-        Choose Payment Method
-      </h2>
+      <h2 className="font-bold text-lg mt-2">Choose Payment Method</h2>
       <div className="px-1">
-        <PaymentMethods order={order} setFieldValue={setFieldValue} paymentMethods={paymentMethods} />
+        <PaymentMethods
+          order={order}
+          setFieldValue={setFieldValue}
+          paymentMethods={paymentMethods}
+        />
       </div>
       <div className="w-full flex justify-center items-center gap-3">
         <PrimaryButton

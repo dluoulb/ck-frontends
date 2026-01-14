@@ -1,12 +1,12 @@
+import { useEffect } from 'react';
 import { faEnvelope, faPhone } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSearchParams } from 'next/navigation';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import Loading from '@components/Loading';
 import { useUser } from '@contexts/UserContext';
 import usePossessedUser from '@hooks/usePossessedUser';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function PossessUser() {
   const { user: currentUser, userLoading, isImpersonating } = useUser();
@@ -57,9 +57,7 @@ export default function PossessUser() {
         <div>
           {isImpersonating && !userLoading ? (
             <>
-              <h3 className="text-lg font-medium text-yellow-800">
-                Possessing User:
-              </h3>
+              <h3 className="text-lg font-medium text-yellow-800">Possessing User:</h3>
               <div className="flex flex-col gap-2 md:gap-0 md:flex-row justify-between md:items-end">
                 <div className="mt-2 text-yellow-700 text-sm md:text-base">
                   <p>Name: {currentUser?.full_name}</p>
@@ -77,9 +75,7 @@ export default function PossessUser() {
             </>
           ) : (
             <div>
-              <h3 className="text-lg font-medium text-yellow-800 ml-1">
-                Waiting...
-              </h3>
+              <h3 className="text-lg font-medium text-yellow-800 ml-1">Waiting...</h3>
               {userLoading ? (
                 <Loading
                   className="w-6 h-6 !text-yellow-800"
@@ -87,18 +83,14 @@ export default function PossessUser() {
                 />
               ) : (
                 <>
-                  <p className="text-sm ml-1">
-                    Please input a user email or phone below.
-                  </p>
+                  <p className="text-sm ml-1">Please input a user email or phone below.</p>
                   <form onSubmit={possessUser}>
                     <div className="flex flex-col gap-1 my-2">
                       <div className="flex items-center justify-between">
                         <div className="w-3/5 relative rounded-md shadow-sm">
                           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <FontAwesomeIcon
-                              icon={
-                                inputType === 'email' ? faEnvelope : faPhone
-                              }
+                              icon={inputType === 'email' ? faEnvelope : faPhone}
                               aria-hidden="true"
                               className="h-4 w-4 text-gray-400"
                             />
@@ -124,9 +116,7 @@ export default function PossessUser() {
                         />
                       </div>
                       {possessUserError && (
-                        <div className="text-error text-xs ml-1">
-                          {possessUserError}
-                        </div>
+                        <div className="text-error text-xs ml-1">{possessUserError}</div>
                       )}
                     </div>
                   </form>

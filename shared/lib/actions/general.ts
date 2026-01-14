@@ -13,10 +13,7 @@ export const asyncActions = (...actions) => {
       //
       // This is meant to be a distinction between user addressable issues
       // vs non addressable ones.
-      if (
-        !['runtime', 'unknown'].includes(parsedError.source) &&
-        parsedError.status !== 401
-      ) {
+      if (!['runtime', 'unknown'].includes(parsedError.source) && parsedError.status !== 401) {
         throw parsedError;
       } else {
         console.error('Error occurred:', parsedError);

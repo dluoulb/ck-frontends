@@ -19,20 +19,17 @@ export const getCompany = async (api, company_id, filters = '') => {
 
 export const updateCompany = async (api, company, filters = '') => {
   if (!company) return;
-  const updatedCompany = await api.put(
-    `/api/companies/${company?.id}?${filters}`,
-    company
-  );
+  const updatedCompany = await api.put(`/api/companies/${company?.id}?${filters}`, company);
 
   return new CompanyRecord(updatedCompany);
 };
 
 export const updateRechargeTerm = async (api, company, merchant_id, term) => {
   if (!company) return;
-  const updatedCompany = await api.put(
-    `/api/companies/${company.id}/recharge_term`,
-    { merchant_id, term }
-  );
+  const updatedCompany = await api.put(`/api/companies/${company.id}/recharge_term`, {
+    merchant_id,
+    term,
+  });
 
   return new CompanyRecord(updatedCompany);
 };
@@ -62,10 +59,7 @@ export const createVirtualCard = async (api, company_id) => {
     type: CardType.VIRTUAL,
     just_in_time_funding: jitEnabled,
   };
-  const resp = await api.post(
-    `/api/companies/${company_id}/virtual_cards`,
-    options
-  );
+  const resp = await api.post(`/api/companies/${company_id}/virtual_cards`, options);
 
   return new CompanyVirtualCardRecord(resp.data.virtual_card);
 };
@@ -76,44 +70,25 @@ export const createPhysicalCard = async (api, company_id) => {
     type: CardType.PHYSICAL,
     just_in_time_funding: jitEnabled,
   };
-  const resp = await api.post(
-    `/api/companies/${company_id}/virtual_cards`,
-    options
-  );
+  const resp = await api.post(`/api/companies/${company_id}/virtual_cards`, options);
 
   return new CompanyVirtualCardRecord(resp.data.virtual_card);
 };
 
-export const activatePhysicalCard = async (
-  api,
-  company_id,
-  card_id,
-  last_four
-) => {
-  return api.post(
-    `/api/companies/${company_id}/virtual_cards/${card_id}/activation`,
-    {
-      last_four,
-    }
-  );
+export const activatePhysicalCard = async (api, company_id, card_id, last_four) => {
+  return api.post(`/api/companies/${company_id}/virtual_cards/${card_id}/activation`, {
+    last_four,
+  });
 };
 
 export const closeVirtualCard = async (api, company_id) => {
   if (!company_id) return;
-  const resp = await api.put(
-    `/api/companies/${company_id}/virtual_cards/close_active`
-  );
+  const resp = await api.put(`/api/companies/${company_id}/virtual_cards/close_active`);
 
   return true;
 };
 
-export const uploadCompanyDocument = async (
-  api,
-  company_id,
-  file,
-  file_type,
-  file_description
-) => {
+export const uploadCompanyDocument = async (api, company_id, file, file_type, file_description) => {
   if (!company_id) return;
   const formData = new FormData();
   formData.append('file', file);

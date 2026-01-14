@@ -26,10 +26,7 @@ export const DefaultButton = React.forwardRef<
         makeToast('New Default Payment Method Set!', 'success');
       })
       .catch(() => {
-        makeToast(
-          'An error occurred. Please try again or contact our support team.',
-          'error'
-        );
+        makeToast('An error occurred. Please try again or contact our support team.', 'error');
         setLoading(null);
       })
       .finally(() => {

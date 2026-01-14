@@ -26,17 +26,14 @@ export default function EntityDetail({ content, setContent }) {
           <EntityOverview />
         </div>
         <div className="border-b border-primary-gray-border mt-6 md:mt-0">
-          <nav
-            className="-mb-px flex space-x-8 cursor-pointer max-w-max mx-6"
-            aria-label="Tabs"
-          >
+          <nav className="-mb-px flex space-x-8 cursor-pointer max-w-max mx-6" aria-label="Tabs">
             <div
               onClick={() => setContent('dashboard')}
               className={classNames(
                 !content || content === 'dashboard'
                   ? 'border-primary-blue text-primary-blue'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm'
+                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm',
               )}
             >
               Dashboard
@@ -47,18 +44,14 @@ export default function EntityDetail({ content, setContent }) {
                 content === 'orders'
                   ? 'border-primary-blue text-primary-blue'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm'
+                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm',
               )}
             >
               Orders
             </div>
           </nav>
         </div>
-        {!content || content === 'dashboard' ? (
-          <MainDashboard />
-        ) : (
-          <OrderDashboard />
-        )}
+        {!content || content === 'dashboard' ? <MainDashboard /> : <OrderDashboard />}
       </div>
     </div>
   );

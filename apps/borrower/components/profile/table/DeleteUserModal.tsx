@@ -24,10 +24,7 @@ export default function DeleteUserModal({ isModalActive, toggleModal, user }) {
         toggleModal();
       })
       .catch((err) =>
-        makeToast(
-          'An error occurred. Please try again or contact our support team.',
-          'error'
-        )
+        makeToast('An error occurred. Please try again or contact our support team.', 'error'),
       )
       .finally(() => setLoading(false));
   };

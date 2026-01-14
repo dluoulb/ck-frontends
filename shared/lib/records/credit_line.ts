@@ -8,7 +8,7 @@ export default class CreditLineRecord {
   constructor(data) {
     Object.assign(this, removeNulls(data));
   }
-  
+
   get total_used() {
     return this.amount - this.remaining_amount;
   }

@@ -39,20 +39,14 @@ export default function DocumentList() {
   return (
     <div className="relative rounded-md border-t border-x border-primary-gray-border shadow-sm mt-4 md:mt-8 min-h-max bg-white">
       <div className="py-8 px-6 border-b border-primary-gray-border">
-        <p className="text-2xl font-bold text-primary">
-          Previously Uploaded Documents
-        </p>
+        <p className="text-2xl font-bold text-primary">Previously Uploaded Documents</p>
       </div>
 
       <div className="p-6 overflow-x-auto">
         {documentsLoading ? (
           <Loading className="w-14 h-14 my-28" />
         ) : (
-          <BaseTable
-            table={table}
-            rowClass="!text-sm"
-            noDataFoundWarning="No documents found."
-          />
+          <BaseTable table={table} rowClass="!text-sm" noDataFoundWarning="No documents found." />
         )}
       </div>
     </div>

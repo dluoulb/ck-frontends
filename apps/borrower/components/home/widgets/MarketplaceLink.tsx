@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  faArrowRight,
-  faShoppingBag,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRight, faShoppingBag } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
@@ -24,12 +21,9 @@ export default function MarketplaceLink() {
               className="text-xl md:text-2xl w-[32px] text-primary-blue"
             />
             <div>
-              <p className="text-lg md:text-xl text-primary font-semibold">
-                Browse Merchants
-              </p>
+              <p className="text-lg md:text-xl text-primary font-semibold">Browse Merchants</p>
               <p className="text-[#333333]">
-                Shop with merchants where you can pay with Credit Key at
-                checkout.
+                Shop with merchants where you can pay with Credit Key at checkout.
               </p>
             </div>
           </div>

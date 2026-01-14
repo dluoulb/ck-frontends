@@ -40,15 +40,15 @@ export default function DocumentLink({
         if (error.request.status === 404) {
           msg = (
             <span>
-              <span className="capitalize">{type.replace('_', ' ')}</span> not
-              found, please contact support.
+              <span className="capitalize">{type.replace('_', ' ')}</span> not found, please contact
+              support.
             </span>
           );
         } else {
           msg = (
             <span>
-              <span className="capitalize">{type.replace('_', ' ')}</span>{' '}
-              unavailable, please contact support.
+              <span className="capitalize">{type.replace('_', ' ')}</span> unavailable, please
+              contact support.
             </span>
           );
         }
@@ -65,11 +65,7 @@ export default function DocumentLink({
       role={DocumentLink.role}
     >
       <p>{buttonText}</p>
-      {loading ? (
-        <Loading className="w-3 h-3" />
-      ) : (
-        <FontAwesomeIcon icon={faDownload} />
-      )}
+      {loading ? <Loading className="w-3 h-3" /> : <FontAwesomeIcon icon={faDownload} />}
     </div>
   );
 }

@@ -8,9 +8,8 @@ import { formatCurrency } from '@lib/utils/formatters';
 export default function EntityOverview() {
   let statusColor;
   const { entity, stats, statsError } = useReportsDeps();
-  
-  const status =
-    entity?.type === 'company' ? entity?.underwriting_status : entity?.status;
+
+  const status = entity?.type === 'company' ? entity?.underwriting_status : entity?.status;
 
   switch (status) {
     case 'approved':
@@ -66,16 +65,12 @@ export default function EntityOverview() {
             </p>
             <p className="font-semibold">
               <span className="mr-1 font-normal">Tier:</span>
-              {entity?.tier.includes('_')
-                ? entity?.tier.replace('_', ' ')
-                : entity?.tier}
+              {entity?.tier.includes('_') ? entity?.tier.replace('_', ' ') : entity?.tier}
             </p>
             <p className="font-semibold">
               <span className="mr-1 font-normal">TCL:</span>
               {formatCurrency(
-                entity?.type === 'company'
-                  ? entity?.approved_credit_limit
-                  : entity?.tier_limit
+                entity?.type === 'company' ? entity?.approved_credit_limit : entity?.tier_limit,
               )}
             </p>
           </div>
@@ -84,7 +79,7 @@ export default function EntityOverview() {
               role="status"
               className={classNames(
                 'inline-flex items-center text-sm sm:text-lg rounded-md px-3 sm:px-4 py-2 font-semibold tracking-wide mb-2 sm:mb-0 w-max sm:w-auto',
-                statusColor
+                statusColor,
               )}
             >
               {status}

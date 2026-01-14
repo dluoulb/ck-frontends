@@ -63,9 +63,7 @@ export default function PSTable({ payment_schedule, err }) {
         table={table}
         tableClass="w-full px-2 sm:px-6 text-sm"
         noDataFoundWarning={
-          err
-            ? 'Error: Unable to retrieve payment schedule.'
-            : 'No payment schedule found.'
+          err ? 'Error: Unable to retrieve payment schedule.' : 'No payment schedule found.'
         }
       />
     </div>

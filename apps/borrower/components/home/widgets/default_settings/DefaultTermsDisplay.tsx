@@ -19,7 +19,7 @@ export default function DefaultTermsDisplay() {
 
   const [loading, setLoading] = useState(false);
   const { toggleModal, isModalActive, modalState, setModalState } = useModal(
-    defaultTermSettings[0]
+    defaultTermSettings[0],
   );
 
   const onSave = (merchant_id, term) => {
@@ -31,10 +31,7 @@ export default function DefaultTermsDisplay() {
         makeToast('Recharge Settings Successfully Updated', 'success');
       })
       .catch((err) => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
       })
       .finally(() => setLoading(false));
   };

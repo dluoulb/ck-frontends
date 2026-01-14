@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import PrimaryButton from '@components/buttons/PrimaryButton';
-import CardholderAgreement from './CardholderAgreement';
+
 import OutlineButton from '@components/buttons/OutlineButton';
+import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import FullStory from '@lib/utils/fullstory';
+import CardholderAgreement from './CardholderAgreement';
 
 export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
   const [agree, setAgree] = useState(false);
@@ -30,11 +31,7 @@ export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
         </div>
         <div className="mt-4">
           <label>
-            <input
-              type="checkbox"
-              checked={agree}
-              onChange={() => setAgree(!agree)}
-            />
+            <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} />
             <span className="text-base text-primary-blue-hover ml-2">
               I have read and agree to the terms and conditions
             </span>
@@ -65,4 +62,3 @@ export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
 }
 
 CardholderAgreementModal.role = 'cardholder-agreement-modal-component';
-

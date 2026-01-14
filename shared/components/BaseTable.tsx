@@ -38,14 +38,11 @@ export default function BaseTable({
                           className={classNames(
                             'px-6 py-4 text-left text-sm bg-[#F4F8FF] sticky top-0 z-10 h-full border-b border-border-gray',
                             { 'cursor-pointer': header.column.getCanSort() },
-                            headerClass
+                            headerClass,
                           )}
                         >
                           <div className="flex items-center gap-1">
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
                             <span
                               className={classNames('inline-block w-4', {
                                 invisible: !header.column.getIsSorted(),
@@ -58,7 +55,7 @@ export default function BaseTable({
                             </span>
                           </div>
                         </th>
-                      )
+                      ),
                   )}
                 </tr>
               ))}
@@ -71,10 +68,7 @@ export default function BaseTable({
                   className="py-3 whitespace-nowrap px-4 text-sm normal-case"
                   colSpan={table.getHeaderGroups()[0].headers.length}
                 >
-                  <Loading
-                    containerClass="min-h-96"
-                    className="my-36 w-14 h-14"
-                  />
+                  <Loading containerClass="min-h-96" className="my-36 w-14 h-14" />
                 </td>
               </tr>
             ) : !table.getRowModel().rows.length ? (
@@ -97,7 +91,7 @@ export default function BaseTable({
                       'border-b last:border-b-0',
                       onClickHandler
                         ? 'cursor-pointer hover:bg-primary-blue hover:bg-secondary-blue'
-                        : ''
+                        : '',
                     )}
                   >
                     {row.getVisibleCells().map((cell, cellIndex) => {
@@ -107,17 +101,12 @@ export default function BaseTable({
                         cell.column.columnDef.className,
                         cell.column.getIsSorted() ? 'px-5 sm:px-6' : 'px-6',
                         cellIndex === 0 && hideHeader && 'pl-0',
-                        cellIndex === row.getVisibleCells().length - 1 &&
-                          hideHeader &&
-                          'pr-0'
+                        cellIndex === row.getVisibleCells().length - 1 && hideHeader && 'pr-0',
                       );
 
                       return (
                         <td key={cell.id} className={className}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                       );
                     })}
@@ -138,10 +127,7 @@ export default function BaseTable({
         </table>
       </div>
       {usePagination && table.getRowCount() > 0 && (
-        <Pagination
-          table={table}
-          totalCount={table.getRowCount()}
-        />
+        <Pagination table={table} totalCount={table.getRowCount()} />
       )}
     </div>
   );

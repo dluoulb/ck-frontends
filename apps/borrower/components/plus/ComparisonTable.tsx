@@ -14,8 +14,7 @@ const comparisonFeatures = [
     plus: true,
   },
   {
-    feature:
-      'Automatic reporting of repayments to leading business credit bureaus',
+    feature: 'Automatic reporting of repayments to leading business credit bureaus',
     standard: false,
     plus: true,
   },
@@ -45,9 +44,7 @@ export default function ComparisonTable() {
         <thead>
           <tr className="bg-gray-50">
             <th className="text-left font-bold text-lg">See the Difference</th>
-            <th className="text-center py-2 px-4 font-normal">
-              Standard Members
-            </th>
+            <th className="text-center py-2 px-4 font-normal">Standard Members</th>
             <th className="text-center py-2 px-4 font-bold bg-[#EEFDF3] border-l border-r border-t border-gray">
               Plus Members
             </th>

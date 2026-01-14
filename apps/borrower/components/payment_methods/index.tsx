@@ -22,12 +22,9 @@ export default function PaymentMethods() {
   const { user } = useUser();
   const { entity, entityLoading } = useEntity();
   const { isModalActive, toggleModal } = useModal();
-  const { paymentMethods, paymentMethodsLoading, paymentMethodsRefetching } =
-    useBorrowerDeps();
+  const { paymentMethods, paymentMethodsLoading, paymentMethodsRefetching } = useBorrowerDeps();
 
-  const bank_accounts = paymentMethods?.filter(
-    (pm) => pm.payment_type === 'bank_account'
-  );
+  const bank_accounts = paymentMethods?.filter((pm) => pm.payment_type === 'bank_account');
 
   const cards = paymentMethods?.filter((pm) => pm.payment_type === 'card');
 
@@ -41,20 +38,11 @@ export default function PaymentMethods() {
   if (!entity) return;
 
   return (
-    <div
-      data-testid="container"
-      className="my-4 md:my-6 mx-auto h-full"
-      role={PaymentMethods.role}
-    >
-      <PaymentMethodModalWrapper
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-      />
+    <div data-testid="container" className="my-4 md:my-6 mx-auto h-full" role={PaymentMethods.role}>
+      <PaymentMethodModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center w-full my-4 sm:py-4 sm:my-8">
-          <p className="text-2xl md:text-3xl font-bold text-primary capitalize">
-            Payment Methods
-          </p>
+          <p className="text-2xl md:text-3xl font-bold text-primary capitalize">Payment Methods</p>
           <PrimaryButton
             ariaLabel="add_payment_method_button"
             buttonText="Add new payment method"
@@ -77,9 +65,7 @@ export default function PaymentMethods() {
                       className="text-primary-blue text-base lg:text-xl"
                     />
 
-                    <p className="text-lg md:text-xl font-bold">
-                      Bank Accounts
-                    </p>
+                    <p className="text-lg md:text-xl font-bold">Bank Accounts</p>
                   </div>
                   <div className="divide-y">
                     <PaymentMethodList payment_methods={bank_accounts} />
@@ -93,11 +79,8 @@ export default function PaymentMethods() {
                       <>
                         <p>To set a default payment method, click the 3 dots</p>
                         <p>
-                          to the right of your preferred payment method and
-                          select
-                          <span className="font-semibold ml-1">
-                            Set as Default
-                          </span>
+                          to the right of your preferred payment method and select
+                          <span className="font-semibold ml-1">Set as Default</span>
                         </p>
                       </>
                     }
@@ -110,18 +93,12 @@ export default function PaymentMethods() {
                     />
                     <span className="hidden sm:inline text-sm md:text-base tracking-wide">
                       In order to make payments online, please set a default{' '}
-                      {user?.hasAccount
-                        ? 'bank account or credit card'
-                        : 'bank account'}
-                      .
+                      {user?.hasAccount ? 'bank account or credit card' : 'bank account'}.
                     </span>
                   </Tooltip>
                   <span className="sm:hidden text-sm md:text-base tracking-wide">
                     In order to make payments online, please set a default{' '}
-                    {user?.hasAccount
-                      ? 'bank account or credit card'
-                      : 'bank account'}
-                    .
+                    {user?.hasAccount ? 'bank account or credit card' : 'bank account'}.
                   </span>
                 </div>
               )}
@@ -151,10 +128,9 @@ export default function PaymentMethods() {
                         ctaButton={<div />}
                         message={
                           <span>
-                            You’ve been upgraded to a Credit Key business credit
-                            account. <br />
-                            Business accounts require use of a bank account as
-                            the payment method on all new orders.
+                            You’ve been upgraded to a Credit Key business credit account. <br />
+                            Business accounts require use of a bank account as the payment method on
+                            all new orders.
                           </span>
                         }
                       />

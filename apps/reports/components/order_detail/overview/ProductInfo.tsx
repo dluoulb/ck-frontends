@@ -13,10 +13,7 @@ export default function ProductInfo({ order, product }) {
     <div className="flex items-start gap-2 capitalize" role={ProductInfo.role}>
       <span className="fa-layers fa-fw text-4xl md:text-5xl hidden sm:inline">
         <FontAwesomeIcon icon={faCircle} className="text-secondary-blue" />
-        <FontAwesomeIcon
-          icon={faBuilding}
-          className="text-primary-blue text-base md:text-xl"
-        />
+        <FontAwesomeIcon icon={faBuilding} className="text-primary-blue text-base md:text-xl" />
       </span>
       <div className="text-sm text-primary font-medium tracking-wide">
         <p className="font-semibold text-lg mb-1">Product Details</p>
@@ -31,23 +28,15 @@ export default function ProductInfo({ order, product }) {
           {product?.id}
         </p>
         <p>
-          <span className="text-tertiary-gray mr-2 font-normal">
-            Disbursement date:
-          </span>
-          {reformatDate(
-            isPaymentPlan ? product?.disbursement_date : product?.capture_date
-          )}
+          <span className="text-tertiary-gray mr-2 font-normal">Disbursement date:</span>
+          {reformatDate(isPaymentPlan ? product?.disbursement_date : product?.capture_date)}
         </p>
         <p>
-          <span className="text-tertiary-gray mr-2 font-normal">
-            number of installments:
-          </span>
+          <span className="text-tertiary-gray mr-2 font-normal">number of installments:</span>
           {product?.installments}
         </p>
         <p>
-          <span className="text-tertiary-gray mr-2 font-normal">
-            payoff balance:
-          </span>
+          <span className="text-tertiary-gray mr-2 font-normal">payoff balance:</span>
           {formatCurrency(product?.payoff_balance)}
         </p>
       </div>

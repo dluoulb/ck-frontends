@@ -6,10 +6,7 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import {
-  createLoanPayment,
-  createPaymentPlanPayment,
-} from '@lib/actions/payments';
+import { createLoanPayment, createPaymentPlanPayment } from '@lib/actions/payments';
 import PaymentRecord from '@lib/records/payment';
 import ConfirmationData from './components/ConfirmationData';
 
@@ -27,9 +24,7 @@ export default function ConfirmModal({
   const api = useApi();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const chosenMethod = paymentMethods?.find(
-    (pm) => pm.id === modalState.payment_method_id
-  );
+  const chosenMethod = paymentMethods?.find((pm) => pm.id === modalState.payment_method_id);
   const accountNum = ` x${chosenMethod?.payment_method_last_4}`;
 
   const onSubmit = async (values) => {
@@ -44,7 +39,7 @@ export default function ConfirmModal({
     createPayment()
       .then(() => {
         refetchOrder();
-        toggleModal()
+        toggleModal();
         setLoading(false);
         next();
       })
@@ -52,8 +47,7 @@ export default function ConfirmModal({
         const error = await err;
         let msg;
         if (error.message === 'Unauthorized') {
-          msg =
-            'An error occurred. Please try again or contact our support team.';
+          msg = 'An error occurred. Please try again or contact our support team.';
         } else {
           msg = error.message;
         }
@@ -74,12 +68,8 @@ export default function ConfirmModal({
             <FontAwesomeIcon icon={faArrowLeft} className="text-sm mt-0.5" />
             <p>Return to Form</p>
           </div>
-          <h5 className="font-bold text-2xl text-primary-blue-hover mt-3 mb-1">
-            Confirm
-          </h5>
-          <p>
-            Please confirm the details below before submitting your payment.
-          </p>
+          <h5 className="font-bold text-2xl text-primary-blue-hover mt-3 mb-1">Confirm</h5>
+          <p>Please confirm the details below before submitting your payment.</p>
         </div>
         <ConfirmationData
           chosenMethod={chosenMethod}

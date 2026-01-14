@@ -32,10 +32,7 @@ export default function InactiveVirtualCard({ cardTitle }) {
         </div>
       </div>
 
-      <MultiUseVirtualCardModalWrapper
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-      />
+      <MultiUseVirtualCardModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Manrope } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -10,13 +11,12 @@ import { parseUserJwt } from '@lib/utils/authorization';
 import FullStory from '@lib/utils/fullstory';
 import StaticFooter from './StaticFooter';
 import StaticHeader from './StaticHeader';
-import { Manrope } from 'next/font/google';
 
 const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['200','500', '600', '700'],
+  weight: ['200', '500', '600', '700'],
   display: 'swap',
-})
+});
 
 type TokenData = {
   userID: string;
@@ -52,8 +52,7 @@ export default function MainLayout({ children }) {
     }
   }, [user]);
 
-  if (!user || !Session.doesSessionExist)
-    return <Loading className="w-14 h-14 my-36" />;
+  if (!user || !Session.doesSessionExist) return <Loading className="w-14 h-14 my-36" />;
 
   return (
     <div className={`flex flex-col min-h-screen relative font-sans ${manrope.className}`}>

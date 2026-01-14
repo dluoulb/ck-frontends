@@ -69,10 +69,7 @@ export default function VCModalWrapper({ isModalActive, toggleModal }) {
       >
         {orderedScreens.map(
           (step) =>
-            !step.hide &&
-            when(step.id, () => (
-              <step.component {...modalProps} key={step.id} />
-            ))
+            !step.hide && when(step.id, () => <step.component {...modalProps} key={step.id} />),
         )}
       </ModalWrapper>
     </div>

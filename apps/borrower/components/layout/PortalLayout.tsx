@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
+import useAuthorizedRoute from '@apps/borrower/hooks/useAuthorizedRoute';
+import NotFound from '@components/NotFound';
 import Scripts from '@components/Scripts';
 import { useEntity } from '@contexts/EntityContext';
 import { usePromo } from '@contexts/PromoContext';
@@ -10,8 +12,6 @@ import useOrders from '@hooks/useOrders';
 import { platform } from '@lib/constants/SiteVariables';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import PossessUser from './PossessUser';
-import useAuthorizedRoute from '@apps/borrower/hooks/useAuthorizedRoute';
-import NotFound from '@components/NotFound';
 
 declare const window: any;
 

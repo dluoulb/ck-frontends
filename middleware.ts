@@ -44,9 +44,7 @@ export default async function middleware(req: NextRequest) {
   const host = req.headers.get('host');
   const site = siteForHost(req.headers.get('host'));
   const currentRoute = routes.find((route) => {
-    return site?.shortname
-      ? route.href.includes(site?.shortname)
-      : route.href === pathname;
+    return site?.shortname ? route.href.includes(site?.shortname) : route.href === pathname;
   });
 
   // short-ciruit for /.well-known paths (e.g. apple site association file)
@@ -58,17 +56,12 @@ export default async function middleware(req: NextRequest) {
   const parsedToken = parseUserJwt(sessionToken);
 
   if (!sessionToken) {
-    return NextResponse.redirect(
-      new URL(authRedirectLink(`${protocol}//${host}${pathname}`))
-    );
+    return NextResponse.redirect(new URL(authRedirectLink(`${protocol}//${host}${pathname}`)));
   }
 
   // If a user is trying to access a route that is not approved for their user type
   const userRouteAccessNotAllowed =
-    currentRoute &&
-    !parsedToken?.role.some((role) =>
-      currentRoute.approvedRoles.includes(role)
-    );
+    currentRoute && !parsedToken?.role.some((role) => currentRoute.approvedRoles.includes(role));
 
   // If either above condition is true route them to unauthorized
   if (userRouteAccessNotAllowed) {

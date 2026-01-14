@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
-import axios from 'axios';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

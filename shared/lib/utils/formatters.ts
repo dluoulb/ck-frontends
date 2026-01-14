@@ -3,11 +3,7 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
  */
-export const formatCurrency = (
-  value,
-  removeDecimal = false,
-  currency = 'USD'
-) => {
+export const formatCurrency = (value, removeDecimal = false, currency = 'USD') => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
@@ -42,12 +38,11 @@ export const deNormalizePhone = (value) => {
   return `+1${value.replace(/\D/g, '')}`;
 };
 
-export const daysAsMonths = (days) =>
-  days <= 90 ? `${days} days` : `${days / 30} months`;
+export const daysAsMonths = (days) => (days <= 90 ? `${days} days` : `${days / 30} months`);
 
 export const formatPhoneNumber = (value) => {
-  var cleaned = ('' + value).replace(/\D/g, '');
-  var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  const cleaned = ('' + value).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
   if (match) {
     return '(' + match[1] + ') ' + match[2] + '-' + match[3];
   }
@@ -86,10 +81,7 @@ export function formatBillingCycleDay(day: number): string {
 
 export const getTermDisplay = (term) => {
   if (term.default_term?.term_period === 'days') return '30 Days';
-  if (
-    term.default_term?.term_period === 'biweekly' &&
-    term.default_term?.term === 4
-  )
+  if (term.default_term?.term_period === 'biweekly' && term.default_term?.term === 4)
     return 'Pay in 4';
 
   if (term.default_term?.term > 1) {
@@ -114,11 +106,11 @@ export const getTermLabel = (term, defaultText = 'Select Default Term') => {
 
 export const formatInstallments = (installments: number, defaultText = '—'): string => {
   if (!installments) return defaultText;
-  
+
   if (installments === 4) {
     return 'Pay in 4';
   }
-  
+
   return `${installments} ${installments === 1 ? 'month' : 'months'}`;
 };
 

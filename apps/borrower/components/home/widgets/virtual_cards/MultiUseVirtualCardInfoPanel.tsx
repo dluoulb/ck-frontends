@@ -1,11 +1,12 @@
-import PrimaryButton from '@components/buttons/PrimaryButton';
+import React from 'react';
 import { faCircleCheck } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import CkaInfo from './CkaInfo';
+
+import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import FullStory from '@lib/utils/fullstory';
+import CkaInfo from './CkaInfo';
 
 export default function MultiUseVirtualCardInfoPanel({ toggleModal }) {
   const { entity } = useEntity();
@@ -21,24 +22,15 @@ export default function MultiUseVirtualCardInfoPanel({ toggleModal }) {
     <div className="text-sm lg:text-base h-full">
       <ul className="pt-2">
         <li className="mt-2">
-          <FontAwesomeIcon
-            icon={faCircleCheck}
-            className="text-green-500 mr-2"
-          />
+          <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 mr-2" />
           <span>Tap into your line of credit anywhere Mastercard is accepted*</span>
         </li>
         <li className="mt-2">
-          <FontAwesomeIcon
-            icon={faCircleCheck}
-            className="text-green-500 mr-2"
-          />
+          <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 mr-2" />
           <span>Add the card to your digital wallet (Apple or Google) for easy access</span>
         </li>
         <li className="mt-2">
-          <FontAwesomeIcon
-            icon={faCircleCheck}
-            className="text-green-500 mr-2"
-          />
+          <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 mr-2" />
           <span>No additional fees or setup costs</span>
         </li>
       </ul>

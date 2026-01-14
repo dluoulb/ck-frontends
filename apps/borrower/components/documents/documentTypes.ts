@@ -10,5 +10,5 @@ export const DOCUMENT_TYPES = [
 
 export const DOCUMENT_TYPE_LABELS = DOCUMENT_TYPES.reduce(
   (acc, { id, name }) => ({ ...acc, [id]: name }),
-  {} as Record<string, string>
+  {} as Record<string, string>,
 );

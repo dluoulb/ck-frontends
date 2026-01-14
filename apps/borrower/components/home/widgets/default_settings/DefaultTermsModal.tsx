@@ -41,12 +41,10 @@ export default function DefaultTermSettingsModal({
         <>
           <div className="my-6 space-y-4">
             <div className="space-y-2 text-center">
-              <p className="text-xl font-semibold">
-                Default Terms for {modalState?.merchant_name}
-              </p>
+              <p className="text-xl font-semibold">Default Terms for {modalState?.merchant_name}</p>
               <p>
-                {!modalState?.default_term ? 'Set' : 'Change'} the default term
-                length for future purchases.
+                {!modalState?.default_term ? 'Set' : 'Change'} the default term length for future
+                purchases.
               </p>
             </div>
             <h1 className="font-medium text-center">Adjust Number of Months</h1>
@@ -58,9 +56,7 @@ export default function DefaultTermSettingsModal({
                 value={term}
                 listBoxClass={classNames(
                   '!w-4/5 mx-auto my-3 rounded-md transition ease-in-out duration-150 sm:text-sm relative',
-                  loading
-                    ? 'bg-primary-gray-border cursor-not-allowed'
-                    : 'bg-secondary-blue'
+                  loading ? 'bg-primary-gray-border cursor-not-allowed' : 'bg-secondary-blue',
                 )}
               >
                 {modalState?.term_options?.map((op) => (
@@ -71,11 +67,8 @@ export default function DefaultTermSettingsModal({
                       'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
                       {
                         'border-b':
-                          op !==
-                          modalState?.term_options[
-                            modalState?.term_options.length - 1
-                          ],
-                      }
+                          op !== modalState?.term_options[modalState?.term_options.length - 1],
+                      },
                     )}
                   >
                     {getTermLabel(op)}

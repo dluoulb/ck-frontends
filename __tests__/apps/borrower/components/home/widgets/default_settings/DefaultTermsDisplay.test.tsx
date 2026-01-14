@@ -6,7 +6,7 @@ describe('Default Terms Display Component', () => {
     customRender(<DefaultTermsDisplay />, { withBorrowerProviders: true });
 
     expect(
-      screen.getByRole('default-term-display-component', { hidden: true })
+      screen.getByRole('default-term-display-component', { hidden: true }),
     ).toBeInTheDocument();
   });
 
@@ -17,8 +17,6 @@ describe('Default Terms Display Component', () => {
     }));
     customRender(<DefaultTermsDisplay />, { withBorrowerProviders: true });
 
-    expect(
-      screen.queryByRole('default-term-display-component', { hidden: true })
-    ).toBeNull();
+    expect(screen.queryByRole('default-term-display-component', { hidden: true })).toBeNull();
   });
 });

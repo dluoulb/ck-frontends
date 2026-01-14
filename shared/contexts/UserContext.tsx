@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-} from 'react';
+import React, { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
@@ -59,8 +53,7 @@ export const UserProvider = ({
 
   const { isPending, mutateAsync } = useMutation({
     mutationKey: ['user', userState?.user?.id],
-    mutationFn: (tokenData: { userID: string }) =>
-      getUser(api, tokenData.userID),
+    mutationFn: (tokenData: { userID: string }) => getUser(api, tokenData.userID),
     onSuccess: (data, variables: TokenData) => {
       const { isImpersonating, parentID } = variables;
       setUser({
@@ -70,8 +63,7 @@ export const UserProvider = ({
         parentID,
       });
     },
-    onError: (error) =>
-      console.log('Error occurred fetching current user', { error }),
+    onError: (error) => console.log('Error occurred fetching current user', { error }),
     retry: 1,
   });
 

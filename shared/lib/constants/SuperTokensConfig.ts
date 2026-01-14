@@ -1,9 +1,7 @@
 import Session from 'supertokens-auth-react/recipe/session';
 
 export function getApiDomain() {
-  return (
-    process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN || 'http://localhost:54320'
-  );
+  return process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN || 'http://localhost:54320';
 }
 
 export function getApiBasePath() {
@@ -11,10 +9,7 @@ export function getApiBasePath() {
 }
 
 export function getWebsiteDomain() {
-  return (
-    process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN ||
-    'http://localhost:54321'
-  );
+  return process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN || 'http://localhost:54321';
 }
 
 export function getWebsiteBasePath() {
@@ -51,24 +46,16 @@ export const SuperTokensConfig = {
           // REF: https://supertokens.com/docs/thirdparty/common-customizations/sessions/disable-interception
           return {
             ...oI,
-            shouldDoInterceptionBasedOnUrl: (
-              url,
-              apiDomain,
-              sessionTokenBackendDomain
-            ) => {
+            shouldDoInterceptionBasedOnUrl: (url, apiDomain, sessionTokenBackendDomain) => {
               try {
-                let urlObj = new URL(url);
+                const urlObj = new URL(url);
 
                 // Only intercept when calling our auth server api
                 if (urlObj.origin !== getApiDomain()) {
                   return false;
                 }
               } catch (_) {}
-              return oI.shouldDoInterceptionBasedOnUrl(
-                url,
-                apiDomain,
-                sessionTokenBackendDomain
-              );
+              return oI.shouldDoInterceptionBasedOnUrl(url, apiDomain, sessionTokenBackendDomain);
             },
           };
         },

@@ -7,25 +7,18 @@ export default function VCRulesModal({ next }) {
     <div role={VCRulesModal.role}>
       <section>
         <div className="my-2 space-y-4">
-          <p className="text-center text-2xl font-bold tracking-wider">
-            Virtual Card Usage
-          </p>
+          <p className="text-center text-2xl font-bold tracking-wider">Virtual Card Usage</p>
           <div>
             <p>Use of virtual cards are for commercial loan purposes only.</p>
             <ul role="list" className="list-disc text-left space-y-1 pl-3 my-3">
+              <li>Virtual cards are not to be used for personal, family, or household use.</li>
               <li>
-                Virtual cards are not to be used for personal, family, or
-                household use.
-              </li>
-              <li>
-                Processing virtual cards through your merchant account is
-                strictly prohibited.
+                Processing virtual cards through your merchant account is strictly prohibited.
               </li>
             </ul>
             <p>
-              Transactions found to be in violation will result in virtual card
-              access being revoked and potential suspension of your Credit Key
-              account.
+              Transactions found to be in violation will result in virtual card access being revoked
+              and potential suspension of your Credit Key account.
             </p>
           </div>
         </div>

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  faArrowRight,
-  faArrowUpFromBracket,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRight, faArrowUpFromBracket } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
@@ -19,9 +16,7 @@ export default function CkaLink() {
               className="text-xl md:text-2xl w-[32px] text-primary-blue"
             />
             <div>
-              <p className="text-lg md:text-xl text-primary font-semibold">
-                Upload Invoice
-              </p>
+              <p className="text-lg md:text-xl text-primary font-semibold">Upload Invoice</p>
               <p className="flex gap-2 text-[#333333]">
                 <span>
                   Pay invoices using your available credit.{' '}

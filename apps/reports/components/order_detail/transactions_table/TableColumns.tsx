@@ -14,7 +14,7 @@ export const TableColumns = [
     header: 'Value Date',
     accessorKey: 'value_date',
     sortType: 'alphanumeric',
-    sortUndefined: 'last' as 'last',
+    sortUndefined: 'last' as const,
     cell: ({ row }) => <BuildStack original={row?.original} />,
   },
   {
@@ -37,11 +37,7 @@ export const TableColumns = [
     accessorKey: 'note',
     hideColumn: 1024,
     cell: ({ getValue }) => {
-      return (
-        <div className="capitalize">
-          {getValue()?.toLowerCase().replaceAll('_', ' ')}
-        </div>
-      );
+      return <div className="capitalize">{getValue()?.toLowerCase().replaceAll('_', ' ')}</div>;
     },
   },
   {
@@ -50,11 +46,7 @@ export const TableColumns = [
     accessorKey: 'type',
     hideColumn: 856,
     cell: ({ getValue }) => {
-      return (
-        <div className="capitalize">
-          {getValue()?.toLowerCase().replaceAll('_', ' ')}
-        </div>
-      );
+      return <div className="capitalize">{getValue()?.toLowerCase().replaceAll('_', ' ')}</div>;
     },
   },
 ];

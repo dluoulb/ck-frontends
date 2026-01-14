@@ -50,8 +50,8 @@ export default class PaymentPlanRecord {
   }
 
   get daysPastDue() {
-    let today = DateTime.now();
-    let due_date = fromISO(this.last_past_due_at.replace(' ', 'T'));
+    const today = DateTime.now();
+    const due_date = fromISO(this.last_past_due_at.replace(' ', 'T'));
 
     return differenceOfDays(today, due_date);
   }

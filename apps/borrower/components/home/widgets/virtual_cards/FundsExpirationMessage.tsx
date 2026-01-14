@@ -1,8 +1,9 @@
-import Tooltip from '@components/Tooltip';
+import React from 'react';
 import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import React from 'react';
+
+import Tooltip from '@components/Tooltip';
 
 interface FundsExpirationMessageProps {
   duration?: string;
@@ -10,14 +11,16 @@ interface FundsExpirationMessageProps {
 
 export default function FundsExpirationMessage({ duration }: FundsExpirationMessageProps) {
   const message = duration ? `Your funds expire in ${duration}` : 'Your funds expire soon';
-  const successClasses = "text-success border-success/80 bg-background-success/60";
-  const warningClasses = "text-warning border-warning/80 bg-background-warning/60";
+  const successClasses = 'text-success border-success/80 bg-background-success/60';
+  const warningClasses = 'text-warning border-warning/80 bg-background-warning/60';
 
   return (
-    <div className={classNames(
-      "text-sm xl:text-base border-l-4 rounded-r-md",
-      duration ? successClasses : warningClasses
-    )}>
+    <div
+      className={classNames(
+        'text-sm xl:text-base border-l-4 rounded-r-md',
+        duration ? successClasses : warningClasses,
+      )}
+    >
       <p className="p-3 font-semibold">
         <span>{message}</span>
         <Tooltip
@@ -30,6 +33,4 @@ export default function FundsExpirationMessage({ duration }: FundsExpirationMess
       </p>
     </div>
   );
-};
-
-
+}

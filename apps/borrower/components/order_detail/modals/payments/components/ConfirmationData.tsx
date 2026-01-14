@@ -3,19 +3,12 @@ import { DateTime } from 'luxon';
 
 import { formatCurrency } from '@lib/utils/formatters';
 
-export default function ConfirmationData({
-  order,
-  chosenMethod,
-  accountNum,
-  modalState,
-}) {
-  let displayItems = [
+export default function ConfirmationData({ order, chosenMethod, accountNum, modalState }) {
+  const displayItems = [
     {
       id: 'date',
       title: 'Date',
-      display_text: DateTime.now().toLocaleString(
-        DateTime.DATE_MED_WITH_WEEKDAY
-      ),
+      display_text: DateTime.now().toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
     },
     {
       id: 'order_id',
@@ -46,13 +39,9 @@ export default function ConfirmationData({
             <span className="flex items-center justify-between font-medium my-5">
               <p className="text-secondary-gray">{item.title}</p>
               <div className="flex items-baseline">
-                <span className={`${item.style} font-semibold`}>
-                  {item.display_text}
-                </span>
+                <span className={`${item.style} font-semibold`}>{item.display_text}</span>
                 {item.id === 'bank_account' && (
-                  <span className="ml-1.5 text-sm text-secondary-gray">
-                    {accountNum}
-                  </span>
+                  <span className="ml-1.5 text-sm text-secondary-gray">{accountNum}</span>
                 )}
               </div>
             </span>

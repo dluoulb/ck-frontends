@@ -30,21 +30,9 @@ export default function DocumentUploadForm() {
 
     try {
       if (entity.type === 'company') {
-        await uploadCompanyDocument(
-          api,
-          entity.id,
-          file,
-          selectedType.id,
-          description
-        );
+        await uploadCompanyDocument(api, entity.id, file, selectedType.id, description);
       } else {
-        await uploadConsumerDocument(
-          api,
-          entity.id,
-          file,
-          selectedType.id,
-          description
-        );
+        await uploadConsumerDocument(api, entity.id, file, selectedType.id, description);
       }
 
       setFile(null);
@@ -55,7 +43,7 @@ export default function DocumentUploadForm() {
     } catch (err) {
       makeToast(
         'An error occured. Please contact our support team (support@creditkey.com)',
-        'error'
+        'error',
       );
     } finally {
       setIsUploading(false);
@@ -75,9 +63,7 @@ export default function DocumentUploadForm() {
           {/* Document Type & Description */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Document Type
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
               <ListBox
                 value={selectedType}
                 handleChange={setSelectedType}
@@ -91,7 +77,7 @@ export default function DocumentUploadForm() {
                     className={({ active }) =>
                       classNames(
                         'cursor-pointer select-none py-2 px-4 text-sm',
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       )
                     }
                   >
@@ -99,9 +85,7 @@ export default function DocumentUploadForm() {
                       <span
                         className={classNames(
                           'block truncate text-sm',
-                          isSelected
-                            ? 'font-semibold text-gray-900'
-                            : 'text-gray-700'
+                          isSelected ? 'font-semibold text-gray-900' : 'text-gray-700',
                         )}
                       >
                         {doc.name}

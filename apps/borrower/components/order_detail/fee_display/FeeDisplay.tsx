@@ -7,13 +7,8 @@ import { fromISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function FeesDisplay({ order, open }) {
-  const {
-    compressedFeeSummary,
-    feeDisplay,
-    setFeeDisplay,
-    getFeeTitle,
-    getFeeBreakdownDisplay,
-  } = useOrderFees(order);
+  const { compressedFeeSummary, feeDisplay, setFeeDisplay, getFeeTitle, getFeeBreakdownDisplay } =
+    useOrderFees(order);
 
   return (
     <div className="flex flex-col">
@@ -36,7 +31,7 @@ export default function FeesDisplay({ order, open }) {
               <div
                 className={classNames(
                   'p-4 flex items-center justify-between hover:bg-secondary-blue/60 hover:cursor-pointer',
-                  { 'bg-secondary-blue/60': open }
+                  { 'bg-secondary-blue/60': open },
                 )}
               >
                 <div className="font-bold flex items-center gap-1.5">
@@ -49,17 +44,13 @@ export default function FeesDisplay({ order, open }) {
                 {f.fee_type === 'PROCESSING_FEE' && f.adjustments ? (
                   <p className="font-bold">
                     {formatCurrency(
-                      f.totalAmount -
-                        f.adjustments.fees[f.adjustments.fees.length - 1]
-                          ?.amount
+                      f.totalAmount - f.adjustments.fees[f.adjustments.fees.length - 1]?.amount,
                     )}
                   </p>
                 ) : (
                   <p className="font-bold">
                     {f.adjustments
-                      ? formatCurrency(
-                          f.totalAmount - f.adjustments.totalAmount
-                        )
+                      ? formatCurrency(f.totalAmount - f.adjustments.totalAmount)
                       : formatCurrency(f.totalAmount)}
                   </p>
                 )}
@@ -70,14 +61,11 @@ export default function FeesDisplay({ order, open }) {
                     ? getFeeBreakdownDisplay(f, f.adjustments)
                     : f.fees.map((i) => {
                         return (
-                          <div
-                            key={i.id}
-                            className="px-6 py-2 flex justify-between"
-                          >
+                          <div key={i.id} className="px-6 py-2 flex justify-between">
                             <p>
-                              {fromISO(
-                                i.value_date.replace(' ', 'T')
-                              ).toLocaleString(DateTime.DATE_SHORT)}
+                              {fromISO(i.value_date.replace(' ', 'T')).toLocaleString(
+                                DateTime.DATE_SHORT,
+                              )}
                             </p>
                             <p>{formatCurrency(i.amount)}</p>
                           </div>

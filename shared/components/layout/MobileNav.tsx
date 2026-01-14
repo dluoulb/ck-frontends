@@ -1,21 +1,13 @@
-import {
-  faArrowRightFromBracket,
-  faBars,
-  faXmark,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRightFromBracket, faBars, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import classNames from 'classnames';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
-import Link from 'next/link';
 
 export default function MobileNav() {
   const router = useRouter();
@@ -25,9 +17,7 @@ export default function MobileNav() {
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
 
   const getRoutes = () => {
-    const route = navigation.find((item) =>
-      router.pathname.includes(item.route)
-    );
+    const route = navigation.find((item) => router.pathname.includes(item.route));
     return route?.routes || [];
   };
 
@@ -58,21 +48,17 @@ export default function MobileNav() {
                       as={Link}
                       href={item.url}
                       target={item.target}
-                      aria-current={
-                        router.pathname === item.url ? 'page' : undefined
-                      }
+                      aria-current={router.pathname === item.url ? 'page' : undefined}
                       className={classNames(
                         router.pathname === item.url
                           ? 'bg-primary-blue-hover text-white'
                           : 'text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white',
-                        'block rounded-md px-3 py-2 text-sm font-medium'
+                        'block rounded-md px-3 py-2 text-sm font-medium',
                       )}
                     >
                       {item.name}
                     </DisclosureButton>
-                    {item.separator && (
-                      <div className="border-t border-blue-300 my-2" />
-                    )}
+                    {item.separator && <div className="border-t border-blue-300 my-2" />}
                   </div>
                 ))}
                 {!mobileApp && (

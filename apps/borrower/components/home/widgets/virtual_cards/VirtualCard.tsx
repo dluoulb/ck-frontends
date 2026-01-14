@@ -1,6 +1,7 @@
 import React from 'react';
-import SingleUseVirtualCard from './SingleUseVirtualCard';
+
 import MultiUseVirtualCard from './MultiUseVirtualCard';
+import SingleUseVirtualCard from './SingleUseVirtualCard';
 
 export default function VirtualCard({ bannerName }) {
   const multiUseVcEnabled = bannerName === 'multi_use_virtual_card';

@@ -59,9 +59,7 @@ export default class ApplicationRecord {
     }
 
     if (cleanedData.birthdate) {
-      const birthdate = DateTime.fromISO(cleanedData.birthdate).toLocaleString(
-        DateTime.DATE_SHORT
-      );
+      const birthdate = DateTime.fromISO(cleanedData.birthdate).toLocaleString(DateTime.DATE_SHORT);
 
       if (birthdate.isValid) {
         this.birthdate = birthdate.toFormat('yyyy-MM-dd');
@@ -80,7 +78,7 @@ export default class ApplicationRecord {
       });
     }
     this.beneficial_owners = [owners];
-  } 
+  }
 
   get applicant_full_name() {
     return `${this.first_name || ''} ${this.last_name || ''}`.trim();

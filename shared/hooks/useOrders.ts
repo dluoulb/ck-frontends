@@ -1,9 +1,5 @@
 import { useEffect } from 'react';
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getOrders } from '@lib/actions/orders';
 import OrderRecord from '@lib/records/order';

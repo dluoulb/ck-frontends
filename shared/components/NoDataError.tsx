@@ -10,9 +10,7 @@ export default function NoDataError({ tag, withButton }) {
       <h1 className="mt-4 capitalize text-3xl font-bold tracking-tight text-primary sm:text-5xl">
         No {tag} found
       </h1>
-      <p className="my-3 text-base leading-7 text-gray-600">
-        Please contact Credit Key support.
-      </p>
+      <p className="my-3 text-base leading-7 text-gray-600">Please contact Credit Key support.</p>
       {withButton && (
         <Link href="/reports" className="text-primary-blue cursor-pointer">
           <button

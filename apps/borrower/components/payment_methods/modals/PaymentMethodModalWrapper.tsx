@@ -3,15 +3,12 @@ import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 import { defineStepper } from '@stepperize/react';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
+import { useEntity } from '@contexts/EntityContext';
 import BankPendHelp from './BankPendHelp';
 import PaymentMethodModal from './PaymentMethodModal';
-import { useEntity } from '@contexts/EntityContext';
 import SupportRequiredModal from './SupportRequiredModal';
 
-export default function PaymentMethodModalWrapper({
-  isModalActive,
-  toggleModal,
-}) {
+export default function PaymentMethodModalWrapper({ isModalActive, toggleModal }) {
   const [hasAlert, setHasAlert] = useState(false);
   const orderedScreens = [
     {
@@ -61,7 +58,7 @@ export default function PaymentMethodModalWrapper({
       headerIcon={faPlusCircle}
     >
       {orderedScreens.map((step) =>
-        when(step.id, () => <step.component {...modalProps} key={step.id} />)
+        when(step.id, () => <step.component {...modalProps} key={step.id} />),
       )}
     </ModalWrapper>
   );

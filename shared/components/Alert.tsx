@@ -9,12 +9,7 @@ interface AlertProps {
   containerClass?: string;
 }
 
-const Alert: FC<AlertProps> = ({
-  icon,
-  alertText,
-  alertSubtext,
-  containerClass,
-}) => {
+const Alert: FC<AlertProps> = ({ icon, alertText, alertSubtext, containerClass }) => {
   return (
     <div role="error" className={classNames('rounded-md', containerClass)}>
       <div className="flex items-center gap-3">

@@ -41,7 +41,7 @@ const OutlineButton: FC<OutlineButtonProps> = ({
           {
             '!cursor-not-allowed !border-disabled !text-disabled': disabled,
           },
-          !isLoading && !disabled && hoverClass
+          !isLoading && !disabled && hoverClass,
         )}
         type={type || 'submit'}
         role={type || 'submit'}
@@ -50,12 +50,8 @@ const OutlineButton: FC<OutlineButtonProps> = ({
       >
         <div className="flex justify-center items-center">
           <span className="hidden xs:inline">
-            {icon && !isLoading && (
-              <FontAwesomeIcon icon={icon} className="mr-2" />
-            )}
-            {isLoading && (
-              <FontAwesomeIcon className="mr-2" icon={faSpinnerThird} spin />
-            )}
+            {icon && !isLoading && <FontAwesomeIcon icon={icon} className="mr-2" />}
+            {isLoading && <FontAwesomeIcon className="mr-2" icon={faSpinnerThird} spin />}
           </span>
           <span>{buttonText}</span>
         </div>

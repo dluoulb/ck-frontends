@@ -10,10 +10,7 @@ import Pagination from '@components/Pagination';
 import { useEntity } from '@contexts/EntityContext';
 import useOrders from '@hooks/useOrders';
 import { fromISO } from '@lib/utils/datetime_formatters';
-import {
-  formatCreditTransactionAmount,
-  formatCurrency,
-} from '@lib/utils/formatters';
+import { formatCreditTransactionAmount, formatCurrency } from '@lib/utils/formatters';
 
 const columns = [
   {
@@ -23,9 +20,7 @@ const columns = [
     className: 'hidden md:table-cell',
     cell: ({ getValue }) => (
       <div className="text-sm">
-        {getValue()
-          ? fromISO(getValue()).toLocaleString(DateTime.DATE_MED)
-          : 'N/A'}
+        {getValue() ? fromISO(getValue()).toLocaleString(DateTime.DATE_MED) : 'N/A'}
       </div>
     ),
   },
@@ -33,9 +28,7 @@ const columns = [
     id: 'merchant',
     header: 'Merchant',
     accessorKey: 'merchant_name',
-    cell: ({ getValue }) => (
-      <div className="text-sm">{getValue() || 'N/A'}</div>
-    ),
+    cell: ({ getValue }) => <div className="text-sm">{getValue() || 'N/A'}</div>,
   },
   {
     id: 'status',
@@ -72,31 +65,17 @@ function OrderTransactionsTable({ transactions }) {
     <div className="divide-y">
       {transactions.map((transaction) => {
         return (
-          <div
-            key={transaction.id}
-            className="grid grid-cols-6 gap-2 md:gap-4 px-3 py-2 text-sm"
-          >
+          <div key={transaction.id} className="grid grid-cols-6 gap-2 md:gap-4 px-3 py-2 text-sm">
             <div className="hidden md:block">
               {transaction.created_at
-                ? fromISO(transaction.created_at).toLocaleString(
-                    DateTime.DATE_MED
-                  )
+                ? fromISO(transaction.created_at).toLocaleString(DateTime.DATE_MED)
                 : 'N/A'}
             </div>
-            <div className="col-span-3 md:col-span-2">
-              {transaction.merchant_name || 'N/A'}
-            </div>
+            <div className="col-span-3 md:col-span-2">{transaction.merchant_name || 'N/A'}</div>
             <div className="hidden md:block">{transaction.status}</div>
+            <div>{transaction.card_last_four ? `x${transaction.card_last_four}` : 'N/A'}</div>
             <div>
-              {transaction.card_last_four
-                ? `x${transaction.card_last_four}`
-                : 'N/A'}
-            </div>
-            <div>
-              {formatCreditTransactionAmount(
-                transaction.amount,
-                transaction.transaction_type
-              )}
+              {formatCreditTransactionAmount(transaction.amount, transaction.transaction_type)}
             </div>
           </div>
         );
@@ -109,15 +88,9 @@ export default function PendingTransactionsSection() {
   const { entity } = useEntity();
   const [currentPage, setCurrentPage] = useState(0);
 
-  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
-    entity?.id
-  );
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(entity?.id);
   const { pending_total, authorizations } = pendingAuths ?? {};
-  const { orders, ordersLoading, pageCount } = useOrders(
-    entity,
-    true,
-    currentPage
-  );
+  const { orders, ordersLoading, pageCount } = useOrders(entity, true, currentPage);
 
   const creditKeyCardOrders = useMemo(() => {
     return orders?.filter((order) => order.card_transactions?.length > 0) || [];
@@ -155,8 +128,7 @@ export default function PendingTransactionsSection() {
     getCanPreviousPage: () => currentPage > 0,
     getCanNextPage: () => currentPage < pageCount - 1,
     previousPage: () => setCurrentPage((prev) => Math.max(0, prev - 1)),
-    nextPage: () =>
-      setCurrentPage((prev) => Math.min((pageCount || 1) - 1, prev + 1)),
+    nextPage: () => setCurrentPage((prev) => Math.min((pageCount || 1) - 1, prev + 1)),
   };
 
   if (pendingAuthsLoading || ordersLoading) {
@@ -185,26 +157,20 @@ export default function PendingTransactionsSection() {
     <div className="space-y-4">
       <div className="flex max-md:flex-col justify-between items-start gap-2">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Credit Key Card Transactions
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900">Credit Key Card Transactions</h2>
           <p className="text-sm text-secondary-gray">
             Transactions from cards will roll up into orders every 24 hours.
           </p>
         </div>
         <div className="flex gap-2 items-center bg-secondary-blue px-3 py-2 rounded-lg">
           <div className="text-sm">Total Pending Charges</div>
-          <div className="text-xl font-bold text-primary">
-            {formatCurrency(pending_total || 0)}
-          </div>
+          <div className="text-xl font-bold text-primary">{formatCurrency(pending_total || 0)}</div>
         </div>
       </div>
 
       {pendingData.length > 0 && (
         <div className="border rounded-lg overflow-hidden">
-          <div className="bg-[#F4F8FF] p-3 font-medium text-sm border-b">
-            Pending Transactions
-          </div>
+          <div className="bg-[#F4F8FF] p-3 font-medium text-sm border-b">Pending Transactions</div>
           <BaseTable
             table={pendingTable}
             hideHeader={true}
@@ -224,8 +190,7 @@ export default function PendingTransactionsSection() {
               return {
                 id: transaction.transaction_id,
                 created_at: order.created_at,
-                merchant_name:
-                  transaction.merchant_name || transaction.description,
+                merchant_name: transaction.merchant_name || transaction.description,
                 status: isCredit ? 'Refunded' : 'Approved',
                 card_last_four: transaction.card_last_four,
                 amount: parseFloat(transaction.amount),
@@ -238,10 +203,7 @@ export default function PendingTransactionsSection() {
                 <div className="bg-[#F4F8FF] p-3 text-sm border-b">
                   <p>
                     Order{' '}
-                    <Link
-                      href={`/orders/${order.id}`}
-                      className="text-primary-blue font-medium"
-                    >
+                    <Link href={`/orders/${order.id}`} className="text-primary-blue font-medium">
                       {order.order_key}
                     </Link>
                   </p>
@@ -253,9 +215,7 @@ export default function PendingTransactionsSection() {
         </div>
       )}
 
-      {pageCount > 1 && (
-        <Pagination totalCount={creditKeyCardOrders.length} table={mockTable} />
-      )}
+      {pageCount > 1 && <Pagination totalCount={creditKeyCardOrders.length} table={mockTable} />}
 
       {!pendingData.length && !creditKeyCardOrders.length && (
         <div className="text-gray-300 text-sm">No transactions yet.</div>

@@ -11,19 +11,12 @@ type FormValues = {
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-export default function PaymentsModal({
-  next,
-  order,
-  setModalState,
-  toggleModal,
-  paymentMethods,
-}) {
+export default function PaymentsModal({ next, order, setModalState, toggleModal, paymentMethods }) {
   const isPaymentPlan = order.product_type !== 'mambu_loan';
   const { defaultCard, defaultBank } = useBorrowerDeps();
   const [disabled, setDisabled] = useState(true);
 
-  const defaultPayment =
-    order.entity_type === 'account' ? defaultCard : defaultBank;
+  const defaultPayment = order.entity_type === 'account' ? defaultCard : defaultBank;
 
   const setConfirmModal = (values) => {
     setModalState(values);

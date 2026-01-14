@@ -38,12 +38,9 @@ export const createPaymentMethodPi4Card = (api, payment_method) => {
 };
 
 export const generateBankAgreement = async (api, user) => {
-  const agreement = await api.post(
-    '/api/payment_methods/0/generate_bank_agreement',
-    {
-      user_id: user.id,
-    }
-  );
+  const agreement = await api.post('/api/payment_methods/0/generate_bank_agreement', {
+    user_id: user.id,
+  });
 
   return agreement?.data?.attributes?.data;
 };

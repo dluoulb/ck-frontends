@@ -39,10 +39,7 @@ export default class PaymentMethodRecord {
 
   get account_number_masked() {
     if (this.bank_account) {
-      return (
-        this.bank_account.slice(0, -4).replace(/./g, '•') +
-        this.payment_method_last_4
-      );
+      return this.bank_account.slice(0, -4).replace(/./g, '•') + this.payment_method_last_4;
     }
   }
 }

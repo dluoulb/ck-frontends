@@ -11,7 +11,7 @@ function useInputs(props) {
     )
       return false;
 
-    for (let key in error) {
+    for (const key in error) {
       if (error[key] !== undefined && touched[key] === true) {
         return true;
       }
@@ -22,20 +22,15 @@ function useInputs(props) {
   const nestedField = id?.includes('.') && id?.split('.');
   const fieldName = nestedField ? id?.split('.')[1] : id;
   const fieldErrMsg = error && error[fieldName];
-  const multiColumnError =
-    error && touched && checkErrorsAndTouched(error, touched);
+  const multiColumnError = error && touched && checkErrorsAndTouched(error, touched);
 
-  const hasFieldError = multi
-    ? touched[fieldName] && error[fieldName]
-    : touched && error;
+  const hasFieldError = multi ? touched[fieldName] && error[fieldName] : touched && error;
 
   const hasColumnError = multi ? multiColumnError : touched && error;
 
   useEffect(() => {
     if (values) {
-      const fieldValue = nestedField
-        ? values[nestedField[0]][nestedField[1]]
-        : values[id];
+      const fieldValue = nestedField ? values[nestedField[0]][nestedField[1]] : values[id];
 
       setFieldComplete(fieldValue === '' ? null : fieldValue);
     }

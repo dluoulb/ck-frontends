@@ -3,13 +3,7 @@ import '@testing-library/jest-dom';
 import DownloadDocument from '@apps/reports/components/entity_detail/widgets/Attachments/table/DownloadDocument';
 import { getEntityDocument } from '@lib/actions/entities';
 import { documentA } from '@lib/testing/records';
-import {
-  act,
-  customRender,
-  fireEvent,
-  renders,
-  screen,
-} from '@lib/testing/test-utils';
+import { act, customRender, fireEvent, renders, screen } from '@lib/testing/test-utils';
 
 jest.mock('@lib/actions/entities', () => ({
   getEntityDocument: jest.fn(),

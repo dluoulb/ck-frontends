@@ -1,4 +1,4 @@
-import { removeNulls } from "@lib/utils/record_utils";
+import { removeNulls } from '@lib/utils/record_utils';
 
 export default class ApprovedTermRecord {
   available: boolean;
@@ -8,4 +8,4 @@ export default class ApprovedTermRecord {
   constructor(data) {
     Object.assign(this, removeNulls(data));
   }
-};
+}

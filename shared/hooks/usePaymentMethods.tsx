@@ -5,10 +5,9 @@ import { getPaymentMethods } from '@lib/actions/payment_methods';
 
 function usePaymentMethods(user, entity, shouldFetch) {
   const api = useApi();
-  const entityEmail =
-    entity?.type === 'company' ? entity?.borrower?.email : entity?.user?.email;
+  const entityEmail = entity?.type === 'company' ? entity?.borrower?.email : entity?.user?.email;
   const email = user?.is_admin_user ? entityEmail : user?.email;
-  let encodedEmail = encodeURIComponent(email);
+  const encodedEmail = encodeURIComponent(email);
 
   const {
     data: paymentMethods,
@@ -23,22 +22,19 @@ function usePaymentMethods(user, entity, shouldFetch) {
     retry: 1,
   });
 
-  const activePaymentMethods = paymentMethods?.filter(
-    (pm) => pm.status !== 'removed'
-  );
+  const activePaymentMethods = paymentMethods?.filter((pm) => pm.status !== 'removed');
 
   const defaultCard = activePaymentMethods?.find(
-    (pm) => pm.payment_type === 'card' && pm.is_default
+    (pm) => pm.payment_type === 'card' && pm.is_default,
   );
   const defaultBank = activePaymentMethods?.find(
-    (pm) => pm.payment_type === 'bank_account' && pm.is_default
+    (pm) => pm.payment_type === 'bank_account' && pm.is_default,
   );
 
   const hasConnectedCards =
     activePaymentMethods?.filter((pm) => pm.payment_type === 'card').length > 0;
   const hasConnectedBanks =
-    activePaymentMethods?.filter((pm) => pm.payment_type === 'bank_account')
-      .length > 0;
+    activePaymentMethods?.filter((pm) => pm.payment_type === 'bank_account').length > 0;
 
   const defaultBankLabel = hasConnectedBanks
     ? defaultBank?.label || `${defaultBank?.account_holder} Account`

@@ -1,7 +1,8 @@
 import React from 'react';
+
+import PromoteDigitalWallet from './PromotDigitalWallet';
 import PromoteApp from './PromoteApp';
 import PromoteMarketplace from './PromoteMarketPlace';
-import PromoteDigitalWallet from './PromotDigitalWallet';
 
 export default function HowToUse() {
   return (
@@ -21,4 +22,3 @@ export default function HowToUse() {
     </div>
   );
 }
-

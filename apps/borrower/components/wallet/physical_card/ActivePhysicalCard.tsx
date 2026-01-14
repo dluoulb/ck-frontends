@@ -40,8 +40,7 @@ export default function ActivePhysicalCard({
         'fs-exclude widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
       spinner: false,
       display: 'flex',
-      filter:
-        'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',
+      filter: 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',
       version: 'v3',
     },
     target_origin: qoloWidgetOrigin(),
@@ -164,9 +163,7 @@ export default function ActivePhysicalCard({
           >
             {!token && (
               <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-20">
-                <div className="text-center text-gray-500">
-                  No card data available
-                </div>
+                <div className="text-center text-gray-500">No card data available</div>
               </div>
             )}
           </div>
@@ -193,14 +190,9 @@ export default function ActivePhysicalCard({
             {card.last_four && (
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-200">
-                    Card Number
-                  </span>
+                  <span className="text-xs font-semibold text-gray-200">Card Number</span>
                 </div>
-                <div
-                  className="text-sm sm:text-xl tracking-wider"
-                  style={{ wordSpacing: '0.3em' }}
-                >
+                <div className="text-sm sm:text-xl tracking-wider" style={{ wordSpacing: '0.3em' }}>
                   {formatCardNumber(card.last_four)}
                 </div>
               </div>

@@ -8,8 +8,7 @@ import { formStyles } from '@lib/constants/SiteVariables';
 export default function StickySelect(props) {
   const { id, options, disclaimer, placeholder, shortOptionsDisplay } = props;
 
-  const { multi, hasFieldError, hasColumnError, fieldErrMsg, fieldComplete } =
-    useInputs(props);
+  const { multi, hasFieldError, hasColumnError, fieldErrMsg, fieldComplete } = useInputs(props);
 
   return (
     <div className="select">
@@ -18,7 +17,7 @@ export default function StickySelect(props) {
           as="select"
           className={classNames(
             'peer w-full text-xs sm:text-sm px-3.5 pt-4 sm:pt-5 pb-1 block mt-0 bg-transparent border border-solid border-primary-gray-border rounded-lg appearance-none focus:outline-none focus:ring-0',
-            formStyles.error(hasFieldError)
+            formStyles.error(hasFieldError),
           )}
           children={options.map((o) => (
             <option key={o[1]} value={o[1]}>
@@ -35,7 +34,7 @@ export default function StickySelect(props) {
             { '!top-[45%] sm:!top-[35%]': !hasFieldError && hasColumnError },
             fieldComplete
               ? 'text-tertiary-gray scale-75 -translate-y-4 sm:-translate-y-5 peer-focus:left-3.5'
-              : 'text-secondary-gray'
+              : 'text-secondary-gray',
           )}
           htmlFor={id}
         >
@@ -44,11 +43,7 @@ export default function StickySelect(props) {
         {disclaimer && disclaimer}
         {multi && hasColumnError ? (
           <div
-            className={classNames(
-              'sm:h-5',
-              formStyles.validation,
-              hasFieldError ? 'h-4' : 'h-0'
-            )}
+            className={classNames('sm:h-5', formStyles.validation, hasFieldError ? 'h-4' : 'h-0')}
           >
             {hasFieldError && fieldErrMsg}
           </div>
@@ -56,11 +51,7 @@ export default function StickySelect(props) {
           <ErrorMessage
             name={id}
             component="div"
-            className={classNames(
-              'sm:h-5',
-              formStyles.validation,
-              hasFieldError ? 'h-4' : 'h-0'
-            )}
+            className={classNames('sm:h-5', formStyles.validation, hasFieldError ? 'h-4' : 'h-0')}
           />
         )}
       </div>
