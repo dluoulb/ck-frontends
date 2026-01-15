@@ -23,9 +23,10 @@ services:
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json
       - ./eslint.config.mjs:/app/eslint.config.mjs
-      - ./postcss.config.js:/app/config/postcss.config.js
+      - ./.prettierrc:/app/.prettierrc
+      - ./postcss.config.js:/app/postcss.config.js
       - ./tsconfig.json:/app/tsconfig.json
-      - ./tailwind.config.js:/app/config/tailwind.config.js
+      - ./tailwind.config.js:/app/tailwind.config.js
       - ./shared:/app/shared
       - ./apps:/app/apps
       - ./types:/app/types
