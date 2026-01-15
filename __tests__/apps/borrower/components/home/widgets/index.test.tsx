@@ -6,6 +6,6 @@ describe('Widgets Index', () => {
     customRender(<Widgets />, { withBorrowerProviders: true });
 
     const widgets = screen.getAllByRole('base-grid-item-component');
-    expect(widgets).toHaveLength(3);
+    expect(widgets).toHaveLength(5);
   });
 });

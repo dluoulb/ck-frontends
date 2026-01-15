@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom';
+import { TransformStream } from 'node:stream/web';
+
+// Polyfill TransformStream for Node.js test environment
+global.TransformStream = TransformStream as any;
 
 import { useEntity } from '@contexts/EntityContext';
+import useActiveOrders from '@hooks/useActiveOrders';
 import useApplications from '@hooks/useApplications';
 import useCompanyUsers from '@hooks/useCompanyUsers';
 import useDefaultTerms from '@hooks/useDefaultTerms';
@@ -23,6 +28,9 @@ import {
 } from '@lib/testing/records';
 
 global.scrollTo = jest.fn();
+
+// Mock environment variables for tests
+process.env.NEXT_PUBLIC_MARKETPLACE_URL = 'https://marketplace.test.com';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -53,6 +61,7 @@ export const mockApi = {
 };
 
 jest.mock('@hooks/useApi', () => () => mockApi);
+jest.mock('@hooks/useActiveOrders', () => jest.fn());
 jest.mock('@hooks/useOrders', () => jest.fn());
 jest.mock('@hooks/usePaymentMethods', () => jest.fn());
 jest.mock('@hooks/useApplications', () => jest.fn());
@@ -65,6 +74,7 @@ jest.mock('@contexts/EntityContext', () => ({
   useEntity: jest.fn(),
 }));
 
+global.mockedUseActiveOrders = useActiveOrders as jest.MockedFunction<typeof useActiveOrders>;
 global.mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
 global.mockedUseDocuments = useDocuments as jest.MockedFunction<
   typeof useDocuments
@@ -98,6 +108,16 @@ global.mockedUseCompanyUsers.mockImplementation(() => ({
   companyUsersLoading: false,
   companyUsersRefetching: false,
   refetchCompanyUsers: jest.fn(),
+}));
+
+global.mockedUseActiveOrders.mockImplementation(() => ({
+  orders: [],
+  ordersLoading: false,
+  isFetching: false,
+  ordersError: null,
+  pageCount: 1,
+  totalOrderCount: 0,
+  refetchOrders: jest.fn(),
 }));
 
 global.mockedUseOrders.mockImplementation(() => ({
