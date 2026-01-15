@@ -9,7 +9,7 @@ describe('Borrower Portal Home Page', () => {
     await waitFor(() => {
       expect(screen.getByText('Widget Maker Co.')).toBeInTheDocument();
     });
-    
+
     // Check that widgets are rendered
     const widgets = screen.getAllByRole('base-grid-item-component');
     expect(widgets.length).toBeGreaterThan(0);

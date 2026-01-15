@@ -1,5 +1,4 @@
 {
-  "name": "ck-frontends",
   "private": true,
   "scripts": {
     "build": "next build",

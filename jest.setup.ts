@@ -1,8 +1,6 @@
 import '@testing-library/jest-dom';
-import { TransformStream } from 'node:stream/web';
 
-// Polyfill TransformStream for Node.js test environment
-global.TransformStream = TransformStream as any;
+import { TransformStream } from 'node:stream/web';
 
 import { useEntity } from '@contexts/EntityContext';
 import useActiveOrders from '@hooks/useActiveOrders';
@@ -26,6 +24,9 @@ import {
   stats,
   user,
 } from '@lib/testing/records';
+
+// Polyfill TransformStream for Node.js test environment
+global.TransformStream = TransformStream as any;
 
 global.scrollTo = jest.fn();
 
@@ -76,23 +77,13 @@ jest.mock('@contexts/EntityContext', () => ({
 
 global.mockedUseActiveOrders = useActiveOrders as jest.MockedFunction<typeof useActiveOrders>;
 global.mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
-global.mockedUseDocuments = useDocuments as jest.MockedFunction<
-  typeof useDocuments
->;
+global.mockedUseDocuments = useDocuments as jest.MockedFunction<typeof useDocuments>;
 global.mockedUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
-global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<
-  typeof useCompanyUsers
->;
+global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<typeof useCompanyUsers>;
 global.mockedUseStats = useStats as jest.MockedFunction<typeof useStats>;
-global.mockedUseApplications = useApplications as jest.MockedFunction<
-  typeof useApplications
->;
-global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<
-  typeof usePaymentMethods
->;
-global.mockedUseDefaultTerms = useDefaultTerms as jest.MockedFunction<
-  typeof useDefaultTerms
->;
+global.mockedUseApplications = useApplications as jest.MockedFunction<typeof useApplications>;
+global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<typeof usePaymentMethods>;
+global.mockedUseDefaultTerms = useDefaultTerms as jest.MockedFunction<typeof useDefaultTerms>;
 
 global.mockedUseEntity.mockImplementation(() => ({
   entity: companyApproved,
@@ -171,7 +162,7 @@ const mockRefetchPaymentMethods = jest.fn(() =>
     isFetching: false,
     isLoading: false,
     status: 'success',
-  } as any)
+  } as any),
 );
 
 class MockResizeObserver {
@@ -183,10 +174,8 @@ class MockResizeObserver {
 
   observe(target: Element) {
     this.callback(
-      [
-        { target, contentRect: { width: 100, height: 100 } },
-      ] as ResizeObserverEntry[],
-      this
+      [{ target, contentRect: { width: 100, height: 100 } }] as ResizeObserverEntry[],
+      this,
     );
   }
 
