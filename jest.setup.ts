@@ -1,4 +1,8 @@
 import '@testing-library/jest-dom';
+import { TransformStream } from 'node:stream/web';
+
+// Polyfill TransformStream for Node.js test environment
+global.TransformStream = TransformStream as any;
 
 import { useEntity } from '@contexts/EntityContext';
 import useApplications from '@hooks/useApplications';

@@ -5,6 +5,7 @@ import { ApiContext } from 'pages/_app';
 import { SuperTokensWrapper } from 'supertokens-auth-react';
 
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { PromoContextProvider } from '@contexts/PromoContext';
 import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
@@ -47,11 +48,13 @@ function customRender(
           <ApiContext.Provider value={api}>
             <UserProvider initialUserState={initialUserState}>
               <QueryContext.Provider value={defaultQueryContext}>
-                {withBorrowerProviders ? (
-                  <BorrowerContextProvider>{children}</BorrowerContextProvider>
-                ) : (
-                  children
-                )}
+                <PromoContextProvider>
+                  {withBorrowerProviders ? (
+                    <BorrowerContextProvider>{children}</BorrowerContextProvider>
+                  ) : (
+                    children
+                  )}
+                </PromoContextProvider>
               </QueryContext.Provider>
             </UserProvider>
           </ApiContext.Provider>
