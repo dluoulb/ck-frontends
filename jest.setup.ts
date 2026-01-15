@@ -29,6 +29,9 @@ import {
 
 global.scrollTo = jest.fn();
 
+// Mock environment variables for tests
+process.env.NEXT_PUBLIC_MARKETPLACE_URL = 'https://marketplace.test.com';
+
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
     push: jest.fn(),
