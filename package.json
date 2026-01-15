@@ -5,7 +5,7 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "test": "jest --watch",
+    "test": "jest",
     "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
     "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
     "lint": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" --fix",

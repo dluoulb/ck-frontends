@@ -33,6 +33,8 @@ services:
       - ./pages:/app/pages
       - ./public:/app/public
       - ./__tests__:/app/__tests__
+      - ./jest.config.ts:/app/jest.config.ts
+      - ./jest.setup.ts:/app/jest.setup.ts
     env_file:
       - path: ./.env.docker
         required: true
