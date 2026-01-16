@@ -5,7 +5,7 @@ import { formatCurrency } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import OrderStatus from './OrderStatus';
 
-export const TableColumns = (openModalForLoan) => [
+export const TableColumns = () => [
   {
     id: 'capture_date',
     header: 'Date',

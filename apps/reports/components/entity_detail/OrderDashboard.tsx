@@ -36,7 +36,7 @@ export default function OrderDashboard() {
         pageCount={pageCount}
         rowCount={totalOrderCount}
         tableClass="!min-w-full"
-        tableColumns={TableColumns}
+        tableColumns={() => TableColumns()}
         withHeader={true}
         withDisclaimer={true}
         isFetching={isFetching}
