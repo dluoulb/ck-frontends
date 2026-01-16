@@ -1,10 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  faCopy,
-  faEnvelope,
-  faPhone,
-  faCreditCard
-} from '@fortawesome/pro-regular-svg-icons';
+import { faCopy, faCreditCard, faEnvelope, faPhone } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DefaultTermSettingsModal from '@apps/borrower/components/home/widgets/default_settings/DefaultTermsModal';
@@ -25,10 +20,7 @@ interface ManageCardModalProps {
   toggleModal: () => void;
 }
 
-export default function ManageCardModal({
-  isModalActive,
-  toggleModal,
-}: ManageCardModalProps) {
+export default function ManageCardModal({ isModalActive, toggleModal }: ManageCardModalProps) {
   const { entity } = useEntity();
   const api = useApi();
   const { makeToast } = useToast();
@@ -58,10 +50,7 @@ export default function ManageCardModal({
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
         setError(true);
       });
   }, [isModalActive]);
@@ -70,7 +59,7 @@ export default function ManageCardModal({
     if (!merchant || !entity?.id) return;
 
     const existingTerm = entity?.recharge_settings?.find(
-      (setting) => setting.merchant_id === merchant.id
+      (setting) => setting.merchant_id === merchant.id,
     );
 
     if (existingTerm) {
@@ -107,10 +96,7 @@ export default function ManageCardModal({
         makeToast('Default Term Successfully Updated', 'success');
       })
       .catch((err) => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
       })
       .finally(() => setLoading(false));
   };
@@ -119,9 +105,7 @@ export default function ManageCardModal({
     const owner = entity?.type === 'company' ? entity?.borrower : entity?.user;
 
     return {
-      name: owner
-        ? `${owner.first_name} ${owner.last_name}`.trim()
-        : 'Not Provided',
+      name: owner ? `${owner.first_name} ${owner.last_name}`.trim() : 'Not Provided',
       address: {
         street: entity?.address?.address1 || 'Not Provided',
         city:
@@ -142,15 +126,11 @@ export default function ManageCardModal({
     >
       <div className="space-y-6 mt-4">
         <div className="space-y-1">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Card Billing Information
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">Card Billing Information</h3>
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-gray">
-                {billingInfo.name}
-              </span>
+              <span className="text-sm text-secondary-gray">{billingInfo.name}</span>
               <button
                 onClick={() => handleCopy(billingInfo.name)}
                 className="text-secondary-gray/60 hover:text-secondary-gray transition-colors"
@@ -160,9 +140,7 @@ export default function ManageCardModal({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-gray">
-                {billingInfo.address.street}
-              </span>
+              <span className="text-sm text-secondary-gray">{billingInfo.address.street}</span>
               <button
                 onClick={() => handleCopy(billingInfo.address.street)}
                 className="text-secondary-gray/60 hover:text-secondary-gray transition-colors"
@@ -172,9 +150,7 @@ export default function ManageCardModal({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-gray">
-                {billingInfo.address.city}
-              </span>
+              <span className="text-sm text-secondary-gray">{billingInfo.address.city}</span>
               <button
                 onClick={() => handleCopy(billingInfo.address.city)}
                 className="text-secondary-gray/60 hover:text-secondary-gray transition-colors"
@@ -184,9 +160,7 @@ export default function ManageCardModal({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-gray">
-                {billingInfo.address.zip}
-              </span>
+              <span className="text-sm text-secondary-gray">{billingInfo.address.zip}</span>
               <button
                 onClick={() => handleCopy(billingInfo.address.zip)}
                 className="text-secondary-gray/60 hover:text-secondary-gray transition-colors"
@@ -198,17 +172,11 @@ export default function ManageCardModal({
         </div>
 
         <div className="space-y-1">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Default Term for Card Purchases
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">Default Term for Card Purchases</h3>
 
           <div className="space-y-1">
             {!virtualCardTerm && !error && <Loading className="w-6 h-6" />}
-            {error && (
-              <p className="text-sm text-error">
-                Error loading default term settings
-              </p>
-            )}
+            {error && <p className="text-sm text-error">Error loading default term settings</p>}
             {virtualCardTerm && (
               <>
                 <p className="text-sm text-secondary-gray">
@@ -218,8 +186,7 @@ export default function ManageCardModal({
                       ? getTermDisplay(virtualCardTerm)
                       : 'No default term set'}
                   </span>{' '}
-                  repayment term. You can choose to change the term after an
-                  order is placed.
+                  repayment term. You can choose to change the term after an order is placed.
                 </p>
 
                 <button
@@ -229,9 +196,7 @@ export default function ManageCardModal({
                     toggleTermModal();
                   }}
                 >
-                  {virtualCardTerm.default_term
-                    ? 'Edit Default Term'
-                    : 'Set Default Term'}
+                  {virtualCardTerm.default_term ? 'Edit Default Term' : 'Set Default Term'}
                 </button>
               </>
             )}
@@ -246,14 +211,11 @@ export default function ManageCardModal({
           <div className="space-y-4">
             <div className="space-y-2">
               <p className="text-sm text-secondary-gray">
-                Support available Monday - Friday from 9 AM - 1 PM & 2 PM - 6 PM
-                CT
+                Support available Monday - Friday from 9 AM - 1 PM & 2 PM - 6 PM CT
               </p>
               <p className="text-sm text-secondary-gray">
                 When purchasing in-person, you may be asked for a PIN.
-                <span className="block">
-                  Call {multiUseVcIvrPhone} to set your pin.
-                </span>
+                <span className="block">Call {multiUseVcIvrPhone} to set your pin.</span>
               </p>
             </div>
 

@@ -8,10 +8,7 @@ import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import usePaymentMethods from '@hooks/usePaymentMethods';
-import {
-  useRewardPointsBalance,
-  useRewardPointsLedger,
-} from '@hooks/useReward';
+import { useRewardPointsBalance, useRewardPointsLedger } from '@hooks/useReward';
 import useToast from '@hooks/useToast';
 import { redeemPoints } from '@lib/actions/plus';
 import { formatCurrency } from '@lib/utils/formatters';
@@ -45,9 +42,7 @@ export default function RedeemPointsModal({
 
   const isValidPoints = useMemo(() => {
     return (
-      Number.isInteger(pointsToRedeem) &&
-      pointsToRedeem > 0 &&
-      pointsToRedeem <= availablePoints
+      Number.isInteger(pointsToRedeem) && pointsToRedeem > 0 && pointsToRedeem <= availablePoints
     );
   }, [pointsToRedeem, availablePoints]);
 
@@ -66,7 +61,7 @@ export default function RedeemPointsModal({
       makeToast(
         result.message ??
           `Successfully redeemed ${pointsToRedeem} points (${formatCurrency(redemptionValue)})`,
-        'success'
+        'success',
       );
 
       await refetchRewardPointsBalance();
@@ -82,17 +77,11 @@ export default function RedeemPointsModal({
   };
 
   return (
-    <ModalWrapper
-      isModalActive={isModalActive}
-      toggleModal={toggleModal}
-      modalWidth="w-[500px]"
-    >
+    <ModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} modalWidth="w-[500px]">
       <div className="space-y-3">
         <div>
           <h2 className="text-lg font-bold">Redeem Points</h2>
-          <p className="text-sm text-gray-400">
-            Enter the amount of points you'd like to redeem.
-          </p>
+          <p className="text-sm text-gray-400">Enter the amount of points you'd like to redeem.</p>
         </div>
 
         <div className="space-y-2">
@@ -110,8 +99,7 @@ export default function RedeemPointsModal({
           />
           {pointsToRedeem > availablePoints ? (
             <p className="text-xs text-error font-medium">
-              You cannot redeem more than {availablePoints.toLocaleString()}{' '}
-              points
+              You cannot redeem more than {availablePoints.toLocaleString()} points
             </p>
           ) : (
             <p className="text-xs text-secondary-gray">
@@ -148,17 +136,14 @@ export default function RedeemPointsModal({
                 {defaultBank ? (
                   <div className="mt-1 space-y-1">
                     <p className="text-sm">
-                      Send to default bank account x
-                      {defaultBank.payment_method_last_4}
+                      Send to default bank account x{defaultBank.payment_method_last_4}
                     </p>
                     <p className="text-sm text-secondary-gray">
                       Funds typically arrive in 1-3 business days
                     </p>
                   </div>
                 ) : (
-                  <p className="text-sm text-secondary-gray mt-1">
-                    No bank account linked
-                  </p>
+                  <p className="text-sm text-secondary-gray mt-1">No bank account linked</p>
                 )}
               </div>
             </label>

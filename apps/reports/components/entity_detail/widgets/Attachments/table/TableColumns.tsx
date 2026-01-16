@@ -12,8 +12,7 @@ export const TableColumns = [
     hideColumn: 856,
     meta: {},
     enableSorting: true,
-    cell: ({ getValue }) =>
-      fromISO(getValue()).toLocaleString(DateTime.DATE_SHORT),
+    cell: ({ getValue }) => fromISO(getValue()).toLocaleString(DateTime.DATE_SHORT),
   },
   {
     id: 'file_type',

@@ -30,10 +30,7 @@ export default function DocumentsTable({ documents }) {
     },
     {
       name: 'Adverse Action',
-      filter_value: [
-        'manual_adverse_action_notice',
-        'adverse_action_reason_for_denial',
-      ],
+      filter_value: ['manual_adverse_action_notice', 'adverse_action_reason_for_denial'],
     },
     {
       name: 'Underwriting',
@@ -97,9 +94,7 @@ export default function DocumentsTable({ documents }) {
         rowClass="!text-sm !py-3 !px-4"
         tableClass="mid:!min-w-max lg:!min-w-full"
         noDataFoundWarning={
-          active === 'all'
-            ? 'No documents found.'
-            : `No ${active} documents found.`
+          active === 'all' ? 'No documents found.' : `No ${active} documents found.`
         }
       />
     </div>

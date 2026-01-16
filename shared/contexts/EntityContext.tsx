@@ -7,8 +7,6 @@ import { getAccount } from '@lib/actions/accounts';
 import { getCompany } from '@lib/actions/companies';
 import AccountRecord from '@lib/records/account';
 import CompanyRecord from '@lib/records/company';
-import {supportPhone} from "@lib/constants/SiteVariables";
-import useToast from "@hooks/useToast";
 
 type CompanyOrAccountRecord = CompanyRecord | AccountRecord;
 
@@ -20,9 +18,10 @@ export const EntityProvider = ({ children }) => {
   const [entity, setEntity] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { makeToast } = useToast();
-  const loggedInUserType = loggedInUser?.converted_entity_type || (loggedInUser?.company_id ? 'company' : 'account');
-  const loggedInUserId = loggedInUser?.converted_entity_id || loggedInUser?.company_id || loggedInUser?.account_id;
+  const loggedInUserType =
+    loggedInUser?.converted_entity_type || (loggedInUser?.company_id ? 'company' : 'account');
+  const loggedInUserId =
+    loggedInUser?.converted_entity_id || loggedInUser?.company_id || loggedInUser?.account_id;
 
   const entityFn = (id, type) => {
     if (type === 'company') {

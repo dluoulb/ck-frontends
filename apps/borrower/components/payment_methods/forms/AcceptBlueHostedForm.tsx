@@ -28,9 +28,7 @@ const styles = {
 
 async function appendScript(src) {
   if (window.HostedTokenization) {
-    return console.warn(
-      'HostedTokenization is already defined. Skipping script load.'
-    );
+    return console.warn('HostedTokenization is already defined. Skipping script load.');
   }
   const script = document.createElement('script');
   script.src = src;

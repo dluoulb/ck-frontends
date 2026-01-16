@@ -1,7 +1,8 @@
+import React from 'react';
+
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { formatCurrency } from '@lib/utils/formatters';
-import React from 'react';
 
 export default function MultiUseVirtualCardSubLimits() {
   const { entity } = useEntity();
@@ -22,7 +23,9 @@ export default function MultiUseVirtualCardSubLimits() {
       {/* <!-- Credit in Use --> */}
       <div className="md:my-2">
         <div className="font-avenir-black text-xl md:text-2xl text-opaque-navy">
-          {formatCurrency(entity.vc_sub_limits.limit_amount - entity.vc_sub_limits.remaining_limit_amount)}
+          {formatCurrency(
+            entity.vc_sub_limits.limit_amount - entity.vc_sub_limits.remaining_limit_amount,
+          )}
         </div>
         <div className="flex items-center mt-1">
           <div className="mr-1 font-avenir-book text-opaque-navy text-sm">

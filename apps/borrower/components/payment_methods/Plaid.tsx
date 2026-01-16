@@ -23,13 +23,8 @@ export default function Plaid({
   const { user } = useUser();
   const { makeToast } = useToast();
   const api = useApi();
-  const {
-    fetchLinkToken,
-    linkToken,
-    resetLinkFlow,
-    accessToken,
-    exchangePublicToken,
-  } = usePlaid(user);
+  const { fetchLinkToken, linkToken, resetLinkFlow, accessToken, exchangePublicToken } =
+    usePlaid(user);
 
   const onSuccess = useCallback(async (publicToken) => {
     exchangePublicToken(publicToken);
@@ -47,11 +42,7 @@ export default function Plaid({
 
   const createPaymentMethod = async () => {
     setLoading(true);
-    createPaymentMethodBank(
-      api,
-      new PaymentMethodRecord({ user_id: user.id }),
-      true
-    )
+    createPaymentMethodBank(api, new PaymentMethodRecord({ user_id: user.id }), true)
       .then(() => {
         refetchPaymentMethods();
         makeToast('Payment Method Successfully Created', 'success');
@@ -67,16 +58,11 @@ export default function Plaid({
         console.error('SAD', err?.response?.data?.error);
 
         // TODO: show a thing when these happen; today we have <ErrorAlert />
-        const generic_fail =
-          err?.response?.data?.error?.includes('invalid_bank');
-        const plaid_fail =
-          err?.response?.data?.error?.includes('invalid_plaid');
+        const generic_fail = err?.response?.data?.error?.includes('invalid_bank');
+        const plaid_fail = err?.response?.data?.error?.includes('invalid_plaid');
 
         //setHasAlert(true);
-        makeToast(
-          'An error occurred. Please try again or contact our support team.',
-          'error'
-        );
+        makeToast('An error occurred. Please try again or contact our support team.', 'error');
         resetLinkFlow();
         toggleModal();
       })
@@ -101,13 +87,11 @@ export default function Plaid({
     <>
       <div>
         <p className="mt-5">
-          Credit Key uses Plaid in order for you to securely share banking
-          details with us.
+          Credit Key uses Plaid in order for you to securely share banking details with us.
         </p>
         <p className="mt-5">
-          <b>Trusted and Secure</b> Plaid secures your information with
-          bank-level 256-bit encryption. Credit Key never stores your
-          credentials.
+          <b>Trusted and Secure</b> Plaid secures your information with bank-level 256-bit
+          encryption. Credit Key never stores your credentials.
         </p>
 
         <PrimaryButton
@@ -122,10 +106,7 @@ export default function Plaid({
 
       <p className="mt-8">
         Unable to link your bank via Plaid? Try{' '}
-        <button
-          className="underline text-primary-blue"
-          onClick={() => setUsePlaid(false)}
-        >
+        <button className="underline text-primary-blue" onClick={() => setUsePlaid(false)}>
           adding it manually
         </button>
       </p>

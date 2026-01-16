@@ -25,13 +25,7 @@ function Reports() {
     if (query) setSearchQuery(query);
   }, [query]);
 
-  const types = [
-    'all',
-    'companies',
-    'orders',
-    'credit_key_applications',
-    'users',
-  ];
+  const types = ['all', 'companies', 'orders', 'credit_key_applications', 'users'];
 
   const getContent = () => {
     switch (content) {
@@ -50,17 +44,14 @@ function Reports() {
   return (
     <main>
       <div className="xl:max-w-[90%] mx-auto">
-        <h1 className="text-3xl font-bold text-primary my-6">
-          Credit Key Reporting UI
-        </h1>
+        <h1 className="text-3xl font-bold text-primary my-6">Credit Key Reporting UI</h1>
         <div className="mt-4 mb-2">
           <SearchBox
             classNames={{
               root: 'relative mb-1.5',
               input:
                 'block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500',
-              submit:
-                'absolute inset-y-0 left-1.5 top-5 flex pl-3 pointer-events-none',
+              submit: 'absolute inset-y-0 left-1.5 top-5 flex pl-3 pointer-events-none',
               submitIcon: 'w-3.5 h-3.5 text-dark-gray',
               reset: 'hidden',
             }}
@@ -74,18 +65,10 @@ function Reports() {
           <>
             <div className="hidden sm:block">
               <div className="border-b border-gray-200">
-                <nav
-                  className="-mb-px flex space-x-8 cursor-pointer"
-                  aria-label="Tabs"
-                >
+                <nav className="-mb-px flex space-x-8 cursor-pointer" aria-label="Tabs">
                   {types.map((t, idx) => {
                     return (
-                      <SearchTab
-                        key={idx}
-                        content={content}
-                        setContent={setContent}
-                        type={t}
-                      />
+                      <SearchTab key={idx} content={content} setContent={setContent} type={t} />
                     );
                   })}
                 </nav>

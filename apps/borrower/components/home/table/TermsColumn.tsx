@@ -3,15 +3,12 @@ import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Select from '@radix-ui/react-select';
 
-export default function TermsColumn(props: {
-  order: any;
-  openModalForLoan: (loan: any) => void;
-}) {
+export default function TermsColumn(props: { order: any; openModalForLoan: (loan: any) => void }) {
   const { order, openModalForLoan } = props;
 
   const currentInstallments = Number(order?.product?.installments ?? 0);
   const [value, setValue] = useState<string>(
-    currentInstallments ? String(currentInstallments) : ''
+    currentInstallments ? String(currentInstallments) : '',
   );
 
   const options = useMemo(
@@ -22,7 +19,7 @@ export default function TermsColumn(props: {
           label: `${t.term} ${t.term > 1 ? 'months' : 'month'}`,
           value: String(t.term),
         })),
-    [order.approved_terms]
+    [order.approved_terms],
   );
 
   const label = useMemo(() => {
@@ -37,10 +34,7 @@ export default function TermsColumn(props: {
   };
 
   React.useEffect(() => {
-    if (
-      order?.product?.installments &&
-      String(order.product.installments) !== value
-    ) {
+    if (order?.product?.installments && String(order.product.installments) !== value) {
       setValue(String(order.product.installments));
     }
   }, [order?.product?.installments]);
@@ -50,10 +44,7 @@ export default function TermsColumn(props: {
       <Select.Trigger className="inline-flex items-center gap-2 border rounded px-2 py-1 text-sm font-medium cursor-pointer bg-white">
         <Select.Value>{label}</Select.Value>
         <Select.Icon>
-          <FontAwesomeIcon
-            icon={faChevronDown}
-            className="w-3 h-3 text-gray-400"
-          />
+          <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3 text-gray-400" />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>

@@ -29,12 +29,10 @@ export const DeleteButton = React.forwardRef<
           'sm:hidden flex items-center gap-1 border-b border-transparent max-w-max',
           payment_method?.is_default
             ? 'cursor-not-allowed text-tertiary-gray/70'
-            : 'text-error hover:border-error cursor-pointer'
+            : 'text-error hover:border-error cursor-pointer',
         )}
       >
-        {!payment_method?.is_default && (
-          <FontAwesomeIcon icon={faTrashCan} className="text-xs" />
-        )}
+        {!payment_method?.is_default && <FontAwesomeIcon icon={faTrashCan} className="text-xs" />}
         <div
           className="dropdown-item text-sm font-medium block w-full whitespace-nowrap text-left flex items-center gap-1"
           onClick={toggleModal}
@@ -47,10 +45,7 @@ export const DeleteButton = React.forwardRef<
               trigger_class="hover:text-primary-blue cursor-pointer text-xs text-tertiary-gray/70 !border-none"
               container_class="text-center p-4 px-6 text-sm bg-secondary-blue !text-primary"
             >
-              <FontAwesomeIcon
-                icon={faInfoCircle}
-                className="text-xs mt-0.5"
-              />
+              <FontAwesomeIcon icon={faInfoCircle} className="text-xs mt-0.5" />
             </Tooltip>
           )}
         </div>

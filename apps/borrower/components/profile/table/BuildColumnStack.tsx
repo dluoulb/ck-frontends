@@ -5,9 +5,7 @@ export const BuildStack = ({ original }) => {
   return (
     <div className="font-semibold">
       <p className="flex gap-1">
-        <span className="block xs:hidden font-medium text-tertiary-gray text-sm">
-          Owner:
-        </span>
+        <span className="block xs:hidden font-medium text-tertiary-gray text-sm">Owner:</span>
         <span className="text-primary-blue-hover lg:text-primary">
           {original.first_name} {original.last_name}
         </span>
@@ -25,9 +23,7 @@ export const BuildStack = ({ original }) => {
         {original.role === 'borrower' ? 'Primary Owner' : 'Purchaser'}
       </p>
       <div className="block xl:hidden text-error">
-        {original.role === 'borrower' ? null : (
-          <DeleteUserButton user={original} />
-        )}
+        {original.role === 'borrower' ? null : <DeleteUserButton user={original} />}
       </div>
     </div>
   );

@@ -8,13 +8,9 @@ import { customRender } from '@lib/testing/test-utils';
 describe('EntityInfo Component', () => {
   test('renders', () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityInfo />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     expect(screen.getByText('Gross Annual Revenue:'));

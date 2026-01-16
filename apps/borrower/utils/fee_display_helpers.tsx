@@ -69,8 +69,7 @@ export const getCompressedFeeSummary = (feeSummary) => {
   feeSummary.forEach((feeObject) => {
     if (feeObject.fee_type.includes('_ADJUSTMENT')) {
       const match = feeSummary.find(
-        (item) =>
-          item.fee_type === feeObject.fee_type.replace('_ADJUSTMENT', '')
+        (item) => item.fee_type === feeObject.fee_type.replace('_ADJUSTMENT', ''),
       );
 
       if (match) {
@@ -115,9 +114,7 @@ export const getFeeBreakdownDisplay = (originalFee, feeAdjustments) => {
     return (
       <div key={idx} className="py-2 flex justify-between text-navy-blue">
         <p>{fromISO(c.date).toLocaleString(DateTime.DATE_SHORT)}</p>
-        <p className={c.amount < 0 ? 'text-negative-red' : ''}>
-          {formatCurrency(c.amount)}
-        </p>
+        <p className={c.amount < 0 ? 'text-negative-red' : ''}>{formatCurrency(c.amount)}</p>
       </div>
     );
   });

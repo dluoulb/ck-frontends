@@ -5,6 +5,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { ErrorBoundary, Provider } from '@rollbar/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 
@@ -20,7 +21,6 @@ import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
 import FullStory from '@lib/utils/fullstory';
 import { rollbarConfig } from '@lib/utils/rollbar';
-import Head from 'next/head';
 
 config.autoAddCss = false;
 

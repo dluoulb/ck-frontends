@@ -28,9 +28,7 @@ const config: Config = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!(react-instantsearch|react-instantsearch-core)/)',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!(react-instantsearch|react-instantsearch-core)/)'],
 };
 
 export default createJestConfig(config);

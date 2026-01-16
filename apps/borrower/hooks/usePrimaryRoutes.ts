@@ -3,14 +3,14 @@ import {
   faCircleQuestion,
   faCreditCard,
   faFile,
+  faGift,
   faMoneyBillTransfer,
   faStore,
   faUser,
-  faGift,
 } from '@fortawesome/pro-light-svg-icons';
-import { useEntity } from '@contexts/EntityContext';
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
+import { useEntity } from '@contexts/EntityContext';
 import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
 

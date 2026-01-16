@@ -16,9 +16,7 @@ function getVirtualCardData(isJitEnabled, entity, balance) {
     return [
       {
         name: 'Able to Spend',
-        value: formatCurrency(
-          parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')
-        ),
+        value: formatCurrency(parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')),
       },
     ];
   }
@@ -29,9 +27,7 @@ function getVirtualCardData(isJitEnabled, entity, balance) {
     },
     {
       name: 'Able to Spend',
-      value: formatCurrency(
-        parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')
-      ),
+      value: formatCurrency(parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')),
     },
   ];
 }
@@ -51,7 +47,7 @@ export default function TclWidget() {
     entity?.credit_line !== undefined
       ? entity.credit_line.remaining_amount
       : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
-  let approvedUser = entity?.status === 'approved';
+  const approvedUser = entity?.status === 'approved';
 
   const entityData = [
     {
@@ -77,9 +73,7 @@ export default function TclWidget() {
       <DropdownMenu.Trigger asChild>
         <div className="hidden lg:flex text-center items-center px-4 text-sm min-w-[130px] hover:cursor-pointer">
           <div className="lg:flex lg:flex-col items-center">
-            <span className="font-medium">
-              {formatCurrency(remainingCredit)}
-            </span>
+            <span className="font-medium">{formatCurrency(remainingCredit)}</span>
             <span className="text-xs text-[#636363]">Remaining credit</span>
           </div>
           <FontAwesomeIcon
@@ -97,9 +91,7 @@ export default function TclWidget() {
         <DropdownMenu.Item disabled className="pointer-events-none">
           <div className="w-full">
             <div className="px-3 py-4">
-              <p className="font-medium text-muted-foreground mb-1">
-                My Credit Line
-              </p>
+              <p className="font-medium text-muted-foreground mb-1">My Credit Line</p>
               {entityData.map((item) => (
                 <div className="flex justify-between" key={item.name}>
                   <span className="text-[#636363]">{item.name}</span>
@@ -107,14 +99,10 @@ export default function TclWidget() {
                 </div>
               ))}
             </div>
-            {entity?.vc_enabled && (
-              <DropdownMenu.Separator className="h-px bg-gray-300" />
-            )}
+            {entity?.vc_enabled && <DropdownMenu.Separator className="h-px bg-gray-300" />}
             {entity?.vc_enabled && (
               <div className="px-3 py-4">
-                <p className="font-medium text-muted-foreground mb-1">
-                  Virtual Card
-                </p>
+                <p className="font-medium text-muted-foreground mb-1">Virtual Card</p>
                 {virtualCardData.map((item) => (
                   <div className="flex justify-between" key={item.name}>
                     <span className="text-[#636363]">{item.name}</span>

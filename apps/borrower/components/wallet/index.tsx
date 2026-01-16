@@ -21,9 +21,7 @@ export default function Wallet() {
   const [active, setActive] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const [activeWidget, setActiveWidget] = useState<
-    'virtual' | 'physical' | null
-  >(null);
+  const [activeWidget, setActiveWidget] = useState<'virtual' | 'physical' | null>(null);
 
   const handleSelect = (index) => {
     setActive(index);
@@ -61,9 +59,7 @@ export default function Wallet() {
       role={Wallet.role}
     >
       <div className="h-full">
-        <h1 className="text-2xl md:text-3xl font-bold text-primary capitalize mb-8">
-          Wallet
-        </h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-primary capitalize mb-8">Wallet</h1>
 
         <div className="space-y-8">
           {vcProps.virtualCardLoading || pcProps.physicalCardLoading ? (
@@ -74,33 +70,27 @@ export default function Wallet() {
             <>
               <div
                 className="grid grid-cols-2 gap-4 md:gap-8 lg:gap-12 xl:gap-16"
-                onTouchStart={(touchStartEvent) =>
-                  handleTouchStart(touchStartEvent)
-                }
-                onTouchMove={(touchMoveEvent) =>
-                  handleTouchMove(touchMoveEvent)
-                }
+                onTouchStart={(touchStartEvent) => handleTouchStart(touchStartEvent)}
+                onTouchMove={(touchMoveEvent) => handleTouchMove(touchMoveEvent)}
                 onTouchEnd={() => handleTouchEnd()}
               >
                 <div
                   className={classNames(
                     'col-span-2 md:col-span-1 md:block',
-                    active !== 0 ? 'hidden' : ''
+                    active !== 0 ? 'hidden' : '',
                   )}
                 >
-                  {vcProps.virtualCard &&
-                    vcProps.virtualCard.status === 'ACTIVE' && (
-                      <ActiveCardSection
-                        card={vcProps.virtualCard}
-                        cardType="virtual"
-                        showWidget={activeWidget === 'virtual'}
-                        onShowWidget={() => setActiveWidget('virtual')}
-                        onHideWidget={() => setActiveWidget(null)}
-                      />
-                    )}
+                  {vcProps.virtualCard && vcProps.virtualCard.status === 'ACTIVE' && (
+                    <ActiveCardSection
+                      card={vcProps.virtualCard}
+                      cardType="virtual"
+                      showWidget={activeWidget === 'virtual'}
+                      onShowWidget={() => setActiveWidget('virtual')}
+                      onHideWidget={() => setActiveWidget(null)}
+                    />
+                  )}
 
-                  {(!vcProps.virtualCard ||
-                    vcProps.virtualCard.status !== 'ACTIVE') && (
+                  {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
                     <InactiveCardSection
                       title="Credit Key Virtual Card"
                       bgColor="F4F8FF"
@@ -112,23 +102,21 @@ export default function Wallet() {
                 <div
                   className={classNames(
                     'col-span-2 md:col-span-1 md:block',
-                    active !== 1 ? 'hidden' : ''
+                    active !== 1 ? 'hidden' : '',
                   )}
                 >
-                  {pcProps.physicalCard &&
-                    pcProps.physicalCard.status === 'ACTIVE' && (
-                      <ActiveCardSection
-                        card={pcProps.physicalCard}
-                        cardType="physical"
-                        showWidget={activeWidget === 'physical'}
-                        onShowWidget={() => setActiveWidget('physical')}
-                        onHideWidget={() => setActiveWidget(null)}
-                      />
-                    )}
-                  {pcProps.physicalCard &&
-                    pcProps.physicalCard.status === 'PENDING' && (
-                      <PendingPhysicalCard />
-                    )}
+                  {pcProps.physicalCard && pcProps.physicalCard.status === 'ACTIVE' && (
+                    <ActiveCardSection
+                      card={pcProps.physicalCard}
+                      cardType="physical"
+                      showWidget={activeWidget === 'physical'}
+                      onShowWidget={() => setActiveWidget('physical')}
+                      onHideWidget={() => setActiveWidget(null)}
+                    />
+                  )}
+                  {pcProps.physicalCard && pcProps.physicalCard.status === 'PENDING' && (
+                    <PendingPhysicalCard />
+                  )}
                   {(!pcProps.physicalCard ||
                     (pcProps.physicalCard.status !== 'ACTIVE' &&
                       pcProps.physicalCard.status !== 'PENDING')) && (
@@ -141,11 +129,7 @@ export default function Wallet() {
                   )}
                 </div>
                 <div className="flex justify-center items-center col-span-2">
-                  <SelectionWidget
-                    count={2}
-                    activeIndex={active}
-                    onSelect={handleSelect}
-                  />
+                  <SelectionWidget count={2} activeIndex={active} onSelect={handleSelect} />
                 </div>
               </div>
 

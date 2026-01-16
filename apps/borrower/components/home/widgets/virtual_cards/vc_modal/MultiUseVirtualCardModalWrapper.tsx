@@ -16,10 +16,7 @@ import MultiUseVCRulesModal from './MultiUseVCRulesModal';
 import MultiUseVirtualCardDetails from './MultiUseVirtualCardDetails';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
 
-export default function MultiUseVirtualCardModalWrapper({
-  isModalActive,
-  toggleModal,
-}) {
+export default function MultiUseVirtualCardModalWrapper({ isModalActive, toggleModal }) {
   const [hasAlert, setHasAlert] = useState(false);
   const { physicalCard } = useCompanyPhysicalCard();
   const { entity } = useEntity();
@@ -44,7 +41,7 @@ export default function MultiUseVirtualCardModalWrapper({
     getMerchant(api, 'virtual')
       .then((merchant) => {
         const existingTerm = entity?.recharge_settings?.find(
-          (setting) => setting.merchant_id === merchant.id
+          (setting) => setting.merchant_id === merchant.id,
         );
         setHasDefaultTerm(!!existingTerm);
       })
@@ -138,7 +135,7 @@ export default function MultiUseVirtualCardModalWrapper({
             }
             const StepComponent = step.component;
             return <StepComponent key={step.id} {...modalProps} />;
-          })
+          }),
         )}
       </ModalWrapper>
     </div>

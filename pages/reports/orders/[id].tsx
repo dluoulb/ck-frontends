@@ -48,10 +48,7 @@ const OrderIndex = () => {
 
   if (entityError)
     return (
-      <NoDataError
-        tag={entity?.type === 'company' ? 'Company' : 'Account'}
-        withButton={true}
-      />
+      <NoDataError tag={entity?.type === 'company' ? 'Company' : 'Account'} withButton={true} />
     );
 
   return (
@@ -73,19 +70,9 @@ const OrderIndex = () => {
                   <BorrowerInfo order={order} entity={entity} />
                 </div>
               </div>
-              <AdditionalInfo
-                order={order}
-                product={order?.product}
-                entity={entity}
-              />
-              <PSTable
-                payment_schedule={paymentSchedule}
-                err={paymentScheduleError}
-              />
-              <TransactionsTable
-                transactions={transactions}
-                err={transactionsError}
-              />
+              <AdditionalInfo order={order} product={order?.product} entity={entity} />
+              <PSTable payment_schedule={paymentSchedule} err={paymentScheduleError} />
+              <TransactionsTable transactions={transactions} err={transactionsError} />
             </div>
           </div>
         </>

@@ -6,11 +6,7 @@ import AddFundsModal from './AddFundsModal';
 export default function AddFundsModalWrapper({ isModalActive, toggleModal }) {
   return (
     <div role={AddFundsModalWrapper.role}>
-      <ModalWrapper
-        toggleModal={toggleModal}
-        isModalActive={isModalActive}
-        header=""
-      >
+      <ModalWrapper toggleModal={toggleModal} isModalActive={isModalActive} header="">
         <section>
           <AddFundsModal next={toggleModal} />
         </section>
@@ -20,4 +16,3 @@ export default function AddFundsModalWrapper({ isModalActive, toggleModal }) {
 }
 
 AddFundsModalWrapper.role = 'add-funds-modal-wrapper-component';
-

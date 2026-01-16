@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
 import { getRewardPointsBalance, getRewardPointsLedger } from '@lib/actions/plus';
-import RewardPointsRecord from '@lib/records/reward';
 
 export function useRewardPointsBalance(companyId: string) {
   const api = useApi();

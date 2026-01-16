@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  faExclamationTriangle,
-  faInfoCircle,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faExclamationTriangle, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
@@ -20,7 +17,7 @@ export default function Stats() {
     entity?.credit_line !== undefined
       ? entity.credit_line.remaining_amount
       : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
-  let approvedUser = entity?.status === 'approved';
+  const approvedUser = entity?.status === 'approved';
 
   const entityData = [
     {
@@ -70,16 +67,14 @@ export default function Stats() {
             key={stat.name}
             className={classNames(
               'flex flex-col md:gap-x-4 md:gap-y-2 bg-white pt-4 pb-2 md:pb-3',
-              idx === 0 ? 'px-4' : 'px-4 md:pt-7 md:px-6'
+              idx === 0 ? 'px-4' : 'px-4 md:pt-7 md:px-6',
             )}
           >
-            <dt className="text-sm leading-3 text-tertiary-gray">
-              {stat.name}
-            </dt>
+            <dt className="text-sm leading-3 text-tertiary-gray">{stat.name}</dt>
             <dd
               className={classNames(
                 'w-full flex-none text-2xl md:text-3xl font-semibold leading-10 tracking-tight text-gray-900',
-                stat.className
+                stat.className,
               )}
             >
               {stat.link ? (

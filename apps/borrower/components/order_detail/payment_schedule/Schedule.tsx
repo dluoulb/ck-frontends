@@ -37,19 +37,13 @@ export default function Schedule({ order, toggleTermsModal }) {
                   </div>
                 </span>
                 <div className="space-y-1">
-                  <h3 className="flex items-center text-lg font-semibold">
-                    Order Processed
-                  </h3>
+                  <h3 className="flex items-center text-lg font-semibold">Order Processed</h3>
                   <time className="block text-sm font-medium leading-none text-secondary-gray">
-                    {fromISO(order.created_at).toLocaleString(
-                      DateTime.DATE_MED
-                    )}
+                    {fromISO(order.created_at).toLocaleString(DateTime.DATE_MED)}
                   </time>
                 </div>
               </div>
-              <p className="font-bold text-base">
-                {formatCurrency(order.product.amount)}
-              </p>
+              <p className="font-bold text-base">{formatCurrency(order.product.amount)}</p>
             </div>
           </li>
           {parseFloat(order.amount_refunded) > 0 && (
@@ -61,13 +55,9 @@ export default function Schedule({ order, toggleTermsModal }) {
                       <FontAwesomeIcon icon={faArrowRotateLeft} />
                     </div>
                   </span>
-                  <h3 className="flex items-center text-base">
-                    Refund(s) Processed
-                  </h3>
+                  <h3 className="flex items-center text-base">Refund(s) Processed</h3>
                 </div>
-                <p className="text-lg font-bold">
-                  {formatCurrency(order.amount_refunded)}
-                </p>
+                <p className="text-lg font-bold">{formatCurrency(order.amount_refunded)}</p>
               </div>
             </li>
           )}

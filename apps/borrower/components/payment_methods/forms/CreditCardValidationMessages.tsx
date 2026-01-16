@@ -5,7 +5,7 @@ export default function CreditCardValidationMessages({ cardErrors }) {
 
   const getMsg = () => {
     if (!cardErrors) return null;
-    let error = cardErrors[0];
+    const error = cardErrors[0];
 
     switch (error) {
       case 'Card Number Required':

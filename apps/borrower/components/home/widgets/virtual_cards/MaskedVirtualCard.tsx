@@ -13,9 +13,7 @@ import { formatCurrency } from '@lib/utils/formatters';
 
 export default function MaskedVirtualCard({ virtualCard, onView }) {
   const { entity } = useEntity();
-  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
-    entity?.id
-  );
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(entity?.id);
 
   const pendingCharges = pendingAuths?.pending_total || 0;
 
@@ -23,11 +21,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
     <div className="w-full">
       <div className="flex flex-col md:flex-row justify-between border border-border-grey rounded-md px-6 p-4">
         <div className="flex gap-3">
-          <Image
-            src={mcSvg}
-            alt="Credit Key Card Image"
-            className="rounded-xl w-[32px]"
-          />
+          <Image src={mcSvg} alt="Credit Key Card Image" className="rounded-xl w-[32px]" />
           <div>
             <p className="text-lg md:text-xl text-primary font-semibold">
               Credit Key Virtual Card ({virtualCard.last_four})
@@ -35,9 +29,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
             <p>
               Able to spend:{' '}
               <span className="font-semibold">
-                {formatCurrency(
-                  entity.vc_sub_limits.remaining_limit_amount || 0
-                )}
+                {formatCurrency(entity.vc_sub_limits.remaining_limit_amount || 0)}
                 <Tooltip
                   tooltip_text={`The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.`}
                   trigger_class="cursor-pointer max-w-max border-none"
@@ -58,9 +50,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
             {pendingAuthsLoading ? (
               <Skeleton className="w-14 h-full" />
             ) : (
-              <span className="font-semibold">
-                {formatCurrency(pendingCharges)}
-              </span>
+              <span className="font-semibold">{formatCurrency(pendingCharges)}</span>
             )}
           </div>
           <PrimaryButton

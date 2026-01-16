@@ -60,9 +60,7 @@ export const TableColumns = [
     accessorFn: (row) => row.product?.status,
     filterFn: 'arrIncludesSome',
     hideColumn: 768,
-    cell: ({ row }) => (
-      <OrderStatus status={row.original.product.status} order={row.original} />
-    ),
+    cell: ({ row }) => <OrderStatus status={row.original.product.status} order={row.original} />,
   },
   {
     id: 'agreement',

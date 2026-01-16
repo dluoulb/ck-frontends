@@ -5,11 +5,7 @@ import classNames from 'classnames';
 import { ListBox } from '@components/Dropdown';
 import Loading from '@components/Loading';
 
-export default function ApplicationDropdown({
-  listOptions,
-  contentId,
-  setContent,
-}) {
+export default function ApplicationDropdown({ listOptions, contentId, setContent }) {
   if (!listOptions) return <Loading className="w-5 md:w-7 h-5 md:h-7 px-3" />;
 
   const selected = listOptions.find((o) => o.id === contentId);
@@ -31,7 +27,7 @@ export default function ApplicationDropdown({
               value={op.id}
               className={classNames(
                 'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover/20',
-                { 'border-b': op !== listOptions[listOptions.length - 1] }
+                { 'border-b': op !== listOptions[listOptions.length - 1] },
               )}
             >
               {op.text}

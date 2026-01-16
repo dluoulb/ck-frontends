@@ -14,10 +14,7 @@ export default function OrderInfo({ order, product }) {
     <div className="flex items-start gap-2" role={OrderInfo.role}>
       <span className="fa-layers fa-fw text-4xl md:text-5xl hidden sm:inline">
         <FontAwesomeIcon icon={faCircle} className="text-secondary-blue" />
-        <FontAwesomeIcon
-          icon={faCartShopping}
-          className="text-primary-blue text-base md:text-xl"
-        />
+        <FontAwesomeIcon icon={faCartShopping} className="text-primary-blue text-base md:text-xl" />
       </span>
       <div className="text-sm text-primary font-medium tracking-wide">
         <p className="font-semibold text-lg mb-1">Order Details</p>
@@ -38,30 +35,19 @@ export default function OrderInfo({ order, product }) {
         >
           Remaining Balance
         </Tooltip>
-        {formatCurrency(
-          isPaymentPlan ? order?.total_balance : product?.total_balance
-        )}
+        {formatCurrency(isPaymentPlan ? order?.total_balance : product?.total_balance)}
         <p className="capitalize">
-          <span className="text-tertiary-gray mr-2 font-normal">
-            created date:
-          </span>
+          <span className="text-tertiary-gray mr-2 font-normal">created date:</span>
           {fromISO(order?.created_at).toLocaleString()}
         </p>
         <p>
-          <span className="text-tertiary-gray mr-2 font-normal">
-            Expected Maturity Date:
-          </span>
+          <span className="text-tertiary-gray mr-2 font-normal">Expected Maturity Date:</span>
           {product?.disbursement_date || product?.capture_date
-            ? reformatDate(
-                isPaymentPlan
-                  ? product?.disbursement_date
-                  : product?.capture_date,
-                true
-              )
+            ? reformatDate(isPaymentPlan ? product?.disbursement_date : product?.capture_date, true)
                 .plus(
                   order?.product_type === 'payment_plan'
                     ? { weeks: 6 }
-                    : { months: product?.installments }
+                    : { months: product?.installments },
                 )
                 .toLocaleString()
             : 'N/A'}

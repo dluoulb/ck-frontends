@@ -1,9 +1,9 @@
+import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
 import { removeNulls } from '@lib/utils/record_utils';
 import AddressRecord from './address';
 import CreditLine from './credit_line';
 import MerchantRecord from './merchant';
 import UserRecord from './user';
-import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
 
 export default class CompanyRecord {
   id: string | null;
@@ -36,9 +36,7 @@ export default class CompanyRecord {
     const cleanedData = removeNulls(data);
     Object.assign(
       this,
-      Object.fromEntries(
-        Object.entries(cleanedData).filter(([key]) => key !== 'status')
-      )
+      Object.fromEntries(Object.entries(cleanedData).filter(([key]) => key !== 'status')),
     );
 
     if (cleanedData.address) {
@@ -54,9 +52,7 @@ export default class CompanyRecord {
     }
 
     if (cleanedData && cleanedData.merchant_applied_with) {
-      this.merchant_applied_with = new MerchantRecord(
-        cleanedData.merchant_applied_with
-      );
+      this.merchant_applied_with = new MerchantRecord(cleanedData.merchant_applied_with);
     }
   }
 
@@ -70,14 +66,10 @@ export default class CompanyRecord {
 
   get vc_enabled() {
     // keeping this garbage for now in case we need to swap back to stripe cards
-    return (
-      this.cta_banners?.find((b) => b.enabled)?.name ===
-      'multi_use_virtual_card'
-    );
+    return this.cta_banners?.find((b) => b.enabled)?.name === 'multi_use_virtual_card';
   }
 
   get plus_enabled() {
-    return plusEnabled && plusCohorts
-    .some(cohort => this.active_cohorts.includes(cohort));
+    return plusEnabled && plusCohorts.some((cohort) => this.active_cohorts.includes(cohort));
   }
 }

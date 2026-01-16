@@ -8,7 +8,7 @@ export default function AutoPayBanner({ order }) {
   const paymentSchedule = order.product?.payment_schedule || [];
 
   const hasAutoPay = paymentSchedule.some(
-    (ps) => ps.status === 'scheduled' || ps.status === 'pending'
+    (ps) => ps.status === 'scheduled' || ps.status === 'pending',
   );
 
   if (!hasAutoPay) {
@@ -16,9 +16,7 @@ export default function AutoPayBanner({ order }) {
   }
 
   const pendingPayment = paymentSchedule.find((ps) => ps.status === 'pending');
-  const nextScheduledPayment = paymentSchedule.find(
-    (ps) => ps.status === 'scheduled'
-  );
+  const nextScheduledPayment = paymentSchedule.find((ps) => ps.status === 'scheduled');
   const paymentToShow = pendingPayment || nextScheduledPayment;
 
   if (!paymentToShow) {

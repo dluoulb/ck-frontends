@@ -17,17 +17,10 @@ export default function CreditKeyAnywhere({ vcEnabled }) {
         <p className="text-lg md:text-xl font-bold">Credit Key Anywhere</p>
       </div>
       <div className="text-sm md:text-base h-full mt-3 md:mt-6 mb-2 space-y-2">
-        <p className="font-medium">
-          Pay your invoices with Credit Key Anywhere!
-        </p>
-        <p
-          className={classNames(
-            'text-sm',
-            vcEnabled ? 'md:min-h-24 md:max-h-36' : '!mt-1 !mb-6'
-          )}
-        >
-          Submit your unpaid invoice and we'll connect with the vendor to pay it
-          for you using your existing line of credit.
+        <p className="font-medium">Pay your invoices with Credit Key Anywhere!</p>
+        <p className={classNames('text-sm', vcEnabled ? 'md:min-h-24 md:max-h-36' : '!mt-1 !mb-6')}>
+          Submit your unpaid invoice and we'll connect with the vendor to pay it for you using your
+          existing line of credit.
         </p>
         <a
           href={ckaLink}

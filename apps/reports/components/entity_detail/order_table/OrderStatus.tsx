@@ -45,28 +45,20 @@ export default function OrderStatus({ status, order }) {
 
   return (
     <span className="flex items-center gap-1">
-      <span className={classNames('capitalize font-semibold', statusColor)}>
-        {getStatus()}
-      </span>
+      <span className={classNames('capitalize font-semibold', statusColor)}>{getStatus()}</span>
       {order?.product?.isPastDue && (
         <Tooltip
           tooltip_text={
             <span>
-              <span className="font-bold mx-1">
-                {order?.product?.daysPastDue}
-              </span>
+              <span className="font-bold mx-1">{order?.product?.daysPastDue}</span>
               days past due. <br />
-              Last payment attempted on{' '}
-              {reformatDate(order?.product?.last_payment_attempted_at)}
+              Last payment attempted on {reformatDate(order?.product?.last_payment_attempted_at)}
             </span>
           }
           trigger_class="cursor-pointer !border-none"
           container_class="text-center p-4 px-6 text-sm bg-background-error !text-error"
         >
-          <FontAwesomeIcon
-            icon={faInfoCircle}
-            className="text-error text-xs mt-0.5"
-          />
+          <FontAwesomeIcon icon={faInfoCircle} className="text-error text-xs mt-0.5" />
         </Tooltip>
       )}
     </span>

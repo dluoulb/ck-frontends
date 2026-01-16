@@ -3,4 +3,3 @@ import AcceptMerchantInvite from '@apps/borrower/components/merchant_invite/Acce
 export default function MerchantInviteIDIndex() {
   return <AcceptMerchantInvite />;
 }
-

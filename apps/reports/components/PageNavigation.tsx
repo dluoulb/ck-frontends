@@ -38,7 +38,7 @@ const PageNavigation = ({ entity, order }) => {
                 icon={faChevronRight}
                 className={classNames(
                   'text-xs mt-0.5',
-                  pathname.includes('companies') ? 'hidden' : 'sm:hidden'
+                  pathname.includes('companies') ? 'hidden' : 'sm:hidden',
                 )}
               />
             </div>
@@ -58,7 +58,7 @@ const PageNavigation = ({ entity, order }) => {
                   icon={faChevronRight}
                   className={classNames(
                     'text-xs mt-0.5',
-                    pathname.includes('companies') ? 'hidden' : 'sm:hidden'
+                    pathname.includes('companies') ? 'hidden' : 'sm:hidden',
                   )}
                 />
               </div>
@@ -67,13 +67,8 @@ const PageNavigation = ({ entity, order }) => {
         )}
         {order && (
           <>
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className="hidden sm:inline text-xs mt-0.5"
-            />
-            <p className="text-primary-blue-hover">
-              {order?.product?.order_key}
-            </p>
+            <FontAwesomeIcon icon={faChevronRight} className="hidden sm:inline text-xs mt-0.5" />
+            <p className="text-primary-blue-hover">{order?.product?.order_key}</p>
           </>
         )}
       </div>

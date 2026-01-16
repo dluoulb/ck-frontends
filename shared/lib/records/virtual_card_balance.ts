@@ -7,10 +7,6 @@ export default class VirtualCardBalanceRecord {
 
   constructor(data) {
     const cleanedData = removeNulls(data);
-    Object.assign(
-      this,
-      cleanedData,
-    );
+    Object.assign(this, cleanedData);
   }
 }
-

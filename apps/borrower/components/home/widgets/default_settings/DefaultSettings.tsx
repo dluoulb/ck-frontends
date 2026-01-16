@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import {
-  faInfoCircle,
-  faPenToSquare,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faInfoCircle, faPenToSquare } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
+import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
-import DefaultTermsDisplay from './DefaultTermsDisplay';
-import Loading from '@components/Loading';
 import BillingCycleDisplay from './BillingCycleDisplay';
+import DefaultTermsDisplay from './DefaultTermsDisplay';
 
 export default function DefaultSettings() {
   const { entity, entityLoading } = useEntity();
-  const { paymentMethods, defaultTermSettings, defaultCard, defaultBank } =
-    useBorrowerDeps();
+  const { paymentMethods, defaultTermSettings, defaultCard, defaultBank } = useBorrowerDeps();
   const [defaultPM, setDefaultPM] = useState(null);
 
   useEffect(() => {
     if (entity && paymentMethods) {
-      entity?.type === 'company'
-        ? setDefaultPM(defaultBank)
-        : setDefaultPM(defaultCard);
+      entity?.type === 'company' ? setDefaultPM(defaultBank) : setDefaultPM(defaultCard);
     }
   }, [entity, paymentMethods]);
 
@@ -32,7 +26,9 @@ export default function DefaultSettings() {
         <p className="text-lg md:text-xl font-bold">Default Settings</p>
       </div>
       <div className="mt-2">
-        {entityLoading ? <Loading className="w-14 h-14 my-36" /> :
+        {entityLoading ? (
+          <Loading className="w-14 h-14 my-36" />
+        ) : (
           <>
             <div className="flex flex-col">
               <div className="font-semibold text-secondary-gray text-base md:text-lg">
@@ -52,15 +48,12 @@ export default function DefaultSettings() {
                 >
                   <span className="hidden xs:inline">Manage</span>
                   <span>
-                    <FontAwesomeIcon
-                      icon={faPenToSquare}
-                      className="inline xs:hidden"
-                    />
+                    <FontAwesomeIcon icon={faPenToSquare} className="inline xs:hidden" />
                   </span>
                 </Link>
               </div>
             </div>
-              <BillingCycleDisplay />
+            <BillingCycleDisplay />
             <div className="flex flex-col">
               <div className="font-semibold text-secondary-gray text-base md:text-lg">
                 {!defaultTermSettings?.length ? null : <p>Default Terms</p>}
@@ -70,7 +63,7 @@ export default function DefaultSettings() {
               </div>
             </div>
           </>
-        }
+        )}
       </div>
     </div>
   );

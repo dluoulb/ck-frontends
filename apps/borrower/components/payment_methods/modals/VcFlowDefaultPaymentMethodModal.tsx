@@ -72,13 +72,11 @@ export default function VcFlowDefaultPaymentMethodModal({
     <>
       <div className="mb-5">
         <div className="my-4 sm:my-2">
-          <p className="text-lg font-semibold">
-            Please add default repayment method
-          </p>
+          <p className="text-lg font-semibold">Please add default repayment method</p>
           <div className="my-1 sm:my-2 text-left">
             <p className="text-sm sm:text-base">
-              This is the bank account where Credit Key will deduct funds
-              according to the payment schedule agreed to for each purchase.
+              This is the bank account where Credit Key will deduct funds according to the payment
+              schedule agreed to for each purchase.
             </p>
             {<ConnectBankHeader />}
           </div>

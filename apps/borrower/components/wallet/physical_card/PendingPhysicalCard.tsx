@@ -18,9 +18,7 @@ export default function PendingPhysicalCard() {
             <div className="w-full rounded-2xl bg-white border mx-auto py-3">
               <div className="space-y-3 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
-                  <h3 className="text-lg font-bold text-gray-900">
-                    Credit Key Physical Card
-                  </h3>
+                  <h3 className="text-lg font-bold text-gray-900">Credit Key Physical Card</h3>
                   <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg">
                     Pending
                   </span>
@@ -49,15 +47,13 @@ export default function PendingPhysicalCard() {
                 </div>
                 <div className="flex px-5 gap-3">
                   <span className="p-3 my-auto bg-gray-200 rounded-[50%]">
-                    <FontAwesomeIcon
-                      icon={faEnvelope}
-                      className="text-2xl text-primary-blue"
-                    />
+                    <FontAwesomeIcon icon={faEnvelope} className="text-2xl text-primary-blue" />
                   </span>
                   <span className="text-sm">
                     <p className="font-bold">Received your card in the mail?</p>
                     <p>
-                      Your card is on the way, and usually arrives in 5-7 business days. Activate it here after you receive it in the mail.
+                      Your card is on the way, and usually arrives in 5-7 business days. Activate it
+                      here after you receive it in the mail.
                     </p>
                   </span>
                 </div>
@@ -68,10 +64,7 @@ export default function PendingPhysicalCard() {
         </div>
       </div>
 
-      <PhysicalCardActivationModal
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-      />
+      <PhysicalCardActivationModal isModalActive={isModalActive} toggleModal={toggleModal} />
     </>
   );
 }

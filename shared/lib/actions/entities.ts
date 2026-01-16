@@ -25,17 +25,13 @@ export const getEntityDocument = async (entity, id) => {
 
 export const getDocuments = async (api, entity) => {
   if (!entity) return;
-  const documents = await api.get(
-    buildUrl(entity?.type, `/${entity?.id}/documents`)
-  );
+  const documents = await api.get(buildUrl(entity?.type, `/${entity?.id}/documents`));
   return documents?.data.data || null;
 };
 
 export const getApplications = async (api, entity) => {
   if (!entity) return;
-  const apps = await api.get(
-    buildUrl(entity?.type, `/${entity?.id}/applications`)
-  );
+  const apps = await api.get(buildUrl(entity?.type, `/${entity?.id}/applications`));
   return apps.data.data;
 };
 

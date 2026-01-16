@@ -42,9 +42,7 @@ export default function OrderStatus({ order, isTable }) {
       <span
         className={classNames(
           'capitalize font-medium',
-          isTable
-            ? statusColor
-            : `text-white ${bgColor} rounded-full px-3 py-1 text-sm`
+          isTable ? statusColor : `text-white ${bgColor} rounded-full px-3 py-1 text-sm`,
         )}
       >
         {status}
@@ -53,21 +51,15 @@ export default function OrderStatus({ order, isTable }) {
         <Tooltip
           tooltip_text={
             <span>
-              <span className="font-bold mx-1">
-                {order?.product?.daysPastDue}
-              </span>
+              <span className="font-bold mx-1">{order?.product?.daysPastDue}</span>
               days past due. <br />
-              Last payment attempted on{' '}
-              {reformatDate(order?.product?.last_payment_attempted_at)}
+              Last payment attempted on {reformatDate(order?.product?.last_payment_attempted_at)}
             </span>
           }
           trigger_class="cursor-pointer !border-none"
           container_class="text-center p-4 px-6 text-sm bg-background-error !text-error"
         >
-          <FontAwesomeIcon
-            icon={faInfoCircle}
-            className="text-error text-xs mt-0.5"
-          />
+          <FontAwesomeIcon icon={faInfoCircle} className="text-error text-xs mt-0.5" />
         </Tooltip>
       )}
     </span>

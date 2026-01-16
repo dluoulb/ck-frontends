@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+
+import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import { getVirtualCards } from '@lib/actions/companies';
-import { useUser } from '@contexts/UserContext';
 
 function useCompanyPhysicalCard() {
   const api = useApi();
@@ -20,7 +21,7 @@ function useCompanyPhysicalCard() {
     retry: 1,
   });
 
-  const physicalCard = cards?.find(card => card.type === 'PHYSICAL') || null;
+  const physicalCard = cards?.find((card) => card.type === 'PHYSICAL') || null;
 
   return {
     physicalCard,

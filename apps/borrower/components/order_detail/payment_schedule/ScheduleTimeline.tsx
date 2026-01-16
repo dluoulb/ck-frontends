@@ -19,15 +19,13 @@ export const ScheduleTimeline = ({ order }) => {
             <span
               className={classNames(
                 'flex absolute -left-3.5 justify-center items-center w-7 h-7 rounded-full ring-8 ring-white',
-                iconClass
+                iconClass,
               )}
             >
               <div className="text-white font-bold text-sm ml-px">{scheduleIcon}</div>
             </span>
             <div className="space-y-1">
-              <h3 className="flex items-center text-lg font-semibold">
-                {startCase(ps.status)}
-              </h3>
+              <h3 className="flex items-center text-lg font-semibold">{startCase(ps.status)}</h3>
               <time className="block text-sm font-medium leading-none text-secondary-gray">
                 {fromISO(ps.date).toLocaleString(DateTime.DATE_MED)}
               </time>

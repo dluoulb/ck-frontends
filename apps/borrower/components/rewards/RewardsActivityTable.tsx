@@ -8,14 +8,10 @@ import {
 } from '@tanstack/react-table';
 
 import BaseTable from '@components/BaseTable';
-import {
-  RewardTransactionRecord,
-  RewardPointStatus,
-  RewardType,
-} from '@lib/records/reward';
-import { formatCurrency } from '@lib/utils/formatters';
-import { fromISO, toISO } from '@lib/utils/datetime_formatters';
+import { RewardPointStatus, RewardTransactionRecord, RewardType } from '@lib/records/reward';
 import SubscriptionRecord from '@lib/records/subscription';
+import { fromISO, toISO } from '@lib/utils/datetime_formatters';
+import { formatCurrency } from '@lib/utils/formatters';
 
 type RewardsActivityTableProps = {
   activeSubscription: SubscriptionRecord;
@@ -42,14 +38,12 @@ const getRewardPercentage = (type: RewardType) => {
 };
 
 export default function RewardsActivityTable({
-                                               activeSubscription,
-                                               transactions,
-                                               loading,
-                                               error,
-                                             }: RewardsActivityTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'created_at', desc: true },
-  ]);
+  activeSubscription,
+  transactions,
+  loading,
+  error,
+}: RewardsActivityTableProps) {
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'created_at', desc: true }]);
 
   const columns = useMemo<ColumnDef<RewardTransactionRecord>[]>(() => {
     return [
@@ -61,20 +55,14 @@ export default function RewardsActivityTable({
           const dateValue = getValue<any>();
           if (!dateValue) return <span className="text-sm">-</span>;
 
-          return (
-              <span className="text-sm">
-              {fromISO(toISO(dateValue)).toFormat('M/d/yy')}
-            </span>
-          );
+          return <span className="text-sm">{fromISO(toISO(dateValue)).toFormat('M/d/yy')}</span>;
         },
       },
       {
         id: 'merchant',
         header: 'Merchant',
         accessorKey: 'merchant_name',
-        cell: ({ row }) => (
-            <span className="text-sm">{row.original?.merchant_name || '-'}</span>
-        ),
+        cell: ({ row }) => <span className="text-sm">{row.original?.merchant_name || '-'}</span>,
       },
       {
         id: 'amount',
@@ -85,18 +73,16 @@ export default function RewardsActivityTable({
           const type = row.original.type;
 
           return (
-              <span className="text-sm">
+            <span className="text-sm">
               {amount ? (
-                  <>
-                    {formatCurrency(amount)}
-                    {getRewardPercentage(type) && (
-                        <span className="ml-1 text-xs text-gray-500">
-                      {getRewardPercentage(type)}
-                    </span>
-                    )}
-                  </>
+                <>
+                  {formatCurrency(amount)}
+                  {getRewardPercentage(type) && (
+                    <span className="ml-1 text-xs text-gray-500">{getRewardPercentage(type)}</span>
+                  )}
+                </>
               ) : (
-                  '-'
+                '-'
               )}
             </span>
           );
@@ -116,7 +102,7 @@ export default function RewardsActivityTable({
           };
 
           return (
-              <span className={`text-sm ${getStatusBadgeClass(status)}`}>
+            <span className={`text-sm ${getStatusBadgeClass(status)}`}>
               {statusLabels[status] || String(status)}
             </span>
           );
@@ -129,8 +115,7 @@ export default function RewardsActivityTable({
         cell: ({ row }) => {
           const { status, type, points } = row.original;
 
-          const isNegative =
-              type === RewardType.SPENT || type === RewardType.EXPIRED;
+          const isNegative = type === RewardType.SPENT || type === RewardType.EXPIRED;
           const isAdjustment = type === RewardType.ADJUSTED;
 
           let displayPoints = points;
@@ -144,9 +129,9 @@ export default function RewardsActivityTable({
           const sign = displayPoints > 0 ? '+' : '';
 
           return (
-              <span className={`text-sm font-semibold ${color} text-right block`}>
+            <span className={`text-sm font-semibold ${color} text-right block`}>
               {sign}
-                {displayPoints} pts
+              {displayPoints} pts
             </span>
           );
         },
@@ -172,36 +157,33 @@ export default function RewardsActivityTable({
   const showPlusCTA = !loading && !activeSubscription;
 
   return (
-      <div className="border border-primary-gray-border rounded-md bg-white">
-        <div className="p-4 border-b border-primary-gray-border">
-          <h2 className="text-lg font-bold text-primary">Rewards Activity</h2>
-        </div>
-
-        {showPlusCTA ? (
-            <div className="p-6 text-sm text-gray-600 text-center">
-              Activities you perform that earn rewards will be listed here.
-              <br />
-              <a
-                  href="/plus"
-                  className="no-underline text-primary-blue cursor-pointer"
-              >
-                Join Credit Key Plus
-              </a>{' '}
-              to earn rewards on every purchase with Credit Key.
-            </div>
-        ) : (
-            <BaseTable
-                table={table}
-                tableClass="text-sm"
-                rowClass="!text-sm"
-                headerClass="!bg-[#F4F8FF]"
-                isFetching={loading}
-                noDataFoundWarning={
-                  error ? 'Unable to load rewards activity' : 'No rewards activity found'
-                }
-                usePagination={true}
-            />
-        )}
+    <div className="border border-primary-gray-border rounded-md bg-white">
+      <div className="p-4 border-b border-primary-gray-border">
+        <h2 className="text-lg font-bold text-primary">Rewards Activity</h2>
       </div>
+
+      {showPlusCTA ? (
+        <div className="p-6 text-sm text-gray-600 text-center">
+          Activities you perform that earn rewards will be listed here.
+          <br />
+          <a href="/plus" className="no-underline text-primary-blue cursor-pointer">
+            Join Credit Key Plus
+          </a>{' '}
+          to earn rewards on every purchase with Credit Key.
+        </div>
+      ) : (
+        <BaseTable
+          table={table}
+          tableClass="text-sm"
+          rowClass="!text-sm"
+          headerClass="!bg-[#F4F8FF]"
+          isFetching={loading}
+          noDataFoundWarning={
+            error ? 'Unable to load rewards activity' : 'No rewards activity found'
+          }
+          usePagination={true}
+        />
+      )}
+    </div>
   );
 }

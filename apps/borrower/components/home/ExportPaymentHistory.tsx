@@ -50,19 +50,14 @@ export default function ExportPaymentHistory() {
         });
       })
       .catch((err) => {
-        makeToast(
-          'An error occurred. Please try again or contact our support team.',
-          'error'
-        );
+        makeToast('An error occurred. Please try again or contact our support team.', 'error');
       })
       .finally(() => setLoading(false));
   };
 
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-      <p className="text-xl font-medium">
-        Export Payment History
-      </p>
+      <p className="text-xl font-medium">Export Payment History</p>
       <div className="flex md:items-center gap-2 xs:gap-2 md:gap-2 text-sm">
         <Datepicker
           popoverDirection="up"

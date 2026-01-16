@@ -42,7 +42,7 @@ export const addFunds = async (api: AxiosInstance, amount: number) => {
 
 export const getPendingAuthorizations = async (
   api: AxiosInstance,
-  companyId: string
+  companyId: string,
 ): Promise<PendingAuthorizationsResponse> => {
   if (!companyId) {
     throw new Error('Company ID is required');

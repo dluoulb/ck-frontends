@@ -25,10 +25,7 @@ export const BuildStack = ({ original, openModalForLoan }) => {
 
         {isEditable ? (
           <div className="sm:hidden">
-            <TermsColumn
-              order={original}
-              openModalForLoan={openModalForLoan}
-            />
+            <TermsColumn order={original} openModalForLoan={openModalForLoan} />
           </div>
         ) : (
           <span className="sm:hidden font-medium">{label}</span>

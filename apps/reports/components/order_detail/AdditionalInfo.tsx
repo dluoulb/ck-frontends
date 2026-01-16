@@ -8,9 +8,9 @@ import { formatCurrency, formatPercent } from '@lib/utils/formatters';
 export default function AdditionalInfo({ product, order, entity }) {
   const isPaymentPlan = order?.product_type !== 'mambu_loan';
   const daysPastDue = () => {
-    let today = DateTime.now();
-    let due_date = fromISO(
-      isPaymentPlan ? product?.last_past_due_at : product?.last_past_due_date
+    const today = DateTime.now();
+    const due_date = fromISO(
+      isPaymentPlan ? product?.last_past_due_at : product?.last_past_due_date,
     );
     return Math.round(today.diff(due_date, 'days').toObject().days) || 'N/A';
   };
@@ -20,27 +20,21 @@ export default function AdditionalInfo({ product, order, entity }) {
 
   return (
     <>
-      <p className="font-semibold tracking-wide text-lg my-4">
-        Additional Details
-      </p>
+      <p className="font-semibold tracking-wide text-lg my-4">Additional Details</p>
       <div
         className={classNames(
           'grid grid-rows-18 !gap-0 sm:grid-rows-8 grid-flow-col capitalize rounded shadow bg-secondary-blue text-sm px-6 md:px-10 xl:pl-40 py-4 lg:py-8',
-          order?.entity_type === 'company' ? 'lg:grid-rows-6' : 'lg:grid-rows-5'
+          order?.entity_type === 'company' ? 'lg:grid-rows-6' : 'lg:grid-rows-5',
         )}
       >
         <p>
           <span className="font-semibold mr-1">interest free months:</span>
-          {isPaymentPlan
-            ? product?.interest_free_intervals
-            : product?.interest_free_months}
+          {isPaymentPlan ? product?.interest_free_intervals : product?.interest_free_months}
         </p>
         <p>
           <span className="font-semibold mr-1">borrower fee:</span>
           {formatPercent(
-            (isPaymentPlan
-              ? product?.processing_fee_percent
-              : product?.borrower_fee) * 100
+            (isPaymentPlan ? product?.processing_fee_percent : product?.borrower_fee) * 100,
           )}
         </p>
         <p className="capitalize">
@@ -54,9 +48,7 @@ export default function AdditionalInfo({ product, order, entity }) {
         <p>
           <span className="font-semibold mr-1">amount refunded:</span>
           {formatCurrency(
-            isPaymentPlan
-              ? product?.total_amount_refunded
-              : product?.amount_refunded
+            isPaymentPlan ? product?.total_amount_refunded : product?.amount_refunded,
           )}
         </p>
         <p>
@@ -75,9 +67,8 @@ export default function AdditionalInfo({ product, order, entity }) {
           </span>
           {formatCurrency(
             isPaymentPlan
-              ? (product?.amount - product?.total_amount_refunded) *
-                  product?.interest_fee_percent
-              : product?.monthly_fee.cents / 100
+              ? (product?.amount - product?.total_amount_refunded) * product?.interest_fee_percent
+              : product?.monthly_fee.cents / 100,
           )}
         </p>
         <p>
@@ -85,9 +76,7 @@ export default function AdditionalInfo({ product, order, entity }) {
             {isPaymentPlan ? 'payment plan' : 'loan'} monthly interest:
           </span>
           {formatPercent(
-            isPaymentPlan
-              ? product?.interest_fee_percent * 100
-              : product?.monthly_interest
+            isPaymentPlan ? product?.interest_fee_percent * 100 : product?.monthly_interest,
           )}
         </p>
 
@@ -97,9 +86,7 @@ export default function AdditionalInfo({ product, order, entity }) {
         </p>
         <p>
           <span className="font-semibold mr-1">decline charge attempts:</span>
-          {isPaymentPlan
-            ? product?.nsf_count
-            : product?.declined_charge_attempts}
+          {isPaymentPlan ? product?.nsf_count : product?.declined_charge_attempts}
         </p>
         {order?.entity_type === 'company' && (
           <p>

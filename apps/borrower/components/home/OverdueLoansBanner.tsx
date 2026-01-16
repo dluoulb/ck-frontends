@@ -16,8 +16,8 @@ export default function OverdueLoansBanner({ overdueOrders }: OverdueLoansBanner
   const hasMultipleOverdueLoans = overdueOrders.length > 1;
   const overdueCount = overdueOrders.length;
 
-  const orderIds = overdueOrders.map(order => order.order_key).filter(Boolean);
-  
+  const orderIds = overdueOrders.map((order) => order.order_key).filter(Boolean);
+
   // For single loan, show the id. For 2-5 loans, show all ids. For more than 5, show count to avoid ui clutter.
   let message: string;
   if (overdueCount === 1) {
@@ -34,10 +34,7 @@ export default function OverdueLoansBanner({ overdueOrders }: OverdueLoansBanner
     : `/borrower/orders/${overdueOrders[0].order_key}`;
 
   const ctaButton = (
-    <Link
-      href={link}
-      className="flex gap-1 items-center font-medium"
-    >
+    <Link href={link} className="flex gap-1 items-center font-medium">
       View details
     </Link>
   );

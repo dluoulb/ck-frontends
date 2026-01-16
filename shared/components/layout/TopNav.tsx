@@ -9,8 +9,8 @@ import { useRouter } from 'next/router';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import useSecondaryRoutes from '@apps/borrower/hooks/useSecondaryRoutes';
-import TclWidget from '@components/layout/TclWidget';
 import RewardPointsWidget from '@components/layout/RewardPointsWidget';
+import TclWidget from '@components/layout/TclWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
 import OrdersBadge from './OrdersBadge';
@@ -37,13 +37,10 @@ export default function TopNav() {
           <Link
             href={item.url}
             target={item.target}
-            className={classNames(
-              'px-4 py-2 text-sm rounded transition-colors',
-              {
-                'bg-[#f1f2f5]': isActive,
-                'hover:bg-gray-400 hover:text-white': !isActive,
-              }
-            )}
+            className={classNames('px-4 py-2 text-sm rounded transition-colors', {
+              'bg-[#f1f2f5]': isActive,
+              'hover:bg-gray-400 hover:text-white': !isActive,
+            })}
           >
             {item.name}
             {item.name === 'Orders' && (
@@ -68,13 +65,10 @@ export default function TopNav() {
           <NavigationMenu.Item key={item.name}>
             <Link
               href={item.url}
-              className={classNames(
-                'flex px-4 py-2 text-sm rounded transition-colors',
-                {
-                  'bg-[#f1f2f5]': isActive,
-                  'hover:bg-gray-100': !isActive,
-                }
-              )}
+              className={classNames('flex px-4 py-2 text-sm rounded transition-colors', {
+                'bg-[#f1f2f5]': isActive,
+                'hover:bg-gray-100': !isActive,
+              })}
             >
               <BorrowerContextProvider>
                 <RewardPointsWidget />
@@ -121,14 +115,10 @@ export default function TopNav() {
               </DropdownMenu.Label>
               {item.children.map((child: any) => (
                 <div key={child.name}>
-                  {child.separator && (
-                    <DropdownMenu.Separator className="my-1 h-px bg-gray-300" />
-                  )}
+                  {child.separator && <DropdownMenu.Separator className="my-1 h-px bg-gray-300" />}
                   <DropdownMenu.Item
                     onSelect={() =>
-                      child.action
-                        ? handleAction(child.action)
-                        : router.push(child.url)
+                      child.action ? handleAction(child.action) : router.push(child.url)
                     }
                     className="m-1 px-2 py-1 cursor-pointer text-sm hover:bg-gray-100 rounded"
                   >
@@ -149,17 +139,13 @@ export default function TopNav() {
     <div className="top-0 w-full z-50 h-12 sm:h-16 py-2 sm:py-0 pr-0 pl-2 lg:pl-8 flex justify-between items-center border-solid border-b-[1px] border-border-gray mt-[1px] bg-white">
       <NavigationMenu.Root>
         <NavigationMenu.List className="hidden md:flex gap-0 lg:gap-3 items-center">
-          {secondaryRoutes
-            .find((section) => section.section === 'left')
-            ?.items.map(renderItem)}
+          {secondaryRoutes.find((section) => section.section === 'left')?.items.map(renderItem)}
         </NavigationMenu.List>
       </NavigationMenu.Root>
 
       <NavigationMenu.Root>
         <NavigationMenu.List className="hidden md:flex gap-0 lg:gap-3 items-center">
-          {secondaryRoutes
-            .find((section) => section.section === 'right')
-            ?.items.map(renderItem)}
+          {secondaryRoutes.find((section) => section.section === 'right')?.items.map(renderItem)}
         </NavigationMenu.List>
       </NavigationMenu.Root>
     </div>

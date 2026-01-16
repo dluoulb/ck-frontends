@@ -1,10 +1,7 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 
-import {
-  declinedSupportPhone,
-  supportPhone,
-} from '@lib/constants/SiteVariables';
+import { declinedSupportPhone, supportPhone } from '@lib/constants/SiteVariables';
 
 interface SupportProps {
   asText?: boolean;
@@ -14,31 +11,29 @@ interface SupportProps {
   message?: string;
 }
 
-const Support: FC<SupportProps> = ({ 
-  asText, 
-  declined, 
+const Support: FC<SupportProps> = ({
+  asText,
+  declined,
   containerClass,
-  showTagLine=true,
-  message='Contact Credit Key Support at',
-  }) => {
+  showTagLine = true,
+  message = 'Contact Credit Key Support at',
+}) => {
   return (
     <div
-      className={classNames(
-        'mb-2 sm:my-2 text-sm modal:text-base',
-        containerClass,
-        {
-          'p-3 px-4 sm:p-6 border border-tertiary-gray rounded-lg': !asText,
-        }
-      )}
+      className={classNames('mb-2 sm:my-2 text-sm modal:text-base', containerClass, {
+        'p-3 px-4 sm:p-6 border border-tertiary-gray rounded-lg': !asText,
+      })}
     >
-      {showTagLine && <div
-        className={classNames(
-          'text-sm sm:text-base modal:text-xl mb-2',
-          asText ? 'font-semibold' : 'font-extrabold'
-        )}
-      >
-        Any questions or issues?
-      </div>}
+      {showTagLine && (
+        <div
+          className={classNames(
+            'text-sm sm:text-base modal:text-xl mb-2',
+            asText ? 'font-semibold' : 'font-extrabold',
+          )}
+        >
+          Any questions or issues?
+        </div>
+      )}
       {message}
       <div>
         <a
@@ -48,9 +43,7 @@ const Support: FC<SupportProps> = ({
           support@creditkey.com
         </a>
         or{' '}
-        <span className="text-primary-blue">
-          {declined ? declinedSupportPhone : supportPhone}
-        </span>
+        <span className="text-primary-blue">{declined ? declinedSupportPhone : supportPhone}</span>
       </div>
     </div>
   );

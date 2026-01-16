@@ -1,10 +1,5 @@
 import { useState } from 'react';
-import {
-  ListboxOption,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-} from '@headlessui/react';
+import { ListboxOption, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import classNames from 'classnames';
 import Image from 'next/image';
 
@@ -12,11 +7,11 @@ import { ListBox } from '@components/Dropdown';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
 import useDropdown from '@hooks/useDropdown';
+import { plaidEnabled } from '@lib/constants/SiteVariables';
 import check from '@lib/images/check.gif';
 import BankForm from '../forms/BankForm';
 import CreditCardForm from '../forms/CreditCardForm';
 import Plaid from '../Plaid';
-import { plaidEnabled } from '@lib/constants/SiteVariables';
 
 // which type of PMs are available to create
 const listOptions = [
@@ -36,10 +31,8 @@ export default function PaymentMethodModal({
   const { orders } = useBorrowerDeps();
 
   const hasPi4Orders =
-    orders?.filter(
-      (order) =>
-        order.entity_type === 'account' && order.product.status === 'active'
-    ).size > 0;
+    orders?.filter((order) => order.entity_type === 'account' && order.product.status === 'active')
+      .size > 0;
 
   const defaultContentId = entity?.type === 'company' ? 'ach' : 'cc';
   const { contentId, setContent } = useDropdown(defaultContentId);
@@ -93,8 +86,7 @@ export default function PaymentMethodModal({
             <p className="text-xl sm:text-2xl font-bold">New Payment Method</p>
             <div className="my-1 sm:my-2">
               <p className="text-sm sm:text-base">
-                Please confirm your{' '}
-                {contentId === 'ach' ? 'business bank' : 'credit card'} details.
+                Please confirm your {contentId === 'ach' ? 'business bank' : 'credit card'} details.
               </p>
               {<ConnectBankHeader />}
             </div>
@@ -102,17 +94,11 @@ export default function PaymentMethodModal({
 
           {entity?.type === 'company' && hasPi4Orders && (
             <div className="mt-3 mb-6">
-              <p className="text-sm text-secondary-gray my-2">
-                Select Payment Method Type
-              </p>
+              <p className="text-sm text-secondary-gray my-2">Select Payment Method Type</p>
               <ListBox
                 initialValue={defaultContentId}
                 value={listOptions[0]}
-                buttonText={
-                  contentId === 'ach'
-                    ? listOptions[0].text
-                    : listOptions[1].text
-                }
+                buttonText={contentId === 'ach' ? listOptions[0].text : listOptions[1].text}
                 handleChange={setContent}
                 listBoxClass="!w-full sm:!w-4/5 mx-auto rounded-md bg-secondary-blue transition ease-in-out duration-150 text-sm relative"
               >
@@ -124,7 +110,7 @@ export default function PaymentMethodModal({
                       'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
                       {
                         'border-b': op !== listOptions[listOptions.length - 1],
-                      }
+                      },
                     )}
                   >
                     {op.text}

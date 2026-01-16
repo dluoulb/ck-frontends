@@ -59,14 +59,15 @@ export default function OrdersTable({
 
   const data = useMemo(() => orders || [], [orders, orders?.length]);
   const columns = useMemo(() => {
-    return tableColumns(openModalForLoan).map((col) => ({
+    const cols = typeof tableColumns === 'function' ? tableColumns(openModalForLoan) : tableColumns;
+    return cols.map((col) => ({
       ...col,
       meta: {
         ...col.meta,
         isVisible: isColumnVisible(col.hideColumn, size.width),
       },
     }));
-  }, [size.width, openModalForLoan]);
+  }, [size.width, openModalForLoan, tableColumns]);
 
   const table = useReactTable({
     data,
@@ -99,12 +100,7 @@ export default function OrdersTable({
   });
 
   const { pageIndex } = table.getState().pagination;
-  const isPageCached = queryClient.getQueryData([
-    'orders',
-    entity,
-    entity?.type,
-    pageIndex,
-  ]);
+  const isPageCached = queryClient.getQueryData(['orders', entity, entity?.type, pageIndex]);
 
   const getNoDataMessage = () => {
     const filter = active === 'all' ? '' : active;
@@ -130,10 +126,7 @@ export default function OrdersTable({
         {withDisclaimer && (
           <div className="py-4 px-8 flex items-center gap-2 text-sm font-medium border-b border-primary-gray-border">
             <FontAwesomeIcon icon={faInfoCircle} />
-            <p>
-              The amount displayed is the principal loan amount not including
-              interest & fees
-            </p>
+            <p>The amount displayed is the principal loan amount not including interest & fees</p>
           </div>
         )}
         <div className="col-span-full border border-border-gray rounded-md">

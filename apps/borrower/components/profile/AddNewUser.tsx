@@ -1,10 +1,6 @@
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import classNames from 'classnames';
 
 import { useEntity } from '@contexts/EntityContext';
@@ -23,18 +19,14 @@ export default function AddNewUser() {
                 <span>Add New Purchaser</span>
                 <FontAwesomeIcon
                   icon={faPlus}
-                  className={classNames(
-                    'h-5 w-5 text-success transition duration-500 ml-2',
-                    {
-                      'rotate-45 transform': open,
-                    }
-                  )}
+                  className={classNames('h-5 w-5 text-success transition duration-500 ml-2', {
+                    'rotate-45 transform': open,
+                  })}
                 />
               </DisclosureButton>
               <DisclosurePanel className="px-4 sm:px-8 pb-2 pt-4 text-sm text-gray-500 transition duration-500">
                 <p className="text-sm font-medium text-tertiary-gray">
-                  Please provide your purchaser user's contact information. All
-                  fields are required.
+                  Please provide your purchaser user's contact information. All fields are required.
                 </p>
                 <AddUserForm company={entity} close={close} />
               </DisclosurePanel>

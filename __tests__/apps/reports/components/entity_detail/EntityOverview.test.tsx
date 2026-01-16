@@ -11,20 +11,14 @@ import { customRender } from '@lib/testing/test-utils';
 describe('EntityOverview Component', () => {
   test('renders overview display data', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityOverview />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     await waitFor(() => screen.getByText('Widget Maker Co.'));
 
     expect(screen.getByText('Active Orders:'));
-    expect(screen.getByRole('status')).toHaveClass(
-      'bg-background-success text-success'
-    );
+    expect(screen.getByRole('status')).toHaveClass('bg-background-success text-success');
   });
 });

@@ -54,9 +54,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             {icon && !isLoading && (
               <FontAwesomeIcon icon={icon} className="mr-2 hidden sm:inline" />
             )}
-            {isLoading && (
-              <FontAwesomeIcon className="mr-2" icon={faSpinnerThird} spin />
-            )}
+            {isLoading && <FontAwesomeIcon className="mr-2" icon={faSpinnerThird} spin />}
           </span>
           <span>{buttonText}</span>
         </div>

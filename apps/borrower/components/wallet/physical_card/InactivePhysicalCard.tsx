@@ -32,10 +32,7 @@ export default function InactivePhysicalCard({ cardTitle }) {
         </div>
       </div>
 
-      <PhysicalCardModalWrapper
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-      />
+      <PhysicalCardModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
     </>
   );
 }

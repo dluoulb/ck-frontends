@@ -44,21 +44,14 @@ export default function InactiveCardSection({
                   </span>
                 </div>
 
-                {cardType === 'virtual' && (
-                  <InactiveVirtualCard cardTitle={title} />
-                )}
-                {cardType === 'physical' && (
-                  <InactivePhysicalCard cardTitle={title} />
-                )}
+                {cardType === 'virtual' && <InactiveVirtualCard cardTitle={title} />}
+                {cardType === 'physical' && <InactivePhysicalCard cardTitle={title} />}
 
                 <button
                   onClick={toggleModal}
                   className="w-full max-w-lg text-bas pb-1 font-semibold text-primary-blue hover:text-primary-blue-hover flex items-center justify-center gap-2"
                 >
-                  <FontAwesomeIcon
-                    icon={faQuestionCircle}
-                    className="text-sm"
-                  />
+                  <FontAwesomeIcon icon={faQuestionCircle} className="text-sm" />
                   How to Use
                 </button>
               </div>
@@ -74,15 +67,9 @@ export default function InactiveCardSection({
       </div>
 
       {cardType === 'virtual' ? (
-        <VirtualHowToUseModal
-          isModalActive={isModalActive}
-          toggleModal={toggleModal}
-        />
+        <VirtualHowToUseModal isModalActive={isModalActive} toggleModal={toggleModal} />
       ) : (
-        <PhysicalHowToUseModal
-          isModalActive={isModalActive}
-          toggleModal={toggleModal}
-        />
+        <PhysicalHowToUseModal isModalActive={isModalActive} toggleModal={toggleModal} />
       )}
     </>
   );

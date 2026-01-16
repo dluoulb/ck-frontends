@@ -94,13 +94,8 @@ export function useCreateSubscription() {
     mutateAsync: createSubscription,
     error: createSubscriptionError,
     isPending: createSubscriptionLoading,
-  } = useMutation<
-    SubscriptionRecord | null,
-    unknown,
-    CreateSubscriptionVariables
-  >({
-    mutationFn: ({ planType, companyId }) =>
-      createSubscriptionAction(api, planType, companyId),
+  } = useMutation<SubscriptionRecord | null, unknown, CreateSubscriptionVariables>({
+    mutationFn: ({ planType, companyId }) => createSubscriptionAction(api, planType, companyId),
   });
 
   return {

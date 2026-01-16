@@ -1,6 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShoppingFast } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { marketplace } from '@lib/actions/marketplace';
 
 export default function PromoteMarketplace() {
@@ -11,7 +12,13 @@ export default function PromoteMarketplace() {
       </div>
       <div className="align-top text-base font-semibold">
         Easily access your favorite merchants and discover new ones in the Credit Key Marketplace.
-        <a href={marketplace.url} target="_blank" className="text-primary-blue hover:text-primary-blue-hover">{' Enter the Marketplace ->'}</a>
+        <a
+          href={marketplace.url}
+          target="_blank"
+          className="text-primary-blue hover:text-primary-blue-hover"
+        >
+          {' Enter the Marketplace ->'}
+        </a>
       </div>
     </div>
   );

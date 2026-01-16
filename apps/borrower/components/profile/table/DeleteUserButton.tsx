@@ -11,11 +11,7 @@ export default function DeleteUserButton({ user }) {
 
   return (
     <>
-      <DeleteUserModal
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-        user={user}
-      />
+      <DeleteUserModal isModalActive={isModalActive} toggleModal={toggleModal} user={user} />
       <div
         onClick={toggleModal}
         className="font-semibold flex items-center gap-1 block xl:hidden text-error hover:cursor-pointer border-b border-transparent hover:border-error max-w-max"

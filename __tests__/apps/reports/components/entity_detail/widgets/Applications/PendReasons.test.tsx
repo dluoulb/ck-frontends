@@ -3,15 +3,11 @@ import { application1 } from '@lib/testing/records';
 import { render, renders, screen } from '@lib/testing/test-utils';
 
 describe('Pend Reasons Component', () => {
-  let props = { app: application1 };
+  const props = { app: application1 };
   renders(PendReasons, props);
 
   test('displays pend reasons', () => {
-    render(
-      <PendReasons
-        app={{ ...application1, reasons: ['kyc_pend', 'lexis_pend'] }}
-      />
-    );
+    render(<PendReasons app={{ ...application1, reasons: ['kyc_pend', 'lexis_pend'] }} />);
     expect(screen.getByText('kyc pend, lexis pend'));
   });
 

@@ -14,12 +14,7 @@ const TermsCell = ({ order, openModalForLoan }) => {
   const label = formatInstallments(installments);
 
   if (isEditable) {
-    return (
-      <TermsColumn
-        order={order}
-        openModalForLoan={openModalForLoan}
-      />
-    );
+    return <TermsColumn order={order} openModalForLoan={openModalForLoan} />;
   }
 
   return <span className="font-medium">{label}</span>;
@@ -31,7 +26,7 @@ export const TableColumns = (openModalForLoan) => [
     header: 'Date',
     accessorKey: 'created_at',
     hideColumn: 0,
-    cell: ({ row }) => <BuildStack original={row?.original} openModalForLoan={openModalForLoan}/>,
+    cell: ({ row }) => <BuildStack original={row?.original} openModalForLoan={openModalForLoan} />,
   },
   {
     id: 'order_key',
@@ -90,9 +85,7 @@ export const TableColumns = (openModalForLoan) => [
     header: 'Terms',
     hideColumn: 640,
     accessorFn: (row) => row.product?.installments,
-    cell: ({ row }) => (
-      <TermsCell order={row.original} openModalForLoan={openModalForLoan} />
-    ),
+    cell: ({ row }) => <TermsCell order={row.original} openModalForLoan={openModalForLoan} />,
   },
   {
     id: 'status',

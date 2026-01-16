@@ -38,10 +38,7 @@ export default function OwnerInfo() {
       <div className="flex items-center gap-2 border-b border-primary-gray-border pb-2">
         <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
           <FontAwesomeIcon icon={faSquare} className="text-secondary-blue" />
-          <FontAwesomeIcon
-            icon={faUser}
-            className="text-primary-blue text-base lg:text-xl"
-          />
+          <FontAwesomeIcon icon={faUser} className="text-primary-blue text-base lg:text-xl" />
         </span>
 
         <p className="font-bold tracking-wide text-primary-blue-hover px-2 md:px-0 md:text-lg lg:text-xl">
@@ -78,9 +75,7 @@ export default function OwnerInfo() {
           </p>
           <p>
             <span className="mr-1 font-normal">FICO Score Date:</span>
-            {entity?.fico_score_date
-              ? fromISO(entity?.fico_score_date).toLocaleString()
-              : null}
+            {entity?.fico_score_date ? fromISO(entity?.fico_score_date).toLocaleString() : null}
           </p>
           <AddressDetails
             type="owner"

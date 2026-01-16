@@ -13,9 +13,7 @@ export default function VCList({ vc_orders }) {
   const [hide, setHide] = useState([]);
   const [clipped, setClipped] = useState(false);
 
-  const sortedCards = vc_orders?.sort((a, b) =>
-    sortDateTimes(b.created_at, a.created_at)
-  );
+  const sortedCards = vc_orders?.sort((a, b) => sortDateTimes(b.created_at, a.created_at));
 
   const cardNumberDisplay = (vc, idx) => {
     if (clipped) return `x${vc?.virtual_card_details?.number.slice(-4)}`;
@@ -51,10 +49,7 @@ export default function VCList({ vc_orders }) {
   ];
 
   window.addEventListener('resize', () => {
-    if (
-      (window.innerWidth >= 1024 && window.innerWidth <= 1167) ||
-      window.innerWidth < 415
-    ) {
+    if ((window.innerWidth >= 1024 && window.innerWidth <= 1167) || window.innerWidth < 415) {
       setClipped(true);
     } else {
       setClipped(false);
@@ -80,10 +75,7 @@ export default function VCList({ vc_orders }) {
                 <th
                   key={idx}
                   scope="col"
-                  className={classNames(
-                    'py-2 text-left text-sm font-bold',
-                    header.className
-                  )}
+                  className={classNames('py-2 text-left text-sm font-bold', header.className)}
                 >
                   {header.name}
                 </th>
@@ -101,18 +93,14 @@ export default function VCList({ vc_orders }) {
                     {vc?.merchant?.name}
                   </span>
                   <span className="block">{reformatDate(vc?.created_at)}</span>
-                  <span className="block">
-                    Exp: {vc?.virtual_card_details.expiration}
-                  </span>
+                  <span className="block">Exp: {vc?.virtual_card_details.expiration}</span>
                   <span className="flex sm:hidden md:flex lg:hidden font-semibold items-center gap-1.5">
                     {cardNumberDisplay(vc, idx)}
                     <FontAwesomeIcon
                       icon={faClipboard}
                       className="text-sm xl:text-lg text-gray-600 hover:text-gray-900 cursor-pointer mt-0.5"
                       onClick={() => {
-                        navigator.clipboard.writeText(
-                          vc?.virtual_card_details?.number
-                        );
+                        navigator.clipboard.writeText(vc?.virtual_card_details?.number);
                         makeToast('Card Number Copied!', 'success');
                       }}
                     />
@@ -123,7 +111,7 @@ export default function VCList({ vc_orders }) {
                     'hidden sm:flex md:hidden lg:flex whitespace-nowrap pt-6 pb-4 text-sm items-center gap-1.5',
                     {
                       'tracking-wide': hide[idx],
-                    }
+                    },
                   )}
                 >
                   {cardNumberDisplay(vc, idx)}
@@ -131,9 +119,7 @@ export default function VCList({ vc_orders }) {
                     icon={faClipboard}
                     className="text-lg text-gray-600 hover:text-gray-900 cursor-pointer mt-0.5"
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        vc?.virtual_card_details?.number
-                      );
+                      navigator.clipboard.writeText(vc?.virtual_card_details?.number);
                       makeToast('Card Number Copied!', 'success');
                     }}
                   />
@@ -144,7 +130,7 @@ export default function VCList({ vc_orders }) {
                       'py-1 rounded-full',
                       hide[idx]
                         ? 'px-4 bg-success/20 text-transparent'
-                        : 'bg-transparent text-primary'
+                        : 'bg-transparent text-primary',
                     )}
                   >
                     {vc?.virtual_card_details?.cvc}
@@ -159,17 +145,14 @@ export default function VCList({ vc_orders }) {
                         hide.map((item, index) => {
                           if (index === idx) return (hide[index] = !item);
                           return item;
-                        })
+                        }),
                       )
                     }
                   >
                     {hide[idx] ? (
                       <FontAwesomeIcon icon={faEye} />
                     ) : (
-                      <FontAwesomeIcon
-                        icon={faLockKeyhole}
-                        className="text-primary-blue"
-                      />
+                      <FontAwesomeIcon icon={faLockKeyhole} className="text-primary-blue" />
                     )}
                   </button>
                 </td>

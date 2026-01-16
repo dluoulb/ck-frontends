@@ -19,32 +19,25 @@ export default function MultiUseVirtualCard() {
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
 
   const showPhysicalCardPresentment =
-    vcProps.virtualCard &&
-    vcProps.virtualCard.status === 'ACTIVE' &&
-    !physicalCard;
+    vcProps.virtualCard && vcProps.virtualCard.status === 'ACTIVE' && !physicalCard;
 
   return (
     <div className="h-full">
       <Script src={qoloWidgetUrl} />
       {vcProps.virtualCardLoading && <Loading />}
-      {!vcProps.virtualCardLoading &&
-        !vcProps.virtualCard &&
-        vcProps.virtualCardError && (
-          <div>An error occurred. Please contact support</div>
-        )}
-      {!vcProps.virtualCardLoading &&
-        !vcProps.virtualCard &&
-        !vcProps.virtualCardError && <DashboardVCSection />}
+      {!vcProps.virtualCardLoading && !vcProps.virtualCard && vcProps.virtualCardError && (
+        <div>An error occurred. Please contact support</div>
+      )}
+      {!vcProps.virtualCardLoading && !vcProps.virtualCard && !vcProps.virtualCardError && (
+        <DashboardVCSection />
+      )}
       {!vcProps.virtualCardLoading && vcProps.virtualCard && (
         <div className="space-y-4">
           {showPhysicalCardPresentment && <DashboardPCSection />}
           <ActiveMultiUseVirtualCard virtualCard={vcProps.virtualCard} />
         </div>
       )}
-      <MultiUseVirtualCardModalWrapper
-        isModalActive={isModalActive}
-        toggleModal={toggleModal}
-      />
+      <MultiUseVirtualCardModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
     </div>
   );
 }

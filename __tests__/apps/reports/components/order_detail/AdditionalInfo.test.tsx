@@ -4,7 +4,7 @@ import AdditionalInfo from '@apps/reports/components/order_detail/AdditionalInfo
 import { companyApproved, orderA, tpsLoan2 } from '@lib/testing/records';
 
 describe('Additional Info Component', () => {
-  let props = { product: tpsLoan2, order: orderA, entity: companyApproved };
+  const props = { product: tpsLoan2, order: orderA, entity: companyApproved };
   test('renders and checks amount refunded function', () => {
     render(<AdditionalInfo {...props} />);
 

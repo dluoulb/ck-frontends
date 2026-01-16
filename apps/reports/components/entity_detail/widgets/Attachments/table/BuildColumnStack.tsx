@@ -15,9 +15,7 @@ export const BuildStack = ({ original }) => {
       <div className="block md:hidden font-semibold">
         <span className="mr-1 font-normal">Type:</span>
         <span className="capitalize">
-          {original.file_type === 'misc'
-            ? 'Miscellaneous'
-            : original.file_type?.replace(/_/g, ' ')}
+          {original.file_type === 'misc' ? 'Miscellaneous' : original.file_type?.replace(/_/g, ' ')}
         </span>
       </div>
       <p className="block lg:hidden font-semibold text-primary-blue">

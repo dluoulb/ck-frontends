@@ -50,10 +50,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
               <div className="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity" />
             </TransitionChild>
             {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
               &#8203;
             </span>
             <TransitionChild
@@ -71,7 +68,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     transition
                     className={classNames(
                       'relative transform overflow-hidden rounded-lg bg-white text-left  p-4 shadow-xl transition-all',
-                      modalWidth || 'sm:max-w-lg'
+                      modalWidth || 'sm:max-w-lg',
                     )}
                   >
                     {header && (
@@ -95,16 +92,13 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                         className="text-gray-400 hover:text-gray-500"
                       >
                         <span className="sr-only">Close</span>
-                        <FontAwesomeIcon
-                          icon={faXmark}
-                          className="text-xs xs:text-base"
-                        />
+                        <FontAwesomeIcon icon={faXmark} className="text-xs xs:text-base" />
                       </button>
                     </div>
                     <div
                       className={classNames(
                         'px-4 overflow-y-auto sm:py-3 z-10',
-                        modalHeight ? modalHeight : 'max-h-modal'
+                        modalHeight ? modalHeight : 'max-h-modal',
                       )}
                     >
                       {children}

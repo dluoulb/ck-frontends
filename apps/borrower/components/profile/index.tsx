@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  faBuilding,
-  faCircleInfo,
-  faUser,
-  faUsers,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faBuilding, faCircleInfo, faUser, faUsers } from '@fortawesome/pro-regular-svg-icons';
 import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -37,7 +32,7 @@ export default function ProfileIndex() {
     // Should admins be able to view dashboard as an admin?
     // Or should they view the dashboard as the user they logged in as?
 
-    // ie. If an admin logs in as a purchaser, do we want the admin to 
+    // ie. If an admin logs in as a purchaser, do we want the admin to
     // see exactly what the user sees for debugging confirmation?
 
     entity?.type === 'company' &&
@@ -48,17 +43,12 @@ export default function ProfileIndex() {
       },
   ];
 
-  if (companyUsersLoading || entityLoading)
-    return <Loading className="w-14 h-14 my-20" />;
+  if (companyUsersLoading || entityLoading) return <Loading className="w-14 h-14 my-20" />;
 
   if (!entity) return;
 
   return (
-    <div
-      data-testid="container"
-      className="my-4 md:my-6 mx-auto h-full"
-      role={ProfileIndex.role}
-    >
+    <div data-testid="container" className="my-4 md:my-6 mx-auto h-full" role={ProfileIndex.role}>
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-3xl font-bold text-primary capitalize">
           {entity?.type === 'company' ? 'Company' : 'User'} Profile
@@ -67,19 +57,14 @@ export default function ProfileIndex() {
           <div className="py-8 px-6 border-b border-primary-gray-border">
             <div className="flex items-center gap-2">
               <span className="fa-layers fa-fw text-4xl lg:text-5xl hidden sm:inline">
-                <FontAwesomeIcon
-                  icon={faSquare}
-                  className="text-secondary-blue"
-                />
+                <FontAwesomeIcon icon={faSquare} className="text-secondary-blue" />
                 <FontAwesomeIcon
                   icon={entity?.type === 'company' ? faBuilding : faUser}
                   className="text-primary-blue text-base lg:text-xl"
                 />
               </span>
               <div className="flex flex-col">
-                <p className="text-2xl font-bold text-primary">
-                  {entity?.name}
-                </p>
+                <p className="text-2xl font-bold text-primary">{entity?.name}</p>
                 <p className="text-tertiary-gray font-medium">
                   {entity?.type === 'company' ? 'Borrower' : 'User'} since{' '}
                   {reformatDate(entity.created_at, false, DateTime.DATE_FULL)}
@@ -99,7 +84,7 @@ export default function ProfileIndex() {
                     content === tab.tag
                       ? 'border-primary-blue text-primary-blue bg-secondary-blue font-semibold'
                       : 'border-transparent text-gray-500 hover:border-primary-blue-hover hover:text-primary-blue-hover hover:cursor-pointer hover:bg-primary-blue-hover/20',
-                    'group inline-flex items-center justify-center border-b-2 py-4 px-2 sm:px-8 text-sm font-medium w-full'
+                    'group inline-flex items-center justify-center border-b-2 py-4 px-2 sm:px-8 text-sm font-medium w-full',
                   )}
                 >
                   <FontAwesomeIcon
@@ -109,7 +94,7 @@ export default function ProfileIndex() {
                       content === tab.tag
                         ? 'text-primary-blue'
                         : 'text-gray-400 group-hover:text-primary-blue-hover',
-                      '-ml-0.5 mr-2 h-4 w-4 hidden sm:inline'
+                      '-ml-0.5 mr-2 h-4 w-4 hidden sm:inline',
                     )}
                   />
                   <span>{tab.title}</span>

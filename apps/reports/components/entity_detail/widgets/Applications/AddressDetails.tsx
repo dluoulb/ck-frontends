@@ -1,12 +1,8 @@
 import React from 'react';
+
 import Tooltip from '@components/Tooltip';
 
-export default function AddressDetails({
-  appAddress,
-  type,
-  tooltip = false,
-  tooltip_text = '',
-}) {
+export default function AddressDetails({ appAddress, type, tooltip = false, tooltip_text = '' }) {
   if (!appAddress?.address1 && !tooltip)
     return (
       <div className="mt-2 font-normal">
@@ -35,8 +31,7 @@ export default function AddressDetails({
       <p>{appAddress?.address1}</p>
       <p>{appAddress?.address2}</p>
       <p>
-        {appAddress?.city}, {appAddress?.state}{' '}
-        {appAddress?.zip.substring(0, 5)}
+        {appAddress?.city}, {appAddress?.state} {appAddress?.zip.substring(0, 5)}
       </p>
     </div>
   );

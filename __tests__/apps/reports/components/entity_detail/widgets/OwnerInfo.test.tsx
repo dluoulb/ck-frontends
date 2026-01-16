@@ -17,13 +17,9 @@ describe('OwnerInfo Component', () => {
 
   test('renders', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <OwnerInfo />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     const addressElement = await screen.findByText('1234 Tester Lane');

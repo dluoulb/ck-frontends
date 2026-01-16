@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Tooltip from '@components/Tooltip';
 
 export default function ApplicationStatus({ app }) {
@@ -17,7 +18,7 @@ export default function ApplicationStatus({ app }) {
     );
 
   if (app.tier === 'NETX') {
-    let tooltip = (
+    const tooltip = (
       <div>
         <p>
           <span className="mr-1 font-normal">Original Status:</span>

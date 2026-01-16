@@ -29,19 +29,17 @@ export default function VirtualCardModal({ next, setModalState }) {
   const activePromo = getPromoFromMerchant(promo_id);
 
   const onSubmit = async (values) => {
-    await startVirtualCardOrder(api, buildRequestPayload(values, user)).then(
-      (res) => {
-        if (!res) return;
+    await startVirtualCardOrder(api, buildRequestPayload(values, user)).then((res) => {
+      if (!res) return;
 
-        setModalState(res);
-        setTimeout(function () {
-          return window.open(res.data.checkout_url);
-        }, 1 * 1000);
+      setModalState(res);
+      setTimeout(function () {
+        return window.open(res.data.checkout_url);
+      }, 1 * 1000);
 
-        //go to the next modal screen
-        next();
-      }
-    );
+      //go to the next modal screen
+      next();
+    });
   };
 
   return (
@@ -59,9 +57,7 @@ export default function VirtualCardModal({ next, setModalState }) {
           if (!values.merchant_name) errors.merchant_name = '* Required';
           if (!values.order_amount) errors.order_amount = '* Required';
 
-          const amount = parseFloat(
-            values.order_amount.replace(/[^.0-9]/g, '')
-          );
+          const amount = parseFloat(values.order_amount.replace(/[^.0-9]/g, ''));
           if (amount === 0.0 || isNaN(amount)) {
             errors.order_amount = '* Amount must be greater than zero (0)';
           }
@@ -76,13 +72,9 @@ export default function VirtualCardModal({ next, setModalState }) {
               '* Amount exceeds remaining card limit. Please lower amount and try again.';
           }
 
-          if (
-            !values.bypass &&
-            activePromo &&
-            amount < activePromo.min_order_amount
-          ) {
+          if (!values.bypass && activePromo && amount < activePromo.min_order_amount) {
             errors.order_amount = `You need to spend ${formatCurrency(
-              activePromo.min_order_amount
+              activePromo.min_order_amount,
             )} to qualify for the 0% for ${activePromo.max_net_duration} day promotion`;
           }
 
@@ -90,12 +82,7 @@ export default function VirtualCardModal({ next, setModalState }) {
         }}
         onSubmit={onSubmit}
       >
-        {(props) => (
-          <VirtualCardForm
-            {...props}
-            activePromo={activePromo}
-          />
-        )}
+        {(props) => <VirtualCardForm {...props} activePromo={activePromo} />}
       </Formik>
     </div>
   );

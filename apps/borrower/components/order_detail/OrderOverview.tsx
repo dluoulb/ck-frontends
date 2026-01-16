@@ -9,12 +9,7 @@ import { reformatDate } from '@lib/utils/datetime_formatters';
 import Documents from './Documents';
 import ReturnsModal from './modals/ReturnsModal';
 
-export default function OrderOverview({
-  order,
-  product,
-  documents,
-  toggleTermsModal,
-}) {
+export default function OrderOverview({ order, product, documents, toggleTermsModal }) {
   let statusColor;
   let statusText;
   const { user, isAdminUser } = useUser();
@@ -59,7 +54,7 @@ export default function OrderOverview({
           <span
             className={classNames(
               'inline-flex items-center text-lg rounded-md px-4 py-2 font-semibold tracking-wide w-fit',
-              statusColor
+              statusColor,
             )}
           >
             {statusText}
@@ -68,44 +63,30 @@ export default function OrderOverview({
         <div className="flex justify-between items-end text-sm my-4">
           <div className="space-y-1">
             <p className="font-semibold">
-              <span className="font-normal text-secondary-gray mr-1">
-                Merchant:
-              </span>
+              <span className="font-normal text-secondary-gray mr-1">Merchant:</span>
               {order?.merchant.name}
             </p>
             <p className="font-semibold">
-              <span className="font-normal text-secondary-gray mr-1">
-                Merchant Order ID:
-              </span>
+              <span className="font-normal text-secondary-gray mr-1">Merchant Order ID:</span>
               {order?.merchant_order_id}
             </p>
             {product?.mambu_loan_id && (
               <p className="font-semibold">
-                <span className="font-normal text-secondary-gray mr-1">
-                  Mambu Loan ID:
-                </span>
+                <span className="font-normal text-secondary-gray mr-1">Mambu Loan ID:</span>
                 {product?.mambu_loan_id}
               </p>
             )}
             <p className="font-semibold">
-              <span className="font-normal text-secondary-gray mr-1">
-                Disbursement Date:
-              </span>
+              <span className="font-normal text-secondary-gray mr-1">Disbursement Date:</span>
               {reformatDate(
-                isPaymentPlan
-                  ? product?.disbursement_date
-                  : product?.capture_date,
-                false
+                isPaymentPlan ? product?.disbursement_date : product?.capture_date,
+                false,
               )}
             </p>
             {(defaultBankLabel || defaultCardLabel) && (
               <p className="font-semibold">
-                <span className="font-normal text-secondary-gray mr-1">
-                  Paying from:
-                </span>
-                {order.entity_type !== 'account'
-                  ? defaultBankLabel
-                  : defaultCardLabel}
+                <span className="font-normal text-secondary-gray mr-1">Paying from:</span>
+                {order.entity_type !== 'account' ? defaultBankLabel : defaultCardLabel}
               </p>
             )}
           </div>
@@ -134,10 +115,7 @@ export default function OrderOverview({
                 Update Payment Terms
               </p>
             )}
-            <ReturnsModal
-              isModalActive={isModalActive}
-              toggleModal={toggleModal}
-            />
+            <ReturnsModal isModalActive={isModalActive} toggleModal={toggleModal} />
           </div>
         </div>
       </div>

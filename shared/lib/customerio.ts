@@ -6,9 +6,7 @@ let customerIO: AnalyticsBrowser | null = null;
 
 export const initializeCustomerio = () => {
   if (!CUSTOMERIO_WRITE_KEY) {
-    console.warn(
-      'CustomerIO credentials not found. Please set NEXT_PUBLIC_CUSTOMERIO_WRITE_KEY'
-    );
+    console.warn('CustomerIO credentials not found. Please set NEXT_PUBLIC_CUSTOMERIO_WRITE_KEY');
     return null;
   }
 

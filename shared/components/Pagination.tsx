@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  faArrowLeftLong,
-  faArrowRightLong,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
@@ -25,7 +22,7 @@ export default function Pagination({ totalCount, table }) {
               'relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium',
               !table.getCanPreviousPage()
                 ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
-                : 'text-gray-700 hover:bg-gray-50'
+                : 'text-gray-700 hover:bg-gray-50',
             )}
           >
             Previous
@@ -37,7 +34,7 @@ export default function Pagination({ totalCount, table }) {
               'relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium',
               !table.getCanNextPage()
                 ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
-                : 'text-gray-700 hover:bg-gray-50'
+                : 'text-gray-700 hover:bg-gray-50',
             )}
           >
             Next
@@ -47,9 +44,7 @@ export default function Pagination({ totalCount, table }) {
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing{' '}
-            <span className="font-medium">{pageIndex * tablePageSize + 1}</span>{' '}
-            to{' '}
+            Showing <span className="font-medium">{pageIndex * tablePageSize + 1}</span> to{' '}
             <span className="font-medium">
               {Math.min((pageIndex + 1) * tablePageSize, totalCount)}
             </span>{' '}
@@ -68,7 +63,7 @@ export default function Pagination({ totalCount, table }) {
                 'relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0',
                 !table.getCanPreviousPage()
                   ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
-                  : 'text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-secondary-blue'
+                  : 'text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-secondary-blue',
               )}
             >
               <span className="sr-only">Previous</span>
@@ -84,7 +79,7 @@ export default function Pagination({ totalCount, table }) {
                 'relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0',
                 !table.getCanNextPage()
                   ? 'cursor-not-allowed text-gray-200 ring-1 ring-inset ring-gray-100'
-                  : 'text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-secondary-blue'
+                  : 'text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-secondary-blue',
               )}
             >
               <span className="sr-only">Next</span>

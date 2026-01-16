@@ -1,9 +1,10 @@
 import React from 'react';
-import qrCode from '@lib/images/app_qr_code.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileNotch } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
+
 import { mobileAppDownloadLink } from '@lib/constants/SiteVariables';
+import qrCode from '@lib/images/app_qr_code.png';
 
 export default function PromoteApp() {
   return (
@@ -17,11 +18,20 @@ export default function PromoteApp() {
         </div>
       </div>
       <div className="mt-2 md:mt-4 text-center">
-        <Image src={qrCode} alt="qr code for mobile app" width={150} className="hidden md:block mx-auto" />
-        <a href={mobileAppDownloadLink} target="_blank" className="md:hidden text-primary-blue hover:text-primary-blue-hover font-semibold">Download Credit Key App</a>
+        <Image
+          src={qrCode}
+          alt="qr code for mobile app"
+          width={150}
+          className="hidden md:block mx-auto"
+        />
+        <a
+          href={mobileAppDownloadLink}
+          target="_blank"
+          className="md:hidden text-primary-blue hover:text-primary-blue-hover font-semibold"
+        >
+          Download Credit Key App
+        </a>
       </div>
     </div>
   );
 }
-
-

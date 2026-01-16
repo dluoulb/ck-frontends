@@ -5,11 +5,7 @@ import { useRouter } from 'next/router';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { formatCurrency } from '@lib/utils/formatters';
 
-export default function PaymentProgress({
-  order,
-  paymentMethods,
-  toggleModal,
-}) {
+export default function PaymentProgress({ order, paymentMethods, toggleModal }) {
   let progressColor;
   const router = useRouter();
 
@@ -60,13 +56,13 @@ export default function PaymentProgress({
               className={classNames(
                 'absolute -right-4 bottom-full mb-2 rounded-sm px-3.5 py-1 text-sm text-white',
                 progressColor,
-                {'hidden': !order?.product?.progress || order?.product?.progress >= 100 }
+                { hidden: !order?.product?.progress || order?.product?.progress >= 100 },
               )}
             >
               <span
                 className={classNames(
                   'absolute bottom-[-2px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm',
-                  progressColor
+                  progressColor,
                 )}
               ></span>
               {formatCurrency(order?.product?.paid_amount)}
@@ -76,17 +72,13 @@ export default function PaymentProgress({
 
         <div className="mt-6 w-full flex justify-between items-center">
           <div>
-            <p className="text-sm font-medium text-secondary-gray">
-              Total Amount
-            </p>
+            <p className="text-sm font-medium text-secondary-gray">Total Amount</p>
             <p className="font-bold text-base sm:text-xl my-1">
               {formatCurrency(order?.net_amount)}
             </p>
           </div>
           <div>
-            <p className="text-sm font-medium text-secondary-gray">
-              Remaining Balance
-            </p>
+            <p className="text-sm font-medium text-secondary-gray">Remaining Balance</p>
             <p className="font-bold text-base sm:text-xl my-1">
               {formatCurrency(order?.total_balance)}
             </p>

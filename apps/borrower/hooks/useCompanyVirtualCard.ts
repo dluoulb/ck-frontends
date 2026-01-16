@@ -21,8 +21,7 @@ function useCompanyVirtualCard() {
     retry: 1,
   });
 
-  const virtualCard =
-    cards?.find((card) => card.type === 'VIRTUAL' && card.is_default) || null;
+  const virtualCard = cards?.find((card) => card.type === 'VIRTUAL' && card.is_default) || null;
 
   return {
     virtualCard,

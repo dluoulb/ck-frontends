@@ -21,17 +21,7 @@ export default class MerchantRecord {
   default_checkout_method: string | null;
 
   constructor(data) {
-    const { learn_more_link, ...filteredData } = removeNulls(data);
+    const { _learn_more_link, ...filteredData } = removeNulls(data);
     Object.assign(this, filteredData);
-  }
-
-  get learn_more_link() {
-    let learnMoreSlug;
-
-    this.slug === 'not-used' || this.slug === ''
-      ? (learnMoreSlug = 'learn-more')
-      : (learnMoreSlug = this.slug);
-
-    return server(false) + '/' + learnMoreSlug;
   }
 }

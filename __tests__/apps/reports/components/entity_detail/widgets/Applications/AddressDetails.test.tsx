@@ -3,7 +3,7 @@ import { companyApproved } from '@lib/testing/records';
 import { render, renders, screen } from '@lib/testing/test-utils';
 
 describe('Address Details Component', () => {
-  let props = { type: 'company', appAddress: companyApproved.address };
+  const props = { type: 'company', appAddress: companyApproved.address };
   renders(AddressDetails, props);
 
   test('displays not provided', () => {

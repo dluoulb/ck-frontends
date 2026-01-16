@@ -35,23 +35,18 @@ export default function RewardsBalanceCard({
             <Loading className="w-6 h-6" />
           </div>
         ) : rewardPointsBalanceError ? (
-          <div className="text-red-600 text-sm">
-            Unable to load reward points
-          </div>
+          <div className="text-red-600 text-sm">Unable to load reward points</div>
         ) : (
           <div className="flex items-center justify-between mt-4">
             <div className="space-y-2">
               <div className="text-sm">
-                Pending:{' '}
-                <span className="font-semibold">{pendingPoints} pts</span>
+                Pending: <span className="font-semibold">{pendingPoints} pts</span>
               </div>
               <div className="text-sm">
-                Ready to redeem:{' '}
-                <span className="font-semibold">{postedPoints} pts</span>
+                Ready to redeem: <span className="font-semibold">{postedPoints} pts</span>
               </div>
               <div className="text-sm">
-                Lifetime:{' '}
-                <span className="font-semibold">{lifetimePoints} pts</span>
+                Lifetime: <span className="font-semibold">{lifetimePoints} pts</span>
               </div>
             </div>
             {manage ? (

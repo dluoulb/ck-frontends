@@ -18,13 +18,10 @@ import CloseMultiUseVirtualCardModal from './vc_modal/CloseMultiUseVirtualCardMo
 
 export default function PrepaidCardBalance({ allowCardClose, isJitEnabled }) {
   const { isModalActive, toggleModal } = useModal();
-  const { isModalActive: isAddFundsActive, toggleModal: toggleAddFunds } =
-    useModal();
+  const { isModalActive: isAddFundsActive, toggleModal: toggleAddFunds } = useModal();
   const { balance, balanceLoading } = useVirtualCardBalance();
   const { entity } = useEntity();
-  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(
-    entity?.id
-  );
+  const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(entity?.id);
 
   const minute = 1000 * 60;
   const hour = minute * 60;
@@ -125,10 +122,7 @@ export default function PrepaidCardBalance({ allowCardClose, isJitEnabled }) {
           )}
         </div>
       )}
-      <AddFundsModalWrapper
-        isModalActive={isAddFundsActive}
-        toggleModal={toggleAddFunds}
-      />
+      <AddFundsModalWrapper isModalActive={isAddFundsActive} toggleModal={toggleAddFunds} />
     </>
   );
 }

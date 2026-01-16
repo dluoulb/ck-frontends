@@ -18,8 +18,7 @@ import { UserTableColumns } from './table/UserTableColumns';
 export default function Users() {
   const size = useWindowSize();
   const { entity } = useEntity();
-  const { companyUsers, companyUsersLoading, companyUsersRefetching } =
-    useBorrowerDeps();
+  const { companyUsers, companyUsersLoading, companyUsersRefetching } = useBorrowerDeps();
   const [sorting, setSorting] = useState([{ id: 'role', desc: false }]);
 
   const data = useMemo(() => companyUsers || [], [companyUsers?.length]);
@@ -62,9 +61,7 @@ export default function Users() {
     <div>
       <div className="border-y border-primary-gray-border px-8 py-6">
         <div className="text-sm font-medium text-tertiary-gray">
-          <p>
-            Approved purchasers are able to place orders on behalf of the business.
-          </p>
+          <p>Approved purchasers are able to place orders on behalf of the business.</p>
           <AddNewUser />
         </div>
       </div>

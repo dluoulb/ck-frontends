@@ -9,9 +9,9 @@ export default function StickyCheckbox({
   errors,
   placeholder,
   setFieldValue,
-  placeholderClass='',
+  placeholderClass = '',
 }) {
-  let [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const toggleChecked = () => {
     setChecked(!checked);
@@ -28,7 +28,7 @@ export default function StickyCheckbox({
           'h-4 w-4 rounded-md border-gray-300 text-primary-blue focus:ring-primary-blue mt-1.5',
           {
             '!border-error': errors[id],
-          }
+          },
         )}
         onChange={(e) => {
           setFieldValue(id, e.currentTarget.checked);
@@ -36,16 +36,9 @@ export default function StickyCheckbox({
         }}
       />
       <div className="text-sm">
-        <label htmlFor={id} className={classNames(
-          "text-sm sm:text-base",
-          placeholderClass,
-        )}>
+        <label htmlFor={id} className={classNames('text-sm sm:text-base', placeholderClass)}>
           <span className="text-sm">{placeholder}</span>
-          <ErrorMessage
-            name={id}
-            component="div"
-            className={formStyles.validation}
-          />
+          <ErrorMessage name={id} component="div" className={formStyles.validation} />
         </label>
       </div>
     </div>

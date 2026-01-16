@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import * as RadioGroup from '@radix-ui/react-radio-group';
 
+import PrimaryButton from '@components/buttons/PrimaryButton';
+import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createVirtualCard, updateRechargeTerm } from '@lib/actions/companies';
 import { getApprovedTerms } from '@lib/actions/entities';
-import Loading from '@components/Loading';
-import * as RadioGroup from '@radix-ui/react-radio-group';
-import PrimaryButton from '@components/buttons/PrimaryButton';
-import MerchantRecord from '@lib/records/merchant';
 import { getMerchant } from '@lib/actions/merchants';
-import FullStory from '@lib/utils/fullstory';
+import MerchantRecord from '@lib/records/merchant';
 import { getTermLabel } from '@lib/utils/formatters';
+import FullStory from '@lib/utils/fullstory';
 
 export default function SetDefaultTermsModal({ next, skipCardCreate }) {
   const api = useApi();
@@ -37,12 +37,12 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
     setLoading(true);
     try {
       await updateRechargeTerm(api, entity, merchant_id, term?.term);
-      
+
       const fullstory = new FullStory();
       fullstory.setDefaultTermsEvent(user?.id, entity?.id, term?.term);
       makeToast('Default Term Successfully Updated', 'success');
       fetchEntity({ company_id: entity?.id });
-      
+
       if (skipCardCreate) {
         next();
         return;
@@ -68,10 +68,7 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast(
-          'An error occurred. Please contact Credit Key Support',
-          'error'
-        );
+        makeToast('An error occurred. Please contact Credit Key Support', 'error');
         setError(true);
       });
   }, []);
@@ -105,18 +102,18 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
 
   const sortedTerms = useMemo(() => {
     if (!terms) return [];
-    
+
     return [...terms].sort((a, b) => {
       if (a.term === 4 && a.term_period === 'biweekly') return -1;
       if (b.term === 4 && b.term_period === 'biweekly') return 1;
-      
+
       if (a.term_period === 'monthly' && b.term_period === 'monthly') {
         return a.term - b.term;
       }
-      
+
       if (a.term_period === 'monthly') return 1;
       if (b.term_period === 'monthly') return -1;
-      
+
       return 0;
     });
   }, [terms]);
@@ -128,9 +125,7 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
           {!error ? (
             <Loading className="w-14 h-14" />
           ) : (
-            <p className="text-rose-600">
-              An error occurred. Please contact Credit Key Support
-            </p>
+            <p className="text-rose-600">An error occurred. Please contact Credit Key Support</p>
           )}
         </>
       ) : (
@@ -142,20 +137,22 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                   Set default payment terms
                 </p>
                 <p className="my-2">
-                  Purchases made with your Credit Key Card will default to the following repayment terms. You can always edit terms for specific transactions, or change this default term later.
+                  Purchases made with your Credit Key Card will default to the following repayment
+                  terms. You can always edit terms for specific transactions, or change this default
+                  term later.
                 </p>
               </div>
               <div className="mt-5">
                 <RadioGroup.Root
                   value={term?.term?.toString()}
                   onValueChange={(value) => {
-                    const selectedTerm = terms?.find(t => t.term.toString() === value);
+                    const selectedTerm = terms?.find((t) => t.term.toString() === value);
                     handleChange(selectedTerm);
                   }}
                   className="my-3 space-y-3"
                 >
                   {sortedTerms?.map((op) => (
-                    <label 
+                    <label
                       key={`${op.term}-${op.term_period}`}
                       className="flex items-center justify-between p-3 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-50 data-[state=checked]:border-primary-blue data-[state=checked]:bg-blue-50"
                       onClick={() => handleChange(op)}
@@ -167,9 +164,7 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                         >
                           <RadioGroup.Indicator className="w-2 h-2 rounded-full bg-white" />
                         </RadioGroup.Item>
-                        <span className="font-medium text-gray-900">
-                          {getTermLabel(op)}
-                        </span>
+                        <span className="font-medium text-gray-900">{getTermLabel(op)}</span>
                       </div>
                       <span className="text-sm text-gray-500">
                         {op.rate === 0 ? '0%' : `${op.rate.toFixed(2)}% monthly`}
@@ -179,21 +174,21 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
                 </RadioGroup.Root>
               </div>
             </div>
-        </div>
-        <div className="w-full m-auto px-4 sm:px-0 py-3 flex justify-center items-center">
-          <PrimaryButton
-            ariaLabel="save-default-terms-button"
-            buttonText="Next"
-            buttonColor="bg-primary-blue"
-            hoverClass="hover:bg-primary-blue-hover"
-            containerClass="w-full"
-            disabled={loading || !term}
-            isLoading={loading}
-            onClick={() => onSave(defaultTerm?.merchant_id, term)}
-          />
-        </div>
-      </>
-    )}
+          </div>
+          <div className="w-full m-auto px-4 sm:px-0 py-3 flex justify-center items-center">
+            <PrimaryButton
+              ariaLabel="save-default-terms-button"
+              buttonText="Next"
+              buttonColor="bg-primary-blue"
+              hoverClass="hover:bg-primary-blue-hover"
+              containerClass="w-full"
+              disabled={loading || !term}
+              isLoading={loading}
+              onClick={() => onSave(defaultTerm?.merchant_id, term)}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

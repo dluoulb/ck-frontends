@@ -3,9 +3,9 @@ import { faCircleInfo } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
+import Loading from '@components/Loading';
 import Tooltip from '@components/Tooltip';
 import { useEntity } from '@contexts/EntityContext';
-import Loading from '@components/Loading';
 
 export default function BorrowerOverview() {
   const { entity, entityLoading } = useEntity();
@@ -31,7 +31,9 @@ export default function BorrowerOverview() {
   return (
     <div className="pt-6">
       <div className="flex justify-between items-center">
-        {entityLoading ? <Loading className="w-14 h-14 my-36" /> :
+        {entityLoading ? (
+          <Loading className="w-14 h-14 my-36" />
+        ) : (
           <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
             <div className="text-sm md:text-base">
               <p
@@ -44,9 +46,7 @@ export default function BorrowerOverview() {
                 <p>
                   Base Rate:
                   <span className="mx-1 font-semibold">
-                    {entity?.min_rate !== 'N/A' && approvedUser
-                      ? `${entity?.min_rate}%`
-                      : '--'}
+                    {entity?.min_rate !== 'N/A' && approvedUser ? `${entity?.min_rate}%` : '--'}
                   </span>
                   {entity?.min_rate !== 'N/A' && approvedUser && (
                     <Tooltip
@@ -77,14 +77,14 @@ export default function BorrowerOverview() {
                 role="status"
                 className={classNames(
                   'inline-flex items-center text-sm sm:text-md rounded-md px-3 sm:px-4 py-2 font-semibold tracking-wide mb-2 sm:mb-0 w-max sm:w-auto',
-                  statusColor
+                  statusColor,
                 )}
               >
                 {entity?.status}
               </span>
             </div>
           </div>
-        }
+        )}
       </div>
     </div>
   );

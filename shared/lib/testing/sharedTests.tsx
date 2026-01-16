@@ -4,11 +4,7 @@ import { customRender, screen, waitFor } from './test-utils';
 
 type ComponentWithRole = React.ComponentType<any> & { role: string };
 
-export function renders(
-  Component: ComponentWithRole,
-  props: any = {},
-  renderOptions = {}
-) {
+export function renders(Component: ComponentWithRole, props: any = {}, renderOptions = {}) {
   return test(`Renders ${Component.role}`, async () => {
     customRender(<Component {...props} />, renderOptions);
 

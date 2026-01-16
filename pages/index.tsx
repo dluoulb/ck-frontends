@@ -9,9 +9,7 @@ export default function Home() {
   return (
     <main>
       <div className="xl:max-w-[90%] mx-auto">
-        <h1 className="text-3xl font-bold text-primary my-6">
-          Welcome to Credit Key
-        </h1>
+        <h1 className="text-3xl font-bold text-primary my-6">Welcome to Credit Key</h1>
         <div className="border border-primary-gray-border rounded-lg bg-slate-50 mb-16">
           <div className="overflow-hidden grid grid-cols-1 sm:grid-cols-2 sm:gap-px">
             {routes.slice(1).map((route, routeIdx) => (
@@ -22,18 +20,16 @@ export default function Home() {
                   routeIdx < 4 && 'border-b',
                   routeIdx === routes.length - 1 && 'border-t sm:border-t-0',
                   [1, 3, 5].includes(routeIdx) && 'sm:border-l',
-                  route.disabled
-                    ? '!cursor-not-allowed'
-                    : 'bg-white hover:bg-secondary-blue',
+                  route.disabled ? '!cursor-not-allowed' : 'bg-white hover:bg-secondary-blue',
                   route.divClass,
-                  'group relative p-6'
+                  'group relative p-6',
                 )}
               >
                 <span
                   className={classNames(
                     route.iconBackground,
                     route.iconForeground,
-                    'inline-flex rounded-lg p-3'
+                    'inline-flex rounded-lg p-3',
                   )}
                 >
                   <FontAwesomeIcon icon={route.icon} className="text-lg" />
@@ -43,9 +39,7 @@ export default function Home() {
                     <span aria-hidden="true" className="absolute inset-0" />
                     {route.title}
                   </h3>
-                  <p className="mt-2 text-sm text-secondary-gray">
-                    {route.description}
-                  </p>
+                  <p className="mt-2 text-sm text-secondary-gray">{route.description}</p>
                 </div>
                 <span
                   aria-hidden="true"
@@ -56,10 +50,7 @@ export default function Home() {
                       Disabled
                     </span>
                   ) : (
-                    <FontAwesomeIcon
-                      icon={faArrowUpRight}
-                      className="text-3xl"
-                    />
+                    <FontAwesomeIcon icon={faArrowUpRight} className="text-3xl" />
                   )}
                 </span>
               </Link>

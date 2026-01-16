@@ -34,9 +34,7 @@ export default function OrderHit({ hit }) {
           <span className="block">
             Owner: {hit.first_name} {hit.last_name}
           </span>
-          <span className="block">
-            Shipping Address: {address(hit.shipping_address)}
-          </span>
+          <span className="block">Shipping Address: {address(hit.shipping_address)}</span>
         </p>
         <div className="col-span-1">
           <div>

@@ -12,7 +12,7 @@ export default function EntityIndex() {
 
   const { entity, entityError, entityLoading } = useEntity(
     id,
-    type === 'companies' ? 'company' : 'account'
+    type === 'companies' ? 'company' : 'account',
   );
 
   useEffect(() => {
@@ -20,21 +20,12 @@ export default function EntityIndex() {
   }, [content]);
 
   if ((!entity && !entityLoading) || entityError) {
-    return (
-      <NoDataError
-        tag={type === 'accounts' ? 'Account' : 'Company'}
-        withButton={true}
-      />
-    );
+    return <NoDataError tag={type === 'accounts' ? 'Account' : 'Company'} withButton={true} />;
   }
 
   return (
     <div data-testid="container" className="max-w-[90%] mx-auto">
-      <ReportsContextProvider
-        entity={entity}
-        entityLoading={entityLoading}
-        content={queryContent}
-      >
+      <ReportsContextProvider entity={entity} entityLoading={entityLoading} content={queryContent}>
         <EntityDetail content={queryContent} setContent={setQueryContent} />
       </ReportsContextProvider>
     </div>

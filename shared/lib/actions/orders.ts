@@ -92,11 +92,7 @@ export const getInvoice = async (order, documentID) => {
   return invoiceDownload;
 };
 
-export const updatePaymentTerms = async (
-  api,
-  orderId,
-  numberOfInstallments
-) => {
+export const updatePaymentTerms = async (api, orderId, numberOfInstallments) => {
   const order = await api.put(`/api/orders/${orderId}/term`, {
     installments: numberOfInstallments,
   });

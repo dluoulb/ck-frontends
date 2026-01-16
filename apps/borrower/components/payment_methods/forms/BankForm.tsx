@@ -5,16 +5,13 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import { ColumnInput, StickyCheckbox, StickyInput } from '@components/inputs';
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
-import {
-  createPaymentMethodBank,
-  generateBankAgreement,
-} from '@lib/actions/payment_methods';
+import { createPaymentMethodBank, generateBankAgreement } from '@lib/actions/payment_methods';
 import PaymentMethodRecord from '@lib/records/payment_method';
 import ErrorAlert from '../modals/ErrorAlert';
-import { useEntity } from '@contexts/EntityContext';
 
 type FormValues = {
   agree: boolean;
@@ -26,7 +23,14 @@ type FormValues = {
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, createVcFlow, submitButtonText='Save Payment Method' }) {
+export default function BankForm({
+  hasAlert,
+  next,
+  setHasAlert,
+  toggleModal,
+  createVcFlow,
+  submitButtonText = 'Save Payment Method',
+}) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
@@ -49,8 +53,8 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
       .catch(() =>
         makeToast(
           'Unable to generate bank agreement. Please try again or contact our support team.',
-          'error'
-        )
+          'error',
+        ),
       );
   }, [user]);
 
@@ -70,26 +74,16 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
       })
       .catch((err) => {
         const invalid = err?.response?.data?.error?.includes('invalid_bank');
-        const excessive =
-          err?.response?.data?.error?.includes('excessive_attempts');
+        const excessive = err?.response?.data?.error?.includes('excessive_attempts');
 
         if (excessive) {
           fetchEntity();
           setHasAlert(true);
         } else if (invalid) {
-          setFieldError(
-            'bank_account',
-            'Double check the account number and try again.'
-          );
-          setFieldError(
-            'bank_routing',
-            'Double check the routing number and try again.'
-          );
+          setFieldError('bank_account', 'Double check the account number and try again.');
+          setFieldError('bank_routing', 'Double check the routing number and try again.');
         } else {
-          makeToast(
-            'An error occurred. Please try again or contact our support team.',
-            'error'
-          );
+          makeToast('An error occurred. Please try again or contact our support team.', 'error');
           toggleModal();
         }
       })
@@ -128,10 +122,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
           <Form>
             <div className="flex flex-col m-auto w-full">
               <ErrorAlert hasAlert={hasAlert} next={next} />
-              <ColumnInput
-                error={errors.bank_routing}
-                touched={touched.bank_routing}
-              >
+              <ColumnInput error={errors.bank_routing} touched={touched.bank_routing}>
                 <StickyInput
                   id="bank_routing"
                   inputMode="numeric"
@@ -140,10 +131,7 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
                   values={values}
                 />
               </ColumnInput>
-              <ColumnInput
-                error={errors.bank_account}
-                touched={touched.bank_account}
-              >
+              <ColumnInput error={errors.bank_account} touched={touched.bank_account}>
                 <StickyInput
                   id="bank_account"
                   inputMode="numeric"
@@ -152,15 +140,8 @@ export default function BankForm({ hasAlert, next, setHasAlert, toggleModal, cre
                   values={values}
                 />
               </ColumnInput>
-              <ColumnInput
-                error={errors.account_holder}
-                touched={touched.account_holder}
-              >
-                <StickyInput
-                  id="account_holder"
-                  placeholder="Name on Account"
-                  values={values}
-                />
+              <ColumnInput error={errors.account_holder} touched={touched.account_holder}>
+                <StickyInput id="account_holder" placeholder="Name on Account" values={values} />
               </ColumnInput>
               <div className="form-control block w-full bg-secondary-blue p-3 text-xs sm:text-sm font-normal text-secondary-gray bg-clip-padding border border-solid border-primary-gray-border rounded transition ease-in-out m-0 focus:text-primary-blue-hover focus:bg-white focus:border-primary-blue-hover focus:outline-none h-40 max-h-40 overflow-y-scroll">
                 {agreementLoading ? (

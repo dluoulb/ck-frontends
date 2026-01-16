@@ -6,5 +6,4 @@ export default function AddFundsMessage() {
       <p className="p-3 font-semibold">Add funds now to activate your card for transacting</p>
     </div>
   );
-};
-
+}

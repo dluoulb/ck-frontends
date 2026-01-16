@@ -48,9 +48,7 @@ export default function Applications() {
             Applications
           </p>
         </div>
-        <p className="text-error my-2 px-4">
-          An Error Occured. Please contact Credit Key support.
-        </p>
+        <p className="text-error my-2 px-4">An Error Occured. Please contact Credit Key support.</p>
       </div>
     );
 
@@ -85,9 +83,7 @@ export default function Applications() {
             >
               <ApplicationStatus app={app} />
               <p>
-                <span className="mr-1 font-normal">
-                  Approved Credit Amount:
-                </span>
+                <span className="mr-1 font-normal">Approved Credit Amount:</span>
                 {getApprovedAmount(app)}
               </p>
               <p>
@@ -117,16 +113,12 @@ export default function Applications() {
                   : 'N/A'}
               </p>
               <p>
-                <span className="mr-1 font-normal">
-                  Application Decision Date:
-                </span>
+                <span className="mr-1 font-normal">Application Decision Date:</span>
                 {fromISO(app?.latest_submission_date).toLocaleString()}
               </p>
               <p>
                 <span className="mr-1 font-normal">Pended:</span>
-                {app?.pended_at
-                  ? fromISO(app?.pended_at).toLocaleString()
-                  : 'No'}
+                {app?.pended_at ? fromISO(app?.pended_at).toLocaleString() : 'No'}
               </p>
               <PendReasons app={app} />
               <p>

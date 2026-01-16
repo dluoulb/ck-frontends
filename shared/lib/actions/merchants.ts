@@ -8,6 +8,8 @@ export const getMerchant = async (api, merchant_id) => {
 
 export const acceptMerchantInvite = async (api, slug) => {
   if (!slug) return;
-  const merchant = await api.post('/api/merchants/accept_merchant_company_connect_invite', { slug });
+  const merchant = await api.post('/api/merchants/accept_merchant_company_connect_invite', {
+    slug,
+  });
   return new MerchantRecord(merchant.data.data.attributes);
 };

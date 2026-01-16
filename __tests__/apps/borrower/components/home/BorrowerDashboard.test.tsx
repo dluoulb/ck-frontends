@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
-import axios from 'axios';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -15,7 +16,7 @@ describe('Main Dashbboard Home Page', () => {
     await waitFor(() => expect(screen.getByText('Widget Maker Co.')));
 
     const widgets = screen.getAllByRole('base-grid-item-component');
-    expect(widgets).toHaveLength(5);
+    expect(widgets).toHaveLength(6);
   });
 
   test('displays error page when entity not fetched', async () => {

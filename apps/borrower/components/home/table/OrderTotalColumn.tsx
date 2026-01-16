@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { formatCurrency } from '@lib/utils/formatters';
 
 export default function OrderTotalColumn({ order }) {

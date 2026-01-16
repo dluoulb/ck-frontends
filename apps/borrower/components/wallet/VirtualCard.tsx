@@ -16,13 +16,8 @@ interface VirtualCardProps {
   onActivate?: () => void;
 }
 
-export default function VirtualCard({
-  isActive,
-  cardNumber,
-  onActivate,
-}: VirtualCardProps) {
-  const { virtualCard, refetchVirtualCard, virtualCardRefetching } =
-    useCompanyVirtualCard();
+export default function VirtualCard({ isActive, cardNumber, onActivate }: VirtualCardProps) {
+  const { virtualCard, refetchVirtualCard, virtualCardRefetching } = useCompanyVirtualCard();
   const [showWidget, setShowWidget] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
@@ -35,8 +30,7 @@ export default function VirtualCard({
         'fs-exclude widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
       spinner: false,
       display: 'flex',
-      filter:
-        'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',
+      filter: 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',
       version: 'v3',
     },
     target_origin: qoloWidgetOrigin(),
@@ -162,9 +156,7 @@ export default function VirtualCard({
 
             {!virtualCard?.pci_token && !virtualCardRefetching && (
               <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-20">
-                <div className="text-center text-gray-500">
-                  No card data available
-                </div>
+                <div className="text-center text-gray-500">No card data available</div>
               </div>
             )}
           </div>
@@ -191,13 +183,9 @@ export default function VirtualCard({
             {cardNumber && (
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-200">
-                    Card Number
-                  </span>
+                  <span className="text-xs font-semibold text-gray-200">Card Number</span>
                 </div>
-                <div className="text-sm sm:text-xl tracking-wider">
-                  {cardNumber}
-                </div>
+                <div className="text-sm sm:text-xl tracking-wider">{cardNumber}</div>
               </div>
             )}
 

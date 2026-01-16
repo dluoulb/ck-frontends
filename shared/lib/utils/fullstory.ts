@@ -1,9 +1,5 @@
 import RollbarFullStory from '@bharathvaj/fullstory-rollbar';
-import {
-  FullStory as FS,
-  init as initFullStory,
-  isInitialized,
-} from '@fullstory/browser';
+import { FullStory as FS, init as initFullStory, isInitialized } from '@fullstory/browser';
 
 import { platform } from '@lib/constants/SiteVariables';
 import { rollbarConfig } from './rollbar';
@@ -33,12 +29,8 @@ export default class FullStory {
       orgId: process.env.NEXT_PUBLIC_FULLSTORY_ORG_ID,
       devMode: platform() !== 'production',
       debug: platform() !== 'production',
-      recordCrossDomainIFrames: iframedMerchants.includes(this.merchantName)
-        ? true
-        : false,
-      recordOnlyThisIFrame: iframedMerchants.includes(this.merchantName)
-        ? true
-        : false,
+      recordCrossDomainIFrames: iframedMerchants.includes(this.merchantName) ? true : false,
+      recordOnlyThisIFrame: iframedMerchants.includes(this.merchantName) ? true : false,
     });
   }
 
@@ -100,11 +92,7 @@ export default class FullStory {
     this.trackEvent('Viewed Plus Subscription Modal', { companyId, userId });
   }
 
-  plusSubscriptionSuccessfulEvent(
-    userId: string,
-    companyId: string,
-    planType: string
-  ) {
+  plusSubscriptionSuccessfulEvent(userId: string, companyId: string, planType: string) {
     this.trackEvent('Plus Subscription Successful', {
       companyId,
       userId,

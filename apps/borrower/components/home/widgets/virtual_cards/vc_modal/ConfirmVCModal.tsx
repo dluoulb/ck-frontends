@@ -1,4 +1,5 @@
 import React from 'react';
+
 // import CTAButton from '../../shared/CTAButton';
 
 export default function ConfirmVCModal({ modalState, prev }) {
@@ -10,8 +11,7 @@ export default function ConfirmVCModal({ modalState, prev }) {
             Credit Key Virtual Card
           </p>
           <p className="text-center mb-0 px-10">
-            One moment while we redirect you to complete the virtual card
-            process...
+            One moment while we redirect you to complete the virtual card process...
           </p>
         </div>
         {/* <div className="content flex flex-col items-center my-8">

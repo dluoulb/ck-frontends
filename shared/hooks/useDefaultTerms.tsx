@@ -91,9 +91,7 @@ function useDefaultTerms(company, shouldFetch) {
       merchant_name: merchant.name,
       merchant_slug: merchant.slug,
       default_term: (() => {
-        const merchantTerm = defaultTermsList.find(
-          (term) => term.merchant_id === merchant.id
-        );
+        const merchantTerm = defaultTermsList.find((term) => term.merchant_id === merchant.id);
         return merchantTerm
           ? {
               term: merchantTerm?.default_term,
@@ -101,8 +99,7 @@ function useDefaultTerms(company, shouldFetch) {
             }
           : null;
       })(),
-      term_options: termOptions?.find((o) => merchant.id === o.merchant_id)
-        ?.terms,
+      term_options: termOptions?.find((o) => merchant.id === o.merchant_id)?.terms,
     };
   });
 

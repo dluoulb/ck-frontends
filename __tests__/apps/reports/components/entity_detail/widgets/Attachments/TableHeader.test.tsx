@@ -12,7 +12,7 @@ describe('TableHeader Component', () => {
       setColumnFilters: jest.fn(),
       getRowModel: jest.fn(() => ({
         rows: [],
-      })), 
+      })),
     };
 
     const statusTabs = [
@@ -24,12 +24,7 @@ describe('TableHeader Component', () => {
     ];
 
     render(
-      <TableHeader
-        table={table}
-        statusTabs={statusTabs}
-        active="all"
-        setActive={jest.fn()}
-      />
+      <TableHeader table={table} statusTabs={statusTabs} active="all" setActive={jest.fn()} />,
     );
 
     const tabs = screen.getAllByRole('listitem');

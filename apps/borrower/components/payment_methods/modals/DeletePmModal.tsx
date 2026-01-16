@@ -10,12 +10,7 @@ import useToast from '@hooks/useToast';
 import { deletePaymentMethod } from '@lib/actions/payment_methods';
 import { supportPhone } from '@lib/constants/SiteVariables';
 
-export default function DeletePmModal({
-  isModalActive,
-  toggleModal,
-  payment_method,
-  setLoading,
-}) {
+export default function DeletePmModal({ isModalActive, toggleModal, payment_method, setLoading }) {
   const api = useApi();
   const { makeToast } = useToast();
   const { refetchPaymentMethods } = useBorrowerDeps();
@@ -28,10 +23,7 @@ export default function DeletePmModal({
         makeToast('Payment Method Successfully Deleted', 'success');
       })
       .catch(() => {
-        makeToast(
-          'An error occurred. Please try again or contact our support team.',
-          'error'
-        );
+        makeToast('An error occurred. Please try again or contact our support team.', 'error');
         setLoading(null);
       })
       .finally(() => {
@@ -70,8 +62,8 @@ export default function DeletePmModal({
             ) : (
               // ---------> You cannot remove a default PM <---------
               <div>
-                Please set a new default payment method before proceeding or
-                contact our support team for further assistance.
+                Please set a new default payment method before proceeding or contact our support
+                team for further assistance.
                 <p className="my-2">
                   <a
                     href="mailto:support@creditkey.com"

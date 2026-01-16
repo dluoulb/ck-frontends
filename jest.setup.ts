@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom';
 
+import { TransformStream } from 'node:stream/web';
+
 import { useEntity } from '@contexts/EntityContext';
+import useActiveOrders from '@hooks/useActiveOrders';
 import useApplications from '@hooks/useApplications';
 import useCompanyUsers from '@hooks/useCompanyUsers';
 import useDefaultTerms from '@hooks/useDefaultTerms';
@@ -22,7 +25,13 @@ import {
   user,
 } from '@lib/testing/records';
 
+// Polyfill TransformStream for Node.js test environment
+global.TransformStream = TransformStream as any;
+
 global.scrollTo = jest.fn();
+
+// Mock environment variables for tests
+process.env.NEXT_PUBLIC_MARKETPLACE_URL = 'https://marketplace.test.com';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -53,6 +62,7 @@ export const mockApi = {
 };
 
 jest.mock('@hooks/useApi', () => () => mockApi);
+jest.mock('@hooks/useActiveOrders', () => jest.fn());
 jest.mock('@hooks/useOrders', () => jest.fn());
 jest.mock('@hooks/usePaymentMethods', () => jest.fn());
 jest.mock('@hooks/useApplications', () => jest.fn());
@@ -65,24 +75,15 @@ jest.mock('@contexts/EntityContext', () => ({
   useEntity: jest.fn(),
 }));
 
+global.mockedUseActiveOrders = useActiveOrders as jest.MockedFunction<typeof useActiveOrders>;
 global.mockedUseOrders = useOrders as jest.MockedFunction<typeof useOrders>;
-global.mockedUseDocuments = useDocuments as jest.MockedFunction<
-  typeof useDocuments
->;
+global.mockedUseDocuments = useDocuments as jest.MockedFunction<typeof useDocuments>;
 global.mockedUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
-global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<
-  typeof useCompanyUsers
->;
+global.mockedUseCompanyUsers = useCompanyUsers as jest.MockedFunction<typeof useCompanyUsers>;
 global.mockedUseStats = useStats as jest.MockedFunction<typeof useStats>;
-global.mockedUseApplications = useApplications as jest.MockedFunction<
-  typeof useApplications
->;
-global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<
-  typeof usePaymentMethods
->;
-global.mockedUseDefaultTerms = useDefaultTerms as jest.MockedFunction<
-  typeof useDefaultTerms
->;
+global.mockedUseApplications = useApplications as jest.MockedFunction<typeof useApplications>;
+global.mockedUsePaymentMethods = usePaymentMethods as jest.MockedFunction<typeof usePaymentMethods>;
+global.mockedUseDefaultTerms = useDefaultTerms as jest.MockedFunction<typeof useDefaultTerms>;
 
 global.mockedUseEntity.mockImplementation(() => ({
   entity: companyApproved,
@@ -98,6 +99,16 @@ global.mockedUseCompanyUsers.mockImplementation(() => ({
   companyUsersLoading: false,
   companyUsersRefetching: false,
   refetchCompanyUsers: jest.fn(),
+}));
+
+global.mockedUseActiveOrders.mockImplementation(() => ({
+  orders: [],
+  ordersLoading: false,
+  isFetching: false,
+  ordersError: null,
+  pageCount: 1,
+  totalOrderCount: 0,
+  refetchOrders: jest.fn(),
 }));
 
 global.mockedUseOrders.mockImplementation(() => ({
@@ -151,7 +162,7 @@ const mockRefetchPaymentMethods = jest.fn(() =>
     isFetching: false,
     isLoading: false,
     status: 'success',
-  } as any)
+  } as any),
 );
 
 class MockResizeObserver {
@@ -163,10 +174,8 @@ class MockResizeObserver {
 
   observe(target: Element) {
     this.callback(
-      [
-        { target, contentRect: { width: 100, height: 100 } },
-      ] as ResizeObserverEntry[],
-      this
+      [{ target, contentRect: { width: 100, height: 100 } }] as ResizeObserverEntry[],
+      this,
     );
   }
 

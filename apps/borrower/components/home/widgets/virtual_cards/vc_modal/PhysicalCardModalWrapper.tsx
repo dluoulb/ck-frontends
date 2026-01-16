@@ -14,10 +14,7 @@ import ConfirmMailingAddressModal from './ConfirmMailingAddressModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
 import SetDefaultTermsModal from './SetDefaultTermsModal';
 
-export default function PhysicalCardModalWrapper({
-  isModalActive,
-  toggleModal,
-}) {
+export default function PhysicalCardModalWrapper({ isModalActive, toggleModal }) {
   const [hasAlert, setHasAlert] = useState(false);
   const { virtualCard } = useCompanyVirtualCard();
   const { entity } = useEntity();
@@ -41,7 +38,7 @@ export default function PhysicalCardModalWrapper({
     getMerchant(api, 'virtual')
       .then((merchant) => {
         const existingTerm = entity?.recharge_settings?.find(
-          (setting) => setting.merchant_id === merchant.id
+          (setting) => setting.merchant_id === merchant.id,
         );
         setHasDefaultTerm(!!existingTerm);
       })
@@ -132,7 +129,7 @@ export default function PhysicalCardModalWrapper({
             }
             const StepComponent = step.component;
             return <StepComponent key={step.id} {...modalProps} />;
-          })
+          }),
         )}
       </ModalWrapper>
     </div>

@@ -10,9 +10,7 @@ export const BuildStack = ({ original }) => {
       </p>
       <p className="font-semibold md:font-normal flex gap-1">
         <span className="md:hidden font-normal">Value date:</span>
-        {original.loan_id
-          ? reformatDate(original.payment_date)
-          : reformatDate(original.value_date)}
+        {original.loan_id ? reformatDate(original.payment_date) : reformatDate(original.value_date)}
       </p>
       <p className="block sm:hidden font-semibold flex gap-1">
         <span className="font-normal">Amount:</span>

@@ -47,22 +47,13 @@ export default function AddUserForm({ company, close }) {
             setFieldError('phone', '* Invalid phone number. Please try again.');
             break;
           case 'Phone number already in use':
-            setFieldError(
-              'phone',
-              '* Phone number already in use. Please try again.'
-            );
+            setFieldError('phone', '* Phone number already in use. Please try again.');
             break;
           case 'Email address already in use':
-            setFieldError(
-              'email',
-              '* Email address already in use. Please try again.'
-            );
+            setFieldError('email', '* Email address already in use. Please try again.');
             break;
           default:
-            makeToast(
-              'An error occurred. Please try again or contact our support team.',
-              'error'
-            );
+            makeToast('An error occurred. Please try again or contact our support team.', 'error');
         }
       })
       .finally(() => setLoading(false));
@@ -106,18 +97,10 @@ export default function AddUserForm({ company, close }) {
         <Form>
           <div className="w-full sm:w-3/4 xl:w-1/2 my-4">
             <ColumnInput error={errors.first_name} touched={touched.first_name}>
-              <StickyInput
-                id="first_name"
-                placeholder="First Name"
-                values={values}
-              />
+              <StickyInput id="first_name" placeholder="First Name" values={values} />
             </ColumnInput>
             <ColumnInput error={errors.last_name} touched={touched.last_name}>
-              <StickyInput
-                id="last_name"
-                placeholder="Last Name"
-                values={values}
-              />
+              <StickyInput id="last_name" placeholder="Last Name" values={values} />
             </ColumnInput>
             <ColumnInput error={errors.phone} touched={touched.phone}>
               <StickyInput
@@ -129,12 +112,7 @@ export default function AddUserForm({ company, close }) {
               />
             </ColumnInput>
             <ColumnInput error={errors.email} touched={touched.email}>
-              <StickyInput
-                id="email"
-                type="email"
-                placeholder="Email"
-                values={values}
-              />
+              <StickyInput id="email" type="email" placeholder="Email" values={values} />
             </ColumnInput>
             <div className="flex flex-col sm:flex-row sm:gap-3">
               <PrimaryButton

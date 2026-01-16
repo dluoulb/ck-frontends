@@ -12,11 +12,7 @@ type UpdateTermsFormValues = {
   paymentTerms: string;
 };
 
-export default function UpdateTermsModalForm({
-  loan,
-  onSubmit,
-  toggleTermsModal,
-}) {
+export default function UpdateTermsModalForm({ loan, onSubmit, toggleTermsModal }) {
   const ATTEMPT_KEY = `update-terms-attempt-${loan.id}`;
   const lastAttempt = localStorage.getItem(ATTEMPT_KEY);
   const today = new Date().toISOString().slice(0, 10);
@@ -35,29 +31,23 @@ export default function UpdateTermsModalForm({
 
   const paymentSchedule = loan.product?.payment_schedule || [];
 
-  const scheduledPayments = paymentSchedule.filter(
-    (p) => p.status === 'scheduled'
-  ).length;
+  const scheduledPayments = paymentSchedule.filter((p) => p.status === 'scheduled').length;
 
   const oldRemainingPayments = scheduledPayments;
-  const newRemainingPayments = Math.max(
-    0,
-    scheduledPayments - (oldTerm - newTerm)
-  );
+  const newRemainingPayments = Math.max(0, scheduledPayments - (oldTerm - newTerm));
 
-  const oldDueBy = disbursementDate
-    ? formatShortDate(addMonths(disbursementDate, oldTerm))
-    : '--';
+  const oldDueBy = disbursementDate ? formatShortDate(addMonths(disbursementDate, oldTerm)) : '--';
 
-  const newDueBy = disbursementDate
-    ? formatShortDate(addMonths(disbursementDate, newTerm))
-    : '--';
+  const newDueBy = disbursementDate ? formatShortDate(addMonths(disbursementDate, newTerm)) : '--';
 
   return (
-    <Formik<UpdateTermsFormValues> initialValues={{paymentTerms: String(newTerm)}} onSubmit={async (values, actions) => {
-      await onSubmit(values, actions);
-      localStorage.setItem(ATTEMPT_KEY, today);
-    }}>
+    <Formik<UpdateTermsFormValues>
+      initialValues={{ paymentTerms: String(newTerm) }}
+      onSubmit={async (values, actions) => {
+        await onSubmit(values, actions);
+        localStorage.setItem(ATTEMPT_KEY, today);
+      }}
+    >
       {({ isSubmitting }) => (
         <Form>
           <div className="flex justify-between mb-1">
@@ -97,17 +87,16 @@ export default function UpdateTermsModalForm({
             <span className="flex items-center gap-2">
               <span>{oldDueBy}</span>
               <FontAwesomeIcon icon={faArrowRight} />
-              <span className="bg-white text-right rounded font-semibold">
-                {newDueBy}
-              </span>
+              <span className="bg-white text-right rounded font-semibold">{newDueBy}</span>
             </span>
           </div>
 
-          {attemptedToday && (<p className="p-3 mt-3 bg-[#F1F2F5] rounded-md">
-            <strong>Note: </strong> You are only able to change your term once
-            per day. Changing your term does not change the next payment due
-            date.
-          </p>)}
+          {attemptedToday && (
+            <p className="p-3 mt-3 bg-[#F1F2F5] rounded-md">
+              <strong>Note: </strong> You are only able to change your term once per day. Changing
+              your term does not change the next payment due date.
+            </p>
+          )}
 
           <div className="w-full flex justify-between items-center gap-3 mt-4">
             <OutlineButton

@@ -6,12 +6,7 @@ export const createPaymentPlanPayment = (api, payment) => {
   return api.post('/api/pi4/payments', { payment });
 };
 
-export const exportPaymentHistory = async ({
-  api,
-  userId,
-  startDate,
-  endDate,
-}) => {
+export const exportPaymentHistory = async ({ api, userId, startDate, endDate }) => {
   if (!userId) return;
   const params = `user_id=${userId}&start_date=${startDate}&end_date=${endDate}`;
 

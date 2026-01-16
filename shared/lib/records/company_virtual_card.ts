@@ -15,10 +15,6 @@ export default class CompanyVirtualCardRecord {
   just_in_time_funding: boolean;
   constructor(data) {
     const cleanedData = removeNulls(data);
-    Object.assign(
-      this,
-      cleanedData,
-    );
+    Object.assign(this, cleanedData);
   }
 }
-

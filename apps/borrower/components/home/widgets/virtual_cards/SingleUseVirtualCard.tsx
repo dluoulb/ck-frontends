@@ -2,26 +2,24 @@ import React from 'react';
 import { faCreditCard } from '@fortawesome/pro-regular-svg-icons';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import useModal from '@hooks/useModal';
-import { virtualCardLink } from '@lib/constants/SiteVariables';
+import { ckaLink, virtualCardLink } from '@lib/constants/SiteVariables';
+import vcVisa from '@lib/images/vc_cardart_visa.png';
 import { VCModalWrapper } from './vc_modal';
 import VCList from './VCList';
-import vcVisa from '@lib/images/vc_cardart_visa.png';
-import Image from 'next/image';
-import { ckaLink } from '@lib/constants/SiteVariables';
 
 export default function SingleUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
   const { orders, ordersError, ordersLoading } = useBorrowerDeps();
   const virtualCardOrders = orders?.filter(
-    (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details
+    (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details,
   );
 
-  if (ordersLoading)
-    return <Loading className="w-14 h-14 my-20 !text-primary" />;
+  if (ordersLoading) return <Loading className="w-14 h-14 my-20 !text-primary" />;
 
   // TODO: SHOULD VIRTUAL CARDS BE MOVED TO ITS OWN PAGE??
 
@@ -38,10 +36,14 @@ export default function SingleUseVirtualCard() {
           </div>
           <div className="text-sm md:text-base h-full mt-6 mb-2 space-y-2">
             <p className="text-sm">
-              Virtual card comes at no additional cost and enables you to use your existing line of credit for eligible business purchases anywhere that accepts Visa, meaning you can pay over time even with merchants who don’t yet offer Credit Key as a payment option.
+              Virtual card comes at no additional cost and enables you to use your existing line of
+              credit for eligible business purchases anywhere that accepts Visa, meaning you can pay
+              over time even with merchants who don’t yet offer Credit Key as a payment option.
             </p>
             <p className="text-sm md:min-h-24 md:max-h-28">
-              You’ll create one card for each purchase as needed (each card is single-use). Once you know where you need to purchase from and what the order amount is, hit “create card” below and follow the prompts to generate your card instantly.
+              You’ll create one card for each purchase as needed (each card is single-use). Once you
+              know where you need to purchase from and what the order amount is, hit “create card”
+              below and follow the prompts to generate your card instantly.
             </p>
             <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center">
               <button
@@ -98,14 +100,16 @@ export default function SingleUseVirtualCard() {
             </div>
             <div className="col-span-3 md:col-span-1 md:col-start-2 mt-5">
               <p className="text-sm">
-                If you'd like to pay with Credit Key at a merchant who doesn't 
-                accept credit cards, you can send us your invoice directly and 
-                we will apply the payment for you using your existing line of 
-                credit. <a 
-                  href={ckaLink} 
+                If you'd like to pay with Credit Key at a merchant who doesn't accept credit cards,
+                you can send us your invoice directly and we will apply the payment for you using
+                your existing line of credit.{' '}
+                <a
+                  href={ckaLink}
                   target="_blank"
                   className="flex items-center gap-1 cursor-pointer hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
-                  >Learn more</a>
+                >
+                  Learn more
+                </a>
               </p>
             </div>
           </div>
@@ -115,4 +119,3 @@ export default function SingleUseVirtualCard() {
     </div>
   );
 }
-

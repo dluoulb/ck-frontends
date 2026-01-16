@@ -13,10 +13,7 @@ const Loading: FC<LoadingProps> = ({ className, containerClass }) => {
     <div className={`flex justify-center ${containerClass}`} role="loading">
       <FontAwesomeIcon
         icon={faSpinnerThird}
-        className={classNames(
-          'text-4xl text-primary-blue animate-spin',
-          className
-        )}
+        className={classNames('text-4xl text-primary-blue animate-spin', className)}
       />
     </div>
   );

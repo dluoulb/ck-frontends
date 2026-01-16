@@ -1,22 +1,23 @@
-import { useEntity } from '@contexts/EntityContext';
+import Error from 'next/error';
+
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
-import MultiUseVirtualCardWidget from '../home/widgets/virtual_cards/MultiUseVirtualCard';
-import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
+import Loading from '@components/Loading';
+import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
 import HowToUse from '../home/widgets/virtual_cards/HowToUse';
-import Error from 'next/error';
-import Loading from '@components/Loading';
+import MultiUseVirtualCardWidget from '../home/widgets/virtual_cards/MultiUseVirtualCard';
+import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 
 export default function MultiUseVirtualCard() {
   const { entity } = useEntity();
   const { isModalActive, toggleModal } = useModal();
 
   if (!entity) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (!entity?.vc_enabled) {
-    return <Error statusCode={404} />
+    return <Error statusCode={404} />;
   }
 
   return (
@@ -26,9 +27,7 @@ export default function MultiUseVirtualCard() {
       role={MultiUseVirtualCard.role}
     >
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">
-          Credit Key Card
-        </p>
+        <p className="text-2xl md:text-4xl font-bold text-primary capitalize">Credit Key Card</p>
         <div className="relative rounded-md border-t border-x border-border-gray shadow-sm mt-4 md:mt-8">
           <div className="py-2 md:py-3 px-2 md:px-3">
             <BaseGrid>
@@ -48,4 +47,3 @@ export default function MultiUseVirtualCard() {
 }
 
 MultiUseVirtualCard.role = 'multi-use-virtual-card-page';
-

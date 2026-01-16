@@ -12,12 +12,10 @@ export default function Banner({ onJoinClick }: BannerProps) {
     <div className="bg-[#F4F8FF] border border-primary-gray-border rounded-lg mb-6 mt-8">
       <div className="flex flex-col lg:flex-row items-center gap-8">
         <div className="flex-1 p-6 gap-4 flex flex-col">
-          <h2 className="text-3xl font-bold">
-            Turn Every Purchase Into Cash Back
-          </h2>
+          <h2 className="text-3xl font-bold">Turn Every Purchase Into Cash Back</h2>
           <p>
-            The smarter way to manage business spending with unlimited rewards
-            that helps build your business credit.
+            The smarter way to manage business spending with unlimited rewards that helps build your
+            business credit.
           </p>
           <button
             onClick={onJoinClick}

@@ -22,14 +22,19 @@ services:
       - ./next-env.d.ts:/app/next-env.d.ts
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json
-      - ./postcss.config.js:/app/config/postcss.config.js
+      - ./eslint.config.mjs:/app/eslint.config.mjs
+      - ./.prettierrc:/app/.prettierrc
+      - ./postcss.config.js:/app/postcss.config.js
       - ./tsconfig.json:/app/tsconfig.json
-      - ./tailwind.config.js:/app/config/tailwind.config.js
+      - ./tailwind.config.js:/app/tailwind.config.js
       - ./shared:/app/shared
       - ./apps:/app/apps
       - ./types:/app/types
       - ./pages:/app/pages
       - ./public:/app/public
+      - ./__tests__:/app/__tests__
+      - ./jest.config.ts:/app/jest.config.ts
+      - ./jest.setup.ts:/app/jest.setup.ts
     env_file:
       - path: ./.env.docker
         required: true

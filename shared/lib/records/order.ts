@@ -1,9 +1,9 @@
 import { removeNulls } from '@lib/utils/record_utils';
+import ApprovedTermRecord from './approved_term';
+import CreditCardTransactionRecord from './credit_card_transaction';
 import LoanRecord from './loan';
 import MerchantRecord from './merchant';
 import PaymentPlanRecord from './payment_plan';
-import CreditCardTransactionRecord from './credit_card_transaction';
-import ApprovedTermRecord from './approved_term';
 
 export default class OrderRecord {
   id: string | null;
@@ -39,8 +39,12 @@ export default class OrderRecord {
     }
 
     this.merchant = data.merchant ? new MerchantRecord(data.merchant) : {};
-    this.card_transactions = data.card_transactions ? data.card_transactions.map(t => new CreditCardTransactionRecord(t)) : [];
-    this.approved_terms = data.approved_terms ? data.approved_terms.map(term => new ApprovedTermRecord(term)) : [];
+    this.card_transactions = data.card_transactions
+      ? data.card_transactions.map((t) => new CreditCardTransactionRecord(t))
+      : [];
+    this.approved_terms = data.approved_terms
+      ? data.approved_terms.map((term) => new ApprovedTermRecord(term))
+      : [];
   }
 
   get net_amount(): number {

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  faArrowRightLong,
-  faExclamationTriangle,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRightLong, faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 
@@ -24,7 +21,7 @@ export default function SettingsWidget() {
           iconBorderColor="border-error"
           textColor="text-error"
           bgColor="bg-error/20 min-h-full"
-          buttonClass='hover:border-error'
+          buttonClass="hover:border-error"
           headline="An Error Occurred"
           isWidget={true}
           message={`Unable to collect available ${entity?.type} payment method data. Please contact Credit Key Support for assistance.`}
@@ -40,12 +37,12 @@ export default function SettingsWidget() {
           iconBorderColor="border-error"
           textColor="text-error"
           bgColor="bg-error/20 min-h-full"
-          buttonClass='hover:border-error'
+          buttonClass="hover:border-error"
           headline="Payment Method Required"
           message={`Please connect a payment method immediately.`}
           isWidget={true}
           ctaButton={
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <Link href="/payment_methods" className="font-medium">
                 Connect Payment Method
               </Link>

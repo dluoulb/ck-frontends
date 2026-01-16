@@ -40,11 +40,7 @@ export default class LoanRecord {
     Object.assign(this, removeNulls(data));
   }
   get progress() {
-    if (
-      ['returned', 'canceled', 'error', 'declined', 'paid'].includes(
-        this.status
-      )
-    ) {
+    if (['returned', 'canceled', 'error', 'declined', 'paid'].includes(this.status)) {
       return 100;
     }
 
@@ -56,8 +52,8 @@ export default class LoanRecord {
   }
 
   get daysPastDue() {
-    let today = DateTime.now();
-    let due_date = fromISO(this.last_past_due_date);
+    const today = DateTime.now();
+    const due_date = fromISO(this.last_past_due_date);
 
     return differenceOfDays(today, due_date);
   }
@@ -69,12 +65,12 @@ export default class LoanRecord {
   get next_payment_due_amount() {
     return this.next_payment_amount;
   }
-  
+
   get paid_amount() {
     const amount = parseFloat(this.amount || '0');
     const totalMonthlyFees = parseFloat(this.total_monthly_fees || '0');
     const totalBalance = parseFloat(this.total_balance || '0');
-    
+
     return amount + totalMonthlyFees - totalBalance;
   }
 }

@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import {
-  faArrowRightLong,
-  faMegaphone,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRightLong, faMegaphone } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+
+import { supportEmail } from '@lib/constants/SiteVariables';
 
 interface NotificationProps {
   icon?: any;
@@ -32,15 +31,13 @@ const Notification: FC<NotificationProps> = ({
   footer,
 }) => {
   return (
-    <div
-      className={classNames('rounded-md py-4 px-6 mt-4 w-full', bgColor, textColor)}
-    >
+    <div className={classNames('rounded-md py-4 px-6 mt-4 w-full', bgColor, textColor)}>
       <div className="flex gap-5">
         <FontAwesomeIcon
           icon={icon}
           className={classNames(
             'hidden sm:inline text-xl mt-3 border-2 p-2 rounded-md',
-            iconBorderColor
+            iconBorderColor,
           )}
         />
         <div className="flex flex-col gap-4 w-full">
@@ -55,17 +52,14 @@ const Notification: FC<NotificationProps> = ({
           <div
             className={classNames(
               'cursor-pointer border-b border-transparent max-w-max',
-              buttonClass
+              buttonClass,
             )}
           >
             {ctaButton ? (
               ctaButton
             ) : (
               <>
-                <a
-                  href="mailto:support@creditkey.com"
-                  className="flex gap-1 items-center"
-                >
+                <a href={`mailto:${supportEmail}`} className="flex gap-1 items-center">
                   Contact Credit Key Support
                   <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />
                 </a>

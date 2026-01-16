@@ -26,30 +26,22 @@ describe('Entity Detail Page Component', () => {
 
   test('displays dashboard', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityDetail content="dashboard" setContent={jest.fn()} />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     await waitFor(() => screen.getByLabelText('Tabs'));
-    
+
     const documentsWidget = await screen.findByText('Documents');
     expect(documentsWidget).toBeInTheDocument();
   });
 
   test('displays orders table', async () => {
     customRender(
-      <ReportsContextProvider
-        entity={companyApproved}
-        entityLoading={false}
-        content="dashboard"
-      >
+      <ReportsContextProvider entity={companyApproved} entityLoading={false} content="dashboard">
         <EntityDetail content="orders" setContent={jest.fn()} />
-      </ReportsContextProvider>
+      </ReportsContextProvider>,
     );
 
     await waitFor(() => screen.getByLabelText('Tabs'));

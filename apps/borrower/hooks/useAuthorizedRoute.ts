@@ -1,6 +1,7 @@
-import { useEntity } from '@contexts/EntityContext';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
+import { useEntity } from '@contexts/EntityContext';
 
 function useAuthorizedRoute() {
   const { entity } = useEntity();
@@ -26,4 +27,3 @@ function useAuthorizedRoute() {
 }
 
 export default useAuthorizedRoute;
-

@@ -20,8 +20,7 @@ function useOrderFees(order) {
 
   useEffect(() => {
     if (feeSummary?.length) {
-      const { result, feeDisplaySettings } =
-        getCompressedFeeSummary(feeSummary);
+      const { result, feeDisplaySettings } = getCompressedFeeSummary(feeSummary);
 
       setCompressedFeeSummary(result);
       setFeeDisplay(feeDisplaySettings);

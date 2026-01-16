@@ -43,19 +43,13 @@ export default function OrderOverview({ order, product }) {
     <div className="flex justify-between items-center">
       <div className="w-full flex flex-col sm:flex-row justify-between capitalize">
         <div>
-          <p className="font-semibold">
-            Merchant Order ID: {order?.merchant_order_id}
-          </p>
-          {product?.mambu_loan_id && (
-            <p className="mx-1">{product?.mambu_loan_id} | </p>
-          )}
+          <p className="font-semibold">Merchant Order ID: {order?.merchant_order_id}</p>
+          {product?.mambu_loan_id && <p className="mx-1">{product?.mambu_loan_id} | </p>}
           <p>
             {reformatDate(
-              isPaymentPlan
-                ? product?.disbursement_date
-                : product?.capture_date,
+              isPaymentPlan ? product?.disbursement_date : product?.capture_date,
               false,
-              DateTime.DATE_MED_WITH_WEEKDAY
+              DateTime.DATE_MED_WITH_WEEKDAY,
             )}
           </p>
           {['superadmin', 'admin'].includes(user?.role) && (
@@ -72,16 +66,14 @@ export default function OrderOverview({ order, product }) {
           <span
             className={classNames(
               'inline-flex items-center text-lg rounded-md px-4 py-2 font-semibold tracking-wide',
-              statusColor
+              statusColor,
             )}
           >
             {statusText}
           </span>
           <DocumentLink
             buttonClass="cursor-pointer text-sm text-primary-blue hover:text-primary-blue-hover font-medium flex items-center"
-            buttonText={
-              isPaymentPlan ? 'Payment Plan Agreement' : 'Loan Agreement'
-            }
+            buttonText={isPaymentPlan ? 'Payment Plan Agreement' : 'Loan Agreement'}
             order={order}
             type="agreement"
           />

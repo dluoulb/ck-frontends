@@ -12,18 +12,13 @@ interface HowToUseModalProps {
   toggleModal: () => void;
 }
 
-export default function HowToUseModal({
-  isModalActive,
-  toggleModal,
-}: HowToUseModalProps) {
+export default function HowToUseModal({ isModalActive, toggleModal }: HowToUseModalProps) {
   return (
     <ModalWrapper isModalActive={isModalActive} toggleModal={toggleModal}>
       <h2 className="font-bold text-xl">Credit Key Virtual Card</h2>
       <div className="space-y-8 mt-4">
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-gray-900">
-            1. Download the iOS or Android App
-          </h3>
+          <h3 className="text-base font-bold text-gray-900">1. Download the iOS or Android App</h3>
 
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0">
@@ -57,31 +52,24 @@ export default function HowToUseModal({
           </h3>
 
           <div>
-            <p className="text-sm text-gray-700">
-              1. Open your phone's wallet app
-            </p>
+            <p className="text-sm text-gray-700">1. Open your phone's wallet app</p>
             <p className="text-sm text-gray-700">
               2. Select the plus sign in the upper right corner
             </p>
+            <p className="text-sm text-gray-700">3. Choose 'Debit or Credit Card'</p>
             <p className="text-sm text-gray-700">
-              3. Choose 'Debit or Credit Card'
-            </p>
-            <p className="text-sm text-gray-700">
-              4. Select 'Enter card details manually' and enter your Credit Key
-              Card's information
+              4. Select 'Enter card details manually' and enter your Credit Key Card's information
             </p>
           </div>
         </div>
 
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-gray-900">
-            3. Discover Merchants
-          </h3>
+          <h3 className="text-base font-bold text-gray-900">3. Discover Merchants</h3>
 
           <div className="space-y-3">
             <p className="text-sm text-gray-700">
-              Easily access your favorite merchants and discover new ones in the
-              Credit Key Marketplace.
+              Easily access your favorite merchants and discover new ones in the Credit Key
+              Marketplace.
             </p>
 
             <Link

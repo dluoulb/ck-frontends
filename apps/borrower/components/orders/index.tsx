@@ -12,21 +12,14 @@ export default function Orders() {
   const { orders, ordersLoading, pageCount, totalOrderCount, isFetching, refetchOrders } =
     useOrders(entity, false, ordersPageIndex);
 
-  if (ordersLoading || entityLoading)
-    return <Loading className="w-14 h-14 my-20" />;
+  if (ordersLoading || entityLoading) return <Loading className="w-14 h-14 my-20" />;
 
   if (!entity) return;
 
   return (
-    <div
-      data-testid="container"
-      className="my-4 md:my-6 mx-auto h-full"
-      role={Orders.role}
-    >
+    <div data-testid="container" className="my-4 md:my-6 mx-auto h-full" role={Orders.role}>
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
-        <p className="mb-4 text-2xl md:text-3xl font-bold text-primary capitalize">
-          My Orders
-        </p>
+        <p className="mb-4 text-2xl md:text-3xl font-bold text-primary capitalize">My Orders</p>
         <OrdersTable
           orders={orders}
           entity={entity}

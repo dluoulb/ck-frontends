@@ -1,4 +1,4 @@
-import { fromISO } from "@lib/utils/datetime_formatters";
+import { fromISO } from '@lib/utils/datetime_formatters';
 
 export const listOptions = (applications) => {
   return applications?.map((app) => {
