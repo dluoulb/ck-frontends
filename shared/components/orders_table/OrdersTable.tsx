@@ -59,14 +59,15 @@ export default function OrdersTable({
 
   const data = useMemo(() => orders || [], [orders, orders?.length]);
   const columns = useMemo(() => {
-    return tableColumns(openModalForLoan).map((col) => ({
+    const cols = typeof tableColumns === 'function' ? tableColumns(openModalForLoan) : tableColumns;
+    return cols.map((col) => ({
       ...col,
       meta: {
         ...col.meta,
         isVisible: isColumnVisible(col.hideColumn, size.width),
       },
     }));
-  }, [size.width, openModalForLoan]);
+  }, [size.width, openModalForLoan, tableColumns]);
 
   const table = useReactTable({
     data,
