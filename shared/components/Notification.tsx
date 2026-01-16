@@ -3,6 +3,8 @@ import { faArrowRightLong, faMegaphone } from '@fortawesome/pro-regular-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
+import { supportEmail } from '@lib/constants/SiteVariables';
+
 interface NotificationProps {
   icon?: any;
   iconBorderColor?: any;
@@ -57,7 +59,7 @@ const Notification: FC<NotificationProps> = ({
               ctaButton
             ) : (
               <>
-                <a href="mailto:support@creditkey.com" className="flex gap-1 items-center">
+                <a href={`mailto:${supportEmail}`} className="flex gap-1 items-center">
                   Contact Credit Key Support
                   <FontAwesomeIcon icon={faArrowRightLong} className="mt-0.5" />
                 </a>

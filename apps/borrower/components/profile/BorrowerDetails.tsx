@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
-import { supportPhone } from '@lib/constants/SiteVariables';
+import { supportEmail, supportPhone } from '@lib/constants/SiteVariables';
 import { reformatDate } from '@lib/utils/datetime_formatters';
 import { formatCurrency, formatPhoneNumber, normalizePhone } from '@lib/utils/formatters';
 
@@ -138,7 +138,7 @@ export default function BorrowerDetails() {
             <p>To update your contact information, please reach out to Credit Key Support.</p>
           </div>
           <div className="mt-4 lg:mt-0 font-semibold flex flex-col xs:flex-row lg:flex-col justify-between items-start xs:items-end gap-1">
-            <a href="mailto:support@creditkey.com" className="flex items-center gap-1.5">
+            <a href={`mailto:${supportEmail}`} className="flex items-center gap-1.5">
               <FontAwesomeIcon icon={faEnvelope} />
               <p className="text-primary-blue-hover hover:underline">Email Credit Key</p>
             </a>

@@ -9,7 +9,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { activatePhysicalCard } from '@lib/actions/companies';
-import { supportPhone } from '@lib/constants/SiteVariables';
+import { multiUseVcIvrPhone, supportPhone } from '@lib/constants/SiteVariables';
 
 export default function PhysicalCardActivationModal({ isModalActive, toggleModal }) {
   const api = useApi();
@@ -65,8 +65,8 @@ export default function PhysicalCardActivationModal({ isModalActive, toggleModal
           Support available Monday - Friday from 9AM - 1PM & 2PM - 6PM CT
         </p>
         <p className="text-sm text-gray-600 ">
-          When purchasing in-person, you may be asked for a PIN. Call +1 (833) 425-5888 to set your
-          pin.
+          When purchasing in-person, you may be asked for a PIN. Call {multiUseVcIvrPhone} to set
+          your pin.
         </p>
         <div className="space-y-1">
           <a

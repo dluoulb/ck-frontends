@@ -3,6 +3,8 @@ import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
+import { supportEmail } from '@lib/constants/SiteVariables';
+
 export default function ErrorAlert({ hasAlert, next }) {
   return (
     <div
@@ -25,7 +27,7 @@ export default function ErrorAlert({ hasAlert, next }) {
               <li>Double check your routing and account numbers and try to enter them again</li>
               <li>
                 Contact
-                <a href="mailto:support@creditkey.com" className="mx-1 cursor-pointer underline">
+                <a href={`mailto:${supportEmail}`} className="mx-1 cursor-pointer underline">
                   Credit Key Support
                 </a>
                 for assistance
