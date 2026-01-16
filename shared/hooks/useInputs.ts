@@ -11,7 +11,7 @@ function useInputs(props) {
     )
       return false;
 
-    for (const key in error) {
+    for (const key of Object.keys(error)) {
       if (error[key] !== undefined && touched[key] === true) {
         return true;
       }
