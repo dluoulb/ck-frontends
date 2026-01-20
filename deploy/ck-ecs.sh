@@ -145,7 +145,7 @@ deploy () {
   if [[ "$TARGET" != "development" ]]; then
     if [ -n "$CI" ]; then
       git config user.name "CI Runner"
-      git config user.email "runner@github"
+      git config user.email "github-actions[bot]@users.noreply.github.com"
     fi
     deploy_tag="${TARGET}-$(TZ="America/Los_Angeles" date +%Y-%m-%d_%H%M%S)"
     git tag -am "Tagging for release $deploy_tag" $deploy_tag
