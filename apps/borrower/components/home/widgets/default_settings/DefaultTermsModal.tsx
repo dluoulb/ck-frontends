@@ -16,66 +16,124 @@ export default function DefaultTermSettingsModal({
   modalState,
   isModalActive,
   toggleModal,
+  allMerchants = [],
 }) {
+  const isEditMode = modalState !== null;
+  const [selectedMerchant, setSelectedMerchant] = useState(null);
   const [term, setTerm] = useState(modalState?.default_term);
 
-  const handleChange = (value) => {
+  const handleMerchantChange = (merchant) => {
+    setSelectedMerchant(merchant);
+    setTerm(null);
+  };
+
+  const handleTermChange = (value) => {
     setTerm(value);
   };
 
   useEffect(() => {
-    setTerm(modalState?.default_term);
+    if (modalState !== null) {
+      setSelectedMerchant(modalState);
+      setTerm(modalState?.default_term);
+    } else {
+      setSelectedMerchant(null);
+      setTerm(null);
+    }
   }, [modalState]);
+
+  const currentMerchant = isEditMode ? modalState : selectedMerchant;
+  const isSaveDisabled = loading || !currentMerchant || !term;
 
   return (
     <ModalWrapper
       toggleModal={toggleModal}
       isModalActive={isModalActive}
       modalHeight="sm:max-h-recharge sm:min-h-recharge"
-      header="Edit Default Terms"
+      header={isEditMode ? 'Edit Default Terms' : 'Add Default Terms'}
       headerIcon={faPenToSquare}
     >
-      {!modalState?.term_options ? (
+      {!allMerchants?.length ? (
         <Loading className="w-14 h-14" />
       ) : (
         <>
           <div className="my-6 space-y-4">
             <div className="space-y-2 text-center">
-              <p className="text-xl font-semibold">Default Terms for {modalState?.merchant_name}</p>
-              <p>
-                {!modalState?.default_term ? 'Set' : 'Change'} the default term length for future
-                purchases.
+              <p className="text-xl font-semibold">
+                {isEditMode
+                  ? `Default Terms for ${modalState?.merchant_name}`
+                  : 'Select Merchant and Default Term'}
               </p>
+              <p>{isEditMode ? 'Change' : 'Set'} the default term length for future purchases.</p>
             </div>
-            <h1 className="font-medium text-center">Adjust Number of Months</h1>
-            <Field disabled={loading}>
-              <ListBox
-                initialValue={modalState?.default_term?.term}
-                buttonText={getTermLabel(term)}
-                handleChange={handleChange}
-                value={term}
-                listBoxClass={classNames(
-                  '!w-4/5 mx-auto my-3 rounded-md transition ease-in-out duration-150 sm:text-sm relative',
-                  loading ? 'bg-primary-gray-border cursor-not-allowed' : 'bg-secondary-blue',
-                )}
-              >
-                {modalState?.term_options?.map((op) => (
-                  <ListboxOption
-                    key={`${op.term}-${op.term_period}`}
-                    value={op}
-                    className={classNames(
-                      'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
-                      {
-                        'border-b':
-                          op !== modalState?.term_options[modalState?.term_options.length - 1],
-                      },
+
+            {!isEditMode && (
+              <>
+                <h1 className="font-medium text-center">Select Merchant</h1>
+                <Field disabled={loading}>
+                  <ListBox
+                    buttonText={selectedMerchant?.merchant_name || 'Select a merchant...'}
+                    handleChange={handleMerchantChange}
+                    value={selectedMerchant}
+                    listBoxClass={classNames(
+                      '!w-4/5 mx-auto my-3 rounded-md transition ease-in-out duration-150 sm:text-sm relative',
+                      loading ? 'bg-primary-gray-border cursor-not-allowed' : 'bg-secondary-blue',
                     )}
                   >
-                    {getTermLabel(op)}
-                  </ListboxOption>
-                ))}
-              </ListBox>
-            </Field>
+                    {allMerchants?.map((merchant) => (
+                      <ListboxOption
+                        key={merchant.merchant_id}
+                        value={merchant}
+                        className={classNames(
+                          'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
+                          {
+                            'border-b': merchant !== allMerchants[allMerchants.length - 1],
+                          },
+                        )}
+                      >
+                        {merchant.merchant_name}
+                      </ListboxOption>
+                    ))}
+                  </ListBox>
+                </Field>
+              </>
+            )}
+
+            {currentMerchant && (
+              <>
+                <h1 className="font-medium text-center">Adjust Number of Months</h1>
+                <Field disabled={loading}>
+                  <ListBox
+                    initialValue={currentMerchant?.default_term?.term}
+                    buttonText={getTermLabel(term) || 'Select a term...'}
+                    handleChange={handleTermChange}
+                    value={term}
+                    listBoxClass={classNames(
+                      '!w-4/5 mx-auto my-3 rounded-md transition ease-in-out duration-150 sm:text-sm relative',
+                      loading ? 'bg-primary-gray-border cursor-not-allowed' : 'bg-secondary-blue',
+                    )}
+                  >
+                    {currentMerchant?.term_options?.map((op) => (
+                      <ListboxOption
+                        key={`${op.term}-${op.term_period}`}
+                        value={op}
+                        className={classNames(
+                          'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
+                          {
+                            'border-b':
+                              op !==
+                              currentMerchant?.term_options[
+                                currentMerchant?.term_options.length - 1
+                              ],
+                          },
+                        )}
+                      >
+                        {getTermLabel(op)}
+                      </ListboxOption>
+                    ))}
+                  </ListBox>
+                </Field>
+              </>
+            )}
           </div>
         </>
       )}
@@ -86,9 +144,9 @@ export default function DefaultTermSettingsModal({
           buttonColor="bg-primary-blue"
           hoverClass="hover:bg-primary-blue-hover"
           icon={faLockAlt}
-          disabled={loading}
+          disabled={isSaveDisabled}
           isLoading={loading}
-          onClick={() => onSave(modalState?.merchant_id, term)}
+          onClick={() => onSave(currentMerchant?.merchant_id, term)}
         />
         <OutlineButton
           ariaLabel="Close"

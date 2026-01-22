@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
 
 import { getApprovedTerms } from '@lib/actions/entities';
-import { getMerchant } from '@lib/actions/merchants';
 import useApi from './useApi';
 
 type Terms = {
@@ -27,37 +25,21 @@ type Merchant = {
 
 function useDefaultTerms(company, shouldFetch) {
   const api = useApi();
-  const [rechargeMerchantIds, setRechargeMerchantIds] = useState([]);
   const defaultTermsList = company?.recharge_settings;
-  const merchantAppliedWith = company?.merchant_applied_with;
-
-  const merchantQueries = useQueries({
-    queries: rechargeMerchantIds?.map((id) => {
-      return {
-        queryKey: ['merchant', id],
-        queryFn: () => getMerchant(api, id),
-        enabled: !!rechargeMerchantIds.length && shouldFetch,
-      };
-    }),
-  });
+  const connectedMerchants = company?.merchants || [];
+  const merchantList = connectedMerchants as Merchant[];
 
   const termQueries = useQueries({
-    queries: rechargeMerchantIds?.map((id) => {
+    queries: merchantList?.map((merchant) => {
       return {
-        queryKey: ['approvedTerms', id],
-        queryFn: () => getApprovedTerms(api, company.id, id),
-        enabled: !!rechargeMerchantIds.length && shouldFetch,
+        queryKey: ['approvedTerms', merchant.id],
+        queryFn: () => getApprovedTerms(api, company.id, merchant.id),
+        enabled: !!merchantList.length && shouldFetch,
       };
     }),
   });
 
-  const queriesLoading =
-    merchantQueries.some((query) => query.isLoading) ||
-    termQueries.some((query) => query.isLoading);
-
-  const merchantList = merchantQueries
-    .filter((query) => query.data && !query.isError)
-    .map((query) => query.data as Merchant);
+  const queriesLoading = termQueries.some((query) => query.isLoading);
 
   const termOptions = termQueries
     .filter((query) => query.data && !query.isError)
@@ -67,21 +49,6 @@ function useDefaultTerms(company, shouldFetch) {
         terms: (query.data as { terms: Terms }).terms,
       };
     });
-
-  useEffect(() => {
-    if (
-      defaultTermsList?.length ||
-      merchantAppliedWith?.supports_recharge ||
-      merchantAppliedWith?.supports_instore
-    ) {
-      const rechargeMerchantIdSet = new Set([
-        ...defaultTermsList?.map((term) => term.merchant_id),
-        merchantAppliedWith?.id,
-      ]);
-
-      setRechargeMerchantIds(Array.from(rechargeMerchantIdSet));
-    }
-  }, [company]);
 
   const defaultTermSettings = merchantList.map((merchant) => {
     if (!defaultTermsList) return null;

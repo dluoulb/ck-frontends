@@ -25,7 +25,7 @@ export const EntityProvider = ({ children }) => {
 
   const entityFn = (id, type) => {
     if (type === 'company') {
-      return getCompany(api, id, 'include=cta_banners');
+      return getCompany(api, id, 'include=cta_banners,merchants');
     } else {
       return getAccount(api, id);
     }
