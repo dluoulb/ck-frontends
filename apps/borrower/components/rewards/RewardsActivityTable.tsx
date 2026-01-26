@@ -59,10 +59,10 @@ export default function RewardsActivityTable({
         },
       },
       {
-        id: 'merchant',
-        header: 'Merchant',
-        accessorKey: 'merchant_name',
-        cell: ({ row }) => <span className="text-sm">{row.original?.merchant_name || '-'}</span>,
+        id: 'source',
+        header: 'Source',
+        accessorKey: 'source',
+        cell: ({ row }) => <span className="text-sm">{row.original?.source || '-'}</span>,
       },
       {
         id: 'amount',

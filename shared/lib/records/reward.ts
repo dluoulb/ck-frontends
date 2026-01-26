@@ -37,6 +37,7 @@ export class RewardTransactionRecord {
   amount?: number;
   description?: string;
   merchant_name?: string;
+  source?: string;
   created_at: string;
   pended_at?: string;
   posted_at?: string;
