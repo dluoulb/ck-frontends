@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { useEntity } from '@contexts/EntityContext';
 
 function useAuthorizedRoute() {
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
   const { asPath } = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(true);
 
   useEffect(() => {
     switch (asPath) {
@@ -19,10 +19,10 @@ function useAuthorizedRoute() {
       default:
         setIsAuthorized(true);
     }
-  }, [asPath, entity]);
+  }, [asPath, entity, entityLoading]);
 
   return {
-    isAuthorized,
+    isAuthorized: entityLoading || isAuthorized,
   };
 }
 

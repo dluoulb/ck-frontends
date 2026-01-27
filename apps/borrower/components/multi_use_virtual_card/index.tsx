@@ -9,10 +9,10 @@ import MultiUseVirtualCardWidget from '../home/widgets/virtual_cards/MultiUseVir
 import MultiUseVirtualCardModalWrapper from '../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 
 export default function MultiUseVirtualCard() {
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
   const { isModalActive, toggleModal } = useModal();
 
-  if (!entity) {
+  if (entityLoading || !entity) {
     return <Loading />;
   }
 
