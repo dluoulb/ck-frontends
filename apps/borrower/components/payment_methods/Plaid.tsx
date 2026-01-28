@@ -3,6 +3,7 @@ import { usePlaidLink } from 'react-plaid-link';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import usePlaid from '@hooks/usePlaid';
@@ -20,6 +21,7 @@ export default function Plaid({
 }) {
   const [loading, setLoading] = useState(false);
   const { refetchPaymentMethods } = useBorrowerDeps();
+  const { entity, fetchEntity } = useEntity();
   const { user } = useUser();
   const { makeToast } = useToast();
   const api = useApi();
@@ -45,6 +47,8 @@ export default function Plaid({
     createPaymentMethodBank(api, new PaymentMethodRecord({ user_id: user.id }), true)
       .then(() => {
         refetchPaymentMethods();
+        // Refetch entity to get updated bank_verification_attempts from backend
+        fetchEntity();
         makeToast('Payment Method Successfully Created', 'success');
         resetLinkFlow();
 
@@ -104,12 +108,14 @@ export default function Plaid({
         />
       </div>
 
-      <p className="mt-8">
-        Unable to link your bank via Plaid? Try{' '}
-        <button className="underline text-primary-blue" onClick={() => setUsePlaid(false)}>
-          adding it manually
-        </button>
-      </p>
+      {(entity?.bank_verification_attempts || 0) < 2 && (
+        <p className="mt-8">
+          Unable to link your bank via Plaid? Try{' '}
+          <button className="underline text-primary-blue" onClick={() => setUsePlaid(false)}>
+            adding it manually
+          </button>
+        </p>
+      )}
     </>
   );
 }
