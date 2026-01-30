@@ -5,6 +5,7 @@ import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import { useActiveSubscription, useCreateSubscription } from '@hooks/useSubscription';
+import useToast from '@hooks/useToast';
 import FullStory from '@lib/utils/fullstory';
 import ActivationModal from './ActivationModal';
 import Banner from './Banner';
@@ -18,6 +19,7 @@ export default function Plus() {
   const { entity } = useEntity();
   const { user } = useUser();
   const { isModalActive: isActivationModalActive, toggleModal: toggleActivationModal } = useModal();
+  const { makeToast } = useToast();
 
   const { activeSubscription, activeSubscriptionLoading, refetchActiveSubscription } =
     useActiveSubscription(entity?.id);
@@ -36,6 +38,7 @@ export default function Plus() {
     fullstory.plusSubscriptionSuccessfulEvent(user?.id, entity?.id, planType);
 
     toggleActivationModal();
+    makeToast('Credit Key Plus subscription activated successfully!', 'success');
   };
 
   if (activeSubscriptionLoading) {

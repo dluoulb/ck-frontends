@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { DateTime } from 'luxon';
 import Link from 'next/link';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
@@ -44,6 +45,13 @@ const planDurationMap = {
   30: { type: PlanType.MONTHLY, period: 'per month' },
   365: { type: PlanType.ANNUAL, period: 'per year' },
 } as const;
+
+const calculateTrialEndDate = (daysUntilFirstPayment: number): string => {
+  if (!daysUntilFirstPayment || daysUntilFirstPayment <= 0) return '';
+
+  const endDate = DateTime.now().plus({ days: daysUntilFirstPayment });
+  return endDate.toFormat('MMM d, yyyy');
+};
 
 const createPlanOptions = (subscriptionPlans: SubscriptionPlanRecord[]): PlanOption[] => {
   const monthlyPlan = subscriptionPlans.find((plan) => plan.duration === 30);
@@ -102,6 +110,30 @@ export default function ActivationModal({
     [planOptions, selectedPlan],
   );
 
+  const selectedPlanRecord = useMemo(
+    () =>
+      subscriptionPlans.find((plan) => {
+        const planDetails = planDurationMap[plan.duration];
+        return planDetails?.type === selectedPlan;
+      }),
+    [subscriptionPlans, selectedPlan],
+  );
+
+  const hasFreeTrial = useMemo(
+    () => (selectedPlanRecord?.days_until_first_payment ?? 0) > 0,
+    [selectedPlanRecord],
+  );
+
+  const trialEndDate = useMemo(() => {
+    const daysUntilPayment = selectedPlanRecord?.days_until_first_payment;
+
+    if (!hasFreeTrial || !daysUntilPayment) {
+      return '';
+    }
+
+    return calculateTrialEndDate(daysUntilPayment);
+  }, [hasFreeTrial, selectedPlanRecord]);
+
   useEffect(() => {
     if (isModalActive && user?.id && entity?.id) {
       const fullstory = new FullStory();
@@ -139,6 +171,20 @@ export default function ActivationModal({
             Limited spots available · No long term commitments · Cancel anytime
           </p>
         </div>
+        {hasFreeTrial && (
+          <div className="bg-green-50 border border-green-200 rounded px-4 py-3 my-6">
+            <div className="flex items-start gap-2">
+              <div className="flex-1">
+                <div className="text-sm font-bold text-green-800 mb-1">
+                  Start with a {selectedPlanRecord?.days_until_first_payment}-day free trial
+                </div>
+                <div className="text-xs text-green-700">
+                  No charge until trial ends. Cancel anytime.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="grid grid-cols-2 gap-4 my-6">
           {planOptions.map((plan) => (
             <div
@@ -191,9 +237,11 @@ export default function ActivationModal({
           />
           <label htmlFor="agree" className="text-xs">
             I authorize Credit Key to charge my account {selectedPlanOption?.price}{' '}
-            {planTypeLabels[selectedPlan]} for Credit Key Plus membership. I understand this is a
-            recurring subscription that will automatically renew until I cancel. I've reviewed and
-            agree to the{' '}
+            {planTypeLabels[selectedPlan]} for Credit Key Plus membership
+            {hasFreeTrial &&
+              ` after my ${selectedPlanRecord?.days_until_first_payment}-day free trial`}
+            . I understand this is a recurring subscription that will automatically renew until I
+            cancel. I've reviewed and agree to the{' '}
             <Link
               href="https://www.creditkey.com/legal/credit-key-plus-terms"
               className="text-primary-blue underline hover:text-primary-blue/80 cursor-pointer"
@@ -204,12 +252,17 @@ export default function ActivationModal({
             .
           </label>
         </div>
+        {hasFreeTrial && (
+          <div className="text-center text-xs text-gray-600 mb-4">
+            You won't be charged until your trial ends on <strong>{trialEndDate}</strong>
+          </div>
+        )}
         <PrimaryButton
           buttonColor="w-full bg-primary-blue hover:bg-primary-blue-hover transition-colors text-white px-4 py-2 text-xs sm:text-sm rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           hoverClass="hover:bg-gray-100"
           disabled={!isAgreed || !selectedPlan || !hasPaymentMethods || createSubscriptionLoading}
           onClick={handleActivate}
-          buttonText="Activate Credit Key Plus"
+          buttonText={hasFreeTrial ? 'Start Free Trial' : 'Activate Credit Key Plus'}
           isLoading={createSubscriptionLoading}
         />
       </ModalWrapper>
