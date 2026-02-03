@@ -42,7 +42,6 @@ jest.mock('@hooks/usePaymentMethods', () => ({
 
 // Mock luxon DateTime to return a fixed date for consistent testing
 const MOCK_NOW = DateTime.fromISO('2026-01-29T00:00:00.000Z');
-jest.spyOn(DateTime, 'now').mockReturnValue(MOCK_NOW);
 
 const mockUseSubscriptionPlans = useSubscriptionPlans as jest.MockedFunction<
   typeof useSubscriptionPlans
@@ -129,6 +128,8 @@ describe('ActivationModal with Free Trial', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    // Re-establish the DateTime.now() mock for each test
+    jest.spyOn(DateTime, 'now').mockReturnValue(MOCK_NOW);
   });
 
   describe('when days_until_first_payment > 0', () => {

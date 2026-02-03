@@ -12,6 +12,10 @@ export const formatCurrency = (value, removeDecimal = false, currency = 'USD') =
   }).format(value || 0);
 };
 
+export const formatCurrencyPreventNagative = (value, removeDecimal = false, currency = 'USD') => {
+  return formatCurrency(Math.max(value, 0), removeDecimal, currency);
+};
+
 export const formatPercent = (value) => {
   if (value === undefined) {
     return;

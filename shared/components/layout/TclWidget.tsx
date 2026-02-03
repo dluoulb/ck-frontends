@@ -7,7 +7,7 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import useVirtualCardBalance from '@apps/borrower/hooks/useVirtualCardBalance';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
-import { formatCurrency } from '@lib/utils/formatters';
+import { formatCurrency, formatCurrencyPreventNegative } from '@lib/utils/formatters';
 
 function getVirtualCardData(isJitEnabled, entity, balance) {
   if (!entity) return [];
@@ -16,7 +16,9 @@ function getVirtualCardData(isJitEnabled, entity, balance) {
     return [
       {
         name: 'Able to Spend',
-        value: formatCurrency(parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')),
+        value: formatCurrencyPreventNegative(
+          parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0'),
+        ),
       },
     ];
   }
@@ -27,7 +29,9 @@ function getVirtualCardData(isJitEnabled, entity, balance) {
     },
     {
       name: 'Able to Spend',
-      value: formatCurrency(parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0')),
+      value: formatCurrencyPreventNegative(
+        parseFloat(entity?.vc_sub_limits?.remaining_limit_amount || '0'),
+      ),
     },
   ];
 }

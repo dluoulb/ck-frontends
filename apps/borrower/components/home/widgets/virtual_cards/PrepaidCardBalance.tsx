@@ -9,7 +9,7 @@ import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
-import { formatCurrency } from '@lib/utils/formatters';
+import { formatCurrency, formatCurrencyPreventNegative } from '@lib/utils/formatters';
 import FullStory from '@lib/utils/fullstory';
 import AddFundsMessage from './AddFundsMessage';
 import FundsExpirationMessage from './FundsExpirationMessage';
@@ -74,7 +74,7 @@ export default function PrepaidCardBalance({ allowCardClose, isJitEnabled }) {
           <div className="flex justify-between xl:text-xl">
             <span>Able to Spend:</span>
             <span className="font-bold">
-              {formatCurrency(entity.vc_sub_limits.remaining_limit_amount || 0)}
+              {formatCurrencyPreventNegative(entity.vc_sub_limits.remaining_limit_amount || 0)}
             </span>
           </div>
           <div className="flex justify-between xl:text-xl">

@@ -9,7 +9,7 @@ import { Skeleton } from '@components/components/ui/skeleton';
 import Tooltip from '@components/Tooltip';
 import { useEntity } from '@contexts/EntityContext';
 import mcSvg from '@lib/images/mastercard.svg';
-import { formatCurrency } from '@lib/utils/formatters';
+import { formatCurrency, formatCurrencyPreventNegative } from '@lib/utils/formatters';
 
 export default function MaskedVirtualCard({ virtualCard, onView }) {
   const { entity } = useEntity();
@@ -29,7 +29,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
             <p>
               Able to spend:{' '}
               <span className="font-semibold">
-                {formatCurrency(entity.vc_sub_limits.remaining_limit_amount || 0)}
+                {formatCurrencyPreventNegative(entity.vc_sub_limits.remaining_limit_amount || 0)}
                 <Tooltip
                   tooltip_text={`The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.`}
                   trigger_class="cursor-pointer max-w-max border-none"

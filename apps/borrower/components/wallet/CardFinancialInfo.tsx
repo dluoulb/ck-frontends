@@ -7,7 +7,11 @@ import { Skeleton } from '@components/components/ui/skeleton';
 import Tooltip from '@components/Tooltip';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
-import { formatCurrency, getTermDisplay } from '@lib/utils/formatters';
+import {
+  formatCurrency,
+  formatCurrencyPreventNegative,
+  getTermDisplay,
+} from '@lib/utils/formatters';
 
 export default function CardFinancialInfo() {
   const { entity } = useEntity();
@@ -23,7 +27,9 @@ export default function CardFinancialInfo() {
     return getTermDisplay(defaultTermSetting);
   }, [defaultTermSetting]);
 
-  const ableToSpend = formatCurrency(entity?.vc_sub_limits?.remaining_limit_amount || 0);
+  const ableToSpend = formatCurrencyPreventNegative(
+    entity?.vc_sub_limits?.remaining_limit_amount || 0,
+  );
 
   const pendingCharges = pendingAuths?.pending_total || 0;
 
