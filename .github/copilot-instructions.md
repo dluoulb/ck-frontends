@@ -173,6 +173,16 @@ describe('MyComponent', () => {
 - **Format**: `npm run format` - Format code with Prettier
 - **Format Check**: `npm run format:check` - Check formatting without changes
 
+### Dependency Management
+- **Do not commit `package-lock.json`** unless `package.json` has been modified
+- If you need to install new dependencies, update `package.json` and then run `npm install`
+- When reviewing changes before committing, verify that `package-lock.json` is only included if `package.json` was changed
+- Use `.gitignore` or selective staging to exclude `package-lock.json` from unintended commits
+
+### Protected Files
+- **Do not modify `shared/components/Scripts.tsx`** - This file contains third-party analytics scripts and should not be changed
+- If linting or formatting tools suggest changes to this file, ignore or suppress those suggestions
+
 ### Docker Development
 The application runs in Docker containers for local development to support SuperTokens SSO across domains. Always use Docker Compose for local development:
 ```bash

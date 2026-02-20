@@ -52,7 +52,12 @@ export default function Plus() {
       role={Plus.role}
     >
       <h1 className="text-2xl font-bold text-primary capitalize">Credit Key Plus</h1>
-      {activeSubscription && <SubscriberOverview subscription={activeSubscription} />}
+      {activeSubscription && (
+        <SubscriberOverview
+          subscription={activeSubscription}
+          onSubscriptionCancelled={refetchActiveSubscription}
+        />
+      )}
       {!activeSubscription && <Banner onJoinClick={handleJoinClick} />}
       <Benefits />
       {!activeSubscription && <ComparisonTable />}

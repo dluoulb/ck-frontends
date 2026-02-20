@@ -71,3 +71,19 @@ export const redeemPoints = async (api: AxiosInstance, companyId: string, points
 
   return response?.data;
 };
+
+export const cancelSubscription = async (
+  api: AxiosInstance,
+  subscriptionId: string,
+  reason: string,
+  comment: string,
+) => {
+  const response = await api.patch(`/api/subscriptions/${subscriptionId}/cancel`, {
+    subscription: {
+      reason,
+      comment,
+    },
+  });
+
+  return response?.data;
+};

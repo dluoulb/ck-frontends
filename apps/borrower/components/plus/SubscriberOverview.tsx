@@ -4,13 +4,18 @@ import { useEntity } from '@contexts/EntityContext';
 import { useRewardPointsBalance } from '@hooks/useReward';
 import { plusSupportPhone, plusSupportSms, supportEmail } from '@lib/constants/SiteVariables';
 import SubscriptionRecord from '@lib/records/subscription';
+import ManageSubscriptionButton from './ManageSubscriptionButton';
 import RewardsBalanceCard from './RewardsBalanceCard';
 
 type SubscriberOverviewProps = {
   subscription: SubscriptionRecord;
+  onSubscriptionCancelled: () => void;
 };
 
-export default function SubscriberOverview({ subscription }: SubscriberOverviewProps) {
+export default function SubscriberOverview({
+  subscription,
+  onSubscriptionCancelled,
+}: SubscriberOverviewProps) {
   const { entity } = useEntity();
   const memberSinceYear = subscription?.start_date
     ? new Date(subscription.start_date).getFullYear()
@@ -25,7 +30,13 @@ export default function SubscriberOverview({ subscription }: SubscriberOverviewP
 
   return (
     <div className="flex flex-col gap-4 mt-2">
-      <h3 className="text-lg">Member since {memberSinceYear}</h3>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <h3 className="text-lg">Member since {memberSinceYear}</h3>
+        <ManageSubscriptionButton
+          subscription={subscription}
+          onCancelled={onSubscriptionCancelled}
+        />
+      </div>
       <h3 className="text-lg font-bold">Rewards Balance</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <RewardsBalanceCard

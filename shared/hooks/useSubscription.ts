@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
 import {
+  cancelSubscription as cancelSubscriptionAction,
   createSubscription as createSubscriptionAction,
   getActiveSubscription as getActiveSubscriptionAction,
   getSubscriptionPlans,
@@ -13,6 +14,16 @@ import SubscriptionPlanRecord from '@lib/records/subscription_plan';
 type CreateSubscriptionVariables = {
   planType: string;
   companyId: string;
+};
+
+type CancelSubscriptionVariables = {
+  subscriptionId: string;
+  reason: string;
+  comment: string;
+};
+
+type CancelSubscriptionResponse = {
+  message: string;
 };
 
 export function useSubscriptions(companyId: string) {
@@ -102,5 +113,24 @@ export function useCreateSubscription() {
     createSubscription,
     createSubscriptionError,
     createSubscriptionLoading,
+  };
+}
+
+export function useCancelSubscription() {
+  const api = useApi();
+
+  const {
+    mutateAsync: cancelSubscription,
+    error: cancelSubscriptionError,
+    isPending: cancelSubscriptionLoading,
+  } = useMutation<CancelSubscriptionResponse, unknown, CancelSubscriptionVariables>({
+    mutationFn: ({ subscriptionId, reason, comment }) =>
+      cancelSubscriptionAction(api, subscriptionId, reason, comment),
+  });
+
+  return {
+    cancelSubscription,
+    cancelSubscriptionError,
+    cancelSubscriptionLoading,
   };
 }
