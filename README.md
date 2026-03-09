@@ -8,6 +8,7 @@
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
+- [Tailwind CSS Configuration](#tailwind-css-configuration)
 - [SuperTokens User Management](#supertokens-user-management)
 - [Screenshots](#screenshots)
 
@@ -138,6 +139,30 @@ SuperTokens::User.create(user)
 ```
 
 This should allow you to successfully login with a shared SSO cookie and access token and access approved UIs based on user permissions.
+
+## Tailwind CSS Configuration
+
+This project uses **Tailwind CSS v4**, which features a CSS-first configuration approach. All theme customizations are defined in `globals.scss` using the `@theme` directive instead of a JavaScript configuration file.
+
+### Key Changes in v4
+
+- **CSS-First Configuration**: Theme tokens (colors, fonts, spacing, etc.) are now defined directly in CSS using CSS custom properties
+- **No `tailwind.config.js`**: Configuration has been migrated from JavaScript to the `@theme` directive in `globals.scss`
+- **Updated PostCSS Plugin**: Now uses `@tailwindcss/postcss` instead of the legacy `tailwindcss` and `autoprefixer` plugins
+- **Import Syntax**: Changed from `@tailwind base/components/utilities` to `@import 'tailwindcss'`
+
+### Custom Theme Variables
+
+All custom design tokens are defined in `globals.scss`:
+- **Colors**: `--color-primary`, `--color-secondary-gray`, `--color-primary-blue`, etc.
+- **Fonts**: `--font-manrope`
+- **Widths**: `--width-sidenav`, `--width-portal`, etc.
+- **Breakpoints**: `--breakpoint-2xs`, `--breakpoint-xs`, `--breakpoint-mid`, `--breakpoint-3xl`
+- **Other**: Custom max-heights, min-widths, z-index, and transition durations
+
+**Note**: For fractional widths not in Tailwind's default scale (like 10%), use arbitrary values: `w-[10%]` instead of `w-1/10`.
+
+For more information on Tailwind CSS v4, see the [official documentation](https://tailwindcss.com/docs).
 
 ## Screenshots
 

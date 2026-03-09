@@ -1,9 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 @import '@fortawesome/fontawesome-svg-core/styles.css';
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* Custom Colors */
+  --color-primary: #15191F;
+  --color-secondary-gray: #677283;
+  --color-tertiary-gray: #8A94A3;
+  --color-primary-gray-border: #E5E7EB;
+  --color-primary-blue: #0066ff;
+  --color-primary-blue-hover: #094DB3;
+  --color-secondary-blue: #ECF3FE;
+  --color-disabled: #ACB5C3;
+  --color-success: #257436;
+  --color-background-success: #D9F2DF;
+  --color-error: #A72525;
+  --color-background-error: #F6D5D5;
+  --color-icon-error: #7D1C1C;
+  --color-warning: #907309;
+  --color-background-warning: #EBE3AD;
+  --color-primary-beige: #e0bf9f;
+
+  /* Custom Font Family */
+  --font-manrope: Manrope, sans-serif;
+
+  /* Custom Widths */
+  --width-sidenav: 5.5rem;
+  --width-portal: calc(100vw - 4.5rem);
+
+  /* Custom Max Heights */
+  --max-height-modal: 70vh;
+  --max-height-recharge: 45vh;
+
+  /* Custom Min Widths */
+  --min-width-md: 28rem;
+  --min-width-lg: 32rem;
+
+  /* Custom Grid Template Rows */
+  --grid-template-rows-18: repeat(18, minmax(0, 1fr));
+
+  /* Custom Breakpoints */
+  --breakpoint-2xs: 375px;
+  --breakpoint-xs: 480px;
+  --breakpoint-mid: 856px;
+  --breakpoint-3xl: 1575px;
+
+  /* Custom Z-Index */
+  --z-100: 100;
+
+  /* Custom Transition Duration */
+  --transition-duration-1500: 1500ms;
+}
+
+@source "./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}";
 
 .outline input:focus-within~label,
 .outline input:not(:placeholder-shown)~label {
