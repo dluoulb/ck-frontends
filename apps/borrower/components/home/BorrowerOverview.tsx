@@ -43,9 +43,9 @@ export default function BorrowerOverview() {
                 {entity?.name}
               </p>
               {entity?.type === 'company' && (
-                <p>
+                <p className="font-semibold">
                   Base Rate:
-                  <span className="mx-1 font-semibold">
+                  <span className="mx-1">
                     {entity?.min_rate !== 'N/A' && approvedUser ? `${entity?.min_rate}%` : '--'}
                   </span>
                   {entity?.min_rate !== 'N/A' && approvedUser && (

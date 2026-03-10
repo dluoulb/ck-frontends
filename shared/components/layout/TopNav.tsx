@@ -37,7 +37,7 @@ export default function TopNav() {
           <Link
             href={item.url}
             target={item.target}
-            className={classNames('px-4 py-2 text-sm rounded transition-colors', {
+            className={classNames('px-4 py-2 text-sm font-medium rounded transition-colors', {
               'bg-[#f1f2f5]': isActive,
               'hover:bg-gray-400 hover:text-white': !isActive,
             })}
@@ -65,10 +65,13 @@ export default function TopNav() {
           <NavigationMenu.Item key={item.name}>
             <Link
               href={item.url}
-              className={classNames('flex px-4 py-2 text-sm rounded transition-colors', {
-                'bg-[#f1f2f5]': isActive,
-                'hover:bg-gray-100': !isActive,
-              })}
+              className={classNames(
+                'flex px-4 py-2 text-sm font-medium rounded transition-colors',
+                {
+                  'bg-[#f1f2f5]': isActive,
+                  'hover:bg-gray-100': !isActive,
+                },
+              )}
             >
               <BorrowerContextProvider>
                 <RewardPointsWidget />
@@ -98,7 +101,7 @@ export default function TopNav() {
         <NavigationMenu.Item key={item.name}>
           <DropdownMenu.Root modal={false} open={open} onOpenChange={setOpen}>
             <DropdownMenu.Trigger asChild>
-              <button className="px-4 text-sm text-muted-foreground hover:text-primary flex flex-row">
+              <button className="px-4 text-sm font-medium text-muted-foreground hover:text-primary flex flex-row">
                 {item.name}
                 <FontAwesomeIcon
                   icon={open ? faChevronUp : faChevronDown}
