@@ -108,7 +108,7 @@ export default function TopNav() {
             </DropdownMenu.Trigger>
             <DropdownMenu.Content
               sideOffset={8}
-              className="z-50 w-48 rounded-md border bg-white shadow-md"
+              className="z-50 w-48 rounded-md border border-gray-200 bg-white shadow-md"
             >
               <DropdownMenu.Label className="m-1 px-2 py-2 text-sm text-muted-foreground font-semibold">
                 Account

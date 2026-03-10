@@ -84,7 +84,7 @@ export default function BorrowerDashboard() {
           <BorrowerOverview />
           <div className="relative my-4 md:my-6">
             <BaseGrid gridContainerClass="grid grid-cols-1 md:grid-cols-6 gap-y-1.5 md:gap-y-3">
-              <BaseGridItem gridConfig="border border-border-grey rounded-md col-span-7 row-span-1 !px-2 md:!px-3">
+              <BaseGridItem gridConfig="border border-border-gray rounded-md col-span-7 row-span-1 !px-2 md:!px-3">
                 <Stats />
               </BaseGridItem>
               <Widgets />

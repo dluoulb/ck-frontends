@@ -57,7 +57,7 @@ export default function PhysicalCardActivationModal({ isModalActive, toggleModal
           maxLength={4}
           value={lastFour}
           onChange={(e) => setLastFour(e.target.value.replace(/\D/, ''))}
-          className="w-full border rounded px-3 py-2 my-4"
+          className="w-full border border-gray-200 rounded px-3 py-2 my-4"
           placeholder="Enter last 4 numbers of your card"
         />
         <p className="font-semibold ">Need assistance? We're happy to help.</p>

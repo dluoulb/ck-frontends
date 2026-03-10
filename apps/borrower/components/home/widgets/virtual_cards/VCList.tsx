@@ -67,7 +67,7 @@ export default function VCList({ vc_orders }) {
       className="h-48 w-full border-b border-secondary-gray overflow-y-scroll"
       role={VCList.role}
     >
-      <div className="w-full divide-y">
+      <div className="w-full divide-y divide-gray-200">
         <table className="w-full divide-y divide-gray-300">
           <thead>
             <tr>
@@ -85,7 +85,7 @@ export default function VCList({ vc_orders }) {
               </th>
             </tr>
           </thead>
-          <tbody className="overflow-y-scroll divide-y">
+          <tbody className="overflow-y-scroll divide-y divide-gray-200">
             {sortedCards?.map((vc, idx) => (
               <tr key={idx}>
                 <td className="truncate py-2 text-sm min-w-min">

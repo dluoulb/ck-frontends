@@ -81,10 +81,10 @@ export default function ProfileIndex() {
                   onClick={() => setContent(tab.tag)}
                   aria-current="page"
                   className={classNames(
+                    'group inline-flex items-center justify-center border-b-2 border-gray-300 py-4 px-2 sm:px-8 text-sm font-medium w-full',
                     content === tab.tag
                       ? 'border-primary-blue text-primary-blue bg-secondary-blue font-semibold'
                       : 'border-transparent text-gray-500 hover:border-primary-blue-hover hover:text-primary-blue-hover hover:cursor-pointer hover:bg-primary-blue-hover/20',
-                    'group inline-flex items-center justify-center border-b-2 py-4 px-2 sm:px-8 text-sm font-medium w-full',
                   )}
                 >
                   <FontAwesomeIcon

@@ -9,7 +9,7 @@ export default function CkaLink() {
   return (
     <div className="w-full">
       <Link href={ckaLink} target="_blank" className="min-w-50 max-h-max">
-        <div className="flex justify-between border border-border-grey hover:bg-gray-100 rounded-md px-6 p-4">
+        <div className="flex justify-between border border-border-gray hover:bg-gray-100 rounded-md px-6 p-4">
           <div className="flex items-center gap-3 basis-[80%]">
             <FontAwesomeIcon
               icon={faArrowUpFromBracket}

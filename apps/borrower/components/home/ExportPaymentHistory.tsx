@@ -74,7 +74,7 @@ export default function ExportPaymentHistory() {
         <PrimaryButton
           ariaLabel="export-payment-history"
           buttonText="Export"
-          buttonColor="bg-white !text-primary !font-medium border border-border-grey !py-1.5 !rounded-md"
+          buttonColor="bg-white !text-primary !font-medium border border-border-gray !py-1.5 !rounded-md"
           hoverClass="hover:bg-gray-100"
           onClick={handleSubmit}
           disabled={!dateRange?.startDate || !dateRange?.endDate || loading}

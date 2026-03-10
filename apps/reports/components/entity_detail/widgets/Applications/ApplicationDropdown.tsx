@@ -27,7 +27,7 @@ export default function ApplicationDropdown({ listOptions, contentId, setContent
               value={op.id}
               className={classNames(
                 'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover/20',
-                { 'border-b': op !== listOptions[listOptions.length - 1] },
+                { 'border-b border-gray-200': op !== listOptions[listOptions.length - 1] },
               )}
             >
               {op.text}

@@ -10,7 +10,7 @@ export default function StaticFooter() {
           good standing. Fees vary based on loan amount. The Credit Key Prepaid Mastercard® is
           issued by Sutton Bank, Member FDIC, pursuant to license by Mastercard International Inc.
         </div>
-        <div className="flex flex-col gap-2 mid:gap-0 mid:flex-row mid:divide-x font-semibold mid:font-normal">
+        <div className="flex flex-col gap-2 mid:gap-0 mid:flex-row mid:divide-x mid:divide-gray-200 font-semibold mid:font-normal">
           <a
             href="https://www.creditkey.com/legal/privacy-policy"
             target="_new"

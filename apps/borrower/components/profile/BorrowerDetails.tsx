@@ -18,7 +18,7 @@ export default function BorrowerDetails() {
 
   return (
     <div className="flex flex-col pt-6">
-      <div className="px-6 sm:px-8 pb-6 divide-y overflow-x-scroll">
+      <div className="px-6 sm:px-8 pb-6 divide-y divide-gray-200 overflow-x-scroll">
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-0 pb-8">
           <div className="sm:w-2/5">
             <p className="capitalize font-bold text-lg sm:text-base">Account Owner</p>

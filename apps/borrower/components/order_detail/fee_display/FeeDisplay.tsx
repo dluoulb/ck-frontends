@@ -15,7 +15,7 @@ export default function FeesDisplay({ order, open }) {
       <h1 className="font-medium text-secondary-gray px-4 py-2">
         Click on a fee type below to see more details
       </h1>
-      <div className="divide-y">
+      <div className="divide-y divide-gray-200">
         {compressedFeeSummary?.map((f) => {
           return (
             <div
@@ -26,7 +26,7 @@ export default function FeesDisplay({ order, open }) {
                   [f.fee_type]: !feeDisplay[f.fee_type],
                 }));
               }}
-              className="flex flex-col border-y"
+              className="flex flex-col border-y border-gray-200"
             >
               <div
                 className={classNames(
@@ -56,7 +56,7 @@ export default function FeesDisplay({ order, open }) {
                 )}
               </div>
               {feeDisplay && feeDisplay[f.fee_type] && (
-                <div className="divide-y bg-tertiary-gray/5">
+                <div className="divide-y divide-gray-200 bg-tertiary-gray/5">
                   {f.adjustments
                     ? getFeeBreakdownDisplay(f, f.adjustments)
                     : f.fees.map((i) => {

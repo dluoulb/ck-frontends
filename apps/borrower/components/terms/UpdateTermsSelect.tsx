@@ -35,7 +35,7 @@ export default function UpdateTermsSelect({
       </label>
       <select
         id="term-select"
-        className="w-full p-2 border rounded mb-4"
+        className="w-full p-2 border border-gray-200 rounded mb-4"
         value={selectedTerm ?? oldTerm ?? ''}
         onChange={(e) => setSelectedTerm(Number(e.target.value))}
       >

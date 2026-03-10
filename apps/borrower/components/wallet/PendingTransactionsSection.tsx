@@ -62,7 +62,7 @@ const columns = [
 
 function OrderTransactionsTable({ transactions }) {
   return (
-    <div className="divide-y">
+    <div className="divide-y divide-gray-200">
       {transactions.map((transaction) => {
         return (
           <div key={transaction.id} className="grid grid-cols-6 gap-2 md:gap-4 px-3 py-2 text-sm">
@@ -169,8 +169,10 @@ export default function PendingTransactionsSection() {
       </div>
 
       {pendingData.length > 0 && (
-        <div className="border rounded-lg overflow-hidden">
-          <div className="bg-[#F4F8FF] p-3 font-medium text-sm border-b">Pending Transactions</div>
+        <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="bg-[#F4F8FF] p-3 font-medium text-sm border-b border-gray-200">
+            Pending Transactions
+          </div>
           <BaseTable
             table={pendingTable}
             hideHeader={true}
@@ -182,7 +184,7 @@ export default function PendingTransactionsSection() {
       )}
 
       {creditKeyCardOrders.length > 0 && (
-        <div className="border rounded-lg overflow-hidden divide-y">
+        <div className="border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-200">
           {creditKeyCardOrders.map((order) => {
             const transactions = order.card_transactions.map((transaction) => {
               const isCredit = transaction.transaction_type === 'credit';
@@ -200,7 +202,7 @@ export default function PendingTransactionsSection() {
 
             return (
               <div key={order.id}>
-                <div className="bg-[#F4F8FF] p-3 text-sm border-b">
+                <div className="bg-[#F4F8FF] p-3 text-sm border-b border-gray-200">
                   <p>
                     Order{' '}
                     <Link href={`/orders/${order.id}`} className="text-primary-blue font-medium">

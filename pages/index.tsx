@@ -17,9 +17,9 @@ export default function Home() {
                 href={route.href}
                 key={route.title}
                 className={classNames(
-                  routeIdx < 4 && 'border-b',
-                  routeIdx === routes.length - 1 && 'border-t sm:border-t-0',
-                  [1, 3, 5].includes(routeIdx) && 'sm:border-l',
+                  routeIdx < 4 && 'border-b border-gray-200',
+                  routeIdx === routes.length - 1 && 'border-t border-gray-200 sm:border-t-0',
+                  [1, 3, 5].includes(routeIdx) && 'sm:border-l sm:border-gray-200',
                   route.disabled ? '!cursor-not-allowed' : 'bg-white hover:bg-secondary-blue',
                   route.divClass,
                   'group relative p-6',

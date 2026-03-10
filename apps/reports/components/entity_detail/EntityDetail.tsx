@@ -30,10 +30,10 @@ export default function EntityDetail({ content, setContent }) {
             <div
               onClick={() => setContent('dashboard')}
               className={classNames(
+                'whitespace-nowrap border-b-2 border-gray-300 pb-4 px-1 text-sm',
                 !content || content === 'dashboard'
                   ? 'border-primary-blue text-primary-blue'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm',
               )}
             >
               Dashboard
@@ -41,10 +41,10 @@ export default function EntityDetail({ content, setContent }) {
             <div
               onClick={() => setContent('orders')}
               className={classNames(
+                'whitespace-nowrap border-b-2 border-gray-300 pb-4 px-1 text-sm',
                 content === 'orders'
                   ? 'border-primary-blue text-primary-blue'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                'whitespace-nowrap border-b-2 pb-4 px-1 text-sm',
               )}
             >
               Orders

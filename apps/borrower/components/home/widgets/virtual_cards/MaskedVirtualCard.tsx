@@ -19,7 +19,7 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col md:flex-row justify-between border border-border-grey rounded-md px-6 p-4">
+      <div className="flex flex-col md:flex-row justify-between border border-border-gray rounded-md px-6 p-4">
         <div className="flex gap-3">
           <Image src={mcSvg} alt="Credit Key Card Image" className="rounded-xl w-[32px]" />
           <div>

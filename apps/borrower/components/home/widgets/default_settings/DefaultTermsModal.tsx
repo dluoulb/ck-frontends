@@ -86,7 +86,8 @@ export default function DefaultTermSettingsModal({
                         className={classNames(
                           'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
                           {
-                            'border-b': merchant !== allMerchants[allMerchants.length - 1],
+                            'border-b border-gray-200':
+                              merchant !== allMerchants[allMerchants.length - 1],
                           },
                         )}
                       >
@@ -119,7 +120,7 @@ export default function DefaultTermSettingsModal({
                         className={classNames(
                           'capitalize cursor-pointer text-sm px-3 py-2 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md',
                           {
-                            'border-b':
+                            'border-b border-gray-200':
                               op !==
                               currentMerchant?.term_options[
                                 currentMerchant?.term_options.length - 1

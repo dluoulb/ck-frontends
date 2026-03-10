@@ -14,7 +14,7 @@ export default function MarketplaceLink() {
         rel="noopener noreferrer"
         className="min-w-50 max-h-max"
       >
-        <div className="flex justify-between border border-border-grey hover:bg-gray-100 rounded-md px-6 p-4">
+        <div className="flex justify-between border border-border-gray hover:bg-gray-100 rounded-md px-6 p-4">
           <div className="flex items-center gap-3 basis-[90%]">
             <FontAwesomeIcon
               icon={faShoppingBag}

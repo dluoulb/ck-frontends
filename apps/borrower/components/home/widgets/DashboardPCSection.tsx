@@ -14,9 +14,9 @@ export default function DashboardPCSection() {
   return (
     <>
       <div className="space-y-4">
-        <div className="bg-[#fff7ec] shadow-sm p-6 border rounded-md">
+        <div className="bg-[#fff7ec] shadow-sm p-6 border border-border-gray rounded-md">
           <div className="flex flex-col lg:flex-row">
-            <div className="w-full lg:w-1/2 rounded-2xl bg-white border max-w-lg mx-auto py-2">
+            <div className="w-full lg:w-1/2 rounded-2xl bg-white border border-gray-200 max-w-lg mx-auto py-2">
               <div className="space-y-2 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
                   <h3 className="text-lg font-bold text-gray-900">Credit Key Physical Card</h3>

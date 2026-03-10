@@ -72,7 +72,7 @@ export default function ActiveOrdersTable() {
                   <OutlineButton
                     ariaLabel="export-payment-history"
                     buttonText="View All Orders"
-                    buttonColor="bg-white !text-primary !font-medium border border-border-grey !rounded-[8px]"
+                    buttonColor="bg-white !text-primary !font-medium border border-border-gray !rounded-[8px]"
                     hoverClass="hover:bg-gray-100"
                     containerClass="2xs:max-w-max md:max-w-auto"
                   />

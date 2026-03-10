@@ -90,7 +90,7 @@ export default function TclWidget() {
       <DropdownMenu.Content
         sideOffset={8}
         align="center"
-        className="z-50 rounded-md border bg-white shadow-md w-56 text-sm"
+        className="z-50 rounded-md border border-gray-200 bg-white shadow-md w-56 text-sm"
       >
         <DropdownMenu.Item disabled className="pointer-events-none">
           <div className="w-full">

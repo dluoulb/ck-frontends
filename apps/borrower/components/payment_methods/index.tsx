@@ -67,7 +67,7 @@ export default function PaymentMethods() {
 
                     <p className="text-lg md:text-xl font-bold">Bank Accounts</p>
                   </div>
-                  <div className="divide-y">
+                  <div className="divide-y divide-gray-200">
                     <PaymentMethodList payment_methods={bank_accounts} />
                   </div>
                 </>
@@ -136,7 +136,7 @@ export default function PaymentMethods() {
                       />
                     </div>
                   )}
-                <div className="divide-y">
+                <div className="divide-y divide-gray-200">
                   <PaymentMethodList payment_methods={cards} />
                 </div>
               </div>

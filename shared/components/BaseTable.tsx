@@ -88,7 +88,7 @@ export default function BaseTable({
                   <tr
                     key={row.id}
                     className={classNames(
-                      'border-b last:border-b-0',
+                      'border-b border-gray-200 last:border-b-0',
                       onClickHandler
                         ? 'cursor-pointer hover:bg-primary-blue hover:bg-secondary-blue'
                         : '',
@@ -114,7 +114,7 @@ export default function BaseTable({
                 ))}
 
                 {Array.from({ length: emptyRows }).map((_, index) => (
-                  <tr key={`empty-${index}`} className="py-4 border-b">
+                  <tr key={`empty-${index}`} className="py-4 border-b border-gray-200">
                     <td
                       className="py-6 whitespace-nowrap"
                       colSpan={table.getHeaderGroups()[0].headers.length}

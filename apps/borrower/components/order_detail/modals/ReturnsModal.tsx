@@ -16,7 +16,7 @@ export default function ReturnsModal({ isModalActive, toggleModal }) {
         <header className="text-primary-blue-hover font-bold text-xl">
           Cancellations and Returns
         </header>
-        <section className="divide-y">
+        <section className="divide-y divide-gray-200">
           <div className="my-4">
             <p className="text-sm">
               To cancel your order or request a refund, first contact your merchant and follow their

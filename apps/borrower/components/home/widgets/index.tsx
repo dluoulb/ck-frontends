@@ -29,7 +29,7 @@ export default function Widgets() {
               <OutlineButton
                 ariaLabel="export-payment-history"
                 buttonText="Open Wallet"
-                buttonColor="bg-white !text-primary !font-medium border border-border-grey !mt-0 !rounded-[8px]"
+                buttonColor="bg-white !text-primary !font-medium border border-border-gray !mt-0 !rounded-[8px]"
                 hoverClass="hover:bg-gray-100"
                 containerClass="2xs:max-w-max md:max-w-auto"
               />

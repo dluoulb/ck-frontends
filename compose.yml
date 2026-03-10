@@ -16,7 +16,7 @@ services:
       - 3000
     volumes:
       - ./.npmrc:/app/.npmrc
-      - ./globals.scss:/app/globals.scss
+      - ./globals.css:/app/globals.css
       - ./middleware.ts:/app/middleware.ts
       - ./next.config.js:/app/next.config.js
       - ./next-env.d.ts:/app/next-env.d.ts
@@ -26,7 +26,6 @@ services:
       - ./.prettierrc:/app/.prettierrc
       - ./postcss.config.js:/app/postcss.config.js
       - ./tsconfig.json:/app/tsconfig.json
-      - ./tailwind.config.js:/app/tailwind.config.js
       - ./shared:/app/shared
       - ./apps:/app/apps
       - ./types:/app/types

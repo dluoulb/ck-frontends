@@ -73,8 +73,8 @@ export default function TableHeader({
                     key={tab.name}
                     value={tab}
                     className={classNames(
-                      'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md border-primary-blue-hover/20 flex items-center gap-2',
-                      { 'border-b': tab !== statusTabs[statusTabs.length - 1] },
+                      'text-sm capitalize cursor-pointer p-2 px-3 hover:bg-secondary-blue hover:text-primary-blue-hover last:hover:rounded-b-md flex items-center gap-2',
+                      { 'border-b border-gray-200': tab !== statusTabs[statusTabs.length - 1] },
                     )}
                   >
                     {tab.icon && <FontAwesomeIcon icon={tab.icon} />}
@@ -100,7 +100,7 @@ export default function TableHeader({
                 >
                   <div
                     className={classNames(
-                      'inline-flex items-center p-4 rounded-t-lg border-b-2',
+                      'inline-flex items-center p-4 rounded-t-lg border-b-2 border-gray-300',
                       active === s.name
                         ? s.name === 'past due'
                           ? 'text-error !border-error'

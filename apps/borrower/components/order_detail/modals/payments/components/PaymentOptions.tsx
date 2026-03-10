@@ -64,7 +64,7 @@ export default function PaymentOptions({ setFieldValue, disabled, setDisabled, o
                   className={classNames(
                     'col-span-1 flex flex-col rounded-lg shadow cursor-pointer border-2 border-transparent hover:border-primary-blue w-1/3 mr-2 min-h-32 xs:min-h-28',
                     {
-                      '!border-primary-blue bg-primary-blue bg-opacity-10': active === op.tag,
+                      '!border-primary-blue bg-primary-blue/10': active === op.tag,
                     },
                   )}
                   onClick={() => {

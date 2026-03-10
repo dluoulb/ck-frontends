@@ -54,7 +54,7 @@ export default function TransactionsTable({ transactions, err }) {
   return (
     <div
       role={TransactionsTable.role}
-      className="col-span-full rounded-lg border border-black border-opacity-5 overflow-x-scroll my-6"
+      className="col-span-full rounded-lg border border-black/5 overflow-x-scroll my-6"
     >
       <div className="font-semibold tracking-wide text-lg my-3 sm:my-4 px-4 sm:px-6">
         Transactions

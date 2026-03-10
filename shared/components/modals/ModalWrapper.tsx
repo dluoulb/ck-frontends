@@ -35,7 +35,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
         <Dialog onClose={toggleModal} className="relative z-50 !font-manrope">
           <DialogBackdrop
             transition
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+            className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
           />
           <div className="flex items-end justify-center sm:min-h-screen text-center sm:block">
             <TransitionChild
@@ -47,7 +47,7 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity" />
+              <div className="fixed inset-0 bg-gray-400/75 transition-opacity" />
             </TransitionChild>
             {/* This element is to trick the browser into centering the modal contents. */}
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">

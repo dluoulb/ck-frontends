@@ -1,4 +1,4 @@
-import '../globals.scss';
+import '../globals.css';
 
 import { createContext, useEffect, useState } from 'react';
 import { config } from '@fortawesome/fontawesome-svg-core';

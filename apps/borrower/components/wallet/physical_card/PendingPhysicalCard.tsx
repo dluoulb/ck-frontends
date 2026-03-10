@@ -13,9 +13,9 @@ export default function PendingPhysicalCard() {
   return (
     <>
       <div className="space-y-4">
-        <div className={`bg-[#eee] shadow-sm border rounded-2xl`}>
+        <div className={`bg-[#eee] shadow-sm border border-gray-200 rounded-2xl`}>
           <div className="flex flex-col">
-            <div className="w-full rounded-2xl bg-white border mx-auto py-3">
+            <div className="w-full rounded-2xl bg-white border border-gray-200 mx-auto py-3">
               <div className="space-y-3 flex flex-col items-center">
                 <div className="flex items-center justify-between w-full px-4">
                   <h3 className="text-lg font-bold text-gray-900">Credit Key Physical Card</h3>

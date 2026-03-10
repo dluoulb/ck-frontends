@@ -28,7 +28,7 @@ export const Dropdown = ({ button, children }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className="z-10 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <MenuItems className="z-10 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black/5 focus:outline-none">
           <div className="py-1">{children}</div>
         </MenuItems>
       </Transition>
@@ -67,7 +67,7 @@ export const ListBox = ({
       <ListboxOptions
         anchor="bottom"
         transition
-        className="w-[var(--button-width)] z-50 rounded-md border bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0 !max-h-64 overflow-y-scroll"
+        className="w-[var(--button-width)] z-50 rounded-md border border-gray-200 bg-white p-1 shadow-lg [--anchor-gap:var(--spacing-1)] focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 !p-0 !max-h-64 overflow-y-scroll"
       >
         {children}
       </ListboxOptions>

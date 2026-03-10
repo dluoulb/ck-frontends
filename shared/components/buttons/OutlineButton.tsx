@@ -35,7 +35,7 @@ const OutlineButton: FC<OutlineButtonProps> = ({
       <button
         aria-label={ariaLabel}
         className={classNames(
-          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block border mx-auto my-1 sm:my-2 tracking-wider rounded-lg justify-center items-center py-2 px-3',
+          'w-full font-semibold transition duration-150 ease-in-out cursor-pointer inline-block border border-gray-300 mx-auto my-1 sm:my-2 tracking-wider rounded-lg justify-center items-center py-2 px-3',
           buttonColor,
           isSmall ? 'text-xs' : 'text-xs md:text-sm',
           {

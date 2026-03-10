@@ -41,14 +41,14 @@ export default function TermsColumn(props: { order: any; openModalForLoan: (loan
 
   return (
     <Select.Root value={value} onValueChange={handleChange}>
-      <Select.Trigger className="inline-flex items-center gap-2 border rounded px-2 py-1 text-sm font-medium cursor-pointer bg-white">
+      <Select.Trigger className="inline-flex items-center gap-2 border border-gray-200 rounded px-2 py-1 text-sm font-medium cursor-pointer bg-white">
         <Select.Value>{label}</Select.Value>
         <Select.Icon>
           <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3 text-gray-400" />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content className="bg-white border rounded shadow-lg z-100">
+        <Select.Content className="bg-white border border-gray-200 rounded shadow-lg z-100">
           <Select.Viewport>
             {options.map((opt) => (
               <Select.Item

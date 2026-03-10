@@ -27,7 +27,7 @@ export default function Schedule({ order, toggleTermsModal }) {
         </div>
       )}
       <div className="p-6 px-12">
-        <ol className="relative border-l border-opaque-navy-border">
+        <ol className="relative border-l border-gray-300">
           <li className="mb-10 ml-8">
             <div className="flex justify-between items-start">
               <div>

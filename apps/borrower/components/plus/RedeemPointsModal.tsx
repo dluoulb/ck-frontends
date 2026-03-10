@@ -91,10 +91,10 @@ export default function RedeemPointsModal({
             value={pointsToRedeem.toString()}
             onAccept={handlePointsChange}
             placeholder="Enter points"
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+            className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 ${
               pointsToRedeem > availablePoints
-                ? 'border-error focus:ring-error focus:border-error'
-                : 'border-primary-gray-border focus:ring-primary-blue focus:border-transparent'
+                ? 'border border-error focus:ring-error focus:border-error'
+                : 'border border-primary-gray-border focus:ring-primary-blue focus:border-transparent'
             }`}
           />
           {pointsToRedeem > availablePoints ? (

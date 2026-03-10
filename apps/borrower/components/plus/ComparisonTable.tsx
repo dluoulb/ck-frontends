@@ -45,7 +45,7 @@ export default function ComparisonTable() {
           <tr className="bg-gray-50">
             <th className="text-left font-bold text-lg">See the Difference</th>
             <th className="text-center py-2 px-4 font-normal">Standard Members</th>
-            <th className="text-center py-2 px-4 font-bold bg-[#EEFDF3] border-l border-r border-t border-gray">
+            <th className="text-center py-2 px-4 font-bold bg-[#EEFDF3] border-l border-r border-t border-gray-200">
               Plus Members
             </th>
           </tr>
@@ -58,7 +58,7 @@ export default function ComparisonTable() {
                 <CheckIcon hasFeature={feature.standard} />
               </td>
               <td
-                className={`py-2 text-center bg-[#EEFDF3] border-l border-r border-gray ${index === comparisonFeatures.length - 1 ? 'border-b' : ''}`}
+                className={`py-2 text-center bg-[#EEFDF3] border-l border-r border-gray-200 ${index === comparisonFeatures.length - 1 ? 'border-b border-gray-200' : ''}`}
               >
                 <CheckIcon hasFeature={feature.plus} />
               </td>
