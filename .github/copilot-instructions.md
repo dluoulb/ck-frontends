@@ -3,12 +3,15 @@
 ## Project Overview
 
 CK Frontends is a Next.js-based monorepo housing all Credit Key frontend UIs and shared components. It uses SuperTokens for SSO authentication across multiple frontend applications including:
-- TPS Reporting Dashboard (not currently used)
 - Borrower Portal
+- TPS Reporting Dashboard (not currently used)
+- Admin Dashboard
+- Merchant Instore Portal
+- Demo Checkout
 
 ## Tech Stack
 
-- **Framework**: Next.js (latest)
+- **Framework**: Next.js 15.5.2
 - **Language**: TypeScript (with strict mode disabled for gradual migration)
 - **UI Library**: React 18 with functional components and hooks
 - **Styling**: Tailwind CSS with custom theme configuration
@@ -221,6 +224,22 @@ docker compose up
 - Use environment variables for configuration
 - Sanitize user inputs
 - Follow OWASP security best practices
+
+## Architecture Documentation
+
+### ARCHITECTURE.md Maintenance
+- **As part of every PR, review ARCHITECTURE.md and update it if any of the following changed:**
+  - System architecture or design patterns
+  - Technology stack (adding/removing dependencies)
+  - Monorepo structure or organization
+  - Authentication/authorization flows
+  - Routing or middleware logic
+  - State management patterns
+  - Data flow or API integration
+  - Deployment processes
+- Update the "Last Updated" date at the bottom of ARCHITECTURE.md when making changes
+- Ensure architectural decisions are documented in the "Key Architectural Decisions" section
+- Keep the document synchronized with actual implementation
 
 ## Response Format
 When suggesting code changes:

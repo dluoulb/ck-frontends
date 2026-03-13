@@ -5,6 +5,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Architecture](#architecture)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -16,9 +17,28 @@
 
 CK Frontends is a version-controlled mono-repository that houses all Credit Key frontend UIs and shared components. It leverages the [SuperTokens](https://supertokens.com) framework for single sign-on (SSO) user authentication across all our frontend products.
 
+## Architecture
+
+For a comprehensive overview of the system architecture, technology stack, design patterns, and architectural decisions, please refer to the **[ARCHITECTURE.md](./ARCHITECTURE.md)** documentation.
+
+The architecture document covers:
+- System overview and application structure
+- Technology stack details
+- Monorepo organization and module structure
+- Authentication and authorization flows
+- Routing and middleware design
+- State management patterns
+- Data flow and API integration
+- Testing strategy
+- Development workflow
+- Deployment architecture
+- Key architectural decisions and rationale
+
+**Note for Contributors**: When submitting PRs, please review and update ARCHITECTURE.md if your changes affect any of the areas listed above.
+
 ### URLs
 
-CK Frontends uses custom middleware to dynamically route users to the appropriate UI based on subdomains for the following URLs:
+CK Frontends uses custom middleware to dynamically route users to the appropriate UI based on subdomains for the following URLs. Users without proper permissions are redirected to an unauthorized access page.
 
 #### Production
 
@@ -51,7 +71,7 @@ You can use `nvm` as a convenience.
 
 ```bash
 # Clone the repository
-git clone git@bitbucket.org:creditkey/ck-frontends.git
+git clone git@github.com:creditkey/ck-frontends.git
 
 # Navigate to the project directory
 cd ck-frontends
@@ -67,23 +87,25 @@ npm install
 
 For CK Frontends to operation effectively, the application along with the backend server and all other necessary services should be run via their Docker containers for SuperToken cookie storage across domains to avoid CORS issues.
 
+> **Note**: Some related repositories may be hosted on different platforms (GitHub or Bitbucket). Check each repository's actual hosting location before cloning.
+
 ```bash
 # Run Clone ck-ecosystem directory and start dnsmasq and traefik
-git clone git@bitbucket.org:creditkey/ck-ecosystem.git
+git clone git@github.com:creditkey/ck-ecosystem.git
 cd ck-ecosystem
 ./ck-eco.sh up
 ```
 
 ```bash
 # Clone ck-tps directory and start server
-git clone git@bitbucket.org:creditkey/ck-tps.git
+git clone git@github.com:creditkey/ck-tps.git
 cd ck-tps
 docker compose up -d
 ```
 
 ```bash
 # Clone ck-web directory and start server
-git clone git@bitbucket.org:creditkey/ck-web.git
+git clone git@github.com:creditkey/ck-web.git
 cd ck-web
 docker compose up -d
 ```
@@ -97,14 +119,14 @@ docker compose up -d
 
 ```bash
 # Clone ck-login directory and start
-git clone git@bitbucket.org:creditkey/ck-login.git
+git clone git@github.com:creditkey/ck-login.git
 cd ck-login
 docker compose up -d
 ```
 
 ```bash
 # Clone typesense directory and start
-git clone git@bitbucket.org:creditkey/evenmoresql.git
+git clone git@github.com:creditkey/evenmoresql.git
 cd evenmoresql
 docker compose up -d
 ```
