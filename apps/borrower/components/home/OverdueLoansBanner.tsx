@@ -6,48 +6,67 @@ import Notification from '@components/Notification';
 
 interface OverdueLoansBannerProps {
   overdueOrders: any[];
+  hasOverdueLoans?: boolean;
 }
 
-export default function OverdueLoansBanner({ overdueOrders }: OverdueLoansBannerProps) {
-  if (!overdueOrders || overdueOrders.length === 0) {
+export default function OverdueLoansBanner({
+  overdueOrders,
+  hasOverdueLoans,
+}: OverdueLoansBannerProps) {
+  if (!hasOverdueLoans && overdueOrders.length === 0) {
     return null;
   }
 
-  const hasMultipleOverdueLoans = overdueOrders.length > 1;
-  const overdueCount = overdueOrders.length;
-
-  const orderIds = overdueOrders.map((order) => order.order_key).filter(Boolean);
-
-  // For single loan, show the id. For 2-5 loans, show all ids. For more than 5, show count to avoid ui clutter.
-  let message: string;
-  if (overdueCount === 1) {
-    message = `Your loan ${orderIds[0]} is overdue.`;
-  } else if (overdueCount <= 5) {
-    const idsText = orderIds.join(', ');
-    message = `Your loans ${idsText} are overdue.`;
-  } else {
-    message = `You have ${overdueCount} loans that are overdue.`;
-  }
-
-  const link = hasMultipleOverdueLoans
-    ? '/borrower/orders'
-    : `/borrower/orders/${overdueOrders[0].order_key}`;
+  const viewDetailsLink = '/orders';
 
   const ctaButton = (
-    <Link href={link} className="flex gap-1 items-center font-medium">
+    <Link href={viewDetailsLink} className="flex gap-1 items-center font-medium">
       View details
     </Link>
   );
 
-  return (
-    <Notification
-      icon={faWarning}
-      iconBorderColor="border-warning"
-      textColor="text-warning"
-      bgColor="bg-background-warning"
-      message={message}
-      ctaButton={ctaButton}
-      buttonClass="hover:text-warning-dark hover:border-warning-dark"
-    />
-  );
+  const notificationProps = {
+    icon: faWarning,
+    iconBorderColor: 'border-warning',
+    textColor: 'text-warning',
+    bgColor: 'bg-background-warning',
+    ctaButton,
+    buttonClass: 'hover:text-warning-dark hover:border-warning-dark',
+  };
+
+  // Show a fallback banner if entity.is_past_due is true but no overdue orders were found in the first page
+  if (hasOverdueLoans && overdueOrders.length === 0) {
+    return (
+      <Notification
+        {...notificationProps}
+        message="You have overdue loans. Please review your account."
+      />
+    );
+  }
+
+  const isMany = overdueOrders.length >= 10;
+
+  let message: React.ReactNode;
+
+  if (!isMany) {
+    const isSingle = overdueOrders.length === 1;
+    message = (
+      <>
+        {isSingle ? 'Your loan ' : 'Your loans '}
+        {overdueOrders.map((order, i) => (
+          <React.Fragment key={order.order_key}>
+            <Link href={`/orders/${order.order_key}`} className="underline font-semibold">
+              {order.order_key}
+            </Link>
+            {i < overdueOrders.length - 1 ? ', ' : ''}
+          </React.Fragment>
+        ))}
+        {isSingle ? ' is overdue.' : ' are overdue.'}
+      </>
+    );
+  } else {
+    message = `You have ${overdueOrders.length}+ overdue loans.`;
+  }
+
+  return <Notification {...notificationProps} message={message} />;
 }

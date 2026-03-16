@@ -8,8 +8,8 @@ import Stats from '@apps/borrower/components/home/Stats';
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
 import NoDataError from '@components/NoDataError';
 import Notification from '@components/Notification';
-import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import useOrders from '@hooks/useOrders';
 import ExportPaymentHistory from './ExportPaymentHistory';
 import OverdueLoansBanner from './OverdueLoansBanner';
 import Promo from './Promo';
@@ -24,7 +24,6 @@ type NotificationData = {
 
 export default function BorrowerDashboard() {
   const { entity, entityError } = useEntity();
-  const { orders } = useBorrowerDeps();
   const [notification, setNotification] = useState<NotificationData | null>(null);
 
   useEffect(() => {
@@ -43,6 +42,8 @@ export default function BorrowerDashboard() {
       .catch((err) => [console.log(err)]);
   }, []);
 
+  const hasOverdueLoans = entity?.is_past_due ?? false;
+  const { orders } = useOrders(entity);
   const overdueOrders = orders?.filter((order) => order?.product?.isPastDue) || [];
 
   if (entityError) return <NoDataError tag="borrower" withButton={false} />;
@@ -58,7 +59,7 @@ export default function BorrowerDashboard() {
       <div className="mx-2 xl:max-w-[90%] xl:mx-auto h-full">
         <p className="text-2xl md:text-3xl font-bold text-primary capitalize pt-3">Dashboard</p>
         <Promo />
-        <OverdueLoansBanner overdueOrders={overdueOrders} />
+        <OverdueLoansBanner overdueOrders={overdueOrders} hasOverdueLoans={hasOverdueLoans} />
         {notification && notification?.Active && (
           <Notification
             icon={faMegaphone}
