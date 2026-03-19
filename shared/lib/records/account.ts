@@ -45,4 +45,8 @@ export default class AccountRecord {
   get plus_enabled() {
     return false;
   }
+
+  get physical_card_enabled() {
+    return true;
+  }
 }

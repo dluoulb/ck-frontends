@@ -80,8 +80,15 @@ export const jitEnabled = isEnabled(process.env.NEXT_PUBLIC_JIT_ENABLED);
 export const plaidEnabled = isEnabled(process.env.NEXT_PUBLIC_PLAID_CREATE_PMS);
 export const plusEnabled = isEnabled(process.env.NEXT_PUBLIC_PLUS_ENABLED);
 export const rewardsEnabled = isEnabled(process.env.NEXT_PUBLIC_REWARDS_ENABLED);
+export const amazonPhysicalCardTestEnabled = isEnabled(
+  process.env.NEXT_PUBLIC_AMAZON_PHYSICAL_CARD_TEST_ENABLED,
+);
 
 export const plusCohorts = ['credit_key_plus_test1'];
+export const amazonPhysicalCardTest = {
+  type: 'application_flow',
+  cohort: 'amazon_exclusive',
+};
 
 export const emailRegex =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;

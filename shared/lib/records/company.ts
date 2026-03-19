@@ -1,4 +1,9 @@
-import { plusCohorts, plusEnabled } from '@lib/constants/SiteVariables';
+import {
+  amazonPhysicalCardTest,
+  amazonPhysicalCardTestEnabled,
+  plusCohorts,
+  plusEnabled,
+} from '@lib/constants/SiteVariables';
 import { removeNulls } from '@lib/utils/record_utils';
 import AddressRecord from './address';
 import CreditLine from './credit_line';
@@ -31,6 +36,7 @@ export default class CompanyRecord {
   merchant_applied_with: MerchantRecord;
   orders_count: number;
   active_cohorts: string[];
+  active_cohorts_by_type?: Record<string, string>;
 
   constructor(data) {
     const cleanedData = removeNulls(data);
@@ -71,5 +77,12 @@ export default class CompanyRecord {
 
   get plus_enabled() {
     return plusEnabled && plusCohorts.some((cohort) => this.active_cohorts.includes(cohort));
+  }
+
+  get physical_card_enabled() {
+    if (!amazonPhysicalCardTestEnabled) return true;
+    const isInAmazonTestGroup =
+      this.active_cohorts_by_type?.[amazonPhysicalCardTest.type] === amazonPhysicalCardTest.cohort;
+    return !isInAmazonTestGroup;
   }
 }

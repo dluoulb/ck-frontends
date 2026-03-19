@@ -4,6 +4,7 @@ import Script from 'next/script';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
+import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
@@ -13,13 +14,17 @@ import DashboardVCSection from '../DashboardVCSection';
 
 export default function MultiUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
+  const { entity } = useEntity();
   const vcProps = useCompanyVirtualCard();
   const { physicalCard } = useCompanyPhysicalCard();
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
 
   const showPhysicalCardPresentment =
-    vcProps.virtualCard && vcProps.virtualCard.status === 'ACTIVE' && !physicalCard;
+    vcProps.virtualCard &&
+    vcProps.virtualCard.status === 'ACTIVE' &&
+    !physicalCard &&
+    entity?.physical_card_enabled;
 
   return (
     <div className="h-full">

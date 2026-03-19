@@ -56,6 +56,8 @@ const companyApproved = new CompanyRecord({
   id: user.company_id,
   name: 'Widget Maker Co.',
   underwriting_status: 'approved',
+  active_cohorts: [],
+  active_cohorts_by_type: {},
   created_at: '2024-07-20T11:03:19.083-07:00',
   updated_at: '2024-07-20T11:03:19.083-07:00',
   tier: 'tier_y',
