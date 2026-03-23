@@ -17,6 +17,7 @@ import { supportLink } from '@lib/constants/SiteVariables';
 function usePrimaryRoutes() {
   const { entity } = useEntity();
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
 
   const routes = [
     {
@@ -42,20 +43,20 @@ function usePrimaryRoutes() {
       name: 'Discover',
       url: marketplace.url,
       target: '_blank',
-      enabled: !mobileApp && marketplace.enabled,
+      enabled: !mobileApp && marketplace.enabled && !isAmazonExclusive,
     },
     {
       icon: faGift,
       name: 'Plus+',
       url: '/plus',
-      enabled: !!entity?.plus_enabled,
+      enabled: !!entity?.plus_enabled && !isAmazonExclusive,
       separator: true,
     },
     {
       icon: faGift,
       name: 'Rewards',
       url: '/rewards',
-      enabled: !!entity?.plus_enabled,
+      enabled: !!entity?.plus_enabled && !isAmazonExclusive,
     },
     {
       icon: faUser,

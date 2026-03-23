@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
-import { companyApproved } from '@lib/testing/records';
+import { companyAmazonExclusive, companyApproved } from '@lib/testing/records';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
 jest.mock('axios');
@@ -155,6 +155,41 @@ describe('Main Dashbboard Home Page', () => {
       await waitFor(() => {
         expect(screen.getByText('You have 10+ overdue loans.')).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('AmazonExclusive test group', () => {
+    beforeEach(() => {
+      global.mockedUseEntity.mockImplementation(() => ({
+        entity: companyAmazonExclusive,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      }));
+      global.mockedUseOrders.mockImplementation(() => ({
+        orders: [],
+        ordersLoading: false,
+        isFetching: false,
+        ordersError: null,
+        pageCount: 1,
+      }));
+    });
+
+    test('hides Browse Merchants widget for Amazon Exclusive users', async () => {
+      customRender(<BorrowerDashboard />, { withBorrowerProviders: true });
+
+      await screen.findByText('Widget Maker Co.');
+
+      expect(screen.queryByText('Browse Merchants')).not.toBeInTheDocument();
+    });
+
+    test('hides Upload Invoice widget for Amazon Exclusive users', async () => {
+      customRender(<BorrowerDashboard />, { withBorrowerProviders: true });
+
+      await screen.findByText('Widget Maker Co.');
+
+      expect(screen.queryByText('Upload Invoice')).not.toBeInTheDocument();
     });
   });
 });

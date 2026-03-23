@@ -5,6 +5,7 @@ import { supportLink } from '@lib/constants/SiteVariables';
 function useSecondaryRoutes() {
   const { entity } = useEntity();
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
 
   const routes = [
     {
@@ -33,13 +34,13 @@ function useSecondaryRoutes() {
           name: 'Discover',
           url: marketplace.url,
           target: '_blank',
-          enabled: !mobileApp && marketplace.enabled,
+          enabled: !mobileApp && marketplace.enabled && !isAmazonExclusive,
         },
         {
           type: 'link',
           name: 'Plus+',
           url: '/plus',
-          enabled: !!entity?.plus_enabled,
+          enabled: !!entity?.plus_enabled && !isAmazonExclusive,
         },
       ],
     },
@@ -57,7 +58,7 @@ function useSecondaryRoutes() {
           name: 'Reward Points',
           key: 'rewardPoints',
           url: '/rewards',
-          enabled: !mobileApp && !!entity?.plus_enabled,
+          enabled: !mobileApp && !!entity?.plus_enabled && !isAmazonExclusive,
         },
         {
           type: 'dropdown',

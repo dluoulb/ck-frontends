@@ -99,6 +99,11 @@ const companyApproved = new CompanyRecord({
   },
 });
 
+const companyAmazonExclusive = new CompanyRecord({
+  ...companyApproved,
+  active_cohorts_by_type: { application_flow: 'amazon_exclusive' },
+});
+
 const documentA = {
   id: 'document1',
   file_type: 'bank_statements',
@@ -949,6 +954,7 @@ export {
   adminUser,
   application1,
   application2,
+  companyAmazonExclusive,
   companyApproved,
   consumerAccount,
   defaultTerms,

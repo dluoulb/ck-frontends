@@ -2,6 +2,7 @@ import React from 'react';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { useEntity } from '@contexts/EntityContext';
 import { ckaLink } from '@lib/constants/SiteVariables';
 
 interface CkaInfoProps {
@@ -9,6 +10,11 @@ interface CkaInfoProps {
 }
 
 export default function CkaInfo({ notice }: CkaInfoProps) {
+  const { entity } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+
+  if (isAmazonExclusive) return null;
+
   return (
     <div className="text-sm lg:text-base h-full">
       <div className="flex justify-start">

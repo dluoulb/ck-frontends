@@ -22,6 +22,40 @@ const loadCompanyRecord = (flagEnabled: boolean): typeof CompanyRecordType => {
   return Record!;
 };
 
+describe('CompanyRecord#isAmazonExclusive', () => {
+  let CompanyRecord: typeof CompanyRecordType;
+
+  beforeAll(() => {
+    CompanyRecord = loadCompanyRecord(true);
+  });
+
+  it('returns true when in the amazon_exclusive cohort', () => {
+    const company = new CompanyRecord(
+      companyData({ [amazonPhysicalCardTest.type]: amazonPhysicalCardTest.cohort }),
+    );
+    expect(company.isAmazonExclusive).toBe(true);
+  });
+
+  it('returns false when active_cohorts_by_type is empty', () => {
+    expect(new CompanyRecord(companyData()).isAmazonExclusive).toBeFalsy();
+  });
+
+  it('returns false when in a different cohort', () => {
+    const company = new CompanyRecord(
+      companyData({ [amazonPhysicalCardTest.type]: 'some_other_cohort' }),
+    );
+    expect(company.isAmazonExclusive).toBeFalsy();
+  });
+
+  it('returns false when active_cohorts_by_type is undefined', () => {
+    const company = new CompanyRecord({
+      ...companyApproved,
+      active_cohorts_by_type: undefined,
+    });
+    expect(company.isAmazonExclusive).toBeFalsy();
+  });
+});
+
 describe('CompanyRecord#physical_card_enabled', () => {
   describe('when the feature flag is disabled', () => {
     let CompanyRecord: typeof CompanyRecordType;

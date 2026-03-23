@@ -15,6 +15,7 @@ export default function Widgets() {
 
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
   const vcEnabled = ['virtual_card', 'multi_use_virtual_card'].includes(activeBanner?.name);
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
 
   return (
     <>
@@ -43,12 +44,16 @@ export default function Widgets() {
         </BaseGridItem>
       )}
 
-      <BaseGridItem gridConfig="col-span-7 mt-2">
-        <MarketplaceLink />
-      </BaseGridItem>
-      <BaseGridItem gridConfig="col-span-7 my-2">
-        <CkaLink />
-      </BaseGridItem>
+      {!isAmazonExclusive && (
+        <BaseGridItem gridConfig="col-span-7 mt-2">
+          <MarketplaceLink />
+        </BaseGridItem>
+      )}
+      {!isAmazonExclusive && (
+        <BaseGridItem gridConfig="col-span-7 my-2">
+          <CkaLink />
+        </BaseGridItem>
+      )}
 
       <SettingsWidget />
 

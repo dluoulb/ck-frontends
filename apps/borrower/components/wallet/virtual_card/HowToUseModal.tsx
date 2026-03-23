@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
+import { useEntity } from '@contexts/EntityContext';
 import { marketplace } from '@lib/actions/marketplace';
 import { mobileAppDownloadLink } from '@lib/constants/SiteVariables';
 import appQrCode from '@lib/images/app_qr_code.png';
@@ -13,6 +14,9 @@ interface HowToUseModalProps {
 }
 
 export default function HowToUseModal({ isModalActive, toggleModal }: HowToUseModalProps) {
+  const { entity } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+
   return (
     <ModalWrapper isModalActive={isModalActive} toggleModal={toggleModal}>
       <h2 className="font-bold text-xl">Credit Key Virtual Card</h2>
@@ -63,25 +67,27 @@ export default function HowToUseModal({ isModalActive, toggleModal }: HowToUseMo
           </div>
         </div>
 
-        <div className="space-y-1">
-          <h3 className="text-base font-bold text-gray-900">3. Discover Merchants</h3>
+        {!isAmazonExclusive && (
+          <div className="space-y-1">
+            <h3 className="text-base font-bold text-gray-900">3. Discover Merchants</h3>
 
-          <div className="space-y-3">
-            <p className="text-sm text-gray-700">
-              Easily access your favorite merchants and discover new ones in the Credit Key
-              Marketplace.
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm text-gray-700">
+                Easily access your favorite merchants and discover new ones in the Credit Key
+                Marketplace.
+              </p>
 
-            <Link
-              href={marketplace.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-600 font-medium text-sm"
-            >
-              Discover Merchants →
-            </Link>
+              <Link
+                href={marketplace.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-600 font-medium text-sm"
+              >
+                Discover Merchants →
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </ModalWrapper>
   );

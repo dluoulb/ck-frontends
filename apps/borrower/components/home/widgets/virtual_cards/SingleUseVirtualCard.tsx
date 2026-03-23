@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import Loading from '@components/Loading';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
 import { ckaLink, virtualCardLink } from '@lib/constants/SiteVariables';
 import vcVisa from '@lib/images/vc_cardart_visa.png';
@@ -14,6 +15,8 @@ import VCList from './VCList';
 
 export default function SingleUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
+  const { entity } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
   const { orders, ordersError, ordersLoading } = useBorrowerDeps();
   const virtualCardOrders = orders?.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details,
@@ -98,20 +101,22 @@ export default function SingleUseVirtualCard() {
                 <p className="text-xs">Scroll for More</p>
               </div>
             </div>
-            <div className="col-span-3 md:col-span-1 md:col-start-2 mt-5">
-              <p className="text-sm">
-                If you'd like to pay with Credit Key at a merchant who doesn't accept credit cards,
-                you can send us your invoice directly and we will apply the payment for you using
-                your existing line of credit.{' '}
-                <a
-                  href={ckaLink}
-                  target="_blank"
-                  className="flex items-center gap-1 cursor-pointer hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
-                >
-                  Learn more
-                </a>
-              </p>
-            </div>
+            {!isAmazonExclusive && (
+              <div className="col-span-3 md:col-span-1 md:col-start-2 mt-5">
+                <p className="text-sm">
+                  If you'd like to pay with Credit Key at a merchant who doesn't accept credit
+                  cards, you can send us your invoice directly and we will apply the payment for you
+                  using your existing line of credit.{' '}
+                  <a
+                    href={ckaLink}
+                    target="_blank"
+                    className="flex items-center gap-1 cursor-pointer hover:text-primary-blue-hover border-b border-transparent hover:border-primary-blue-hover font-medium text-primary-blue-hover max-w-max !mt-6 md:!mt-0"
+                  >
+                    Learn more
+                  </a>
+                </p>
+              </div>
+            )}
           </div>
         </>
       )}
