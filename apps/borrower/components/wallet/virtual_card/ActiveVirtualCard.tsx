@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
@@ -30,6 +30,31 @@ export default function ActiveVirtualCard({
   const [token, setToken] = useState();
   const { entity } = useEntity();
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [nameCopied, setNameCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const owner = entity?.type === 'company' ? entity?.borrower : entity?.user;
+  const ownerName = owner ? `${owner.first_name || ''} ${owner.last_name || ''}`.trim() : '';
+  const showOwnerName = isAmazonExclusive && !!ownerName;
+
+  const handleCopyName = useCallback(() => {
+    if (!ownerName) return;
+    navigator.clipboard
+      .writeText(ownerName)
+      .then(() => {
+        setNameCopied(true);
+        if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+        copyTimeoutRef.current = setTimeout(() => setNameCopied(false), 5000);
+      })
+      .catch(() => {});
+  }, [ownerName]);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    };
+  }, []);
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
 
@@ -167,6 +192,33 @@ export default function ActiveVirtualCard({
               </div>
             )}
           </div>
+
+          {/* Qolo's show_pan widget does not support displaying cardholder name natively.
+              The token endpoint only accepts card_proxy (person_guid is for external_payment only).
+              This overlay renders the name from the entity context for Amazon borrowers. */}
+          {showOwnerName && (
+            <div
+              className="absolute left-6 flex items-center gap-2 z-30"
+              style={{ top: '55%' }}
+              data-testid="owner-name-field"
+            >
+              <span className="text-white text-lg sm:text-2xl font-semibold">{ownerName}</span>
+              <button
+                type="button"
+                onClick={handleCopyName}
+                className={`transition-opacity ${nameCopied ? 'opacity-[0.65]' : 'hover:opacity-80'}`}
+                aria-label="Copy cardholder name"
+                style={{
+                  backgroundImage: `url("${CardAssets.COPY_ICON_SVG}")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'contain',
+                  width: '1.25rem',
+                  height: '1.25rem',
+                }}
+              />
+            </div>
+          )}
 
           <div className="absolute bottom-6 right-6 flex justify-center z-30">
             <button
