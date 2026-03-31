@@ -46,4 +46,19 @@ describe('HowToUseModal', () => {
       screen.getByText("2. Add Card to your phone's digital wallet manually"),
     ).toBeInTheDocument();
   });
+
+  test('hides Discover Merchants section while entity is loading', () => {
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: null,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: true,
+    }));
+
+    customRender(<HowToUseModal {...defaultProps} />);
+
+    expect(screen.queryByText('3. Discover Merchants')).not.toBeInTheDocument();
+    expect(screen.queryByText('Discover Merchants →')).not.toBeInTheDocument();
+  });
 });

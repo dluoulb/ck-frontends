@@ -39,5 +39,20 @@ describe('Widgets Index', () => {
       const widgets = screen.getAllByRole('base-grid-item-component');
       expect(widgets).toHaveLength(3);
     });
+
+    test('does not show marketplace and CKA links while entity is loading', () => {
+      global.mockedUseEntity.mockImplementation(() => ({
+        entity: null,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: true,
+      }));
+
+      customRender(<Widgets />, { withBorrowerProviders: true });
+
+      expect(screen.queryByText('Browse Merchants')).not.toBeInTheDocument();
+      expect(screen.queryByText('Upload Invoice')).not.toBeInTheDocument();
+    });
   });
 });

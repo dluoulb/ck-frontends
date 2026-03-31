@@ -18,6 +18,16 @@ jest.mock('next/image', () => {
   return MockImage;
 });
 jest.mock('next/script', () => () => null);
+jest.mock('@apps/borrower/hooks/useQoloWidget', () => {
+  const actual = { iframeReady: false };
+  return {
+    __esModule: true,
+    default: jest.fn(() => ({ ...actual, onWidgetSuccess: jest.fn() })),
+    _setIframeReady: (val: boolean) => {
+      actual.iframeReady = val;
+    },
+  };
+});
 
 const mockUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
 const mockGetVirtualCardToken = getVirtualCardToken as jest.MockedFunction<
@@ -49,16 +59,63 @@ const mockEntityReturn = (entity) => ({
 
 describe('ActiveVirtualCard', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     mockGetVirtualCardToken.mockResolvedValue('mock-token');
+    mockUseEntity.mockReturnValue(mockEntityReturn(companyApproved));
     Object.defineProperty(navigator, 'clipboard', {
       value: { writeText: jest.fn().mockResolvedValue(undefined) },
       configurable: true,
+    });
+
+    // Reset mock hook state
+    const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+    _setIframeReady(false);
+  });
+
+  describe('masked card display', () => {
+    test('renders masked card with last four digits when showWidget is false', () => {
+      customRender(<ActiveVirtualCard {...defaultProps} showWidget={false} />);
+
+      expect(screen.getByText('Card Number')).toBeInTheDocument();
+      expect(screen.getByText('View Card Info')).toBeInTheDocument();
+    });
+
+    test('shows Loading... when showWidget is true but iframe is not ready', () => {
+      customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
+
+      expect(screen.getByText('Card Number')).toBeInTheDocument();
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
+    });
+
+    test('hides View Card Info when iframe is ready', () => {
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
+
+      customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
+
+      expect(screen.queryByText('View Card Info')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('loading state', () => {
+    test('shows Loading... on button when View Card Info is clicked', async () => {
+      mockUseEntity.mockReturnValue(mockEntityReturn(companyApproved));
+
+      customRender(<ActiveVirtualCard {...defaultProps} showWidget={false} />);
+
+      fireEvent.click(screen.getByText('View Card Info'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
+      });
     });
   });
 
   describe('owner name field', () => {
     test('shows owner name for Amazon exclusive borrowers when widget is visible', () => {
       mockUseEntity.mockReturnValue(mockEntityReturn(companyAmazonExclusive));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -68,6 +125,8 @@ describe('ActiveVirtualCard', () => {
 
     test('does not show owner name for non-Amazon borrowers', () => {
       mockUseEntity.mockReturnValue(mockEntityReturn(companyApproved));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -85,6 +144,8 @@ describe('ActiveVirtualCard', () => {
     test('does not show owner name when entity has no borrower', () => {
       const entityNoBorrower = { ...companyAmazonExclusive, borrower: null };
       mockUseEntity.mockReturnValue(mockEntityReturn(entityNoBorrower));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -93,6 +154,8 @@ describe('ActiveVirtualCard', () => {
 
     test('shows copy button next to owner name', () => {
       mockUseEntity.mockReturnValue(mockEntityReturn(companyAmazonExclusive));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -103,6 +166,8 @@ describe('ActiveVirtualCard', () => {
   describe('copy-to-clipboard', () => {
     test('copies owner name to clipboard when copy button is clicked', () => {
       mockUseEntity.mockReturnValue(mockEntityReturn(companyAmazonExclusive));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -113,6 +178,8 @@ describe('ActiveVirtualCard', () => {
 
     test('dims copy button after clicking', async () => {
       mockUseEntity.mockReturnValue(mockEntityReturn(companyAmazonExclusive));
+      const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+      _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 
@@ -129,6 +196,8 @@ describe('ActiveVirtualCard', () => {
 
       try {
         mockUseEntity.mockReturnValue(mockEntityReturn(companyAmazonExclusive));
+        const { _setIframeReady } = require('@apps/borrower/hooks/useQoloWidget');
+        _setIframeReady(true);
 
         customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
 

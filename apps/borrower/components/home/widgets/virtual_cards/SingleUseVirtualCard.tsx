@@ -15,8 +15,9 @@ import VCList from './VCList';
 
 export default function SingleUseVirtualCard() {
   const { isModalActive, toggleModal } = useModal();
-  const { entity } = useEntity();
-  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const { entity, entityLoading } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive === true;
+  const showCkaSection = !entityLoading && !isAmazonExclusive;
   const { orders, ordersError, ordersLoading } = useBorrowerDeps();
   const virtualCardOrders = orders?.filter(
     (o) => o?.transaction_type === 'virtual_card' && !!o?.virtual_card_details,
@@ -101,7 +102,7 @@ export default function SingleUseVirtualCard() {
                 <p className="text-xs">Scroll for More</p>
               </div>
             </div>
-            {!isAmazonExclusive && (
+            {showCkaSection && (
               <div className="col-span-3 md:col-span-1 md:col-start-2 mt-5">
                 <p className="text-sm">
                   If you'd like to pay with Credit Key at a merchant who doesn't accept credit

@@ -3,7 +3,7 @@ import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function useSecondaryRoutes() {
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
   const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
 
@@ -34,7 +34,7 @@ function useSecondaryRoutes() {
           name: 'Discover',
           url: marketplace.url,
           target: '_blank',
-          enabled: !mobileApp && marketplace.enabled && !isAmazonExclusive,
+          enabled: !entityLoading && !mobileApp && marketplace.enabled && !isAmazonExclusive,
         },
         {
           type: 'link',

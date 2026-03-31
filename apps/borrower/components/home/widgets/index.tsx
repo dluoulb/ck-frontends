@@ -11,11 +11,12 @@ import SupportWidget from './SupportWidget';
 import VirtualCard from './virtual_cards/VirtualCard';
 
 export default function Widgets() {
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
 
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
   const vcEnabled = ['virtual_card', 'multi_use_virtual_card'].includes(activeBanner?.name);
-  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const isAmazonExclusive = entity?.isAmazonExclusive === true;
+  const showNonAmazonWidgets = !entityLoading && !isAmazonExclusive;
 
   return (
     <>
@@ -44,12 +45,12 @@ export default function Widgets() {
         </BaseGridItem>
       )}
 
-      {!isAmazonExclusive && (
+      {showNonAmazonWidgets && (
         <BaseGridItem gridConfig="col-span-7 mt-2">
           <MarketplaceLink />
         </BaseGridItem>
       )}
-      {!isAmazonExclusive && (
+      {showNonAmazonWidgets && (
         <BaseGridItem gridConfig="col-span-7 my-2">
           <CkaLink />
         </BaseGridItem>

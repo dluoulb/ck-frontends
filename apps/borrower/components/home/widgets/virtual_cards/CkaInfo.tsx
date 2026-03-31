@@ -10,10 +10,10 @@ interface CkaInfoProps {
 }
 
 export default function CkaInfo({ notice }: CkaInfoProps) {
-  const { entity } = useEntity();
-  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const { entity, entityLoading } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive === true;
 
-  if (isAmazonExclusive) return null;
+  if (entityLoading || isAmazonExclusive) return null;
 
   return (
     <div className="text-sm lg:text-base h-full">

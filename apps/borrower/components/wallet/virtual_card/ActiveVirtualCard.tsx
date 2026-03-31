@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
+import useQoloWidget from '@apps/borrower/hooks/useQoloWidget';
 import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
+import useToast from '@hooks/useToast';
 import { getVirtualCardToken } from '@lib/actions/companies';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import vcSvg from '@lib/images/vc.svg';
@@ -27,9 +29,11 @@ export default function ActiveVirtualCard({
   onHideWidget,
 }: ActiveVirtualCardProps) {
   const api = useApi();
+  const { makeToast } = useToast();
   const [token, setToken] = useState();
   const { entity } = useEntity();
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const [nameCopied, setNameCopied] = useState(false);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -37,6 +41,25 @@ export default function ActiveVirtualCard({
   const owner = entity?.type === 'company' ? entity?.borrower : entity?.user;
   const ownerName = owner ? `${owner.first_name || ''} ${owner.last_name || ''}`.trim() : '';
   const showOwnerName = isAmazonExclusive && !!ownerName;
+
+  const [isTokenLoading, setIsTokenLoading] = useState(false);
+
+  const { iframeReady, onWidgetSuccess } = useQoloWidget({
+    containerId: 'widget_container_virtual',
+    showWidget,
+    onHideWidget,
+    onCleanup: () => setToken(undefined),
+  });
+
+  const widgetVisible = showWidget && iframeReady && (!scriptLoaded || iframeLoaded);
+  const isWaitingForWidgetReveal = showWidget && !widgetVisible;
+  const isActionDisabled = isTokenLoading || isWaitingForWidgetReveal;
+
+  useEffect(() => {
+    if (!showWidget) {
+      setIframeLoaded(false);
+    }
+  }, [showWidget]);
 
   const handleCopyName = useCallback(() => {
     if (!ownerName) return;
@@ -58,7 +81,24 @@ export default function ActiveVirtualCard({
 
   const qoloWidgetUrl = `${qoloWidgetOrigin()}/widgets/js/qolo.initialize.v3.js`;
 
+  const handleWidgetFailure = useCallback(
+    (details) => {
+      const failureMessage =
+        details?.error || details?.message || 'Unable to show card details. Please try again.';
+
+      makeToast(failureMessage, 'error');
+      setIframeLoaded(false);
+      onHideWidget();
+    },
+    [makeToast, onHideWidget],
+  );
+
   const widget = {
+    onSuccess: onWidgetSuccess,
+    onFailure: handleWidgetFailure,
+    onLoadIframe: () => {
+      setIframeLoaded(true);
+    },
     frame: {
       container_id: 'widget_container_virtual',
       iframe_class:
@@ -160,11 +200,25 @@ export default function ActiveVirtualCard({
       widget.config.token = token;
       window.pciWidget(widget);
     }
-  }, [card, token, showWidget, scriptLoaded]);
+  }, [token, showWidget, scriptLoaded]);
 
   const handleViewCardInfo = async () => {
-    setToken(await getVirtualCardToken(api, entity.id, card.id));
-    onShowWidget();
+    if (isActionDisabled || !entity?.id || !card?.id) return;
+
+    setIsTokenLoading(true);
+    try {
+      const nextToken = await getVirtualCardToken(api, entity.id, card.id);
+      setToken(nextToken);
+      onShowWidget();
+    } catch (error) {
+      if (error?.response?.status === 429) {
+        makeToast('Too many requests. Please wait a minute and try again.', 'error');
+      } else {
+        makeToast('Unable to load card details. Please try again.', 'error');
+      }
+    } finally {
+      setIsTokenLoading(false);
+    }
   };
 
   return (
@@ -172,31 +226,68 @@ export default function ActiveVirtualCard({
       <Script
         src={qoloWidgetUrl}
         onLoad={() => {
-          console.log('Script loaded successfully');
           setScriptLoaded(true);
         }}
-        onError={(e) => {
-          console.error('Script failed to load:', e);
+        onError={() => {
+          makeToast('Unable to load card details. Please refresh and try again.', 'error');
+          setScriptLoaded(false);
+          setIsTokenLoading(false);
+          setToken(undefined);
+          if (showWidget) {
+            onHideWidget();
+          }
         }}
       />
 
-      {showWidget ? (
-        <div className="relative">
+      {/* Masked card — always in DOM as the base layer */}
+      <div className="relative rounded-xl overflow-hidden flex flex-col aspect-[385/244]">
+        <Image
+          src={vcSvg}
+          alt="Credit Key Virtual Card"
+          className="absolute inset-0 w-full h-full object-contain"
+          fill
+        />
+
+        <div className="absolute inset-0 p-6 text-white flex flex-col justify-end z-10">
+          {card.last_four && (
+            <div className="mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-semibold text-gray-200">Card Number</span>
+              </div>
+              <div className="text-sm sm:text-xl tracking-wider">
+                {formatCardNumber(card.last_four)}
+              </div>
+            </div>
+          )}
+
+          {!widgetVisible && (
+            <div className="flex items-center justify-between">
+              <button
+                onClick={handleViewCardInfo}
+                disabled={isActionDisabled}
+                className="px-3 py-2 rounded-lg text-sm font-bold transition-colors bg-white hover:bg-white/90 text-primary-blue disabled:opacity-70"
+              >
+                {isActionDisabled ? 'Loading...' : 'View Card Info'}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Qolo widget — overlays on top of masked card, only mounted when showWidget is true */}
+      {showWidget && (
+        <div
+          className={`absolute inset-0 z-20 ${widgetVisible ? '' : 'opacity-0 pointer-events-none'}`}
+        >
           <div
             id="widget_container_virtual"
             className="aspect-[385/244] relative overflow-hidden rounded-xl"
-          >
-            {!token && (
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-20">
-                <div className="text-center text-gray-500">No card data available</div>
-              </div>
-            )}
-          </div>
+          />
 
           {/* Qolo's show_pan widget does not support displaying cardholder name natively.
               The token endpoint only accepts card_proxy (person_guid is for external_payment only).
               This overlay renders the name from the entity context for Amazon borrowers. */}
-          {showOwnerName && (
+          {widgetVisible && showOwnerName && (
             <div
               className="absolute left-6 flex items-center gap-2 z-30"
               style={{ top: '55%' }}
@@ -219,46 +310,6 @@ export default function ActiveVirtualCard({
               />
             </div>
           )}
-
-          <div className="absolute bottom-6 right-6 flex justify-center z-30">
-            <button
-              onClick={() => onHideWidget()}
-              className="bg-white hover:bg-white/90 text-primary-blue px-3 py-2 rounded-lg text-sm font-bold transition-colors shadow-lg"
-            >
-              Hide
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="relative rounded-xl overflow-hidden flex flex-col aspect-[385/244]">
-          <Image
-            src={vcSvg}
-            alt="Credit Key Virtual Card"
-            className="absolute inset-0 w-full h-full object-contain"
-            fill
-          />
-
-          <div className="absolute inset-0 p-6 text-white flex flex-col justify-end z-10">
-            {card.last_four && (
-              <div className="mb-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-200">Card Number</span>
-                </div>
-                <div className="text-sm sm:text-xl tracking-wider">
-                  {formatCardNumber(card.last_four)}
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleViewCardInfo}
-                className="px-3 py-2 rounded-lg text-sm font-bold transition-colors bg-white hover:bg-white/90 text-primary-blue"
-              >
-                View Card Info
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

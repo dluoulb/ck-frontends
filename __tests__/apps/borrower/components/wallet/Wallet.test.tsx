@@ -123,4 +123,20 @@ describe('Wallet - Physical Card Visibility', () => {
     expect(screen.getByText('Credit Key Virtual Card')).toBeInTheDocument();
     expect(screen.queryByText('Credit Key Physical Card')).not.toBeInTheDocument();
   });
+
+  test('does not render physical card section while entity is loading', () => {
+    mockUseEntity.mockReturnValue({
+      entity: null,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: true,
+    });
+    mockUseCompanyVirtualCard.mockReturnValue(defaultVirtualCardProps);
+    mockUseCompanyPhysicalCard.mockReturnValue(defaultPhysicalCardProps);
+
+    customRender(<Wallet />);
+
+    expect(screen.queryByText('Credit Key Physical Card')).not.toBeInTheDocument();
+  });
 });

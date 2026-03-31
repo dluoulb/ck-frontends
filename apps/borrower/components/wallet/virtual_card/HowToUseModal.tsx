@@ -14,8 +14,9 @@ interface HowToUseModalProps {
 }
 
 export default function HowToUseModal({ isModalActive, toggleModal }: HowToUseModalProps) {
-  const { entity } = useEntity();
-  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const { entity, entityLoading } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive === true;
+  const showDiscoverSection = !entityLoading && !isAmazonExclusive;
 
   return (
     <ModalWrapper isModalActive={isModalActive} toggleModal={toggleModal}>
@@ -67,7 +68,7 @@ export default function HowToUseModal({ isModalActive, toggleModal }: HowToUseMo
           </div>
         </div>
 
-        {!isAmazonExclusive && (
+        {showDiscoverSection && (
           <div className="space-y-1">
             <h3 className="text-base font-bold text-gray-900">3. Discover Merchants</h3>
 

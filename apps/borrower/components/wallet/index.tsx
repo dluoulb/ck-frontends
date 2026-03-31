@@ -17,14 +17,14 @@ import SelectionWidget from '../home/widgets/SelectionWidget';
 import SuttonVcDisclosure from '../home/widgets/virtual_cards/SuttonVcDisclosure';
 
 export default function Wallet() {
-  const { entity } = useEntity();
+  const { entity, entityLoading } = useEntity();
   const vcProps = useCompanyVirtualCard();
   const pcProps = useCompanyPhysicalCard();
   const [active, setActive] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [activeWidget, setActiveWidget] = useState<'virtual' | 'physical' | null>(null);
-  const showPhysicalCard = entity?.physical_card_enabled !== false;
+  const showPhysicalCard = !entityLoading && entity?.physical_card_enabled !== false;
 
   const handleSelect = (index) => {
     setActive(index);
@@ -48,7 +48,7 @@ export default function Wallet() {
     }
   };
 
-  if (vcProps.virtualCardLoading && pcProps.physicalCardLoading) {
+  if (entityLoading || (vcProps.virtualCardLoading && pcProps.physicalCardLoading)) {
     return (
       <div className="h-full flex justify-center items-center">
         <Loading />
@@ -65,7 +65,7 @@ export default function Wallet() {
         <h1 className="text-2xl md:text-3xl font-bold text-primary capitalize mb-8">Wallet</h1>
 
         <div className="space-y-8">
-          {vcProps.virtualCardLoading || pcProps.physicalCardLoading ? (
+          {entityLoading || vcProps.virtualCardLoading || pcProps.physicalCardLoading ? (
             <div className="flex justify-center items-center py-8">
               <Loading />
             </div>

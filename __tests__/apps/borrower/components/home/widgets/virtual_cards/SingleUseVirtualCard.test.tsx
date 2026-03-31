@@ -57,4 +57,18 @@ describe('SingleUseVirtualCard', () => {
 
     expect(screen.queryByText('Learn more')).not.toBeInTheDocument();
   });
+
+  test('hides CKA link while entity is loading', () => {
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: null,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: true,
+    }));
+
+    customRender(<SingleUseVirtualCard />, { withBorrowerProviders: true });
+
+    expect(screen.queryByText('Learn more')).not.toBeInTheDocument();
+  });
 });

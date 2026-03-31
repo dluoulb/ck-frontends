@@ -6,10 +6,10 @@ import { useEntity } from '@contexts/EntityContext';
 import { marketplace } from '@lib/actions/marketplace';
 
 export default function PromoteMarketplace() {
-  const { entity } = useEntity();
-  const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const { entity, entityLoading } = useEntity();
+  const isAmazonExclusive = entity?.isAmazonExclusive === true;
 
-  if (isAmazonExclusive) return null;
+  if (entityLoading || isAmazonExclusive) return null;
 
   return (
     <div className="flex gap-2 col-span-3 md:col-span-1">
