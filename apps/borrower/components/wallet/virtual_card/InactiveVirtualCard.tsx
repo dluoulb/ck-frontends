@@ -5,8 +5,14 @@ import useModal from '@hooks/useModal';
 import vcSvg from '@lib/images/vc.svg';
 import MultiUseVirtualCardModalWrapper from '../../home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 
-export default function InactiveVirtualCard({ cardTitle }) {
-  const { isModalActive, toggleModal } = useModal();
+interface InactiveVirtualCardProps {
+  cardTitle: string;
+  onActivate?: () => void;
+}
+
+export default function InactiveVirtualCard({ cardTitle, onActivate }: InactiveVirtualCardProps) {
+  const { isModalActive: isActivationModalActive, toggleModal: toggleActivationModal } = useModal();
+  const handleActivate = onActivate ?? toggleActivationModal;
 
   return (
     <>
@@ -22,7 +28,7 @@ export default function InactiveVirtualCard({ cardTitle }) {
           <div className="absolute inset-0 p-6 text-white flex flex-col justify-end z-10">
             <div className="flex-1 flex items-end">
               <button
-                onClick={toggleModal}
+                onClick={handleActivate}
                 className="w-full bg-primary-blue text-white px-4 py-3 text-xs sm:text-base rounded-lg font-semibold hover:bg-primary-blue-hover transition-colors"
               >
                 Activate Virtual Card Instantly
@@ -32,7 +38,12 @@ export default function InactiveVirtualCard({ cardTitle }) {
         </div>
       </div>
 
-      <MultiUseVirtualCardModalWrapper isModalActive={isModalActive} toggleModal={toggleModal} />
+      {!onActivate && (
+        <MultiUseVirtualCardModalWrapper
+          isModalActive={isActivationModalActive}
+          toggleModal={toggleActivationModal}
+        />
+      )}
     </>
   );
 }

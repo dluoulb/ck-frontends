@@ -8,7 +8,7 @@ import { companyApproved, orderA } from '@lib/testing/records';
 
 describe('Page Navigation Component', () => {
   test('renders', () => {
-    render(<PageNavigation order={orderA} type="company" entity={companyApproved} />);
+    render(<PageNavigation order={orderA} entity={companyApproved} />);
 
     const links = screen.getAllByRole('link', { hidden: true });
     expect(links).toHaveLength(2);

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
@@ -14,11 +14,24 @@ import MerchantRecord from '@lib/records/merchant';
 import { getTermLabel } from '@lib/utils/formatters';
 import FullStory from '@lib/utils/fullstory';
 
-export default function SetDefaultTermsModal({ next, skipCardCreate }) {
+interface SetDefaultTermsModalProps {
+  next: () => void;
+  skipCardCreate?: boolean;
+  setModalState?: React.Dispatch<React.SetStateAction<any>>;
+  syncVirtualCardAfterCreate?: (createdCard: any) => Promise<any>;
+}
+
+export default function SetDefaultTermsModal({
+  next,
+  skipCardCreate = false,
+  setModalState,
+  syncVirtualCardAfterCreate,
+}: SetDefaultTermsModalProps) {
   const api = useApi();
   const { makeToast } = useToast();
-  const { entity, fetchEntity } = useEntity();
+  const { entity } = useEntity();
   const { user } = useUser();
+  const makeToastRef = useRef(makeToast);
   const [merchant, setMerchant] = useState<MerchantRecord>();
   const [terms, setTerms] = useState<any>();
   const [defaultTerm, setDefaultTerm] = useState<any>();
@@ -29,6 +42,10 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
     setTerm(value);
   };
 
+  useEffect(() => {
+    makeToastRef.current = makeToast;
+  }, [makeToast]);
+
   const onSave = async (merchant_id, term) => {
     if (!term) {
       makeToast('Please select a default term', 'error');
@@ -37,11 +54,24 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
     setLoading(true);
     try {
       await updateRechargeTerm(api, entity, merchant_id, term?.term);
+      setModalState?.((prev) => ({
+        ...prev,
+        shouldRefreshEntity: true,
+        default_term_setting: {
+          merchant_id,
+          merchant_name: defaultTerm?.merchant_name,
+          merchant_slug: 'virtual',
+          default_term: {
+            term: term?.term,
+            term_period: term?.term_period,
+          },
+          term_options: defaultTerm?.term_options,
+        },
+      }));
 
       const fullstory = new FullStory();
       fullstory.setDefaultTermsEvent(user?.id, entity?.id, term?.term);
       makeToast('Default Term Successfully Updated', 'success');
-      fetchEntity({ company_id: entity?.id });
 
       if (skipCardCreate) {
         next();
@@ -49,13 +79,20 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
       }
 
       try {
-        await createVirtualCard(api, entity?.id);
+        const newCard = await createVirtualCard(api, entity?.id);
+        const syncedCard = newCard
+          ? await syncVirtualCardAfterCreate?.(newCard).catch(() => newCard)
+          : newCard;
+
+        if (syncedCard) {
+          setModalState?.((prev) => ({ ...prev, virtual_card: syncedCard }));
+        }
         makeToast('Credit Key Card Successfully Created', 'success');
         next();
-      } catch (error) {
+      } catch (_error) {
         makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
       }
-    } catch (error) {
+    } catch (_error) {
       makeToast('An error occurred. Please contact Credit Key Support', 'error');
     } finally {
       setLoading(false);
@@ -68,10 +105,10 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
         setMerchant(merchant);
       })
       .catch(() => {
-        makeToast('An error occurred. Please contact Credit Key Support', 'error');
+        makeToastRef.current('An error occurred. Please contact Credit Key Support', 'error');
         setError(true);
       });
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     if (entity?.id && merchant?.id) {
@@ -83,7 +120,7 @@ export default function SetDefaultTermsModal({ next, skipCardCreate }) {
           setError(true);
         });
     }
-  }, [entity, merchant]);
+  }, [api, entity, merchant]);
 
   useEffect(() => {
     if (merchant?.id && Array.isArray(terms)) {

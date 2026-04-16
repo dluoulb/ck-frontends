@@ -20,6 +20,7 @@ interface InactiveCardSectionProps {
   bgColor: string;
   cardType?: 'virtual' | 'physical';
   benefitsConfig?: BenefitsConfig;
+  onActivateVirtualCard?: () => void;
 }
 
 export default function InactiveCardSection({
@@ -27,6 +28,7 @@ export default function InactiveCardSection({
   bgColor,
   cardType = 'virtual',
   benefitsConfig = {},
+  onActivateVirtualCard,
 }: InactiveCardSectionProps) {
   const { isModalActive, toggleModal } = useModal();
 
@@ -44,7 +46,9 @@ export default function InactiveCardSection({
                   </span>
                 </div>
 
-                {cardType === 'virtual' && <InactiveVirtualCard cardTitle={title} />}
+                {cardType === 'virtual' && (
+                  <InactiveVirtualCard cardTitle={title} onActivate={onActivateVirtualCard} />
+                )}
                 {cardType === 'physical' && <InactivePhysicalCard cardTitle={title} />}
 
                 <button

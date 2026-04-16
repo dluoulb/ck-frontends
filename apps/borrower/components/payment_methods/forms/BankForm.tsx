@@ -23,6 +23,12 @@ type FormValues = {
 
 type FormErrors = Partial<Record<keyof FormValues, string>>;
 
+export type BankFormValues = {
+  bank_routing: string;
+  bank_account: string;
+  account_holder: string;
+};
+
 export default function BankForm({
   hasAlert,
   next,
@@ -30,39 +36,99 @@ export default function BankForm({
   toggleModal,
   createVcFlow,
   submitButtonText = 'Save Payment Method',
+  persistedValues,
+  onBankValuesChange,
+  onPaymentMethodCreated,
+}: {
+  hasAlert?: boolean;
+  next?: () => void;
+  setHasAlert?: (v: boolean) => void;
+  toggleModal?: () => void;
+  createVcFlow?: boolean;
+  submitButtonText?: string;
+  persistedValues?: Partial<BankFormValues>;
+  onBankValuesChange?: (values: BankFormValues) => void;
+  onPaymentMethodCreated?: () => void;
 }) {
   const api = useApi();
   const form = useRef(null);
   const { user } = useUser();
 
   const { makeToast } = useToast();
+  const makeToastRef = useRef(makeToast);
   const { refetchPaymentMethods } = useBorrowerDeps();
   const { fetchEntity } = useEntity();
+  const userId = user?.id;
 
   const [loading, setLoading] = useState(false);
   const [bankAgreement, setBankAgreement] = useState('');
-  const [agreementLoading, setAgreementLoading] = useState(false);
+  const [agreementUserId, setAgreementUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    setAgreementLoading(true);
-    generateBankAgreement(api, user)
+    makeToastRef.current = makeToast;
+  }, [makeToast]);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    let isActive = true;
+
+    generateBankAgreement(api, { id: userId })
       .then((res) => {
-        res && setBankAgreement(res);
+        if (!isActive) return;
+
+        setBankAgreement(res || '');
+        setAgreementUserId(userId);
       })
-      .then(() => setAgreementLoading(false))
-      .catch(() =>
-        makeToast(
+      .catch(() => {
+        if (!isActive) return;
+
+        setBankAgreement('');
+        setAgreementUserId(userId);
+        makeToastRef.current(
           'Unable to generate bank agreement. Please try again or contact our support team.',
           'error',
-        ),
-      );
-  }, [user]);
+        );
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [api, userId]);
+
+  const agreementLoading = !userId || agreementUserId !== userId;
+  const currentBankAgreement = agreementUserId === userId ? bankAgreement : '';
+
+  const onBankValuesChangeRef = useRef(onBankValuesChange);
+  useEffect(() => {
+    onBankValuesChangeRef.current = onBankValuesChange;
+  }, [onBankValuesChange]);
+
+  useEffect(() => {
+    const handleWindowBlur = () => {
+      const currentValues = form.current?.values;
+      if (currentValues && onBankValuesChangeRef.current) {
+        onBankValuesChangeRef.current({
+          bank_routing: currentValues.bank_routing,
+          bank_account: currentValues.bank_account,
+          account_holder: currentValues.account_holder,
+        });
+      }
+    };
+
+    window.addEventListener('blur', handleWindowBlur);
+    return () => window.removeEventListener('blur', handleWindowBlur);
+  }, []);
 
   const onSubmit = async (values, { setFieldError, resetForm }) => {
     setLoading(true);
     createPaymentMethodBank(api, new PaymentMethodRecord(values))
       .then(() => {
-        fetchEntity();
+        if (createVcFlow && onPaymentMethodCreated) {
+          onPaymentMethodCreated();
+        } else {
+          fetchEntity();
+        }
         refetchPaymentMethods();
         makeToast('Payment Method Successfully Created', 'success');
         resetForm();
@@ -95,10 +161,10 @@ export default function BankForm({
       innerRef={form}
       initialValues={{
         agree: '',
-        bank_routing: '',
-        bank_account: '',
-        account_holder: '',
-        user_id: user?.id,
+        bank_routing: persistedValues?.bank_routing ?? '',
+        bank_account: persistedValues?.bank_account ?? '',
+        account_holder: persistedValues?.account_holder ?? '',
+        user_id: userId,
       }}
       validate={async (values) => {
         const errors: FormErrors = {};
@@ -147,7 +213,7 @@ export default function BankForm({
                 {agreementLoading ? (
                   <Loading className="w-5 h-5 my-2 !text-primary" />
                 ) : (
-                  <div dangerouslySetInnerHTML={{ __html: bankAgreement }} />
+                  <div dangerouslySetInnerHTML={{ __html: currentBankAgreement }} />
                 )}
               </div>
 

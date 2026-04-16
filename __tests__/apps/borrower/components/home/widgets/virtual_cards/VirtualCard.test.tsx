@@ -1,82 +1,45 @@
 import VirtualCard from '@apps/borrower/components/home/widgets/virtual_cards/VirtualCard';
-import useActiveOrders from '@hooks/useActiveOrders';
 import { customRender, screen } from '@lib/testing/test-utils';
 
-jest.mock('@hooks/useActiveOrders', () => jest.fn());
+jest.mock('@apps/borrower/components/home/widgets/virtual_cards/MultiUseVirtualCard', () => ({
+  __esModule: true,
+  default: ({ onActivateVirtualCard }) => (
+    <div data-testid="multi-use-virtual-card">
+      {onActivateVirtualCard ? 'with-activate-handler' : 'without-activate-handler'}
+    </div>
+  ),
+}));
 
-const mockedUseActiveOrders = useActiveOrders as jest.MockedFunction<typeof useActiveOrders>;
+jest.mock('@apps/borrower/components/home/widgets/virtual_cards/SingleUseVirtualCard', () => ({
+  __esModule: true,
+  default: () => <div data-testid="single-use-virtual-card" />,
+}));
 
-const mockVirtualCardOrder = {
-  id: 'vc-order-1',
-  order_key: 'VC-123456',
-  transaction_type: 'virtual_card',
-  amount: '100.00',
-  created_at: '2024-01-01T00:00:00Z',
-  virtual_card_details: {
-    number: '1234567890121234',
-    cvv: '123',
-    expiration_month: '12',
-    expiration_year: '2025',
-  },
-  merchant: {
-    name: 'Test Merchant',
-  },
-};
-
-describe('Virtual Card Widget Component', () => {
-  test('displays VCs if entity has VC orders', async () => {
-    const mockOrders = [mockVirtualCardOrder];
-
-    mockedUseActiveOrders.mockReturnValue({
-      orders: mockOrders,
-      ordersLoading: false,
-      ordersError: null,
-      isFetching: false,
-      pageCount: 1,
-      totalOrderCount: 1,
-      refetchOrders: jest.fn(),
-    });
-
+describe('VirtualCard', () => {
+  test('renders the single-use virtual card widget for the single-use banner', () => {
     customRender(<VirtualCard bannerName="virtual_card" />, { withBorrowerProviders: true });
 
-    // Check that the active virtual cards section is displayed
-    expect(await screen.findByText('Active Virtual Cards')).toBeInTheDocument();
-    // Check that the VCList component is rendered
-    expect(screen.getByRole('virtual-card-list-component')).toBeInTheDocument();
-    // Check that Request New Card button is present
-    expect(screen.getByText('Request New Card')).toBeInTheDocument();
+    expect(screen.getByTestId('single-use-virtual-card')).toBeInTheDocument();
+    expect(screen.queryByTestId('multi-use-virtual-card')).not.toBeInTheDocument();
   });
 
-  test('displays VC info widget if entity DOES NOT have VC orders', async () => {
-    mockedUseActiveOrders.mockReturnValue({
-      orders: [],
-      ordersLoading: false,
-      ordersError: null,
-      isFetching: false,
-      pageCount: 1,
-      totalOrderCount: 0,
-      refetchOrders: jest.fn(),
+  test('renders the multi-use virtual card widget for the multi-use banner', () => {
+    customRender(<VirtualCard bannerName="multi_use_virtual_card" />, {
+      withBorrowerProviders: true,
     });
 
-    customRender(<VirtualCard bannerName="virtual_card" />, { withBorrowerProviders: true });
-
-    expect(screen.getByText(/Create My Virtual Card/)).toBeInTheDocument();
-    expect(screen.getByText('Learn More')).toBeInTheDocument();
+    expect(screen.getByTestId('multi-use-virtual-card')).toBeInTheDocument();
+    expect(screen.queryByTestId('single-use-virtual-card')).not.toBeInTheDocument();
   });
 
-  test('displays loading', async () => {
-    mockedUseActiveOrders.mockReturnValue({
-      orders: [],
-      ordersLoading: true,
-      ordersError: null,
-      isFetching: false,
-      pageCount: 1,
-      totalOrderCount: 0,
-      refetchOrders: jest.fn(),
-    });
+  test('passes through the dashboard activation handler when provided', () => {
+    customRender(
+      <VirtualCard bannerName="multi_use_virtual_card" onActivateVirtualCard={jest.fn()} />,
+      {
+        withBorrowerProviders: true,
+      },
+    );
 
-    customRender(<VirtualCard bannerName="virtual_card" />, { withBorrowerProviders: true });
-
-    expect(screen.getByRole('loading')).toBeInTheDocument();
+    expect(screen.getByText('with-activate-handler')).toBeInTheDocument();
   });
 });

@@ -69,9 +69,9 @@ export default function AddFundsModal({ next }) {
           </div>
           <div>
             <p className="text-gray-500">
-              If you don't end up using the amount within 24 hours, it'll automatically return to
-              your main credit line. There are no fees or penalties associated with this and you can
-              always add the funds back once you are ready to make your purchase.
+              If you don&apos;t end up using the amount within 24 hours, it&apos;ll automatically
+              return to your main credit line. There are no fees or penalties associated with this
+              and you can always add the funds back once you are ready to make your purchase.
             </p>
           </div>
           <div className="flex flex-col xs:flex-row justify-start">

@@ -13,17 +13,19 @@ function Reports() {
   const { searchQuery, setSearchQuery } = useContext(QueryContext);
   const [content, setContent] = useState('all');
 
-  queryClient.invalidateQueries({
-    queryKey: ['orders', 'company', 'applications', 'documents'],
-  });
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: ['orders', 'company', 'applications', 'documents'],
+    });
+  }, [queryClient]);
 
   useEffect(() => {
     if (searchQuery) refine(searchQuery);
-  }, []);
+  }, [refine, searchQuery]);
 
   useEffect(() => {
     if (query) setSearchQuery(query);
-  }, [query]);
+  }, [query, setSearchQuery]);
 
   const types = ['all', 'companies', 'orders', 'credit_key_applications', 'users'];
 

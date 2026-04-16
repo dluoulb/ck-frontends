@@ -8,7 +8,7 @@ import ActivationBenefits from '../../wallet/ActivationBenefits';
 import HowToUseModal from '../../wallet/virtual_card/HowToUseModal';
 import InactiveVirtualCard from '../../wallet/virtual_card/InactiveVirtualCard';
 
-export default function DashboardVCSection() {
+export default function DashboardVCSection({ onActivateVirtualCard }) {
   const { isModalActive, toggleModal } = useModal();
 
   return (
@@ -25,7 +25,10 @@ export default function DashboardVCSection() {
                   </span>
                 </div>
 
-                <InactiveVirtualCard cardTitle={'Credit Key Virtual Card'} />
+                <InactiveVirtualCard
+                  cardTitle={'Credit Key Virtual Card'}
+                  onActivate={onActivateVirtualCard}
+                />
 
                 <button
                   onClick={toggleModal}

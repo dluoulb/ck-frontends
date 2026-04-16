@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import Wallet from '@apps/borrower/components/wallet/index';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
@@ -5,7 +7,7 @@ import { useEntity } from '@contexts/EntityContext';
 import { amazonPhysicalCardTest } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
-import { customRender, screen } from '@lib/testing/test-utils';
+import { customRender, fireEvent, screen } from '@lib/testing/test-utils';
 
 jest.mock('@contexts/EntityContext');
 jest.mock('@contexts/BorrowerContext', () => ({
@@ -14,11 +16,19 @@ jest.mock('@contexts/BorrowerContext', () => ({
 }));
 jest.mock('@apps/borrower/hooks/useCompanyPhysicalCard');
 jest.mock('@apps/borrower/hooks/useCompanyVirtualCard');
+jest.mock(
+  '@apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper',
+  () => ({
+    __esModule: true,
+    default: ({ isModalActive }) =>
+      isModalActive ? <div data-testid="wallet-activation-modal" /> : null,
+  }),
+);
 jest.mock('@apps/borrower/hooks/usePendingAuthorizations', () =>
   jest.fn().mockReturnValue({ pendingAuths: null, pendingAuthsLoading: false }),
 );
 jest.mock('next/image', () => {
-  const MockImage = (props) => <img {...props} />;
+  const MockImage = ({ alt = '', ...props }) => <img alt={alt} {...props} />;
   MockImage.displayName = 'MockImage';
   return MockImage;
 });
@@ -138,5 +148,34 @@ describe('Wallet - Physical Card Visibility', () => {
     customRender(<Wallet />);
 
     expect(screen.queryByText('Credit Key Physical Card')).not.toBeInTheDocument();
+  });
+
+  test('keeps the activation modal open when the virtual card becomes active', () => {
+    mockUseEntity.mockReturnValue({
+      entity: makeEntity({}),
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    let currentVirtualCardProps = {
+      ...defaultVirtualCardProps,
+      virtualCard: null,
+    };
+
+    mockUseCompanyVirtualCard.mockImplementation(() => currentVirtualCardProps as any);
+    mockUseCompanyPhysicalCard.mockReturnValue(defaultPhysicalCardProps);
+
+    const { rerender } = customRender(<Wallet />);
+
+    fireEvent.click(screen.getByText('Activate Virtual Card Instantly'));
+
+    expect(screen.getByTestId('wallet-activation-modal')).toBeInTheDocument();
+
+    currentVirtualCardProps = defaultVirtualCardProps;
+    rerender(<Wallet />);
+
+    expect(screen.getByTestId('wallet-activation-modal')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 
 import PrimaryButton from '@components/buttons/PrimaryButton';
@@ -11,14 +11,25 @@ import useToast from '@hooks/useToast';
 import { createPaymentMethodBank } from '@lib/actions/payment_methods';
 import PaymentMethodRecord from '@lib/records/payment_method';
 
+interface PlaidProps {
+  hasAlert?: boolean;
+  next?: () => void;
+  setHasAlert?: (value: boolean) => void;
+  toggleModal?: () => void;
+  setUsePlaid?: React.Dispatch<React.SetStateAction<boolean>>;
+  createVcFlow?: boolean;
+  onPaymentMethodCreated?: () => void;
+}
+
 export default function Plaid({
-  hasAlert,
+  hasAlert: _hasAlert,
   next,
-  setHasAlert,
+  setHasAlert: _setHasAlert,
   toggleModal,
   setUsePlaid,
   createVcFlow = false,
-}) {
+  onPaymentMethodCreated,
+}: PlaidProps) {
   const [loading, setLoading] = useState(false);
   const { refetchPaymentMethods } = useBorrowerDeps();
   const { entity, fetchEntity } = useEntity();
@@ -27,12 +38,26 @@ export default function Plaid({
   const api = useApi();
   const { fetchLinkToken, linkToken, resetLinkFlow, accessToken, exchangePublicToken } =
     usePlaid(user);
+  const handledAccessTokenRef = useRef(false);
+  const fetchLinkTokenRef = useRef(fetchLinkToken);
+  const resetLinkFlowRef = useRef(resetLinkFlow);
 
-  const onSuccess = useCallback(async (publicToken) => {
-    exchangePublicToken(publicToken);
-  }, []);
+  useEffect(() => {
+    fetchLinkTokenRef.current = fetchLinkToken;
+  }, [fetchLinkToken]);
 
-  const onExit = useCallback(async (err) => {
+  useEffect(() => {
+    resetLinkFlowRef.current = resetLinkFlow;
+  }, [resetLinkFlow]);
+
+  const onSuccess = useCallback(
+    (publicToken) => {
+      exchangePublicToken(publicToken);
+    },
+    [exchangePublicToken],
+  );
+
+  const onExit = useCallback((err) => {
     console.log(err);
   }, []);
 
@@ -42,13 +67,17 @@ export default function Plaid({
     onExit,
   };
 
-  const createPaymentMethod = async () => {
+  const createPaymentMethod = useCallback(() => {
     setLoading(true);
-    createPaymentMethodBank(api, new PaymentMethodRecord({ user_id: user.id }), true)
+    createPaymentMethodBank(api, new PaymentMethodRecord({ user_id: user?.id }), true)
       .then(() => {
         refetchPaymentMethods();
-        // Refetch entity to get updated bank_verification_attempts from backend
-        fetchEntity();
+        if (createVcFlow && onPaymentMethodCreated) {
+          onPaymentMethodCreated();
+        } else {
+          // Refetch entity to get updated bank_verification_attempts from backend
+          fetchEntity();
+        }
         makeToast('Payment Method Successfully Created', 'success');
         resetLinkFlow();
 
@@ -60,32 +89,50 @@ export default function Plaid({
       })
       .catch((err) => {
         console.error('SAD', err?.response?.data?.error);
-
-        // TODO: show a thing when these happen; today we have <ErrorAlert />
-        const generic_fail = err?.response?.data?.error?.includes('invalid_bank');
-        const plaid_fail = err?.response?.data?.error?.includes('invalid_plaid');
-
-        //setHasAlert(true);
         makeToast('An error occurred. Please try again or contact our support team.', 'error');
         resetLinkFlow();
         toggleModal();
       })
       .finally(() => setLoading(false));
-  };
+  }, [
+    api,
+    createVcFlow,
+    fetchEntity,
+    makeToast,
+    next,
+    onPaymentMethodCreated,
+    refetchPaymentMethods,
+    resetLinkFlow,
+    toggleModal,
+    user,
+  ]);
 
   const { open, ready } = usePlaidLink(linkConfig);
 
   useEffect(() => {
-    fetchLinkToken();
+    if (!user?.id) {
+      return;
+    }
 
-    return () => resetLinkFlow();
-  }, []);
+    handledAccessTokenRef.current = false;
+    fetchLinkTokenRef.current();
+
+    return () => resetLinkFlowRef.current();
+  }, [user?.id]);
 
   useEffect(() => {
-    if (accessToken) {
-      createPaymentMethod();
+    if (!accessToken || handledAccessTokenRef.current) {
+      return;
     }
-  }, [accessToken]);
+
+    handledAccessTokenRef.current = true;
+
+    const timeoutId = window.setTimeout(() => {
+      createPaymentMethod();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [accessToken, createPaymentMethod]);
 
   return (
     <>

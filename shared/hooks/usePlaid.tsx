@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import useApi from '@hooks/useApi';
@@ -31,14 +31,15 @@ function usePlaid(user) {
     retry: 0,
   });
 
-  const exchangePublicToken = (publicToken) => {
-    setPublicToken(publicToken);
-  };
+  const exchangePublicToken = useCallback((nextPublicToken) => {
+    setPublicToken(nextPublicToken);
+  }, []);
 
-  const resetLinkFlow = () => {
+  const resetLinkFlow = useCallback(() => {
+    setPublicToken(null);
     queryClient.removeQueries({ queryKey: ['plaid-link-token', user?.id] });
     queryClient.removeQueries({ queryKey: ['plaid-access-token', user?.id] });
-  };
+  }, [queryClient, user?.id]);
 
   return {
     linkToken,

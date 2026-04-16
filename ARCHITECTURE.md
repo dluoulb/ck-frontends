@@ -815,4 +815,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-03-13
+**Last Updated**: 2026-04-08

@@ -16,5 +16,5 @@ export default function Promo() {
       setPromoId(promo_id);
       router.push('/borrower');
     }
-  }, []);
+  }, [promo_id, router, setPromoId]);
 }

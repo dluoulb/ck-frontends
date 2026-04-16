@@ -1,25 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { useUser } from '@contexts/UserContext';
-import useApi from '@hooks/useApi';
-import { getVirtualCards } from '@lib/actions/companies';
+import useCompanyCards from './useCompanyCards';
 
 function useCompanyPhysicalCard() {
-  const api = useApi();
-  const { user } = useUser();
-
   const {
     data: cards,
     error: physicalCardError,
     isLoading: physicalCardLoading,
     isRefetching: physicalCardRefetching,
     refetch: refetchPhysicalCard,
-  } = useQuery({
-    queryKey: ['company_physical_card', user.company_id],
-    queryFn: () => getVirtualCards(api, user.company_id),
-    enabled: true,
-    retry: 1,
-  });
+  } = useCompanyCards();
 
   const physicalCard = cards?.find((card) => card.type === 'PHYSICAL') || null;
 

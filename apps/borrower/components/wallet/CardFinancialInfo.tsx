@@ -13,19 +13,34 @@ import {
   getTermDisplay,
 } from '@lib/utils/formatters';
 
-export default function CardFinancialInfo() {
+interface CardFinancialInfoProps {
+  defaultTermSetting?: {
+    merchant_id?: string;
+    merchant_name?: string;
+    merchant_slug?: string;
+    default_term?: {
+      term?: number | string;
+      term_period?: string;
+    };
+    term_options?: unknown[];
+  };
+}
+
+export default function CardFinancialInfo({ defaultTermSetting }: CardFinancialInfoProps) {
   const { entity } = useEntity();
   const { pendingAuths, pendingAuthsLoading } = usePendingAuthorizations(entity?.id);
   const { defaultTermSettings } = useBorrowerDeps();
 
-  const defaultTermSetting = defaultTermSettings.find(
-    (setting) => setting.merchant_slug === 'virtual',
+  const borrowerDefaultTermSetting = defaultTermSettings.find(
+    (setting) => setting?.merchant_slug === 'virtual',
   );
 
+  const activeDefaultTermSetting = defaultTermSetting ?? borrowerDefaultTermSetting;
+
   const defaultTerm = useMemo(() => {
-    if (!defaultTermSetting) return '';
-    return getTermDisplay(defaultTermSetting);
-  }, [defaultTermSetting]);
+    if (!activeDefaultTermSetting) return '';
+    return getTermDisplay(activeDefaultTermSetting);
+  }, [activeDefaultTermSetting]);
 
   const ableToSpend = formatCurrencyPreventNegative(
     entity?.vc_sub_limits?.remaining_limit_amount || 0,
@@ -64,7 +79,7 @@ export default function CardFinancialInfo() {
 
       <div className="flex flex-col ">
         <span className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
-          {defaultTermSettings?.length > 0 ? defaultTerm : <Skeleton className="w-full h-7" />}
+          {activeDefaultTermSetting ? defaultTerm : <Skeleton className="w-full h-7" />}
         </span>
         <span className="text-xs sm:text-sm text-gray-400">Default term</span>
       </div>

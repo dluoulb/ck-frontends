@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import EntityDetail from '@apps/reports/components/entity_detail/EntityDetail';
@@ -8,16 +8,13 @@ import { ReportsContextProvider } from '@contexts/ReportsContext';
 
 export default function EntityIndex() {
   const { id, type, content } = useRouter().query;
-  const [queryContent, setQueryContent] = useState(null);
+  const [selectedContent, setSelectedContent] = useState<string | null>(null);
 
   const { entity, entityError, entityLoading } = useEntity(
     id,
     type === 'companies' ? 'company' : 'account',
   );
-
-  useEffect(() => {
-    setQueryContent(content ? content : 'dashboard');
-  }, [content]);
+  const queryContent = selectedContent ?? (typeof content === 'string' ? content : 'dashboard');
 
   if ((!entity && !entityLoading) || entityError) {
     return <NoDataError tag={type === 'accounts' ? 'Account' : 'Company'} withButton={true} />;
@@ -26,7 +23,7 @@ export default function EntityIndex() {
   return (
     <div data-testid="container" className="max-w-[90%] mx-auto">
       <ReportsContextProvider entity={entity} entityLoading={entityLoading} content={queryContent}>
-        <EntityDetail content={queryContent} setContent={setQueryContent} />
+        <EntityDetail content={queryContent} setContent={setSelectedContent} />
       </ReportsContextProvider>
     </div>
   );

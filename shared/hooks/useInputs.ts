@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-
 function useInputs(props) {
-  const [fieldComplete, setFieldComplete] = useState();
   const { id, multi, values, error, touched } = props;
 
   function checkErrorsAndTouched(error, touched) {
@@ -28,13 +25,12 @@ function useInputs(props) {
 
   const hasColumnError = multi ? multiColumnError : touched && error;
 
-  useEffect(() => {
-    if (values) {
-      const fieldValue = nestedField ? values[nestedField[0]][nestedField[1]] : values[id];
-
-      setFieldComplete(fieldValue === '' ? null : fieldValue);
-    }
-  }, [id, values, nestedField]);
+  const fieldValue = values
+    ? nestedField
+      ? values[nestedField[0]]?.[nestedField[1]]
+      : values[id]
+    : null;
+  const fieldComplete = fieldValue === '' || fieldValue == null ? null : fieldValue;
 
   return {
     fieldName,

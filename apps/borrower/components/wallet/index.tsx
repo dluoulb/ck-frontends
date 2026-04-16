@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 
+import MultiUseVirtualCardModalWrapper from '@apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
+import useModal from '@hooks/useModal';
 import {
   physicalCardBenefitsConfig,
   virtualCardBenefitsConfig,
@@ -24,6 +26,10 @@ export default function Wallet() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [activeWidget, setActiveWidget] = useState<'virtual' | 'physical' | null>(null);
+  const {
+    isModalActive: isVirtualActivationModalActive,
+    toggleModal: toggleVirtualActivationModal,
+  } = useModal();
   const showPhysicalCard = !entityLoading && entity?.physical_card_enabled !== false;
 
   const handleSelect = (index) => {
@@ -97,6 +103,7 @@ export default function Wallet() {
                       title="Credit Key Virtual Card"
                       bgColor="F4F8FF"
                       benefitsConfig={virtualCardBenefitsConfig}
+                      onActivateVirtualCard={toggleVirtualActivationModal}
                     />
                   )}
                 </div>
@@ -151,6 +158,10 @@ export default function Wallet() {
           )}
         </div>
       </div>
+      <MultiUseVirtualCardModalWrapper
+        isModalActive={isVirtualActivationModalActive}
+        toggleModal={toggleVirtualActivationModal}
+      />
     </div>
   );
 }

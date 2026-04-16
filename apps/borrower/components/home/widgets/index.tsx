@@ -4,14 +4,20 @@ import Link from 'next/link';
 import { BaseGridItem } from '@components/BaseGrid';
 import OutlineButton from '@components/buttons/OutlineButton';
 import { useEntity } from '@contexts/EntityContext';
+import useModal from '@hooks/useModal';
 import CkaLink from './CkaLink';
 import SettingsWidget from './default_settings';
 import MarketplaceLink from './MarketplaceLink';
 import SupportWidget from './SupportWidget';
+import MultiUseVirtualCardModalWrapper from './virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper';
 import VirtualCard from './virtual_cards/VirtualCard';
 
 export default function Widgets() {
   const { entity, entityLoading } = useEntity();
+  const {
+    isModalActive: isVirtualActivationModalActive,
+    toggleModal: toggleVirtualActivationModal,
+  } = useModal();
 
   const activeBanner = entity?.cta_banners?.find((b) => b.enabled);
   const vcEnabled = ['virtual_card', 'multi_use_virtual_card'].includes(activeBanner?.name);
@@ -41,7 +47,10 @@ export default function Widgets() {
       </div>
       {activeBanner && vcEnabled && (
         <BaseGridItem gridConfig="col-span-7 md:col-span-7">
-          <VirtualCard bannerName={activeBanner.name} />
+          <VirtualCard
+            bannerName={activeBanner.name}
+            onActivateVirtualCard={toggleVirtualActivationModal}
+          />
         </BaseGridItem>
       )}
 
@@ -61,6 +70,13 @@ export default function Widgets() {
       <BaseGridItem gridConfig="col-span-7 md:col-span-3 rounded-md !bg-[#F4F8FF] border border-border-gray rounded-md md:ml-2 mt-2 sm:mt-0">
         <SupportWidget />
       </BaseGridItem>
+
+      {(vcEnabled || isVirtualActivationModalActive) && (
+        <MultiUseVirtualCardModalWrapper
+          isModalActive={isVirtualActivationModalActive}
+          toggleModal={toggleVirtualActivationModal}
+        />
+      )}
     </>
   );
 }

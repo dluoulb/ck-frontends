@@ -9,28 +9,54 @@ import useToast from '@hooks/useToast';
 import { createVirtualCard } from '@lib/actions/companies';
 import FullStory from '@lib/utils/fullstory';
 
-export default function MultiUseVCRulesModal({ next, toggleModal, hasDefaultTerm = false }) {
+interface MultiUseVCRulesModalProps {
+  next: () => void;
+  toggleModal: () => void;
+  hasDefaultTerm?: boolean;
+  setModalState?: React.Dispatch<React.SetStateAction<any>>;
+  skipCardCreate?: boolean;
+  syncVirtualCardAfterCreate?: (createdCard: any) => Promise<any>;
+}
+
+export default function MultiUseVCRulesModal({
+  next,
+  toggleModal,
+  hasDefaultTerm = false,
+  setModalState,
+  skipCardCreate = false,
+  syncVirtualCardAfterCreate,
+}: MultiUseVCRulesModalProps) {
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { entity, fetchEntity } = useEntity();
+  const { entity } = useEntity();
   const { user } = useUser();
   const api = useApi();
   const { makeToast } = useToast();
 
-  const skipAgreementAndTerms = !!entity?.is_bank_connected && hasDefaultTerm;
+  const shouldCreateCardOnAgree = !skipCardCreate && !!entity?.is_bank_connected && hasDefaultTerm;
 
   const handleClick = async () => {
     const fullstory = new FullStory();
     fullstory.agreeVcRulesEvent(user?.id, entity?.id);
 
-    if (skipAgreementAndTerms) {
+    if (shouldCreateCardOnAgree) {
       setLoading(true);
       try {
-        await createVirtualCard(api, entity?.id);
+        const newCard = await createVirtualCard(api, entity?.id);
+        const syncedCard = newCard
+          ? await syncVirtualCardAfterCreate?.(newCard).catch(() => newCard)
+          : newCard;
+
+        if (syncedCard) {
+          setModalState?.((prev) => ({
+            ...prev,
+            virtual_card: syncedCard,
+            shouldRefreshEntity: true,
+          }));
+        }
         makeToast('Credit Key Card Successfully Created', 'success');
-        fetchEntity({ company_id: entity?.id });
         next();
-      } catch (error) {
+      } catch (_error) {
         makeToast('Failed to create Credit Key Card. Please contact Credit Key Support', 'error');
       } finally {
         setLoading(false);

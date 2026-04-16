@@ -11,7 +11,7 @@ import FullStory from '@lib/utils/fullstory';
 
 export default function ConfirmMailingAddressModal({ next }) {
   const api = useApi();
-  const { entity, fetchEntity } = useEntity();
+  const { entity } = useEntity();
   const { user } = useUser();
   const { makeToast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,6 @@ export default function ConfirmMailingAddressModal({ next }) {
 
     createPhysicalCard(api, entity?.id)
       .then(() => {
-        fetchEntity({ company_id: entity?.id });
         refetchPhysicalCard();
         makeToast('Credit Key Card Successfully Requested', 'success');
         setLoading(false);
@@ -43,7 +42,8 @@ export default function ConfirmMailingAddressModal({ next }) {
           <p className="text-2xl font-bold tracking-wider">Confirm mailing address</p>
           <div>
             <p>
-              Please confirm the address where you'd like us to mail your Credit Key physical card.
+              Please confirm the address where you&apos;d like us to mail your Credit Key physical
+              card.
             </p>
           </div>
           <div className="flex flex-col xs:flex-row justify-start border rounded-xl border-gray-300">

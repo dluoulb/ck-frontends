@@ -8,8 +8,33 @@ import {
   physicalCardBenefitsConfig,
   virtualCardBenefitsConfig,
 } from '@lib/constants/SiteVariables';
+import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 
-export default function MultiUseVirtualCardDetails() {
+interface ModalState {
+  virtual_card?: CompanyVirtualCardRecord;
+  default_term_setting?: {
+    merchant_id?: string;
+    merchant_name?: string;
+    merchant_slug?: string;
+    default_term?: {
+      term?: number | string;
+      term_period?: string;
+    };
+    term_options?: unknown[];
+  };
+  [key: string]: unknown;
+}
+
+function resolveActiveCard(
+  hookCard: CompanyVirtualCardRecord | null,
+  modalCard: CompanyVirtualCardRecord | undefined,
+): CompanyVirtualCardRecord | null {
+  if (hookCard?.status === 'ACTIVE') return hookCard;
+  if (modalCard) return modalCard;
+  return null;
+}
+
+export default function MultiUseVirtualCardDetails({ modalState }: { modalState?: ModalState }) {
   const vcProps = useCompanyVirtualCard();
   const [showWidget, setShowWidget] = useState(false);
 
@@ -23,25 +48,30 @@ export default function MultiUseVirtualCardDetails() {
       </div>
     );
   }
+
+  const activeCard = resolveActiveCard(vcProps.virtualCard, modalState?.virtual_card);
+  const shouldShowLoadingState = vcProps.virtualCardLoading && !activeCard;
+
   return (
     <div className="space-y-8 mt-3">
-      {vcProps.virtualCardLoading ? (
+      {shouldShowLoadingState ? (
         <div className="flex justify-center items-center py-8">
           <Loading />
         </div>
       ) : (
         <>
-          {vcProps.virtualCard && vcProps.virtualCard.status === 'ACTIVE' && (
+          {activeCard && (
             <ActiveCardSection
-              card={vcProps.virtualCard}
+              card={activeCard}
               cardType="virtual"
               showWidget={showWidget}
               onShowWidget={handleShowWidget}
               onHideWidget={handleHideWidget}
+              defaultTermSetting={modalState?.default_term_setting}
             />
           )}
 
-          {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
+          {!activeCard && (
             <InactiveCardSection
               title="Credit Key Virtual Card"
               bgColor="F4F8FF"
@@ -49,7 +79,7 @@ export default function MultiUseVirtualCardDetails() {
             />
           )}
 
-          {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
+          {!activeCard && (
             <InactiveCardSection
               title="Credit Key Physical Card"
               bgColor="fff7ec"
@@ -57,7 +87,7 @@ export default function MultiUseVirtualCardDetails() {
             />
           )}
 
-          {!vcProps.virtualCard && vcProps.virtualCardError && (
+          {!activeCard && vcProps.virtualCardError && (
             <div className="text-center py-8 text-error">
               An error occurred loading your cards. Please contact support.
             </div>
