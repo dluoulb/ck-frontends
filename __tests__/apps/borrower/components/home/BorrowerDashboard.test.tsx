@@ -1,16 +1,8 @@
-import axios from 'axios';
-
 import BorrowerDashboard from '@apps/borrower/components/home/BorrowerDashboard';
 import { companyAmazonExclusive, companyApproved } from '@lib/testing/records';
 import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
-jest.mock('axios');
-
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 describe('Main Dashbboard Home Page', () => {
-  mockedAxios.get.mockRejectedValue('error retrieving borrower-portal-notice');
-
   beforeEach(() => {
     global.mockedUseOrders.mockImplementation(() => ({
       orders: [],
