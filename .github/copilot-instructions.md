@@ -176,6 +176,17 @@ describe('MyComponent', () => {
 - **Format**: `npm run format` - Format code with Prettier
 - **Format Check**: `npm run format:check` - Check formatting without changes
 
+### Pre-Commit Requirements
+**All three checks must pass (or be clean) before committing any code:**
+
+1. **Format**: `npm run format:check` — must report no issues
+2. **Lint**: `npm run lint:ci` — must report no errors in files you have changed or added (pre-existing errors in unrelated files are acceptable; do not introduce new ones)
+3. **Tests**: `npm test` — all tests must pass, including any new tests added as part of the change
+
+Run these in order and resolve any issues before committing. Auto-fix formatting with `npm run format` and linting with `npm run lint` where possible, then re-verify with the check/ci variants.
+
+> **Note on dependencies**: Always use plain `npm install` — never `npm install --legacy-peer-deps`. Peer dependencies must be respected. If a peer dependency conflict is reported, resolve it properly rather than suppressing it.
+
 ### Dependency Management
 - **Do not commit `package-lock.json`** unless `package.json` has been modified
 - If you need to install new dependencies, update `package.json` and then run `npm install`

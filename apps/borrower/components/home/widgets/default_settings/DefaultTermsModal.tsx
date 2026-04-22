@@ -52,7 +52,7 @@ export default function DefaultTermSettingsModal({
       header={isEditMode ? 'Edit Default Terms' : 'Add Default Terms'}
       headerIcon={faPenToSquare}
     >
-      {!allMerchants?.length ? (
+      {!isEditMode && !allMerchants?.length ? (
         <Loading className="w-14 h-14" />
       ) : (
         <>
