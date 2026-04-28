@@ -33,6 +33,7 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to ${{ inputs.tier || github.event.inputs.tier }}
     runs-on: ubuntu-latest
     env:
       DEPLOY_TIER:    ${{ inputs.tier || github.event.inputs.tier }}
@@ -45,22 +46,117 @@ jobs:
       - uses: creditkey/ck-github-actions@main
         with:
           aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
-          aws-role-name: ${{ vars.AWS_ROLE_NAME_PREFIX }}-${{ github.event.inputs.tier }}
+          aws-role-name: ${{ vars.AWS_ROLE_NAME_PREFIX }}-${{ inputs.tier || github.event.inputs.tier }}
           ssh-private-keys: |
             ${{ secrets.TERRAFORM_GITHUB_SSH_KEY }}
             ${{ secrets.BITBUCKET_SSH_KEY }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/buildx-cache
-          key: docker-buildx-cache
-          restore-keys: |
-            docker-buildx-cache-
+      - name: Load infrastructure config from Terraform
+        run: |
+          cd deploy/terraform/deploy_tier/$DEPLOY_TIER
+          terraform init -input=false
+          terraform output -raw ck-ecs-env >> $GITHUB_ENV
 
-      - name: Run
-        run: ./deploy/ck-ecs.sh "$DEPLOY_COMMAND" "$DEPLOY_TIER"
+      - name: Set app version
+        run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Log in to Amazon ECR
+        if: env.DEPLOY_COMMAND != 'restart'
+        run: |
+          aws ecr get-login-password --region "$ECS_REGION" | \
+            docker login --username AWS --password-stdin "$ECR_BASE"
+
+      - name: Write app secrets to env file for build-time bake-in
+        if: contains(fromJSON('["deploy", "build_image"]'), env.DEPLOY_COMMAND)
+        run: |
+          declare -A ARNS=(
+            [development]="arn:aws:secretsmanager:us-east-1:504947135646:secret:ck-frontends-development-pidTML"
+            [staging]="arn:aws:secretsmanager:us-east-1:504947135646:secret:ck-frontends-staging-0GTQc2"
+            [production]="arn:aws:secretsmanager:us-east-1:504947135646:secret:ck-frontends-production-wT2W9i"
+          )
+          SECRET_ARN="${ARNS[$DEPLOY_TIER]}"
+          aws secretsmanager get-secret-value \
+            --secret-id "$SECRET_ARN" \
+            --query SecretString \
+            --output text | \
+            jq -r 'to_entries[] | "\(.key)=\(.value)"' > /tmp/app.env
+          echo "APP_VERSION=$APP_VERSION" >> /tmp/app.env
+
+      - name: Build Docker image
+        if: contains(fromJSON('["deploy", "build_image"]'), env.DEPLOY_COMMAND)
         env:
           DOCKER_BUILDKIT: 1
-          BUILDX_CACHE_DIR: /tmp/buildx-cache
-          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+        run: |
+          docker build \
+            --secret id=app-env,src=/tmp/app.env \
+            -t "$IMAGE_NAME:$DEPLOY_TIER" \
+            -t "$ECR_BASE/$ECR_NAME:$DEPLOY_TIER" \
+            --label "APP_VERSION=$APP_VERSION" \
+            --build-arg APP_VERSION="$APP_VERSION" \
+            --build-arg FONTAWESOME_NPM_AUTH_TOKEN="${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}" \
+            .
+
+      - name: Rotate ECR rollback tags
+        if: contains(fromJSON('["deploy", "push_image"]'), env.DEPLOY_COMMAND)
+        run: |
+          MANIFEST=$(aws ecr batch-get-image \
+            --region "$ECS_REGION" \
+            --repository-name "$ECR_NAME" \
+            --image-ids "imageTag=$DEPLOY_TIER-previous" \
+            --output json | jq -r '.images[0].imageManifest')
+          if [[ -n "$MANIFEST" && "$MANIFEST" != "null" ]]; then
+            aws ecr put-image \
+              --region "$ECS_REGION" \
+              --repository-name "$ECR_NAME" \
+              --image-tag "$DEPLOY_TIER-previous2" \
+              --image-manifest "$MANIFEST" || true
+          fi
+
+          MANIFEST=$(aws ecr batch-get-image \
+            --region "$ECS_REGION" \
+            --repository-name "$ECR_NAME" \
+            --image-ids "imageTag=$DEPLOY_TIER" \
+            --output json | jq -r '.images[0].imageManifest')
+          if [[ -n "$MANIFEST" && "$MANIFEST" != "null" ]]; then
+            aws ecr put-image \
+              --region "$ECS_REGION" \
+              --repository-name "$ECR_NAME" \
+              --image-tag "$DEPLOY_TIER-previous" \
+              --image-manifest "$MANIFEST" || true
+          fi
+
+      - name: Push Docker image to ECR
+        if: contains(fromJSON('["deploy", "push_image"]'), env.DEPLOY_COMMAND)
+        run: docker push "$ECR_BASE/$ECR_NAME:$DEPLOY_TIER"
+
+      - name: Rollback to previous image
+        if: env.DEPLOY_COMMAND == 'rollback'
+        run: |
+          MANIFEST=$(aws ecr batch-get-image \
+            --region "$ECS_REGION" \
+            --repository-name "$ECR_NAME" \
+            --image-ids "imageTag=$DEPLOY_TIER-previous" \
+            --output json | jq -r '.images[0].imageManifest')
+          aws ecr put-image \
+            --region "$ECS_REGION" \
+            --repository-name "$ECR_NAME" \
+            --image-tag "$DEPLOY_TIER" \
+            --image-manifest "$MANIFEST"
+
+      - name: Update ECS service
+        if: contains(fromJSON('["deploy", "restart", "rollback"]'), env.DEPLOY_COMMAND)
+        run: |
+          aws ecs update-service \
+            --region "$ECS_REGION" \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --force-new-deployment | jq '.service.deployments[0]'
+
+      - name: Tag release
+        if: env.DEPLOY_COMMAND == 'deploy' && env.DEPLOY_TIER != 'development'
+        run: |
+          git config user.name "CI Runner"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          deploy_tag="${DEPLOY_TIER}-$(TZ='America/Los_Angeles' date +%Y-%m-%d_%H%M%S)"
+          git tag -am "Tagging for release $deploy_tag" "$deploy_tag"
+          git push origin "$deploy_tag"

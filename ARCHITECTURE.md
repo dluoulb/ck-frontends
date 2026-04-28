@@ -47,12 +47,12 @@ The monorepo houses the following applications:
 
 | Technology | Version | Purpose |
 |-----------|---------|---------|
-| Next.js | 15.5.2 (tracks `latest`) | React framework with SSR/SSG capabilities |
+| Next.js | 16.2.4 (tracks `latest`) | React framework with SSR/SSG capabilities |
 | React | 18.3.1 | UI library for building components |
 | TypeScript | 5.4.5 | Type-safe JavaScript development |
-| Node.js | ≥18 (22.4.1 recommended) | Runtime environment |
+| Node.js | ≥18 (22.22.0 recommended) | Runtime environment |
 
-> **Note:** The Next.js version tracks `latest` in `package.json`, so the resolved version (15.5.2 as of this writing) will update with each `npm install`. Check `package-lock.json` for the currently installed version.
+> **Note:** The Next.js version tracks `latest` in `package.json`, so the resolved version (16.2.4 as of this writing) will update with each `npm install`. Check `package-lock.json` for the currently installed version.
 
 ### UI & Styling
 
@@ -579,7 +579,7 @@ describe('MyComponent', () => {
 
 #### Prerequisites
 
-- Node.js 22.4.1 (managed via nvm)
+- Node.js 22.22.0 (managed via nvm)
 - Docker & Docker Compose
 - Access to Credit Key infrastructure
 
@@ -703,8 +703,8 @@ The repository uses GitHub Actions for continuous integration and deployment:
 Environment-specific configuration is managed through:
 
 - `.env.development`: Local development
-- `.env.docker`: Docker development
-- **Deployment**: Environment variables set in deployment platform
+- `.env.docker`: Docker development (Docker Compose)
+- **Deployed builds**: All `NEXT_PUBLIC_*` environment variables are fetched from AWS Secrets Manager during the GitHub Actions deploy workflow and baked into the Next.js bundle at image build time via a Docker BuildKit secret mount (`--secret id=app-env`). No runtime injection occurs; the ECS task receives no app-level secrets.
 
 ### Build Optimization
 
@@ -815,4 +815,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-04-08
+**Last Updated**: 2026-04-28

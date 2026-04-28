@@ -1,4 +1,4 @@
-FROM node:22.4.1-alpine AS base
+FROM node:22.22.0-alpine AS base
 
 ARG FONTAWESOME_NPM_AUTH_TOKEN
 ENV FONTAWESOME_NPM_AUTH_TOKEN=$FONTAWESOME_NPM_AUTH_TOKEN
@@ -33,10 +33,11 @@ COPY ./apps ./apps
 COPY ./pages ./pages
 COPY ./public ./public
 
-ARG DEPLOY_TARGET=
-ENV DEPLOY_TARGET=$DEPLOY_TARGET
-
-RUN npm run build
+# Bake app env vars into the Next.js bundle at build time when the secret is provided.
+# The secret is optional so local dev builds work without it (env vars come from .env.docker instead).
+RUN --mount=type=secret,id=app-env,required=false \
+    [ -f /run/secrets/app-env ] && cat /run/secrets/app-env >> .env.production || true && \
+    npm run build
 
 FROM builder AS dev
 
@@ -48,7 +49,7 @@ CMD ["dumb-init","npm","run", "dev"]
 FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache bash jq openssl gettext su-exec
+RUN apk add --no-cache bash openssl su-exec
 RUN npm i sharp
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
