@@ -55,7 +55,7 @@ jobs:
         run: |
           cd deploy/terraform/deploy_tier/$DEPLOY_TIER
           terraform init -input=false
-          terraform output -raw ck-ecs-env >> $GITHUB_ENV
+          terraform output -raw ck-ecs-env 2>/dev/null >> $GITHUB_ENV
 
       - name: Set app version
         run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV

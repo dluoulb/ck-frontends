@@ -9,7 +9,7 @@ terraform {
     bucket         = "creditkey-terraform-state"
     key            = "ck-frontends/production.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "creditkey-terraform-state"
+    use_lockfile   = true
     # encrypt = true
   }
 }
