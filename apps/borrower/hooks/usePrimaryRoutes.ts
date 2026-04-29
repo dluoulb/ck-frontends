@@ -11,13 +11,16 @@ import {
 import { faHouseBlank } from '@fortawesome/pro-solid-svg-icons';
 
 import { useEntity } from '@contexts/EntityContext';
+import { useActiveSubscription } from '@hooks/useSubscription';
 import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function usePrimaryRoutes() {
   const { entity, entityLoading } = useEntity();
+  const { activeSubscription } = useActiveSubscription(entity?.id);
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
   const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const plusVisible = (!!entity?.plus_enabled || !!activeSubscription) && !isAmazonExclusive;
 
   const routes = [
     {
@@ -49,14 +52,14 @@ function usePrimaryRoutes() {
       icon: faGift,
       name: 'Plus+',
       url: '/plus',
-      enabled: !!entity?.plus_enabled && !isAmazonExclusive,
+      enabled: plusVisible,
       separator: true,
     },
     {
       icon: faGift,
       name: 'Rewards',
       url: '/rewards',
-      enabled: !!entity?.plus_enabled && !isAmazonExclusive,
+      enabled: plusVisible,
     },
     {
       icon: faUser,

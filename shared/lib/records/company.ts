@@ -91,4 +91,8 @@ export default class CompanyRecord {
       this.active_cohorts_by_type?.[amazonPhysicalCardTest.type] === amazonPhysicalCardTest.cohort
     );
   }
+
+  get isNetX() {
+    return this.tier === 'NETX';
+  }
 }

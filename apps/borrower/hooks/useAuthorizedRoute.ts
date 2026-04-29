@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useEntity } from '@contexts/EntityContext';
+import { plusEnabled } from '@lib/constants/SiteVariables';
 
 function useAuthorizedRoute() {
   const { entity, entityLoading } = useEntity();
@@ -14,7 +15,12 @@ function useAuthorizedRoute() {
         setIsAuthorized(!!entity?.vc_enabled);
         break;
       case '/plus':
-        setIsAuthorized(!!entity?.plus_enabled);
+        setIsAuthorized(
+          plusEnabled &&
+            entity?.underwriting_status === 'approved' &&
+            !entity?.isNetX &&
+            !entity?.isAmazonExclusive,
+        );
         break;
       default:
         setIsAuthorized(true);

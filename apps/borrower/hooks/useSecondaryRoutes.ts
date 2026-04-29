@@ -1,11 +1,14 @@
 import { useEntity } from '@contexts/EntityContext';
+import { useActiveSubscription } from '@hooks/useSubscription';
 import { marketplace } from '@lib/actions/marketplace';
 import { supportLink } from '@lib/constants/SiteVariables';
 
 function useSecondaryRoutes() {
   const { entity, entityLoading } = useEntity();
+  const { activeSubscription } = useActiveSubscription(entity?.id);
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
   const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const plusVisible = (!!entity?.plus_enabled || !!activeSubscription) && !isAmazonExclusive;
 
   const routes = [
     {
@@ -40,7 +43,7 @@ function useSecondaryRoutes() {
           type: 'link',
           name: 'Plus+',
           url: '/plus',
-          enabled: !!entity?.plus_enabled && !isAmazonExclusive,
+          enabled: plusVisible,
         },
       ],
     },
@@ -58,7 +61,7 @@ function useSecondaryRoutes() {
           name: 'Reward Points',
           key: 'rewardPoints',
           url: '/rewards',
-          enabled: !mobileApp && !!entity?.plus_enabled && !isAmazonExclusive,
+          enabled: !mobileApp && plusVisible,
         },
         {
           type: 'dropdown',

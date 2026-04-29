@@ -1,4 +1,4 @@
-import { amazonPhysicalCardTest } from '@lib/constants/SiteVariables';
+import { amazonPhysicalCardTest, plusCohorts } from '@lib/constants/SiteVariables';
 import type CompanyRecordType from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
 
@@ -18,6 +18,21 @@ const loadCompanyRecord = (flagEnabled: boolean): typeof CompanyRecordType => {
     delete process.env.NEXT_PUBLIC_AMAZON_PHYSICAL_CARD_TEST_ENABLED;
   } else {
     process.env.NEXT_PUBLIC_AMAZON_PHYSICAL_CARD_TEST_ENABLED = orig;
+  }
+  return Record!;
+};
+
+const loadCompanyRecordWithPlusFlag = (plusFlagEnabled: boolean): typeof CompanyRecordType => {
+  const orig = process.env.NEXT_PUBLIC_PLUS_ENABLED;
+  process.env.NEXT_PUBLIC_PLUS_ENABLED = plusFlagEnabled ? 'true' : '';
+  let Record: typeof CompanyRecordType;
+  jest.isolateModules(() => {
+    Record = require('@lib/records/company').default;
+  });
+  if (orig === undefined) {
+    delete process.env.NEXT_PUBLIC_PLUS_ENABLED;
+  } else {
+    process.env.NEXT_PUBLIC_PLUS_ENABLED = orig;
   }
   return Record!;
 };
@@ -112,6 +127,71 @@ describe('CompanyRecord#physical_card_enabled', () => {
         active_cohorts_by_type: undefined,
       });
       expect(company.physical_card_enabled).toBe(true);
+    });
+  });
+});
+
+describe('CompanyRecord#isNetX', () => {
+  let CompanyRecord: typeof CompanyRecordType;
+
+  beforeAll(() => {
+    CompanyRecord = loadCompanyRecord(false);
+  });
+
+  it('returns true when tier is NETX', () => {
+    const company = new CompanyRecord({ ...companyApproved, tier: 'NETX' });
+    expect(company.isNetX).toBe(true);
+  });
+
+  it('returns false when tier is not NETX', () => {
+    const company = new CompanyRecord({ ...companyApproved, tier: 'tier_y' });
+    expect(company.isNetX).toBe(false);
+  });
+
+  it('returns false when tier is undefined', () => {
+    const company = new CompanyRecord({ ...companyApproved, tier: undefined });
+    expect(company.isNetX).toBe(false);
+  });
+});
+
+describe('CompanyRecord#plus_enabled', () => {
+  describe('when plusEnabled feature flag is off', () => {
+    let CompanyRecord: typeof CompanyRecordType;
+
+    beforeAll(() => {
+      CompanyRecord = loadCompanyRecordWithPlusFlag(false);
+    });
+
+    it('returns false even for a test group member', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        active_cohorts: [plusCohorts[0]],
+      });
+      expect(company.plus_enabled).toBe(false);
+    });
+  });
+
+  describe('when plusEnabled feature flag is on', () => {
+    let CompanyRecord: typeof CompanyRecordType;
+
+    beforeAll(() => {
+      CompanyRecord = loadCompanyRecordWithPlusFlag(true);
+    });
+
+    it('returns true for a test group member', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        active_cohorts: [plusCohorts[0]],
+      });
+      expect(company.plus_enabled).toBe(true);
+    });
+
+    it('returns false when not in the test group', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        active_cohorts: [],
+      });
+      expect(company.plus_enabled).toBe(false);
     });
   });
 });
