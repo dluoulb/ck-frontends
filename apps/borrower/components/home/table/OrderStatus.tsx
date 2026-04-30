@@ -37,6 +37,12 @@ export default function OrderStatus({ order, isTable }) {
       statusColor;
   }
 
+  if (order?.product?.isPastDue) {
+    status = 'past due';
+    statusColor = 'text-warning';
+    bgColor = 'bg-background-warning';
+  }
+
   return (
     <span role={OrderStatus.role} className="flex flex-col lg:flex-row gap-1">
       <span
