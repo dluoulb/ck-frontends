@@ -84,15 +84,7 @@ export function formatBillingCycleDay(day: number): string {
 }
 
 export const getTermDisplay = (term) => {
-  if (term.default_term?.term_period === 'days') return '30 Days';
-  if (term.default_term?.term_period === 'biweekly' && term.default_term?.term === 4)
-    return 'Pay in 4';
-
-  if (term.default_term?.term > 1) {
-    return `${term.default_term?.term} Months`;
-  } else {
-    return `${term.default_term?.term} Month`;
-  }
+  return getTermLabel(term?.default_term, '');
 };
 
 export const formatCardNumber = (lastFour: string) => {
@@ -102,9 +94,19 @@ export const formatCardNumber = (lastFour: string) => {
 export const getTermLabel = (term, defaultText = 'Select Default Term') => {
   if (!term) return defaultText;
 
+  if (term?.term_period === 'days') {
+    return 'Net 30';
+  }
+
   if (term?.term_period === 'biweekly' && term?.term === 4) {
     return 'Pay in 4';
   }
+
+  if (term?.term_period === 'monthly') {
+    const count = Number(term.term);
+    return `${count} ${count === 1 ? 'month' : 'months'}`;
+  }
+
   return term?.term?.toString() || '';
 };
 

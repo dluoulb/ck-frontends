@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
-
 import PrimaryButton from '@components/buttons/PrimaryButton';
+import { formatCurrency, getTermLabel } from '@lib/utils/formatters';
 
 type ApprovedTerm = {
   available: boolean;
   term: number;
   term_period: string;
+  rate?: number;
+  monthly_payment?: string;
 };
 
 export default function UpdateTermsSelect({
@@ -21,12 +22,7 @@ export default function UpdateTermsSelect({
   setSelectedTerm: (term: number) => void;
   onNext: () => void;
 }) {
-  const options = (terms ?? [])
-    .filter((t) => t?.available)
-    .map((t) => ({
-      label: `${t.term} ${t.term === 1 ? 'month' : 'months'}`,
-      value: String(t.term),
-    }));
+  const availableTerms = (terms ?? []).filter((t) => t?.available);
 
   return (
     <div>
@@ -42,11 +38,24 @@ export default function UpdateTermsSelect({
         <option value="" disabled>
           Select term
         </option>
-        {terms.map((term) => (
-          <option key={term.term} value={term.term}>
-            {term.term} {term.term === 1 ? 'month' : 'months'}
-          </option>
-        ))}
+        {availableTerms.map((term) => {
+          const label = getTermLabel(term);
+          const paymentInfo =
+            term.monthly_payment != null
+              ? ` — ${formatCurrency(Number(term.monthly_payment))}/mo`
+              : '';
+          const rateInfo =
+            term.term_period !== 'days' && term.rate != null && term.rate > 0
+              ? ` (${term.rate.toFixed(2)}% monthly)`
+              : '';
+          return (
+            <option key={`${term.term}-${term.term_period}`} value={term.term}>
+              {label}
+              {paymentInfo}
+              {rateInfo}
+            </option>
+          );
+        })}
       </select>
       <div className="flex justify-end">
         <PrimaryButton

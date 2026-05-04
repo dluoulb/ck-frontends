@@ -118,7 +118,7 @@ describe('MultiUseVirtualCardDetails', () => {
         { withBorrowerProviders: true },
       );
 
-      expect(screen.getByText('12 Months')).toBeInTheDocument();
+      expect(screen.getByText('12 months')).toBeInTheDocument();
     });
 
     test('shows the newly-created modal card instead of the inactive activation sections', () => {

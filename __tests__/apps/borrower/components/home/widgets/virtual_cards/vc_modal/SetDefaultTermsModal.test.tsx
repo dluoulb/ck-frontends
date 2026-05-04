@@ -69,6 +69,25 @@ describe('SetDefaultTermsModal', () => {
     });
   });
 
+  test('does not render rate for Net 30 (days) terms but does render rate for monthly terms', async () => {
+    mockGetApprovedTerms.mockResolvedValue({
+      terms: [
+        { term: 30, term_period: 'days', rate: 0 },
+        { term: 12, term_period: 'monthly', rate: 1.74 },
+      ],
+    } as any);
+
+    render(<SetDefaultTermsModal next={next} setModalState={setModalState} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Net 30')).toBeInTheDocument();
+      expect(screen.getByText('12 months')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('1.74% monthly')).toBeInTheDocument();
+    expect(screen.queryByText('0%')).not.toBeInTheDocument();
+  });
+
   test('does not refetch merchant or terms on rerender when toast callback identity changes', async () => {
     const { rerender } = render(<SetDefaultTermsModal next={next} setModalState={setModalState} />);
 

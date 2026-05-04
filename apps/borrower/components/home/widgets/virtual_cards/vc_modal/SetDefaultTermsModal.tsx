@@ -202,10 +202,17 @@ export default function SetDefaultTermsModal({
                           <RadioGroup.Indicator className="w-2 h-2 rounded-full bg-white" />
                         </RadioGroup.Item>
                         <span className="font-medium text-gray-900">{getTermLabel(op)}</span>
+                        {op.term_period === 'biweekly' && op.term === 4 && (
+                          <span className="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-primary-blue rounded-sm">
+                            Credit Key Plus
+                          </span>
+                        )}
                       </div>
-                      <span className="text-sm text-gray-500">
-                        {op.rate === 0 ? '0%' : `${op.rate.toFixed(2)}% monthly`}
-                      </span>
+                      {op.term_period !== 'days' && (
+                        <span className="text-sm text-gray-500">
+                          {op.rate === 0 ? '0%' : `${op.rate.toFixed(2)}% monthly`}
+                        </span>
+                      )}
                     </label>
                   ))}
                 </RadioGroup.Root>
