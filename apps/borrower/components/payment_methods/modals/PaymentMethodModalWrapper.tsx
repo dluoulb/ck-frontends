@@ -6,21 +6,21 @@ import ModalWrapper from '@components/modals/ModalWrapper';
 import BankPendHelp from './BankPendHelp';
 import PaymentMethodModal from './PaymentMethodModal';
 
+const orderedScreens = [
+  {
+    id: 'payment_modal',
+    component: PaymentMethodModal,
+  },
+  {
+    id: 'bank_help',
+    component: BankPendHelp,
+  },
+];
+
+const { useStepper } = defineStepper(...orderedScreens.map(({ id }) => ({ id })));
+
 export default function PaymentMethodModalWrapper({ isModalActive, toggleModal }) {
   const [hasAlert, setHasAlert] = useState(false);
-  const orderedScreens = [
-    {
-      id: 'payment_modal',
-      component: PaymentMethodModal,
-    },
-    {
-      id: 'bank_help',
-      component: BankPendHelp,
-    },
-  ];
-
-  const stepDefinitions = orderedScreens.map(({ id }) => ({ id }));
-  const { useStepper } = defineStepper(...stepDefinitions);
   const { next, reset, when } = useStepper();
 
   useEffect(() => {
