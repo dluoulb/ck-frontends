@@ -20,13 +20,18 @@ export const getSubscriptions = async (api: AxiosInstance, companyId: string) =>
 };
 
 export const getActiveSubscription = async (api: AxiosInstance, companyId: string) => {
-  const response = await api.get(`/api/subscriptions/active?company_id=${companyId}`);
+  try {
+    const response = await api.get(`/api/subscriptions/active?company_id=${companyId}`);
 
-  if (response?.data?.data) {
-    return new SubscriptionRecord(response.data.data.attributes);
+    if (response?.data?.data) {
+      return new SubscriptionRecord(response.data.data.attributes);
+    }
+
+    return null;
+  } catch (err: any) {
+    if (err?.response?.status === 404) return null;
+    throw err;
   }
-
-  return null;
 };
 
 export const createSubscription = async (

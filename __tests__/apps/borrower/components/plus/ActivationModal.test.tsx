@@ -2,11 +2,13 @@ import React from 'react';
 import { DateTime } from 'luxon';
 
 import ActivationModal from '@apps/borrower/components/plus/ActivationModal';
+import { useEntity } from '@contexts/EntityContext';
 import { useSubscriptionPlans } from '@hooks/useSubscription';
 import SubscriptionPlanRecord from '@lib/records/subscription_plan';
 import { customRender, screen } from '@lib/testing/test-utils';
 
-// Mock the subscription hooks
+jest.mock('@contexts/EntityContext');
+
 jest.mock('@hooks/useSubscription', () => ({
   useSubscriptionPlans: jest.fn(),
 }));
@@ -46,6 +48,16 @@ const MOCK_NOW = DateTime.fromISO('2026-01-29T00:00:00.000Z');
 const mockUseSubscriptionPlans = useSubscriptionPlans as jest.MockedFunction<
   typeof useSubscriptionPlans
 >;
+
+const mockUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
+
+const buildEntityContextMock = (ctaBanners: { name: string; enabled: boolean }[]) => ({
+  entity: { id: '123', cta_banners: ctaBanners },
+  setEntity: jest.fn(),
+  fetchEntity: jest.fn(),
+  entityError: null,
+  entityLoading: false,
+});
 
 describe('ActivationModal with Free Trial', () => {
   const mockToggleModal = jest.fn();
@@ -130,10 +142,17 @@ describe('ActivationModal with Free Trial', () => {
     jest.clearAllMocks();
     // Re-establish the DateTime.now() mock for each test
     jest.spyOn(DateTime, 'now').mockReturnValue(MOCK_NOW);
+    // Default entity has no ckp_trial_eligible banner
+    mockUseEntity.mockReturnValue(
+      buildEntityContextMock([{ name: 'virtual_card', enabled: true }]),
+    );
   });
 
-  describe('when days_until_first_payment > 0', () => {
+  describe('when ckp_trial_eligible banner is enabled and days_until_first_payment > 0', () => {
     beforeEach(() => {
+      mockUseEntity.mockReturnValue(
+        buildEntityContextMock([{ name: 'ckp_trial_eligible', enabled: true }]),
+      );
       mockUseSubscriptionPlans.mockReturnValue({
         subscriptionPlans: subscriptionPlansWithFreeTrial,
         subscriptionPlansError: null,
@@ -202,6 +221,122 @@ describe('ActivationModal with Free Trial', () => {
       );
 
       expect(screen.getByText('Start Free Trial')).toBeInTheDocument();
+    });
+  });
+
+  describe('when days_until_first_payment > 0 but ckp_trial_eligible banner is disabled', () => {
+    beforeEach(() => {
+      mockUseEntity.mockReturnValue(
+        buildEntityContextMock([{ name: 'ckp_trial_eligible', enabled: false }]),
+      );
+      mockUseSubscriptionPlans.mockReturnValue({
+        subscriptionPlans: subscriptionPlansWithFreeTrial,
+        subscriptionPlansError: null,
+        subscriptionPlansLoading: false,
+        refetchSubscriptionPlans: jest.fn(),
+      });
+    });
+
+    test('does not render free trial badge', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      expect(screen.queryByText(/Start with a.*free trial/i)).not.toBeInTheDocument();
+    });
+
+    test('renders "Activate Credit Key Plus" button text', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      const elements = screen.getAllByText('Activate Credit Key Plus');
+      expect(elements.length).toBeGreaterThanOrEqual(2);
+      expect(elements.some((el) => el.tagName === 'SPAN')).toBe(true);
+    });
+
+    test('does not render free trial mention in authorization text', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      expect(screen.queryByText(/after my.*free trial/i)).not.toBeInTheDocument();
+    });
+  });
+
+  describe('when days_until_first_payment > 0 but ckp_trial_eligible banner is missing', () => {
+    beforeEach(() => {
+      mockUseEntity.mockReturnValue(
+        buildEntityContextMock([{ name: 'virtual_card', enabled: true }]),
+      );
+      mockUseSubscriptionPlans.mockReturnValue({
+        subscriptionPlans: subscriptionPlansWithFreeTrial,
+        subscriptionPlansError: null,
+        subscriptionPlansLoading: false,
+        refetchSubscriptionPlans: jest.fn(),
+      });
+    });
+
+    test('does not render free trial badge', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      expect(screen.queryByText(/Start with a.*free trial/i)).not.toBeInTheDocument();
+    });
+
+    test('renders "Activate Credit Key Plus" button text', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      const elements = screen.getAllByText('Activate Credit Key Plus');
+      expect(elements.length).toBeGreaterThanOrEqual(2);
+      expect(elements.some((el) => el.tagName === 'SPAN')).toBe(true);
+    });
+
+    test('does not render free trial mention in authorization text', () => {
+      customRender(
+        <ActivationModal
+          isModalActive={true}
+          createSubscriptionLoading={false}
+          toggleModal={mockToggleModal}
+          onActivate={mockOnActivate}
+        />,
+        { withBorrowerProviders: true },
+      );
+
+      expect(screen.queryByText(/after my.*free trial/i)).not.toBeInTheDocument();
     });
   });
 

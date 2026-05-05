@@ -120,8 +120,10 @@ export default function ActivationModal({
   );
 
   const hasFreeTrial = useMemo(
-    () => (selectedPlanRecord?.days_until_first_payment ?? 0) > 0,
-    [selectedPlanRecord],
+    () =>
+      entity?.cta_banners?.find((b) => b.name === 'ckp_trial_eligible')?.enabled === true &&
+      (selectedPlanRecord?.days_until_first_payment ?? 0) > 0,
+    [entity, selectedPlanRecord],
   );
 
   const trialEndDate = useMemo(() => {
