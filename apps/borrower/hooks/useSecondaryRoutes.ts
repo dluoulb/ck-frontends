@@ -8,7 +8,10 @@ function useSecondaryRoutes() {
   const { activeSubscription } = useActiveSubscription(entity?.id);
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
   const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const isNetX = entity?.isNetX ?? false;
   const plusVisible = (!!entity?.plus_enabled || !!activeSubscription) && !isAmazonExclusive;
+  const rewardsVisible =
+    entity?.underwriting_status === 'approved' && !isAmazonExclusive && !isNetX;
 
   const routes = [
     {
@@ -61,7 +64,7 @@ function useSecondaryRoutes() {
           name: 'Reward Points',
           key: 'rewardPoints',
           url: '/rewards',
-          enabled: !mobileApp && plusVisible,
+          enabled: !mobileApp && rewardsVisible,
         },
         {
           type: 'dropdown',

@@ -77,12 +77,38 @@ describe('Borrower route hooks', () => {
     expect(leftItems.map((item) => item.name)).toContain('Discover');
   });
 
-  test('hides Plus+ tab when entity does not have plus_enabled', () => {
+  test('hides Plus+ tab for Amazon-exclusive entity', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: true,
+        isAmazonExclusive: true,
+        isNetX: false,
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).not.toContain('Plus+');
+
+    const leftItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'left')
+        ?.items || [];
+    expect(leftItems.map((item) => item.name)).not.toContain('Plus+');
+  });
+
+  test('hides Plus+ tab when entity has no plus_enabled and no active subscription', () => {
     mockUseEntity.mockReturnValue({
       entity: {
         vc_enabled: false,
         plus_enabled: false,
         isAmazonExclusive: false,
+        isNetX: false,
       },
       setEntity: jest.fn(),
       fetchEntity: jest.fn(),
@@ -107,6 +133,7 @@ describe('Borrower route hooks', () => {
         vc_enabled: false,
         plus_enabled: true,
         isAmazonExclusive: false,
+        isNetX: false,
       },
       setEntity: jest.fn(),
       fetchEntity: jest.fn(),
@@ -125,34 +152,113 @@ describe('Borrower route hooks', () => {
     expect(leftItems.map((item) => item.name)).toContain('Plus+');
   });
 
-  test('shows Plus+ tab when entity has an active subscription but is not in the test group', () => {
+  test('shows Plus+ but hides Rewards for non-approved entity', () => {
     mockUseEntity.mockReturnValue({
       entity: {
-        id: 'company-1',
         vc_enabled: false,
-        plus_enabled: false,
+        plus_enabled: true,
         isAmazonExclusive: false,
+        isNetX: false,
+        underwriting_status: 'pending',
       },
       setEntity: jest.fn(),
       fetchEntity: jest.fn(),
       entityError: null,
       entityLoading: false,
     });
-    mockUseActiveSubscription.mockReturnValue({
-      activeSubscription: { id: 'sub-1', status: 'ACTIVE' } as any,
-      activeSubscriptionError: null,
-      activeSubscriptionLoading: false,
-      refetchActiveSubscription: jest.fn(),
-    });
 
     const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
     const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
 
     expect(primaryResult.current.primaryRoutes.map((route) => route.name)).toContain('Plus+');
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).not.toContain('Rewards');
 
     const leftItems =
       secondaryResult.current.secondaryRoutes.find((section) => section.section === 'left')
         ?.items || [];
     expect(leftItems.map((item) => item.name)).toContain('Plus+');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).not.toContain('Reward Points');
+  });
+
+  test('hides Rewards for Amazon-exclusive entity even if approved', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: false,
+        isAmazonExclusive: true,
+        isNetX: false,
+        underwriting_status: 'approved',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).not.toContain('Rewards');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).not.toContain('Reward Points');
+  });
+
+  test('hides Rewards for NetX entity even if approved', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: false,
+        isAmazonExclusive: false,
+        isNetX: true,
+        underwriting_status: 'approved',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).not.toContain('Rewards');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).not.toContain('Reward Points');
+  });
+
+  test('shows Rewards for approved non-Amazon-exclusive, non-NetX entity', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: true,
+        isAmazonExclusive: false,
+        isNetX: false,
+        underwriting_status: 'approved',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).toContain('Rewards');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).toContain('Reward Points');
   });
 });

@@ -20,7 +20,10 @@ function usePrimaryRoutes() {
   const { activeSubscription } = useActiveSubscription(entity?.id);
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
   const isAmazonExclusive = entity?.isAmazonExclusive ?? false;
+  const isNetX = entity?.isNetX ?? false;
   const plusVisible = (!!entity?.plus_enabled || !!activeSubscription) && !isAmazonExclusive;
+  const rewardsVisible =
+    entity?.underwriting_status === 'approved' && !isAmazonExclusive && !isNetX;
 
   const routes = [
     {
@@ -59,7 +62,7 @@ function usePrimaryRoutes() {
       icon: faGift,
       name: 'Rewards',
       url: '/rewards',
-      enabled: plusVisible,
+      enabled: rewardsVisible,
     },
     {
       icon: faUser,
