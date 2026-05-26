@@ -47,12 +47,10 @@ The monorepo houses the following applications:
 
 | Technology | Version | Purpose |
 |-----------|---------|---------|
-| Next.js | 16.2.4 (tracks `latest`) | React framework with SSR/SSG capabilities |
+| Next.js | ^16.2.6 | React framework with SSR/SSG capabilities |
 | React | 18.3.1 | UI library for building components |
 | TypeScript | 5.4.5 | Type-safe JavaScript development |
-| Node.js | ≥18 (22.22.0 recommended) | Runtime environment |
-
-> **Note:** The Next.js version tracks `latest` in `package.json`, so the resolved version (16.2.4 as of this writing) will update with each `npm install`. Check `package-lock.json` for the currently installed version.
+| Node.js | 22.22.3 | Runtime environment |
 
 ### UI & Styling
 
@@ -815,4 +813,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-04-28
+**Last Updated**: 2026-05-22
