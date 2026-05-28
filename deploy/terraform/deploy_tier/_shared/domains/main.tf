@@ -13,12 +13,12 @@ locals {
 
 
 module "ck-shared-vars" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ck-shared-vars?ref=v0.1.27"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ck-shared-vars?ref=v0.1.42"
   deploy_tier = var.deploy_tier
 }
 
 module "ck-frontends-domain" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//route53?ref=v0.1.27"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//route53?ref=v0.1.42"
 
   app_name = "ckfe-${var.subdomain}"
   deploy_tier = var.deploy_tier

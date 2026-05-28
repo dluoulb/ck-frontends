@@ -6,7 +6,7 @@ module "app-vars" {
 }
 
 module "ck-frontends" {
-  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.40"
+  source = "git@bitbucket.org:creditkey/ck-terraform-modules.git//ecs-app?ref=v0.1.42"
 
   app_name = module.app-vars.app_name
   deploy_tier = var.deploy_tier
