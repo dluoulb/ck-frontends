@@ -14,20 +14,35 @@ import { fromISO, toISO } from '@lib/utils/datetime_formatters';
 import { formatCurrency } from '@lib/utils/formatters';
 
 type RewardsActivityTableProps = {
-  activeSubscription: SubscriptionRecord;
+  activeSubscription?: SubscriptionRecord | null;
   transactions: RewardTransactionRecord[];
   loading?: boolean;
   error?: any;
 };
 
-const getStatusBadgeClass = (status: RewardPointStatus) => {
-  if (status === RewardPointStatus.PENDING) return 'text-gray-400';
+const normalizeStatus = (status?: RewardPointStatus | string) => {
+  if (!status) return undefined;
+
+  const normalizedStatus = String(status).toUpperCase() as RewardPointStatus;
+  if (Object.values(RewardPointStatus).includes(normalizedStatus)) {
+    return normalizedStatus;
+  }
+
+  return undefined;
+};
+
+const getStatusBadgeClass = (status?: RewardPointStatus | string) => {
+  const normalizedStatus = normalizeStatus(status);
+
+  if (normalizedStatus === RewardPointStatus.PENDING) return 'text-gray-400';
   return '';
 };
 
-const getPointsColor = (status: RewardPointStatus) => {
-  if (status === RewardPointStatus.PENDING) return 'text-gray-400';
-  if (status === RewardPointStatus.POSTED) return 'text-green-600';
+const getPointsColor = (status?: RewardPointStatus | string) => {
+  const normalizedStatus = normalizeStatus(status);
+
+  if (normalizedStatus === RewardPointStatus.PENDING) return 'text-gray-400';
+  if (normalizedStatus === RewardPointStatus.POSTED) return 'text-green-600';
   return '';
 };
 
@@ -93,7 +108,8 @@ export default function RewardsActivityTable({
         header: 'Status',
         accessorKey: 'status',
         cell: ({ getValue }) => {
-          const status = getValue() as RewardPointStatus;
+          const status = getValue() as RewardPointStatus | string;
+          const normalizedStatus = normalizeStatus(status);
 
           const statusLabels: Record<RewardPointStatus, string> = {
             [RewardPointStatus.PENDING]: 'Pending',
@@ -103,7 +119,7 @@ export default function RewardsActivityTable({
 
           return (
             <span className={`text-sm ${getStatusBadgeClass(status)}`}>
-              {statusLabels[status] || String(status)}
+              {normalizedStatus ? statusLabels[normalizedStatus] : String(status)}
             </span>
           );
         },
@@ -140,6 +156,7 @@ export default function RewardsActivityTable({
   }, []);
 
   const data = useMemo(() => transactions || [], [transactions]);
+  const hasTransactions = data.length > 0;
 
   const table = useReactTable({
     data,
@@ -154,7 +171,7 @@ export default function RewardsActivityTable({
     onSortingChange: setSorting,
   });
 
-  const showPlusCTA = !loading && !activeSubscription;
+  const showPlusCTA = !loading && !activeSubscription && hasTransactions;
 
   return (
     <div className="border border-primary-gray-border rounded-md bg-white">
@@ -162,7 +179,7 @@ export default function RewardsActivityTable({
         <h2 className="text-lg font-bold text-primary">Rewards Activity</h2>
       </div>
 
-      {showPlusCTA ? (
+      {showPlusCTA && (
         <div className="p-6 text-sm text-gray-600 text-center">
           Activities you perform that earn rewards will be listed here.
           <br />
@@ -171,19 +188,17 @@ export default function RewardsActivityTable({
           </a>{' '}
           to earn rewards on every purchase with Credit Key.
         </div>
-      ) : (
-        <BaseTable
-          table={table}
-          tableClass="text-sm"
-          rowClass="!text-sm"
-          headerClass="!bg-[#F4F8FF]"
-          isFetching={loading}
-          noDataFoundWarning={
-            error ? 'Unable to load rewards activity' : 'No rewards activity found'
-          }
-          usePagination={true}
-        />
       )}
+
+      <BaseTable
+        table={table}
+        tableClass="text-sm"
+        rowClass="!text-sm"
+        headerClass="!bg-[#F4F8FF]"
+        isFetching={loading}
+        noDataFoundWarning={error ? 'Unable to load rewards activity' : 'No rewards activity found'}
+        usePagination={true}
+      />
     </div>
   );
 }

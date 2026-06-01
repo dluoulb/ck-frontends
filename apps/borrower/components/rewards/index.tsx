@@ -10,22 +10,23 @@ import { useActiveSubscription } from '@hooks/useSubscription';
 export default function Rewards() {
   const { entity } = useEntity();
 
-  const { activeSubscription, activeSubscriptionLoading, refetchActiveSubscription } =
-    useActiveSubscription(entity?.id);
+  const { activeSubscription, activeSubscriptionLoading } = useActiveSubscription(entity?.id);
 
   const { rewardPointsBalance, rewardPointsBalanceLoading, rewardPointsBalanceError } =
     useRewardPointsBalance(entity?.id);
 
+  const pendingPoints = rewardPointsBalance?.pending || 0;
+  const postedPoints = rewardPointsBalance?.posted || 0;
+  const lifetimePoints = rewardPointsBalance?.lifetime || 0;
+  const hasRewardPoints = pendingPoints > 0 || postedPoints > 0 || lifetimePoints > 0;
+  const shouldFetchRewardPointsLedger = !!activeSubscription || hasRewardPoints;
+
   const { rewardPointsLedger, rewardPointsLedgerLoading, rewardPointsLedgerError } =
-    useRewardPointsLedger(entity?.id);
+    useRewardPointsLedger(entity?.id, shouldFetchRewardPointsLedger);
 
   if (rewardPointsBalanceLoading) {
     return <Loading className="w-14 h-14 my-20" />;
   }
-
-  const pendingPoints = rewardPointsBalance?.pending || 0;
-  const postedPoints = rewardPointsBalance?.posted || 0;
-  const lifetimePoints = rewardPointsBalance?.lifetime || 0;
 
   return (
     <div
@@ -50,7 +51,10 @@ export default function Rewards() {
         <RewardsActivityTable
           activeSubscription={activeSubscription}
           transactions={rewardPointsLedger || []}
-          loading={rewardPointsLedgerLoading && activeSubscriptionLoading}
+          loading={
+            activeSubscriptionLoading ||
+            (shouldFetchRewardPointsLedger && rewardPointsLedgerLoading)
+          }
           error={rewardPointsLedgerError}
         />
       </div>

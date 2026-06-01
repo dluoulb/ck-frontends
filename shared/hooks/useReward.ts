@@ -26,7 +26,7 @@ export function useRewardPointsBalance(companyId: string) {
   };
 }
 
-export function useRewardPointsLedger(companyId: string) {
+export function useRewardPointsLedger(companyId: string, enabled = true) {
   const api = useApi();
 
   const {
@@ -37,7 +37,7 @@ export function useRewardPointsLedger(companyId: string) {
   } = useQuery({
     queryKey: ['rewardPointsLedger', companyId],
     queryFn: () => getRewardPointsLedger(api, companyId),
-    enabled: !!companyId,
+    enabled: !!companyId && enabled,
     retry: 1,
   });
 
