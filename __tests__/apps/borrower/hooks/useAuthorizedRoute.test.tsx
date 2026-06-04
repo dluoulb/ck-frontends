@@ -3,8 +3,10 @@ import { useRouter } from 'next/router';
 
 import useAuthorizedRoute from '@apps/borrower/hooks/useAuthorizedRoute';
 import { useEntity } from '@contexts/EntityContext';
+import { useActiveSubscription } from '@hooks/useSubscription';
 
 jest.mock('@contexts/EntityContext');
+jest.mock('@hooks/useSubscription');
 jest.mock('next/router');
 
 let mockPlusEnabled = true;
@@ -16,6 +18,9 @@ jest.mock('@lib/constants/SiteVariables', () => ({
 }));
 
 const mockUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
+const mockUseActiveSubscription = useActiveSubscription as jest.MockedFunction<
+  typeof useActiveSubscription
+>;
 const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
 
 const baseEntity = {
@@ -30,11 +35,17 @@ describe('useAuthorizedRoute', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockPlusEnabled = true;
+    mockUseActiveSubscription.mockReturnValue({
+      activeSubscription: undefined,
+      activeSubscriptionError: null,
+      activeSubscriptionLoading: false,
+      refetchActiveSubscription: jest.fn(),
+    });
   });
 
   describe('/plus route', () => {
     beforeEach(() => {
-      mockUseRouter.mockReturnValue({ asPath: '/plus' } as any);
+      mockUseRouter.mockReturnValue({ pathname: '/plus' } as any);
     });
 
     test('allows access for approved non-NETX borrower when plusEnabled is true', () => {
@@ -89,6 +100,25 @@ describe('useAuthorizedRoute', () => {
       expect(result.current.isAuthorized).toBe(false);
     });
 
+    test('allows access for non-approved borrower with active subscription', () => {
+      mockUseEntity.mockReturnValue({
+        entity: { ...baseEntity, underwriting_status: 'pending', isNetX: false } as any,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      });
+      mockUseActiveSubscription.mockReturnValue({
+        activeSubscription: { id: 'active-subscription' } as any,
+        activeSubscriptionError: null,
+        activeSubscriptionLoading: false,
+        refetchActiveSubscription: jest.fn(),
+      });
+
+      const { result } = renderHook(() => useAuthorizedRoute());
+      expect(result.current.isAuthorized).toBe(true);
+    });
+
     test('denies access when plusEnabled feature flag is off', () => {
       mockPlusEnabled = false;
 
@@ -98,6 +128,64 @@ describe('useAuthorizedRoute', () => {
         fetchEntity: jest.fn(),
         entityError: null,
         entityLoading: false,
+      });
+
+      const { result } = renderHook(() => useAuthorizedRoute());
+      expect(result.current.isAuthorized).toBe(false);
+    });
+
+    test('allows access while active subscription is loading and base rules pass', () => {
+      mockUseEntity.mockReturnValue({
+        entity: { ...baseEntity, underwriting_status: 'pending', isNetX: false } as any,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      });
+      mockUseActiveSubscription.mockReturnValue({
+        activeSubscription: undefined,
+        activeSubscriptionError: null,
+        activeSubscriptionLoading: true,
+        refetchActiveSubscription: jest.fn(),
+      });
+
+      const { result } = renderHook(() => useAuthorizedRoute());
+      expect(result.current.isAuthorized).toBe(true);
+    });
+
+    test('denies access while loading when plusEnabled is off', () => {
+      mockPlusEnabled = false;
+      mockUseEntity.mockReturnValue({
+        entity: { ...baseEntity, underwriting_status: 'pending', isNetX: false } as any,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      });
+      mockUseActiveSubscription.mockReturnValue({
+        activeSubscription: undefined,
+        activeSubscriptionError: null,
+        activeSubscriptionLoading: true,
+        refetchActiveSubscription: jest.fn(),
+      });
+
+      const { result } = renderHook(() => useAuthorizedRoute());
+      expect(result.current.isAuthorized).toBe(false);
+    });
+
+    test('denies access while loading when borrower is NetX', () => {
+      mockUseEntity.mockReturnValue({
+        entity: { ...baseEntity, underwriting_status: 'pending', isNetX: true } as any,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      });
+      mockUseActiveSubscription.mockReturnValue({
+        activeSubscription: undefined,
+        activeSubscriptionError: null,
+        activeSubscriptionLoading: true,
+        refetchActiveSubscription: jest.fn(),
       });
 
       const { result } = renderHook(() => useAuthorizedRoute());
@@ -120,7 +208,7 @@ describe('useAuthorizedRoute', () => {
 
   describe('/wallet route', () => {
     beforeEach(() => {
-      mockUseRouter.mockReturnValue({ asPath: '/wallet' } as any);
+      mockUseRouter.mockReturnValue({ pathname: '/wallet' } as any);
     });
 
     test('allows access when vc_enabled', () => {
@@ -152,7 +240,7 @@ describe('useAuthorizedRoute', () => {
 
   describe('other routes', () => {
     test('allows access for all other routes', () => {
-      mockUseRouter.mockReturnValue({ asPath: '/orders' } as any);
+      mockUseRouter.mockReturnValue({ pathname: '/orders' } as any);
       mockUseEntity.mockReturnValue({
         entity: { ...baseEntity } as any,
         setEntity: jest.fn(),

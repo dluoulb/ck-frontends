@@ -184,6 +184,39 @@ describe('Borrower route hooks', () => {
     expect(rightItems.map((item) => item.name)).not.toContain('Reward Points');
   });
 
+  test('shows Plus+ tab for non-approved entity with active subscription', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: false,
+        isAmazonExclusive: false,
+        isNetX: false,
+        underwriting_status: 'pending',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+    mockUseActiveSubscription.mockReturnValue({
+      activeSubscription: { id: 'active-subscription' } as any,
+      activeSubscriptionError: null,
+      activeSubscriptionLoading: false,
+      refetchActiveSubscription: jest.fn(),
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).toContain('Plus+');
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).not.toContain('Rewards');
+
+    const leftItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'left')
+        ?.items || [];
+    expect(leftItems.map((item) => item.name)).toContain('Plus+');
+  });
+
   test('hides Rewards for Amazon-exclusive entity even if approved', () => {
     mockUseEntity.mockReturnValue({
       entity: {

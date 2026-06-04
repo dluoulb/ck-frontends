@@ -1,34 +1,35 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useEntity } from '@contexts/EntityContext';
+import { useActiveSubscription } from '@hooks/useSubscription';
 import { plusEnabled } from '@lib/constants/SiteVariables';
 
 function useAuthorizedRoute() {
   const { entity, entityLoading } = useEntity();
-  const { asPath } = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(true);
-
-  useEffect(() => {
-    switch (asPath) {
+  const { pathname } = useRouter();
+  const isPlusRoute = pathname === '/plus';
+  const basePlusEligible = plusEnabled && !entity?.isNetX && !entity?.isAmazonExclusive;
+  const { activeSubscription, activeSubscriptionLoading } = useActiveSubscription(
+    isPlusRoute ? entity?.id : undefined,
+  );
+  const isAuthorized = (() => {
+    switch (pathname) {
       case '/wallet':
-        setIsAuthorized(!!entity?.vc_enabled);
-        break;
+        return !!entity?.vc_enabled;
       case '/plus':
-        setIsAuthorized(
-          plusEnabled &&
-            entity?.underwriting_status === 'approved' &&
-            !entity?.isNetX &&
-            !entity?.isAmazonExclusive,
+        return (
+          basePlusEligible && (entity?.underwriting_status === 'approved' || !!activeSubscription)
         );
-        break;
       default:
-        setIsAuthorized(true);
+        return true;
     }
-  }, [asPath, entity, entityLoading]);
+  })();
 
   return {
-    isAuthorized: entityLoading || isAuthorized,
+    isAuthorized:
+      entityLoading ||
+      (isPlusRoute && basePlusEligible && activeSubscriptionLoading) ||
+      isAuthorized,
   };
 }
 
