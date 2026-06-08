@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from '@hooks/useApi';
 import {
   cancelSubscription as cancelSubscriptionAction,
+  checkTrialEligibility as checkTrialEligibilityAction,
   createSubscription as createSubscriptionAction,
   getActiveSubscription as getActiveSubscriptionAction,
   getSubscriptionPlans,
@@ -113,6 +114,21 @@ export function useCreateSubscription() {
     createSubscription,
     createSubscriptionError,
     createSubscriptionLoading,
+  };
+}
+
+export function useTrialEligibility(companyId: string) {
+  const api = useApi();
+
+  const { data: isTrialEligible, isPending: trialEligibilityLoading } = useQuery({
+    queryKey: ['trialEligibility', companyId],
+    queryFn: () => checkTrialEligibilityAction(api, companyId),
+    enabled: !!companyId,
+  });
+
+  return {
+    isTrialEligible: isTrialEligible ?? false,
+    trialEligibilityLoading,
   };
 }
 

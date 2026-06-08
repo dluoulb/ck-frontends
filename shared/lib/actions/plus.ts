@@ -77,6 +77,20 @@ export const redeemPoints = async (api: AxiosInstance, companyId: string, points
   return response?.data;
 };
 
+export const checkTrialEligibility = async (
+  api: AxiosInstance,
+  companyId: string,
+): Promise<boolean> => {
+  try {
+    const response = await api.get(
+      `/api/subscriptions/eligible_for_trial?company_id=${encodeURIComponent(companyId)}`,
+    );
+    return response?.data?.eligible_for_trial === true;
+  } catch {
+    return false;
+  }
+};
+
 export const cancelSubscription = async (
   api: AxiosInstance,
   subscriptionId: string,
