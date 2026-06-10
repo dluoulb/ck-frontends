@@ -35,6 +35,7 @@ jobs:
   deploy:
     name: Deploy to ${{ inputs.tier || github.event.inputs.tier }}
     runs-on: ubuntu-latest
+    environment: ${{ inputs.tier || github.event.inputs.tier }}
     env:
       DEPLOY_TIER:    ${{ inputs.tier || github.event.inputs.tier }}
       DEPLOY_COMMAND: ${{ inputs.command || github.event.inputs.command }}
