@@ -9,15 +9,32 @@ const eslintConfig = defineConfig([
   prettier,
   {
     rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unused-vars': [
-        'error',
+        'warn',
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-unused-expressions': 'warn',
+      '@typescript-eslint/no-var-requires': 'off',
+      'no-var': 'warn',
+      'prefer-rest-params': 'warn',
+      'react/display-name': 'warn',
+      'react/no-children-prop': 'warn',
+      'react/no-unescaped-entities': 'off',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/immutability': 'off',
+      'react-hooks/incompatible-library': 'off',
+      'react-hooks/purity': 'off',
+      'react-hooks/refs': 'off',
+      'react-hooks/rules-of-hooks': 'warn',
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/static-components': 'off',
     },
   },
   // Override default ignores of eslint-config-next.

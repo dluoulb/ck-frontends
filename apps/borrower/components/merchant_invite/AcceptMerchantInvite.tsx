@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { faEnvelopeOpen } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { BaseGrid, BaseGridItem } from '@components/BaseGrid';
@@ -62,9 +63,12 @@ export default function AcceptMerchantInvite() {
                           to place an order
                         </p>
                         <div className="mt-8">
-                          <a className="text-primary-blue hover:text-primary-blue-hover" href="/">
+                          <Link
+                            className="text-primary-blue hover:text-primary-blue-hover"
+                            href="/"
+                          >
                             Go to dashboard
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -77,9 +81,12 @@ export default function AcceptMerchantInvite() {
                           support team.
                         </p>
                         <div className="mt-8">
-                          <a className="text-primary-blue hover:text-primary-blue-hover" href="/">
+                          <Link
+                            className="text-primary-blue hover:text-primary-blue-hover"
+                            href="/"
+                          >
                             Go to dashboard
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
