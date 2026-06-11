@@ -19,6 +19,7 @@ import { QueryContext } from '@contexts/QueryContext';
 import { UserProvider } from '@contexts/UserContext';
 import api from '@lib/api';
 import { SuperTokensConfig } from '@lib/constants/SuperTokensConfig';
+import marketplaceApi from '@lib/marketplaceApi';
 import FullStory from '@lib/utils/fullstory';
 import { rollbarConfig } from '@lib/utils/rollbar';
 
@@ -26,6 +27,7 @@ config.autoAddCss = false;
 
 const queryClient = new QueryClient();
 export const ApiContext = createContext(api);
+export const MarketplaceApiContext = createContext(marketplaceApi);
 
 if (typeof window !== 'undefined') {
   SuperTokens.init(SuperTokensConfig);
@@ -49,29 +51,31 @@ function App({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
         <SuperTokensWrapper>
           <ApiContext.Provider value={api}>
-            <UserProvider>
-              <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
-                <EntityProvider>
-                  <ErrorBoundary>
-                    <PromoContextProvider>
-                      <MainLayout>
-                        <SearchConfig>
-                          <PortalLayout>
-                            {isBorrowerRoute ? (
-                              <BorrowerContextProvider>
+            <MarketplaceApiContext.Provider value={marketplaceApi}>
+              <UserProvider>
+                <QueryContext.Provider value={{ searchQuery, setSearchQuery }}>
+                  <EntityProvider>
+                    <ErrorBoundary>
+                      <PromoContextProvider>
+                        <MainLayout>
+                          <SearchConfig>
+                            <PortalLayout>
+                              {isBorrowerRoute ? (
+                                <BorrowerContextProvider>
+                                  <Component {...pageProps} />
+                                </BorrowerContextProvider>
+                              ) : (
                                 <Component {...pageProps} />
-                              </BorrowerContextProvider>
-                            ) : (
-                              <Component {...pageProps} />
-                            )}
-                          </PortalLayout>
-                        </SearchConfig>
-                      </MainLayout>
-                    </PromoContextProvider>
-                  </ErrorBoundary>
-                </EntityProvider>
-              </QueryContext.Provider>
-            </UserProvider>
+                              )}
+                            </PortalLayout>
+                          </SearchConfig>
+                        </MainLayout>
+                      </PromoContextProvider>
+                    </ErrorBoundary>
+                  </EntityProvider>
+                </QueryContext.Provider>
+              </UserProvider>
+            </MarketplaceApiContext.Provider>
           </ApiContext.Provider>
         </SuperTokensWrapper>
         <ReactQueryDevtools initialIsOpen={false} />

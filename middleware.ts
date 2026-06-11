@@ -59,6 +59,11 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(authRedirectLink(`${protocol}//${host}${pathname}`)));
   }
 
+  // marketplace proxy routes don't need path-rewriting; session is already verified above
+  if (pathname.startsWith('/marketplace')) {
+    return NextResponse.next();
+  }
+
   // If a user is trying to access a route that is not approved for their user type
   const userRouteAccessNotAllowed =
     currentRoute && !parsedToken?.role.some((role) => currentRoute.approvedRoles.includes(role));

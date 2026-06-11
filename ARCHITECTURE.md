@@ -703,6 +703,7 @@ Environment-specific configuration is managed through:
 - `.env.development`: Local development
 - `.env.docker`: Docker development (Docker Compose)
 - **Deployed builds**: All `NEXT_PUBLIC_*` environment variables are fetched from AWS Secrets Manager during the GitHub Actions deploy workflow and baked into the Next.js bundle at image build time via a Docker BuildKit secret mount (`--secret id=app-env`). No runtime injection occurs; the ECS task receives no app-level secrets.
+- **Marketplace API**: `NEXT_PUBLIC_MARKET_API_URL` should be configured per GitHub Environment (`development`, `staging`, `production`) and is appended during deploy builds.
 
 ### Build Optimization
 

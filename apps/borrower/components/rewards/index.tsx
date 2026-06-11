@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RewardsBalanceCard from '@apps/borrower/components/plus/RewardsBalanceCard';
+import MerchantsSection from '@apps/borrower/components/rewards/MerchantsSection';
 import RewardsActivityTable from '@apps/borrower/components/rewards/RewardsActivityTable';
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
@@ -58,6 +59,8 @@ export default function Rewards() {
           error={rewardPointsLedgerError}
         />
       </div>
+
+      <MerchantsSection entityId={entity?.id} />
     </div>
   );
 }

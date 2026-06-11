@@ -5,8 +5,8 @@
     "dev": "next dev",
     "start": "next start",
     "test": "jest",
-    "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
-    "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" *.ts *.js",
+    "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
+    "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
     "lint": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" --fix",
     "lint:ci": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\""
   },

@@ -143,6 +143,10 @@ This will start the application on `http://frontends.creditkey.localhost`.
 
 Upon start, if user has not already been authenticated, the application will navigate to the SSO login page for two-step authentication. After authentication is complete, the auth server will automatically route user back to CK Frontends.
 
+### Deployment environment variables
+
+- Add `NEXT_PUBLIC_MARKET_API_URL` to each GitHub Environment (`development`, `staging`, and `production`) so deploy builds can bake Marketplace API access into the frontend bundle.
+
 ## SuperTokens User Management
 
 Access the SuperTokens User Admin portal at: http://auth.creditkey.localhost/dashboard/

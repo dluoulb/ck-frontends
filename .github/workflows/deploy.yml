@@ -69,6 +69,8 @@ jobs:
 
       - name: Write app secrets to env file for build-time bake-in
         if: contains(fromJSON('["deploy", "build_image"]'), env.DEPLOY_COMMAND)
+        env:
+          NEXT_PUBLIC_MARKET_API_URL: ${{ vars.NEXT_PUBLIC_MARKET_API_URL }}
         run: |
           declare -A ARNS=(
             [development]="arn:aws:secretsmanager:us-east-1:504947135646:secret:ck-frontends-development-pidTML"
@@ -81,6 +83,9 @@ jobs:
             --query SecretString \
             --output text | \
             jq -r 'to_entries[] | "\(.key)=\(.value)"' > /tmp/app.env
+          if [[ -n "$NEXT_PUBLIC_MARKET_API_URL" ]]; then
+            echo "NEXT_PUBLIC_MARKET_API_URL=$NEXT_PUBLIC_MARKET_API_URL" >> /tmp/app.env
+          fi
           echo "APP_VERSION=$APP_VERSION" >> /tmp/app.env
 
       - name: Build Docker image

@@ -1,7 +1,17 @@
 module.exports = {
   turbopack: {},
   async rewrites() {
+    const marketplaceRewrites = process.env.NEXT_PUBLIC_MARKET_API_URL
+      ? [
+          {
+            source: '/marketplace/:path*',
+            destination: `${process.env.NEXT_PUBLIC_MARKET_API_URL}/:path*`,
+          },
+        ]
+      : [];
+
     return {
+      beforeFiles: marketplaceRewrites,
       fallback: [
         {
           source: '/_healthcheck',
