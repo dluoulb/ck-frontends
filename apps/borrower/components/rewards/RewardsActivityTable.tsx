@@ -81,7 +81,7 @@ export default function RewardsActivityTable({
       },
       {
         id: 'amount',
-        header: 'Amount',
+        header: 'Order Amount',
         accessorKey: 'amount',
         cell: ({ getValue, row }) => {
           const amount = getValue<any>();
@@ -132,6 +132,7 @@ export default function RewardsActivityTable({
           const { status, type, points } = row.original;
 
           const isNegative = type === RewardType.SPENT || type === RewardType.EXPIRED;
+          const isRedeemed = type === RewardType.SPENT;
           const isAdjustment = type === RewardType.ADJUSTED;
 
           let displayPoints = points;
@@ -143,11 +144,18 @@ export default function RewardsActivityTable({
 
           const color = getPointsColor(status);
           const sign = displayPoints > 0 ? '+' : '';
+          const redeemedAmount = isRedeemed ? formatCurrency(Math.abs(displayPoints) / 100) : null;
 
           return (
-            <span className={`text-sm font-semibold ${color} text-right block`}>
+            <span className={`block text-sm font-semibold ${color}`}>
               {sign}
               {displayPoints} pts
+              {redeemedAmount && (
+                <>
+                  {' '}
+                  <span className="text-gray-500">({redeemedAmount})</span>
+                </>
+              )}
             </span>
           );
         },

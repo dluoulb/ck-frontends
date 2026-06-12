@@ -15,11 +15,10 @@ function usePossessedUser() {
   const [error, setError] = useState('' || null);
   const [possessedUserContact, setPossessedUserContact] = useState('');
 
-  const clearUserAndReload = () => {
+  const clearImpersonation = () => {
     clearUser().then(() => {
-      router.push('/').then(() => {
-        router.reload();
-      });
+      sessionStorage.removeItem('parentUserId');
+      router.replace('/');
     });
   };
 
@@ -82,7 +81,7 @@ function usePossessedUser() {
   };
 
   return {
-    clearUserAndReload, // clear impersonation
+    clearImpersonation, // clear impersonation
     possessUser, // impersonate new user
     possessUserById,
     possessUserError: error, // error when trying to impersonate

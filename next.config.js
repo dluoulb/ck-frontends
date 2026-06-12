@@ -1,4 +1,5 @@
 module.exports = {
+  allowedDevOrigins: ['*.creditkey.localhost'],
   turbopack: {},
   async rewrites() {
     const marketplaceRewrites = process.env.NEXT_PUBLIC_MARKET_API_URL
@@ -16,6 +17,14 @@ module.exports = {
         {
           source: '/_healthcheck',
           destination: '/api/_healthcheck',
+        },
+        {
+          source: '/_next/:path*',
+          destination: '/_next/:path*',
+        },
+        {
+          source: '/__nextjs/:path*',
+          destination: '/__nextjs/:path*',
         },
         {
           source: '/reports/:path*',

@@ -16,7 +16,7 @@ export default function PossessUser() {
   const {
     contactType,
     setContactType,
-    clearUserAndReload,
+    clearImpersonation,
     possessUser,
     possessUserById,
     possessUserError,
@@ -69,7 +69,7 @@ export default function PossessUser() {
                   containerClass="!w-auto"
                   buttonColor="bg-warning w-full sm:w-auto sm:min-w-max !px-6 !my-0"
                   hoverClass="hover:bg-warning/80"
-                  onClick={clearUserAndReload}
+                  onClick={clearImpersonation}
                 />
               </div>
             </>

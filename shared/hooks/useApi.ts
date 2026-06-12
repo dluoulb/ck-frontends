@@ -1,6 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { ApiContext } from 'pages/_app';
-import Session, { attemptRefreshingSession, signOut } from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-auth-react/recipe/session';
+
+import { createResponseErrorHandler } from '@lib/sessionErrorHandler';
 
 function useApi() {
   const api = useContext(ApiContext);
@@ -17,31 +19,7 @@ function useApi() {
 
       const responseInterceptor = api.interceptors.response.use(
         (response) => response,
-        async (error) => {
-          const originalRequest = error.config;
-
-          if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            try {
-              const success = await attemptRefreshingSession();
-              if (success) {
-                const newToken = await Session.getAccessToken();
-                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                return api(originalRequest);
-              } else {
-                signOut();
-              }
-            } catch (refreshError) {
-              return Promise.reject(error);
-            }
-          }
-
-          if (error.response?.status === 403) {
-            signOut();
-          }
-
-          return Promise.reject(error);
-        },
+        createResponseErrorHandler(api),
       );
 
       return () => {
