@@ -95,7 +95,7 @@ export const getTermLabel = (term, defaultText = 'Select Default Term') => {
   if (!term) return defaultText;
 
   if (term?.term_period === 'days') {
-    return 'Net 30';
+    return `Net ${term.term}`;
   }
 
   if (term?.term_period === 'biweekly' && term?.term === 4) {

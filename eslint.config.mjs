@@ -45,6 +45,7 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     'apps/reports/**', // ck-reports app is not currently used
+    'shared/components/Scripts.tsx', // Protected third-party analytics snippets.
   ]),
 ]);
 
