@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import OutlineButton from '@components/buttons/OutlineButton';
 import useModal from '@hooks/useModal';
@@ -20,6 +20,20 @@ const ManageSubscriptionButton: FC<ManageSubscriptionButtonProps> = ({
   const { isModalActive, toggleModal } = useModal();
   const { cancelSubscription, cancelSubscriptionLoading } = useCancelSubscription();
 
+  const formattedCancelDate = useMemo(() => {
+    if (!subscription.next_payment_date) return null;
+    try {
+      return new Date(subscription.next_payment_date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC',
+      });
+    } catch (_error) {
+      return null;
+    }
+  }, [subscription.next_payment_date]);
+
   const handleCancel = async (reason: string, comment: string) => {
     try {
       await cancelSubscription({
@@ -36,6 +50,14 @@ const ManageSubscriptionButton: FC<ManageSubscriptionButtonProps> = ({
       throw error;
     }
   };
+
+  if (subscription.auto_renew === false) {
+    return (
+      <span className="text-sm font-medium text-secondary-gray">
+        Cancellation Scheduled{formattedCancelDate ? ` for ${formattedCancelDate}` : ''}
+      </span>
+    );
+  }
 
   return (
     <>
