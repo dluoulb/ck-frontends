@@ -21,8 +21,8 @@ export default class CompanyRecord {
   tier: string;
   ein: string;
   is_past_due: boolean;
-  min_rate: string;
-  max_rate: string;
+  min_rate?: string | number;
+  max_rate?: string | number;
   credit_line: CreditLine;
   is_bank_connected: string;
   is_bank_connection_pending: string;

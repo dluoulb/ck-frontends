@@ -12,6 +12,8 @@ export default function BorrowerOverview() {
 
   let statusColor;
   const approvedUser = entity?.status === 'approved';
+  const minRateNum = Number(entity?.min_rate);
+  const hasBaseRate = Number.isFinite(minRateNum) && minRateNum >= 0;
 
   switch (entity?.status) {
     case 'pending':
@@ -42,25 +44,23 @@ export default function BorrowerOverview() {
               >
                 {entity?.name}
               </p>
-              {entity?.type === 'company' && (
-                <p className="font-semibold">
-                  Base Rate:
-                  <span className="mx-1">
-                    {entity?.min_rate !== 'N/A' && approvedUser ? `${entity?.min_rate}%` : '--'}
-                  </span>
-                  {entity?.min_rate !== 'N/A' && approvedUser && (
+              {entity?.type === 'company' && hasBaseRate && (
+                <div className="font-semibold flex items-center">
+                  <span>Base Rate:</span>
+                  <span className="mx-1">{approvedUser ? `${entity?.min_rate}%` : '--'}</span>
+                  {approvedUser && (
                     <Tooltip
                       tooltip_text={
                         entity?.tier === 'NETX' ? (
-                          <p>Net 30 terms do not incur an interest fee.</p>
+                          <span>Net 30 terms do not incur an interest fee.</span>
                         ) : (
-                          <p>
+                          <span>
                             Rate may range from
                             <span className="mx-1 font-bold">
                               {entity?.min_rate} - {entity?.max_rate}%
                             </span>
                             based on term length selection
-                          </p>
+                          </span>
                         )
                       }
                       trigger_class="hover:text-primary-blue cursor-pointer text-tertiary-gray !border-none"
@@ -69,7 +69,7 @@ export default function BorrowerOverview() {
                       <FontAwesomeIcon icon={faCircleInfo} />
                     </Tooltip>
                   )}
-                </p>
+                </div>
               )}
             </div>
             <div className="flex flex-col-reverse sm:flex-col sm:items-end gap-1 sm:gap-2 mt-4 md:mt-0">
