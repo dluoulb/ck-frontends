@@ -20,6 +20,14 @@ type RewardsActivityTableProps = {
   error?: any;
 };
 
+const statusLabels: Record<RewardPointStatus, string> = {
+  [RewardPointStatus.PENDING]: 'Pending',
+  [RewardPointStatus.POSTED]: 'Posted',
+  [RewardPointStatus.CANCELED]: 'Canceled',
+};
+const DEFAULT_STATUS_BADGE_CLASS = '';
+const PENDING_STATUS_BADGE_CLASS = 'text-gray-400';
+
 const normalizeStatus = (status?: RewardPointStatus | string) => {
   if (!status) return undefined;
 
@@ -31,11 +39,29 @@ const normalizeStatus = (status?: RewardPointStatus | string) => {
   return undefined;
 };
 
-const getStatusBadgeClass = (status?: RewardPointStatus | string) => {
-  const normalizedStatus = normalizeStatus(status);
+const normalizeRewardType = (type?: RewardType | string) => {
+  if (!type) return undefined;
 
-  if (normalizedStatus === RewardPointStatus.PENDING) return 'text-gray-400';
-  return '';
+  const normalizedType = String(type).toUpperCase() as RewardType;
+  if (Object.values(RewardType).includes(normalizedType)) {
+    return normalizedType;
+  }
+
+  return undefined;
+};
+
+const getDisplayStatus = (status?: RewardPointStatus | string, normalizedType?: RewardType) => {
+  if (normalizedType === RewardType.SPENT) return 'Redeemed';
+
+  const normalizedStatus = normalizeStatus(status);
+  return normalizedStatus ? statusLabels[normalizedStatus] : String(status ?? '');
+};
+
+const getStatusBadgeClass = (normalizedStatus?: RewardPointStatus, normalizedType?: RewardType) => {
+  if (normalizedType === RewardType.SPENT) return DEFAULT_STATUS_BADGE_CLASS;
+
+  if (normalizedStatus === RewardPointStatus.PENDING) return PENDING_STATUS_BADGE_CLASS;
+  return DEFAULT_STATUS_BADGE_CLASS;
 };
 
 const getPointsColor = (status?: RewardPointStatus | string) => {
@@ -107,19 +133,14 @@ export default function RewardsActivityTable({
         id: 'status',
         header: 'Status',
         accessorKey: 'status',
-        cell: ({ getValue }) => {
-          const status = getValue() as RewardPointStatus | string;
+        cell: ({ row }) => {
+          const { status, type } = row.original;
           const normalizedStatus = normalizeStatus(status);
-
-          const statusLabels: Record<RewardPointStatus, string> = {
-            [RewardPointStatus.PENDING]: 'Pending',
-            [RewardPointStatus.POSTED]: 'Posted',
-            [RewardPointStatus.CANCELED]: 'Canceled',
-          };
+          const normalizedType = normalizeRewardType(type);
 
           return (
-            <span className={`text-sm ${getStatusBadgeClass(status)}`}>
-              {normalizedStatus ? statusLabels[normalizedStatus] : String(status)}
+            <span className={`text-sm ${getStatusBadgeClass(normalizedStatus, normalizedType)}`}>
+              {getDisplayStatus(status, normalizedType)}
             </span>
           );
         },

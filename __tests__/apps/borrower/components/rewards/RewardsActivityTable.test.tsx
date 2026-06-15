@@ -4,18 +4,20 @@ import RewardsActivityTable from '@apps/borrower/components/rewards/RewardsActiv
 import { RewardTransactionRecord, RewardType } from '@lib/records/reward';
 import { customRender, screen, within } from '@lib/testing/test-utils';
 
+const makeTransaction = (overrides = {}) =>
+  new RewardTransactionRecord({
+    id: 'tx_1',
+    type: RewardType.ADJUSTED,
+    status: 'pending',
+    points: 25,
+    source: 'Manual Adjustment',
+    created_at: '2026-05-01T00:00:00.000Z',
+    ...overrides,
+  });
+
 describe('RewardsActivityTable', () => {
   test('shows rewards activity and plus CTA for non-subscribed users with rewards', () => {
-    const transactions = [
-      new RewardTransactionRecord({
-        id: 'tx_1',
-        type: RewardType.ADJUSTED,
-        status: 'pending',
-        points: 25,
-        source: 'Manual Adjustment',
-        created_at: '2026-05-01T00:00:00.000Z',
-      }),
-    ];
+    const transactions = [makeTransaction()];
 
     customRender(
       <RewardsActivityTable
@@ -81,5 +83,64 @@ describe('RewardsActivityTable', () => {
 
     expect(screen.queryByText('Join Credit Key Plus')).not.toBeInTheDocument();
     expect(screen.getByText('No rewards activity found')).toBeInTheDocument();
+  });
+
+  test('shows Redeemed for spent rewards transactions', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[
+          makeTransaction({
+            type: RewardType.SPENT,
+            status: 'posted',
+            points: 100,
+            source: 'Rewards Redemption',
+          }),
+        ]}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Redeemed')).toBeInTheDocument();
+    expect(screen.queryByText('Posted')).not.toBeInTheDocument();
+    expect(screen.queryByText('Spent')).not.toBeInTheDocument();
+  });
+
+  test('keeps Posted for non-spent posted rewards transactions', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[
+          makeTransaction({
+            type: RewardType.EARNED,
+            status: 'posted',
+            points: 100,
+            source: 'Purchase Rewards',
+          }),
+        ]}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Posted')).toBeInTheDocument();
+  });
+
+  test('keeps other reward statuses unchanged', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[
+          makeTransaction({
+            type: RewardType.ADJUSTED,
+            status: 'canceled',
+            points: 25,
+            source: 'Manual Adjustment',
+          }),
+        ]}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Canceled')).toBeInTheDocument();
   });
 });
