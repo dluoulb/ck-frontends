@@ -294,4 +294,56 @@ describe('Borrower route hooks', () => {
         ?.items || [];
     expect(rightItems.map((item) => item.name)).toContain('Reward Points');
   });
+
+  test('shows Rewards for hold entity', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: false,
+        isAmazonExclusive: false,
+        isNetX: false,
+        underwriting_status: 'hold',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).toContain('Rewards');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).toContain('Reward Points');
+  });
+
+  test('shows Rewards for declined entity', () => {
+    mockUseEntity.mockReturnValue({
+      entity: {
+        vc_enabled: false,
+        plus_enabled: false,
+        isAmazonExclusive: false,
+        isNetX: false,
+        underwriting_status: 'declined',
+      },
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+
+    const { result: primaryResult } = renderHook(() => usePrimaryRoutes());
+    const { result: secondaryResult } = renderHook(() => useSecondaryRoutes());
+
+    expect(primaryResult.current.primaryRoutes.map((route) => route.name)).toContain('Rewards');
+
+    const rightItems =
+      secondaryResult.current.secondaryRoutes.find((section) => section.section === 'right')
+        ?.items || [];
+    expect(rightItems.map((item) => item.name)).toContain('Reward Points');
+  });
 });

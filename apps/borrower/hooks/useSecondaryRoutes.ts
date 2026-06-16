@@ -11,7 +11,9 @@ function useSecondaryRoutes() {
   const isNetX = entity?.isNetX ?? false;
   const plusVisible = (!!entity?.plus_enabled || !!activeSubscription) && !isAmazonExclusive;
   const rewardsVisible =
-    entity?.underwriting_status === 'approved' && !isAmazonExclusive && !isNetX;
+    ['approved', 'hold', 'declined'].includes(entity?.underwriting_status ?? '') &&
+    !isAmazonExclusive &&
+    !isNetX;
 
   const routes = [
     {
