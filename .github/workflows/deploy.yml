@@ -82,11 +82,7 @@ jobs:
             --secret-id "$SECRET_ARN" \
             --query SecretString \
             --output text | \
-            jq -r 'to_entries[] | "\(.key)=\(.value)"' > /tmp/app.env
-          if [[ -n "$NEXT_PUBLIC_MARKET_API_URL" ]]; then
-            echo "NEXT_PUBLIC_MARKET_API_URL=$NEXT_PUBLIC_MARKET_API_URL" >> /tmp/app.env
-          fi
-          echo "APP_VERSION=$APP_VERSION" >> /tmp/app.env
+            bash deploy/bin/write-build-env.sh /tmp/app.env
 
       - name: Build Docker image
         if: contains(fromJSON('["deploy", "build_image"]'), env.DEPLOY_COMMAND)

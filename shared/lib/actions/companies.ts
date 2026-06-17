@@ -3,10 +3,6 @@ import { jitEnabled } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 
-interface CreateVirtualCardOptions {
-  just_in_time_funding: boolean;
-}
-
 export const getCompany = async (api, company_id, filters = '') => {
   if (!company_id) return;
   const foundCompany = await api.get(`/api/companies/${company_id}?${filters}`);
@@ -83,9 +79,25 @@ export const activatePhysicalCard = async (api, company_id, card_id, last_four) 
 
 export const closeVirtualCard = async (api, company_id) => {
   if (!company_id) return;
-  const resp = await api.put(`/api/companies/${company_id}/virtual_cards/close_active`);
+  await api.put(`/api/companies/${company_id}/virtual_cards/close_active`);
 
   return true;
+};
+
+export const createLimitIncreaseRequest = async (
+  api,
+  company_id,
+  requested_amount,
+  comments = '',
+) => {
+  if (!company_id) return;
+
+  return api.post(`/api/companies/${company_id}/limit_increase_requests`, {
+    limit_increase_request: {
+      requested_amount,
+      comments,
+    },
+  });
 };
 
 export const uploadCompanyDocument = async (api, company_id, file, file_type, file_description) => {

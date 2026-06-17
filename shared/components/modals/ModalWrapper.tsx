@@ -14,8 +14,10 @@ interface ModalWrapperProps {
   children: React.ReactNode;
   isModalActive: boolean;
   toggleModal: () => void;
+  disableDismiss?: boolean;
   modalHeight?: string;
   modalWidth?: string;
+  contentClassName?: string;
   header?: any;
   headerIcon?: any;
 }
@@ -24,15 +26,19 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
   children,
   isModalActive,
   toggleModal,
+  disableDismiss = false,
   modalHeight,
   modalWidth,
+  contentClassName,
   header,
   headerIcon,
 }) => {
+  const handleClose = disableDismiss ? () => undefined : toggleModal;
+
   return (
     <div className="hidden">
       <Transition show={isModalActive} as={Fragment}>
-        <Dialog onClose={toggleModal} className="relative z-50 !font-manrope">
+        <Dialog onClose={handleClose} className="relative z-50 !font-manrope">
           <DialogBackdrop
             transition
             className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
@@ -88,8 +94,9 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     <div className="absolute right-0 top-0 pr-4 sm:pr-5 pt-2 sm:pt-4">
                       <button
                         type="button"
-                        onClick={toggleModal}
-                        className="text-gray-400 hover:text-gray-500"
+                        onClick={handleClose}
+                        disabled={disableDismiss}
+                        className="text-gray-400 hover:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <span className="sr-only">Close</span>
                         <FontAwesomeIcon icon={faXmark} className="text-xs xs:text-base" />
@@ -97,7 +104,8 @@ const ModalWrapper: FC<ModalWrapperProps> = ({
                     </div>
                     <div
                       className={classNames(
-                        'px-4 overflow-y-auto sm:py-3 z-10',
+                        'overflow-y-auto z-10',
+                        contentClassName || 'px-4 sm:py-3',
                         modalHeight ? modalHeight : 'max-h-modal',
                       )}
                     >

@@ -36,6 +36,15 @@ The architecture document covers:
 
 **Note for Contributors**: When submitting PRs, please review and update ARCHITECTURE.md if your changes affect any of the areas listed above.
 
+### Borrower Request Increase Flow
+
+The borrower dashboard supports an env-gated in-app credit line increase flow. When `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`, the `Maximum Credit` stat tile on `apps/borrower/components/home/Stats.tsx` opens the first-step modal, which shows the current credit limit, collects the additional amount requested plus optional comments, keeps `Continue` disabled until the amount is a valid positive number, and then posts the request to `ck-web`. When the flag is disabled or unset (default for staging/production), the tile continues to use the legacy external `Request Increase` link.
+
+**Environment Configuration:**
+- Development local/test (`.env.development`, `.env.docker`, `jest.setup.ts`): `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`
+- Development deploys: `.github/workflows/deploy.yml` pipes the Secrets Manager payload through `deploy/bin/write-build-env.sh`, which removes any existing value for this flag and appends `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true` before the Next build bakes `.env.production`
+- Staging/Production deploys: `deploy/bin/write-build-env.sh` removes this key from the build-time env file so the deployed bundle falls back to the legacy external link by default
+
 ### URLs
 
 CK Frontends uses custom middleware to dynamically route users to the appropriate UI based on subdomains for the following URLs. Users without proper permissions are redirected to an unauthorized access page.

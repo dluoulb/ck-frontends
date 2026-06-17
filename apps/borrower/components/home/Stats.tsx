@@ -7,27 +7,48 @@ import Notification from '@components/Notification';
 import Tooltip from '@components/Tooltip';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import useModal from '@hooks/useModal';
+import { isEnabled } from '@lib/utils/envvar';
 import { formatCurrency } from '@lib/utils/formatters';
+import RequestIncreaseModal from './RequestIncreaseModal';
 
 export default function Stats() {
   const { entity } = useEntity();
   const { stats, statsError, isLoading } = useBorrowerDeps();
+  const { isModalActive, setIsModalActive } = useModal();
 
   const remainingCredit =
     entity?.credit_line !== undefined
       ? entity.credit_line.remaining_amount
       : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
   const approvedUser = entity?.status === 'approved';
+  const requestIncreaseCompanyId =
+    approvedUser && entity?.type === 'company' ? (entity.id ?? undefined) : undefined;
+  const canRequestIncrease = Boolean(requestIncreaseCompanyId);
+  const requestIncreaseModalEnabled = isEnabled(
+    process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
+  );
+  const showRequestIncreaseModalEntry = requestIncreaseModalEnabled && canRequestIncrease;
+  const currentCreditLimit = entity?.credit_line?.amount ?? entity?.max_purchase_amount ?? 0;
+  const openRequestIncreaseModal = () => {
+    if (showRequestIncreaseModalEntry) {
+      setIsModalActive(true);
+    }
+  };
+  const closeRequestIncreaseModal = () => setIsModalActive(false);
 
   const entityData = [
     {
       name: 'Maximum Credit',
       value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
-      link: {
-        url: 'https://www.creditkey.com/credit-key-increase-request',
-        name: 'Request Increase',
-      },
+      action: showRequestIncreaseModalEntry ? { name: 'Request Increase' } : undefined,
+      link: !requestIncreaseModalEnabled
+        ? {
+            url: 'https://www.creditkey.com/credit-key-increase-request',
+            name: 'Request Increase',
+          }
+        : undefined,
     },
     {
       name: 'Credit in Use',
@@ -77,18 +98,28 @@ export default function Stats() {
                 stat.className,
               )}
             >
-              {stat.link ? (
+              {stat.action || stat.link ? (
                 <div className="flex flex-col items-start">
                   <span>{stat.value}</span>
                   <div className="flex items-center text-sm">
-                    <a
-                      href={stat.link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary-blue no-underline hover:underline inline-block"
-                    >
-                      {stat.link.name}
-                    </a>
+                    {stat.action ? (
+                      <button
+                        type="button"
+                        onClick={openRequestIncreaseModal}
+                        className="text-xs text-primary-blue no-underline hover:underline inline-block"
+                      >
+                        {stat.action.name}
+                      </button>
+                    ) : stat.link ? (
+                      <a
+                        href={stat.link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-primary-blue no-underline hover:underline inline-block"
+                      >
+                        {stat.link.name}
+                      </a>
+                    ) : null}
                     <Tooltip
                       tooltip_text="You are able to request a line increase once every 6 months"
                       trigger_class="cursor-pointer max-w-max border-none"
@@ -110,6 +141,14 @@ export default function Stats() {
           </div>
         );
       })}
+      {showRequestIncreaseModalEntry && (
+        <RequestIncreaseModal
+          companyId={requestIncreaseCompanyId}
+          currentCreditLimit={currentCreditLimit}
+          isModalActive={isModalActive}
+          toggleModal={closeRequestIncreaseModal}
+        />
+      )}
     </dl>
   );
 }
