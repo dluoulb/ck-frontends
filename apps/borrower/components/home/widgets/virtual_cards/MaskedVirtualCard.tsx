@@ -30,8 +30,15 @@ export default function MaskedVirtualCard({ virtualCard, onView }) {
               Able to spend:{' '}
               <span className="font-semibold">
                 {formatCurrencyPreventNegative(entity.vc_sub_limits.remaining_limit_amount || 0)}
+                {entity.vc_sub_limits?.limit_amount != null
+                  ? ` of ${formatCurrency(entity.vc_sub_limits.limit_amount)}`
+                  : null}
                 <Tooltip
-                  tooltip_text={`The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.`}
+                  tooltip_text={
+                    entity.vc_sub_limits?.limit_amount != null && entity.max_purchase_amount != null
+                      ? `Your Credit Key Card gives you access to ${formatCurrency(entity.vc_sub_limits.limit_amount)} of your ${formatCurrency(entity.max_purchase_amount)} credit line.`
+                      : `The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.`
+                  }
                   trigger_class="cursor-pointer max-w-max border-none"
                   container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
                 >
