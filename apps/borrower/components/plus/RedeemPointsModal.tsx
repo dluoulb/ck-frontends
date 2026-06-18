@@ -13,6 +13,8 @@ import useToast from '@hooks/useToast';
 import { redeemPoints } from '@lib/actions/plus';
 import { formatCurrency } from '@lib/utils/formatters';
 
+const ACH_MIN_POINTS = 250;
+
 type RedeemPointsModalProps = {
   isModalActive: boolean;
   toggleModal: () => void;
@@ -40,11 +42,26 @@ export default function RedeemPointsModal({
     return pointsToRedeem / 100;
   }, [pointsToRedeem]);
 
-  const isValidPoints = useMemo(() => {
-    return (
-      Number.isInteger(pointsToRedeem) && pointsToRedeem > 0 && pointsToRedeem <= availablePoints
-    );
+  const minimumRedemptionValue = ACH_MIN_POINTS / 100;
+
+  const isBelowAchMinimum = useMemo(() => {
+    return redemptionMethod === 'ach' && pointsToRedeem > 0 && pointsToRedeem < ACH_MIN_POINTS;
+  }, [redemptionMethod, pointsToRedeem]);
+
+  const isOverAvailablePoints = useMemo(() => {
+    return pointsToRedeem > availablePoints;
   }, [pointsToRedeem, availablePoints]);
+
+  const isValidPoints = useMemo(() => {
+    const meetsAchMinimum = redemptionMethod !== 'ach' || pointsToRedeem >= ACH_MIN_POINTS;
+
+    return (
+      Number.isInteger(pointsToRedeem) &&
+      pointsToRedeem > 0 &&
+      pointsToRedeem <= availablePoints &&
+      meetsAchMinimum
+    );
+  }, [pointsToRedeem, availablePoints, redemptionMethod]);
 
   const handlePointsChange = (value: string) => {
     const numValue = parseInt(value, 10) || 0;
@@ -92,14 +109,19 @@ export default function RedeemPointsModal({
             onAccept={handlePointsChange}
             placeholder="Enter points"
             className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 ${
-              pointsToRedeem > availablePoints
+              isOverAvailablePoints || isBelowAchMinimum
                 ? 'border border-error focus:ring-error focus:border-error'
                 : 'border border-primary-gray-border focus:ring-primary-blue focus:border-transparent'
             }`}
           />
-          {pointsToRedeem > availablePoints ? (
+          {isOverAvailablePoints ? (
             <p className="text-xs text-error font-medium">
               You cannot redeem more than {availablePoints.toLocaleString()} points
+            </p>
+          ) : isBelowAchMinimum ? (
+            <p className="text-xs text-error font-medium">
+              Minimum redemption is {ACH_MIN_POINTS.toLocaleString()} points (
+              {formatCurrency(minimumRedemptionValue)}).
             </p>
           ) : (
             <p className="text-xs text-secondary-gray">
