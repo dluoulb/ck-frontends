@@ -142,5 +142,54 @@ describe('RewardsActivityTable', () => {
     );
 
     expect(screen.getByText('Canceled')).toBeInTheDocument();
+    const pointsSpan = screen.getByText('+25 pts');
+    expect(pointsSpan).toBeInTheDocument();
+    expect(pointsSpan).toHaveClass('line-through');
+  });
+
+  test('shows positive strikethrough points for canceled IN_NETWORK transaction', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[
+          makeTransaction({
+            type: RewardType.IN_NETWORK,
+            status: 'canceled',
+            points: 300,
+            source: 'Order #5678',
+            amount: 100,
+          }),
+        ]}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Canceled')).toBeInTheDocument();
+    const pointsSpan = screen.getByText('+300 pts');
+    expect(pointsSpan).toBeInTheDocument();
+    expect(pointsSpan).toHaveClass('line-through');
+  });
+
+  test('shows positive strikethrough points for canceled OUT_OF_NETWORK transaction', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[
+          makeTransaction({
+            type: RewardType.OUT_OF_NETWORK,
+            status: 'canceled',
+            points: 150,
+            source: 'Order #9012',
+            amount: 150,
+          }),
+        ]}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Canceled')).toBeInTheDocument();
+    const pointsSpan = screen.getByText('+150 pts');
+    expect(pointsSpan).toBeInTheDocument();
+    expect(pointsSpan).toHaveClass('line-through');
   });
 });

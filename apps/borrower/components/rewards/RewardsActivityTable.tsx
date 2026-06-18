@@ -69,6 +69,7 @@ const getPointsColor = (status?: RewardPointStatus | string) => {
 
   if (normalizedStatus === RewardPointStatus.PENDING) return 'text-gray-400';
   if (normalizedStatus === RewardPointStatus.POSTED) return 'text-green-600';
+  if (normalizedStatus === RewardPointStatus.CANCELED) return 'text-gray-500';
   return '';
 };
 
@@ -151,6 +152,8 @@ export default function RewardsActivityTable({
         accessorKey: 'points',
         cell: ({ row }) => {
           const { status, type, points } = row.original;
+          const normalizedStatus = normalizeStatus(status);
+          const isCanceled = normalizedStatus === RewardPointStatus.CANCELED;
 
           const isNegative = type === RewardType.SPENT || type === RewardType.EXPIRED;
           const isRedeemed = type === RewardType.SPENT;
@@ -168,7 +171,9 @@ export default function RewardsActivityTable({
           const redeemedAmount = isRedeemed ? formatCurrency(Math.abs(displayPoints) / 100) : null;
 
           return (
-            <span className={`block text-sm font-semibold ${color}`}>
+            <span
+              className={`block text-sm font-semibold ${color}${isCanceled ? ' line-through' : ''}`}
+            >
               {sign}
               {displayPoints} pts
               {redeemedAmount && (
