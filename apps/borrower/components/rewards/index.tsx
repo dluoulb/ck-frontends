@@ -52,6 +52,7 @@ export default function Rewards() {
         <RewardsActivityTable
           activeSubscription={activeSubscription}
           transactions={rewardPointsLedger || []}
+          hasRewardPoints={hasRewardPoints}
           loading={
             activeSubscriptionLoading ||
             (shouldFetchRewardPointsLedger && rewardPointsLedgerLoading)

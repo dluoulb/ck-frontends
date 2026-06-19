@@ -2,6 +2,7 @@ import React from 'react';
 
 import RewardsActivityTable from '@apps/borrower/components/rewards/RewardsActivityTable';
 import { RewardTransactionRecord, RewardType } from '@lib/records/reward';
+import SubscriptionRecord, { SubscriptionStatus } from '@lib/records/subscription';
 import { customRender, screen, within } from '@lib/testing/test-utils';
 
 const makeTransaction = (overrides = {}) =>
@@ -14,6 +15,11 @@ const makeTransaction = (overrides = {}) =>
     created_at: '2026-05-01T00:00:00.000Z',
     ...overrides,
   });
+
+const activeSubscription = new SubscriptionRecord({
+  id: 'sub_1',
+  status: SubscriptionStatus.ACTIVE,
+});
 
 describe('RewardsActivityTable', () => {
   test('shows rewards activity and plus CTA for non-subscribed users with rewards', () => {
@@ -76,13 +82,120 @@ describe('RewardsActivityTable', () => {
     ).toBeInTheDocument();
   });
 
-  test('shows empty state messaging for non-subscribed users without rewards', () => {
+  test('shows no-points upsell empty state for non-subscribed users without rewards', () => {
     customRender(
       <RewardsActivityTable activeSubscription={null} transactions={[]} loading={false} />,
     );
 
-    expect(screen.queryByText('Join Credit Key Plus')).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Activities you perform that earn rewards will be listed here\./),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Join Credit Key Plus' })).toHaveAttribute(
+      'href',
+      '/plus',
+    );
+    expect(
+      screen.getByText(/to earn rewards on every purchase with Credit Key\./),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('No rewards activity found')).not.toBeInTheDocument();
+  });
+
+  test('shows has-points upsell empty state for non-subscribed users without current activity', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[]}
+        hasRewardPoints={true}
+        loading={false}
+      />,
+    );
+
+    expect(
+      screen.queryByText(/Activities you perform that earn rewards will be listed here\./),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Join Credit Key Plus' })).toHaveAttribute(
+      'href',
+      '/plus',
+    );
+    expect(
+      screen.getByText(/to earn rewards on every purchase with Credit Key\./),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('No rewards activity found')).not.toBeInTheDocument();
+  });
+
+  test('shows short upsell for previously subscribed users with affiliate points and history', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={null}
+        transactions={[makeTransaction({ source: 'Order #4242' })]}
+        hasRewardPoints={true}
+        loading={false}
+      />,
+    );
+
+    expect(
+      screen.queryByText(/Activities you perform that earn rewards will be listed here\./),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Join Credit Key Plus' })).toHaveAttribute(
+      'href',
+      '/plus',
+    );
+    expect(screen.getByText('Order #4242')).toBeInTheDocument();
+  });
+
+  test('does not show the plus upsell for subscribed users with activity', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={activeSubscription}
+        transactions={[makeTransaction({ source: 'Order #7777' })]}
+        hasRewardPoints={true}
+        loading={false}
+      />,
+    );
+
+    expect(screen.queryByRole('link', { name: 'Join Credit Key Plus' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Activities you perform that earn rewards will be listed here\./),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Order #7777')).toBeInTheDocument();
+  });
+
+  test('shows the generic empty state for subscribed users without activity', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={activeSubscription}
+        transactions={[]}
+        loading={false}
+      />,
+    );
+
     expect(screen.getByText('No rewards activity found')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Join Credit Key Plus' })).not.toBeInTheDocument();
+  });
+
+  test('shows the load error message instead of the empty upsell', () => {
+    customRender(
+      <RewardsActivityTable
+        activeSubscription={activeSubscription}
+        transactions={[]}
+        error={new Error('boom')}
+        loading={false}
+      />,
+    );
+
+    expect(screen.getByText('Unable to load rewards activity')).toBeInTheDocument();
+    expect(screen.queryByText('No rewards activity found')).not.toBeInTheDocument();
+  });
+
+  test('does not flash the plus upsell while loading', () => {
+    customRender(
+      <RewardsActivityTable activeSubscription={null} transactions={[]} loading={true} />,
+    );
+
+    expect(screen.queryByRole('link', { name: 'Join Credit Key Plus' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Activities you perform that earn rewards will be listed here\./),
+    ).not.toBeInTheDocument();
   });
 
   test('shows Redeemed for spent rewards transactions', () => {

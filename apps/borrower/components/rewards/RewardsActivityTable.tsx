@@ -16,6 +16,7 @@ import { formatCurrency } from '@lib/utils/formatters';
 type RewardsActivityTableProps = {
   activeSubscription?: SubscriptionRecord | null;
   transactions: RewardTransactionRecord[];
+  hasRewardPoints?: boolean;
   loading?: boolean;
   error?: any;
 };
@@ -82,6 +83,7 @@ const getRewardPercentage = (type: RewardType) => {
 export default function RewardsActivityTable({
   activeSubscription,
   transactions,
+  hasRewardPoints = false,
   loading,
   error,
 }: RewardsActivityTableProps) {
@@ -205,7 +207,14 @@ export default function RewardsActivityTable({
     onSortingChange: setSorting,
   });
 
-  const showPlusCTA = !loading && !activeSubscription && hasTransactions;
+  const showPlusCTA = !loading && !activeSubscription;
+  const showActivityExplanation = !hasRewardPoints;
+  const isEmptyUpsellState = showPlusCTA && !hasTransactions;
+  const noDataFoundWarning = error
+    ? 'Unable to load rewards activity'
+    : isEmptyUpsellState
+      ? ''
+      : 'No rewards activity found';
 
   return (
     <div className="border border-primary-gray-border rounded-md bg-white">
@@ -215,8 +224,12 @@ export default function RewardsActivityTable({
 
       {showPlusCTA && (
         <div className="p-6 text-sm text-gray-600 text-center">
-          Activities you perform that earn rewards will be listed here.
-          <br />
+          {showActivityExplanation && (
+            <>
+              Activities you perform that earn rewards will be listed here.
+              <br />
+            </>
+          )}
           <a href="/plus" className="no-underline text-primary-blue cursor-pointer">
             Join Credit Key Plus
           </a>{' '}
@@ -230,7 +243,7 @@ export default function RewardsActivityTable({
         rowClass="!text-sm"
         headerClass="!bg-[#F4F8FF]"
         isFetching={loading}
-        noDataFoundWarning={error ? 'Unable to load rewards activity' : 'No rewards activity found'}
+        noDataFoundWarning={noDataFoundWarning}
         usePagination={true}
       />
     </div>
