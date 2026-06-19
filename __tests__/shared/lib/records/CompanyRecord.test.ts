@@ -195,3 +195,38 @@ describe('CompanyRecord#plus_enabled', () => {
     });
   });
 });
+
+describe('CompanyRecord#underwriting', () => {
+  let CompanyRecord: typeof CompanyRecordType;
+
+  beforeAll(() => {
+    CompanyRecord = loadCompanyRecord(false);
+  });
+
+  it('keeps the plaid item id without retaining the plaid access token', () => {
+    const company = new CompanyRecord({
+      ...companyApproved,
+      underwriting: {
+        plaid_item_id: 'item_123',
+        plaid_access_token: 'access-sandbox-secret',
+      },
+    });
+
+    expect(company.underwriting).toEqual({
+      plaid_item_id: 'item_123',
+    });
+  });
+
+  it('preserves unrelated undefined fields while removing the plaid access token', () => {
+    const company = new CompanyRecord({
+      ...companyApproved,
+      underwriting: {
+        plaid_access_token: 'access-sandbox-secret',
+      },
+      non_secret_flag: undefined,
+    });
+
+    expect(Object.prototype.hasOwnProperty.call(company, 'non_secret_flag')).toBe(true);
+    expect(company.underwriting).toEqual({});
+  });
+});

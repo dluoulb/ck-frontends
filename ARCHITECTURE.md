@@ -449,7 +449,7 @@ The frontend integrates with multiple backend services:
 
 The borrower dashboard `Stats` feature component (`apps/borrower/components/home/Stats.tsx`) owns the entry point for credit line increase requests. When `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`, it reads the current credit limit from the existing company entity (`credit_line.amount` / `max_purchase_amount`) and opens an in-app first-step modal that collects the additional amount requested plus optional comments while keeping `Continue` disabled until the amount is a valid positive number. When the flag is disabled, the tile falls back to the legacy external `Request Increase` link.
 
-When the borrower submits the form, the modal calls `createLimitIncreaseRequest` in `shared/lib/actions/companies.ts`, which targets `ck-web` at `POST /api/companies/:company_id/limit_increase_requests` with a `limit_increase_request` payload containing `requested_amount` and optional `comments`. Success feedback stays in the modal, and failures render a retryable local error state instead of navigating away from the portal.
+Continuing from that first step does not submit a backend request yet. Instead, the modal branches into bank-verification selection: approved companies whose entity data reports `is_bank_connected=true` see a connected-bank interim step with a `Change connected bank` action, while approved companies without an active bank connection go directly to the verification-method selection screen. Later stories plug Plaid Link, manual statement upload, and final request submission into those follow-on steps.
 
 Deployment enforces the same tier split at build time. `.github/workflows/deploy.yml` fetches the tier secret, then `deploy/bin/write-build-env.sh` strips `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED` from the secret-derived env payload for every tier and appends `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true` only for `development` before Docker bakes `.env.production` into the Next.js bundle. That keeps deployed development aligned with local/test defaults while leaving staging and production on the legacy link path by default.
 
@@ -822,4 +822,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-06-17
+**Last Updated**: 2026-06-19

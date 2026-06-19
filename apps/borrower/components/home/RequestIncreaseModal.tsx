@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ModalWrapper from '@components/modals/ModalWrapper';
-import useApi from '@hooks/useApi';
-import { createLimitIncreaseRequest } from '@lib/actions/companies';
 import { formatCurrency } from '@lib/utils/formatters';
 
 interface RequestIncreaseModalProps {
   companyId?: string;
   currentCreditLimit: number;
+  hasConnectedPlaidAccount: boolean;
   isModalActive: boolean;
   toggleModal: () => void;
 }
+
+type RequestIncreaseStep = 'request-details' | 'connected-bank' | 'verification-method';
+type VerificationMethod = 'plaid' | 'manual' | null;
 
 const isValidRequestedAmount = (value: string) => {
   const requestedAmount = Number(value.trim());
@@ -21,74 +23,56 @@ const isValidRequestedAmount = (value: string) => {
 export default function RequestIncreaseModal({
   companyId,
   currentCreditLimit,
+  hasConnectedPlaidAccount,
   isModalActive,
   toggleModal,
 }: RequestIncreaseModalProps) {
-  const api = useApi();
   const [requestedAmount, setRequestedAmount] = useState('');
   const [comments, setComments] = useState('');
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const submitAttemptRef = useRef(0);
+  const [step, setStep] = useState<RequestIncreaseStep>('request-details');
+  const [verificationMethod, setVerificationMethod] = useState<VerificationMethod>(null);
+  const [focusedVerificationMethod, setFocusedVerificationMethod] =
+    useState<VerificationMethod>(null);
 
   useEffect(() => {
     if (!isModalActive) {
-      submitAttemptRef.current += 1;
       setRequestedAmount('');
       setComments('');
-      setStatus('idle');
+      setStep('request-details');
+      setVerificationMethod(null);
+      setFocusedVerificationMethod(null);
     }
   }, [isModalActive]);
 
   if (!isModalActive) return null;
 
-  const canContinue =
-    Boolean(companyId) && isValidRequestedAmount(requestedAmount) && status !== 'submitting';
-  const handleContinue = async (event: React.FormEvent<HTMLFormElement>) => {
+  const canContinue = Boolean(companyId) && isValidRequestedAmount(requestedAmount);
+  const getVerificationOptionClassName = (method: Exclude<VerificationMethod, null>) => {
+    const isSelected = verificationMethod === method;
+    const isFocused = focusedVerificationMethod === method;
+
+    return [
+      'block w-full rounded-md border px-4 py-3 text-left text-sm font-semibold text-primary transition',
+      isSelected ? 'border-primary-blue bg-primary-blue/5' : 'border-primary-gray-border',
+      isFocused ? 'ring-2 ring-primary-blue ring-offset-2' : '',
+    ].join(' ');
+  };
+  const handleContinue = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!canContinue || !companyId) return;
 
-    const submitAttempt = submitAttemptRef.current + 1;
-    submitAttemptRef.current = submitAttempt;
-
-    try {
-      setStatus('submitting');
-      await createLimitIncreaseRequest(api, companyId, Number(requestedAmount.trim()), comments);
-      if (submitAttemptRef.current !== submitAttempt) return;
-      setStatus('success');
-    } catch (_error) {
-      if (submitAttemptRef.current !== submitAttempt) return;
-      setStatus('error');
-    }
+    setStep(hasConnectedPlaidAccount ? 'connected-bank' : 'verification-method');
   };
 
   return (
     <ModalWrapper
       isModalActive={isModalActive}
       toggleModal={toggleModal}
-      disableDismiss={status === 'submitting'}
       modalWidth="w-full sm:max-w-[448px]"
       contentClassName="px-0 py-1"
     >
-      {status === 'success' ? (
-        <div className="py-4 space-y-4">
-          <div>
-            <p className="text-lg font-semibold text-primary-blue-hover">Request submitted</p>
-            <p className="mt-2 text-sm text-secondary-gray">
-              We will review your request and follow up soon.
-            </p>
-          </div>
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={toggleModal}
-              className="rounded-md bg-primary-blue px-4 py-2 text-sm font-semibold text-white"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ) : (
+      {step === 'request-details' && (
         <form className="space-y-2" onSubmit={handleContinue}>
           <h2 className="text-xl font-bold leading-7 text-primary">Request Credit Line Increase</h2>
           <p className="text-sm text-primary">
@@ -114,7 +98,6 @@ export default function RequestIncreaseModal({
               value={requestedAmount}
               onChange={(event) => {
                 setRequestedAmount(event.target.value);
-                if (status === 'error') setStatus('idle');
               }}
               className="h-9 w-full rounded border border-primary-gray-border px-3 text-sm text-primary placeholder:text-tertiary-gray"
             />
@@ -130,18 +113,11 @@ export default function RequestIncreaseModal({
               value={comments}
               onChange={(event) => {
                 setComments(event.target.value);
-                if (status === 'error') setStatus('idle');
               }}
               rows={3}
               className="h-14 w-full rounded border border-primary-gray-border px-3 py-2 text-sm text-primary"
             />
           </div>
-
-          {status === 'error' && (
-            <p role="alert" className="text-sm text-error">
-              We couldn&apos;t submit your request. Please try again.
-            </p>
-          )}
 
           <div>
             <button
@@ -149,10 +125,81 @@ export default function RequestIncreaseModal({
               disabled={!canContinue}
               className="h-9 w-full rounded-md bg-primary-blue px-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {status === 'submitting' ? 'Submitting...' : 'Continue'}
+              Continue
             </button>
           </div>
         </form>
+      )}
+
+      {step === 'connected-bank' && (
+        <div className="space-y-4 py-2">
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold leading-7 text-primary">Review Increase Request</h2>
+            <p className="text-sm text-primary">
+              You already have a bank account connected. You can keep using it for this request or
+              switch to a different verification method.
+            </p>
+          </div>
+          <div className="rounded-md border border-primary-gray-border p-3">
+            <p className="text-sm font-semibold text-primary">Increase request preview</p>
+            <p className="mt-1 text-sm text-secondary-gray">
+              Requested amount: {formatCurrency(Number(requestedAmount.trim() || '0'))}
+            </p>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setStep('verification-method')}
+              className="text-sm font-semibold text-primary-blue hover:underline"
+            >
+              Change connected bank
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 'verification-method' && (
+        <div className="space-y-4 py-2">
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold leading-7 text-primary">Verify your bank account</h2>
+            <p className="text-sm text-primary">
+              Choose how you want to verify your bank account before continuing your credit line
+              increase request.
+            </p>
+          </div>
+          <div role="radiogroup" aria-label="Verification method" className="space-y-3">
+            <label className="block cursor-pointer">
+              <input
+                type="radio"
+                name="verification-method"
+                value="plaid"
+                checked={verificationMethod === 'plaid'}
+                onChange={() => setVerificationMethod('plaid')}
+                onFocus={() => setFocusedVerificationMethod('plaid')}
+                onBlur={() => setFocusedVerificationMethod(null)}
+                className="sr-only"
+              />
+              <span className={getVerificationOptionClassName('plaid')}>
+                Connect bank account with Plaid
+              </span>
+            </label>
+            <label className="block cursor-pointer">
+              <input
+                type="radio"
+                name="verification-method"
+                value="manual"
+                checked={verificationMethod === 'manual'}
+                onChange={() => setVerificationMethod('manual')}
+                onFocus={() => setFocusedVerificationMethod('manual')}
+                onBlur={() => setFocusedVerificationMethod(null)}
+                className="sr-only"
+              />
+              <span className={getVerificationOptionClassName('manual')}>
+                Upload bank statements manually
+              </span>
+            </label>
+          </div>
+        </div>
       )}
     </ModalWrapper>
   );

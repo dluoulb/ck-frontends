@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
 import RequestIncreaseModal from '@apps/borrower/components/home/RequestIncreaseModal';
-import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test-utils';
-
-const mockCreateLimitIncreaseRequest = jest.fn();
+import { act, customRender, fireEvent, screen } from '@lib/testing/test-utils';
 
 jest.mock('@components/modals/ModalWrapper', () => ({
   __esModule: true,
@@ -19,26 +17,13 @@ jest.mock('@components/modals/ModalWrapper', () => ({
     ) : null,
 }));
 
-jest.mock('@hooks/useApi', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({})),
-}));
-
-jest.mock('@lib/actions/companies', () => ({
-  ...jest.requireActual('@lib/actions/companies'),
-  createLimitIncreaseRequest: (...args) => mockCreateLimitIncreaseRequest(...args),
-}));
-
 describe('RequestIncreaseModal', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   test('renders first-step UI with current credit limit and dollar-prefixed amount input', () => {
     customRender(
       <RequestIncreaseModal
         companyId="123"
         currentCreditLimit={22500}
+        hasConnectedPlaidAccount={false}
         isModalActive
         toggleModal={jest.fn()}
       />,
@@ -59,31 +44,109 @@ describe('RequestIncreaseModal', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
   });
 
-  test('keeps Continue disabled when the request cannot be submitted without a company id', () => {
+  test('keeps Continue disabled when the request cannot proceed without a company id', () => {
     customRender(
-      <RequestIncreaseModal currentCreditLimit={20000} isModalActive toggleModal={jest.fn()} />,
+      <RequestIncreaseModal
+        currentCreditLimit={20000}
+        hasConnectedPlaidAccount={false}
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
     );
 
     fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
       target: { value: '25000' },
     });
 
-    const continueButton = screen.getByRole('button', { name: 'Continue' });
-
-    expect(continueButton).toBeDisabled();
-
-    fireEvent.click(continueButton);
-
-    expect(mockCreateLimitIncreaseRequest).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
   });
 
-  test('ignores stale submit success after the modal closes during submit', async () => {
-    let resolveRequest: (() => void) | undefined;
-    const requestPromise = new Promise<void>((resolve) => {
-      resolveRequest = resolve;
-    });
-    mockCreateLimitIncreaseRequest.mockReturnValue(requestPromise);
+  test('continues to the verification-method selection step when no Plaid account is connected', () => {
+    customRender(
+      <RequestIncreaseModal
+        companyId="123"
+        currentCreditLimit={20000}
+        hasConnectedPlaidAccount={false}
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
+    );
 
+    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
+      target: { value: '25000' },
+    });
+    fireEvent.change(screen.getByLabelText(/comments/i), {
+      target: { value: 'Need additional purchasing flexibility' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+    expect(screen.getByRole('radiogroup', { name: 'Verification method' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('radio', { name: 'Connect bank account with Plaid' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('radio', { name: 'Upload bank statements manually' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByLabelText('What is the additional amount you are requesting?'),
+    ).not.toBeInTheDocument();
+
+    const plaidRadio = screen.getByRole('radio', { name: 'Connect bank account with Plaid' });
+    const manualRadio = screen.getByRole('radio', { name: 'Upload bank statements manually' });
+    const plaidCard = screen.getByText('Connect bank account with Plaid');
+    const manualCard = screen.getByText('Upload bank statements manually');
+
+    expect(plaidCard).not.toHaveClass('border-primary-blue');
+    expect(plaidCard).not.toHaveClass('bg-primary-blue/5');
+    expect(plaidCard).not.toHaveClass('ring-2');
+    expect(manualCard).not.toHaveClass('border-primary-blue');
+    expect(manualCard).not.toHaveClass('bg-primary-blue/5');
+    expect(manualCard).not.toHaveClass('ring-2');
+
+    act(() => {
+      plaidRadio.focus();
+    });
+    expect(plaidRadio).toHaveFocus();
+    expect(plaidCard).toHaveClass('ring-2', 'ring-primary-blue', 'ring-offset-2');
+    expect(manualCard).not.toHaveClass('ring-2');
+
+    fireEvent.click(plaidRadio);
+    expect(plaidRadio).toBeChecked();
+    expect(plaidCard).toHaveClass('border-primary-blue', 'bg-primary-blue/5');
+    expect(manualCard).not.toHaveClass('border-primary-blue');
+    expect(manualCard).not.toHaveClass('bg-primary-blue/5');
+    expect(manualRadio).not.toBeChecked();
+  });
+
+  test('shows the connected-bank interim step first when a Plaid account is already connected and can switch to method selection', () => {
+    customRender(
+      <RequestIncreaseModal
+        companyId="123"
+        currentCreditLimit={20000}
+        hasConnectedPlaidAccount
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
+      target: { value: '25000' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
+    expect(screen.getByText(/you already have a bank account connected/i)).toBeInTheDocument();
+    expect(screen.getByText('Increase request preview')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Change connected bank' }));
+
+    expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+  });
+
+  test('resets back to the first step when the modal is closed and reopened', () => {
     function RequestIncreaseModalHarness() {
       const [isModalActive, setIsModalActive] = useState(true);
 
@@ -92,12 +155,10 @@ describe('RequestIncreaseModal', () => {
           <button type="button" onClick={() => setIsModalActive(true)}>
             Open modal
           </button>
-          <button type="button" onClick={() => setIsModalActive(false)}>
-            Force close modal
-          </button>
           <RequestIncreaseModal
             companyId="123"
             currentCreditLimit={20000}
+            hasConnectedPlaidAccount={false}
             isModalActive={isModalActive}
             toggleModal={() => setIsModalActive(false)}
           />
@@ -113,78 +174,20 @@ describe('RequestIncreaseModal', () => {
     fireEvent.change(screen.getByLabelText(/comments/i), {
       target: { value: 'Need additional purchasing flexibility' },
     });
-
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
-    await waitFor(() => {
-      expect(mockCreateLimitIncreaseRequest).toHaveBeenCalledWith(
-        expect.anything(),
-        '123',
-        25000,
-        'Need additional purchasing flexibility',
-      );
-    });
+    expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Force close modal' }));
-
-    expect(screen.queryByText('Request Credit Line Increase')).not.toBeInTheDocument();
-
-    await act(async () => {
-      resolveRequest?.();
-      await requestPromise;
-    });
-
+    fireEvent.click(screen.getByRole('button', { name: 'Close modal' }));
     fireEvent.click(screen.getByRole('button', { name: 'Open modal' }));
 
-    expect(screen.queryByText(/request submitted/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Request Credit Line Increase' }),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText('What is the additional amount you are requesting?')).toHaveValue(
       '',
     );
     expect(screen.getByLabelText(/comments/i)).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
-  });
-
-  test('prevents dismissing the modal while a submit is in flight', async () => {
-    let resolveRequest: (() => void) | undefined;
-    const requestPromise = new Promise<void>((resolve) => {
-      resolveRequest = resolve;
-    });
-    mockCreateLimitIncreaseRequest.mockReturnValue(requestPromise);
-
-    customRender(
-      <RequestIncreaseModal
-        companyId="123"
-        currentCreditLimit={20000}
-        isModalActive
-        toggleModal={jest.fn()}
-      />,
-    );
-
-    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
-      target: { value: '25000' },
-    });
-    fireEvent.change(screen.getByLabelText(/comments/i), {
-      target: { value: 'Need additional purchasing flexibility' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-
-    await waitFor(() => {
-      expect(mockCreateLimitIncreaseRequest).toHaveBeenCalledWith(
-        expect.anything(),
-        '123',
-        25000,
-        'Need additional purchasing flexibility',
-      );
-    });
-
-    expect(screen.getByRole('button', { name: 'Close modal' })).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Submitting...' })).toBeDisabled();
-    expect(mockCreateLimitIncreaseRequest).toHaveBeenCalledTimes(1);
-
-    await act(async () => {
-      resolveRequest?.();
-      await requestPromise;
-    });
   });
 });

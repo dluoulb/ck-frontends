@@ -25,6 +25,7 @@ export default function Stats() {
   const requestIncreaseCompanyId =
     approvedUser && entity?.type === 'company' ? (entity.id ?? undefined) : undefined;
   const canRequestIncrease = Boolean(requestIncreaseCompanyId);
+  const hasConnectedPlaidAccount = Boolean(entity?.type === 'company' && entity.is_bank_connected);
   const requestIncreaseModalEnabled = isEnabled(
     process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
   );
@@ -145,6 +146,7 @@ export default function Stats() {
         <RequestIncreaseModal
           companyId={requestIncreaseCompanyId}
           currentCreditLimit={currentCreditLimit}
+          hasConnectedPlaidAccount={hasConnectedPlaidAccount}
           isModalActive={isModalActive}
           toggleModal={closeRequestIncreaseModal}
         />

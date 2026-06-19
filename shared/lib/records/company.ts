@@ -11,6 +11,9 @@ import MerchantRecord from './merchant';
 import UserRecord from './user';
 
 export default class CompanyRecord {
+  underwriting?: {
+    plaid_item_id?: string | null;
+  };
   id: string | null;
   type: 'company';
   name: string;
@@ -24,8 +27,8 @@ export default class CompanyRecord {
   min_rate?: string | number;
   max_rate?: string | number;
   credit_line: CreditLine;
-  is_bank_connected: string;
-  is_bank_connection_pending: string;
+  is_bank_connected: boolean;
+  is_bank_connection_pending: boolean;
   cta_banners: any[];
   vc_sub_limits: Record<string, any>;
   latest_approval_date: string;
@@ -40,25 +43,48 @@ export default class CompanyRecord {
 
   constructor(data) {
     const cleanedData = removeNulls(data);
+    const assignableData = cleanedData.underwriting
+      ? {
+          ...cleanedData,
+          underwriting: Object.fromEntries(
+            Object.entries(cleanedData.underwriting).filter(
+              ([key]) => key !== 'plaid_access_token',
+            ),
+          ),
+        }
+      : cleanedData;
+    const normalizedData = {
+      ...assignableData,
+      ...(assignableData.is_bank_connected !== undefined && {
+        is_bank_connected:
+          assignableData.is_bank_connected === true || assignableData.is_bank_connected === 'true',
+      }),
+      ...(assignableData.is_bank_connection_pending !== undefined && {
+        is_bank_connection_pending:
+          assignableData.is_bank_connection_pending === true ||
+          assignableData.is_bank_connection_pending === 'true',
+      }),
+    };
+
     Object.assign(
       this,
-      Object.fromEntries(Object.entries(cleanedData).filter(([key]) => key !== 'status')),
+      Object.fromEntries(Object.entries(normalizedData).filter(([key]) => key !== 'status')),
     );
 
     if (cleanedData.address) {
       this.address = new AddressRecord(cleanedData.address);
     }
 
-    if (cleanedData.credit_line) {
-      this.credit_line = new CreditLine(cleanedData.credit_line);
+    if (normalizedData.credit_line) {
+      this.credit_line = new CreditLine(normalizedData.credit_line);
     }
 
-    if (cleanedData.borrower) {
-      this.borrower = new UserRecord(cleanedData.borrower);
+    if (normalizedData.borrower) {
+      this.borrower = new UserRecord(normalizedData.borrower);
     }
 
-    if (cleanedData && cleanedData.merchant_applied_with) {
-      this.merchant_applied_with = new MerchantRecord(cleanedData.merchant_applied_with);
+    if (normalizedData && normalizedData.merchant_applied_with) {
+      this.merchant_applied_with = new MerchantRecord(normalizedData.merchant_applied_with);
     }
   }
 

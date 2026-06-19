@@ -38,7 +38,7 @@ The architecture document covers:
 
 ### Borrower Request Increase Flow
 
-The borrower dashboard supports an env-gated in-app credit line increase flow. When `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`, the `Maximum Credit` stat tile on `apps/borrower/components/home/Stats.tsx` opens the first-step modal, which shows the current credit limit, collects the additional amount requested plus optional comments, keeps `Continue` disabled until the amount is a valid positive number, and then posts the request to `ck-web`. When the flag is disabled or unset (default for staging/production), the tile continues to use the legacy external `Request Increase` link.
+The borrower dashboard supports an env-gated in-app credit line increase flow. When `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`, the `Maximum Credit` stat tile on `apps/borrower/components/home/Stats.tsx` opens the first-step modal, which shows the current credit limit, collects the additional amount requested plus optional comments, and keeps `Continue` disabled until the amount is a valid positive number. Continue now advances into bank-verification selection instead of submitting: approved companies with an existing Plaid connection see an interim connected-bank step first, and other approved companies go directly to the verification-method selection screen. When the flag is disabled or unset (default for staging/production), the tile continues to use the legacy external `Request Increase` link.
 
 **Environment Configuration:**
 - Development local/test (`.env.development`, `.env.docker`, `jest.setup.ts`): `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true`
