@@ -50,7 +50,6 @@ export const formStyles = {
 
 export const supportLink = 'https://creditkey.zendesk.com/hc/en-us';
 export const ckaLink = 'https://www.creditkey.com/anywhere';
-export const cashbackMerchantDistributorId = '35227470';
 export const virtualCardLink =
   'https://creditkey.zendesk.com/hc/en-us/articles/360060554031-How-can-I-use-the-Credit-Key-Virtual-Card-';
 export const restrictedVcPurchasesLink =

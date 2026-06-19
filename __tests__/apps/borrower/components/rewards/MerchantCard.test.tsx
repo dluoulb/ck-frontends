@@ -29,7 +29,6 @@ describe('MerchantCard', () => {
           plusBonusLabel: '3% Plus Bonus',
           slug: 'acme-supplies',
         }}
-        entityId="company_123"
       />,
     );
 
@@ -39,10 +38,7 @@ describe('MerchantCard', () => {
     expect(screen.getByText('A test merchant description')).toBeInTheDocument();
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://marketplace.test.com/merchants/acme-supplies?d=35227470&tc=company_123',
-    );
+    expect(link).toHaveAttribute('href', 'https://marketplace.test.com/merchants/acme-supplies');
   });
 
   test('renders initials fallback when merchant logo is unavailable', () => {
@@ -76,18 +72,14 @@ describe('MerchantCard', () => {
           slug: 'unsafe-merchant',
           marketplaceUrl: 'javascript:alert(1)',
         }}
-        entityId="company_123"
       />,
     );
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://marketplace.test.com/merchants/unsafe-merchant?d=35227470&tc=company_123',
-    );
+    expect(link).toHaveAttribute('href', 'https://marketplace.test.com/merchants/unsafe-merchant');
   });
 
-  test('preserves existing query params when adding cashback tracking params', () => {
+  test('uses marketplaceUrl directly when provided', () => {
     customRender(
       <MerchantCard
         merchant={{
@@ -97,15 +89,11 @@ describe('MerchantCard', () => {
           cashbackLabel: '2% cash back',
           marketplaceUrl: 'https://merchant.test.com?c=164321',
         }}
-        entityId="company_123"
       />,
     );
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://merchant.test.com/?c=164321&d=35227470&tc=company_123',
-    );
+    expect(link).toHaveAttribute('href', 'https://merchant.test.com?c=164321');
   });
 
   test('renders the provided plus bonus label for integrated merchants', () => {

@@ -74,7 +74,7 @@ const normalizeMerchant = (merchant: any): TopCashbackMerchant | null => {
     cashbackLabel,
     plusBonusLabel,
     slug: data.slug,
-    marketplaceUrl: data.marketplace_url || data.marketplaceUrl || data.url,
+    marketplaceUrl: data.marketplace_url || data.marketplaceUrl,
   };
 };
 

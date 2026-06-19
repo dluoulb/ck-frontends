@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 import { marketplace } from '@lib/actions/marketplace';
 import { TopCashbackMerchant } from '@lib/actions/merchants';
-import { cashbackMerchantDistributorId } from '@lib/constants/SiteVariables';
 import logoOnly from '@lib/images/logo_only.svg';
 
 const isSafeUrl = (url: string): boolean => {
@@ -15,31 +14,18 @@ const isSafeUrl = (url: string): boolean => {
   }
 };
 
-const appendTrackingParams = (url: string, entityId?: string) => {
-  const merchantUrl = new URL(url);
-  merchantUrl.searchParams.set('d', cashbackMerchantDistributorId);
-  if (entityId) {
-    merchantUrl.searchParams.set('tc', entityId);
-  }
-  return merchantUrl.toString();
-};
-
-const getMerchantUrl = (merchant: TopCashbackMerchant, entityId?: string) => {
+const getMerchantUrl = (merchant: TopCashbackMerchant) => {
   if (merchant.marketplaceUrl && isSafeUrl(merchant.marketplaceUrl)) {
-    return appendTrackingParams(merchant.marketplaceUrl, entityId);
+    return merchant.marketplaceUrl;
   }
   if (merchant.slug && marketplace.url) {
-    return appendTrackingParams(
-      new URL(`/merchants/${merchant.slug}`, marketplace.url).toString(),
-      entityId,
-    );
+    return new URL(`/merchants/${merchant.slug}`, marketplace.url).toString();
   }
   return marketplace.url;
 };
 
 type MerchantCardProps = {
   merchant: TopCashbackMerchant;
-  entityId?: string;
 };
 
 const getInitials = (name: string) =>
@@ -50,10 +36,10 @@ const getInitials = (name: string) =>
     .join('')
     .toUpperCase();
 
-export default function MerchantCard({ merchant, entityId }: MerchantCardProps) {
+export default function MerchantCard({ merchant }: MerchantCardProps) {
   return (
     <a
-      href={getMerchantUrl(merchant, entityId)}
+      href={getMerchantUrl(merchant)}
       target="_blank"
       rel="noopener noreferrer"
       className="block border border-[#C9D6E8] rounded-2xl bg-white p-4 no-underline hover:shadow-sm hover:border-primary-blue transition-colors"

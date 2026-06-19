@@ -60,7 +60,7 @@ export default function Rewards() {
         />
       </div>
 
-      <MerchantsSection entityId={entity?.id} />
+      <MerchantsSection />
     </div>
   );
 }

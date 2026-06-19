@@ -6,10 +6,6 @@ import MerchantCard from './MerchantCard';
 
 const MERCHANT_COUNT = 4;
 
-type MerchantsSectionProps = {
-  entityId?: string;
-};
-
 export const selectRandomMerchants = (merchants: TopCashbackMerchant[], count = MERCHANT_COUNT) => {
   if (!Array.isArray(merchants) || merchants.length <= count) return merchants;
 
@@ -23,7 +19,7 @@ export const selectRandomMerchants = (merchants: TopCashbackMerchant[], count = 
   return shuffled.slice(0, count);
 };
 
-export default function MerchantsSection({ entityId }: MerchantsSectionProps) {
+export default function MerchantsSection() {
   const { cashBackMerchants, cashBackMerchantsError, cashBackMerchantsLoading } =
     useCashBackMerchants();
   const merchants = useMemo(
@@ -46,7 +42,7 @@ export default function MerchantsSection({ entityId }: MerchantsSectionProps) {
       {!loading && !error && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {merchants.map((merchant) => (
-            <MerchantCard key={merchant.id} merchant={merchant} entityId={entityId} />
+            <MerchantCard key={merchant.id} merchant={merchant} />
           ))}
         </div>
       )}

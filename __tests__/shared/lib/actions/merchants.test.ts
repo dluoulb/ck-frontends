@@ -67,7 +67,7 @@ describe('getTopCashbackMerchants', () => {
           id: 11,
           name: 'Chery Industrial',
           slug: 'chery-industrial',
-          url: 'https://wild.link/e?c=164321',
+          marketplace_url: 'https://marketplace.test.com/merchants/chery-industrial',
           logoUrl: null,
           affiliateRateKind: 'PERCENTAGE',
           affiliateRateAmount: '9.75',
@@ -77,7 +77,6 @@ describe('getTopCashbackMerchants', () => {
           id: 142,
           name: 'Faire',
           slug: 'faire',
-          url: 'https://www.faire.com',
           logoUrl: null,
           affiliateRateKind: 'FLAT',
           affiliateRateAmount: '3.25',
@@ -97,7 +96,7 @@ describe('getTopCashbackMerchants', () => {
         cashbackLabel: '9.75% cash back',
         plusBonusLabel: '0.03% Plus Bonus',
         slug: 'chery-industrial',
-        marketplaceUrl: 'https://wild.link/e?c=164321',
+        marketplaceUrl: 'https://marketplace.test.com/merchants/chery-industrial',
       },
       {
         id: '142',
@@ -107,7 +106,7 @@ describe('getTopCashbackMerchants', () => {
         cashbackLabel: '$3.25 cash back',
         plusBonusLabel: '0.01% Plus Bonus',
         slug: 'faire',
-        marketplaceUrl: 'https://www.faire.com',
+        marketplaceUrl: undefined,
       },
     ]);
   });
@@ -124,7 +123,7 @@ describe('getTopCashbackMerchants', () => {
           name: 'Alibaba',
           slug: 'alibaba',
           description: 'Global marketplace',
-          url: 'https://alibaba.com',
+          marketplace_url: 'https://marketplace.test.com/merchants/alibaba',
           logoUrl: null,
           affiliateRateAmount: null,
           plusBonusRate: 0.01,
@@ -143,7 +142,7 @@ describe('getTopCashbackMerchants', () => {
         cashbackLabel: undefined,
         plusBonusLabel: '0.01% Plus Bonus',
         slug: 'alibaba',
-        marketplaceUrl: 'https://alibaba.com',
+        marketplaceUrl: 'https://marketplace.test.com/merchants/alibaba',
       },
     ]);
   });
@@ -161,7 +160,7 @@ describe('getTopCashbackMerchants', () => {
           slug: 'chefs-deal',
           description:
             'Chef\\u2019s Deal offers restaurant equipment and kitchen supplies at the best prices.',
-          url: 'https://merchant.test.com',
+          marketplace_url: 'https://merchant.test.com',
           logoUrl: null,
           affiliateRateAmount: '1.3',
           plusBonusRate: 0.03,
@@ -174,9 +173,9 @@ describe('getTopCashbackMerchants', () => {
     expect(merchants).toEqual([
       {
         id: '43',
-        name: 'Chef’s Deal',
+        name: 'Chef\u2019s Deal',
         description:
-          'Chef’s Deal offers restaurant equipment and kitchen supplies at the best prices.',
+          'Chef\u2019s Deal offers restaurant equipment and kitchen supplies at the best prices.',
         logoUrl: null,
         cashbackLabel: '1.3% cash back',
         plusBonusLabel: '0.03% Plus Bonus',
