@@ -14,7 +14,9 @@ export default function RewardPointsWidget() {
     return <span className="font-semibold">- - - points</span>;
   }
 
-  const totalPoints = rewardPointsBalance?.posted || 0;
+  const postedPoints = Number(rewardPointsBalance?.posted ?? 0);
+  const pendingPoints = Number(rewardPointsBalance?.pending ?? 0);
+  const totalPoints = postedPoints + pendingPoints;
 
-  return <span className="font-semibold">{totalPoints} points</span>;
+  return <span className="font-semibold">{totalPoints.toLocaleString('en-US')} points</span>;
 }
