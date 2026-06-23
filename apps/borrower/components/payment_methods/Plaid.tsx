@@ -18,7 +18,8 @@ interface PlaidProps {
   toggleModal?: () => void;
   setUsePlaid?: React.Dispatch<React.SetStateAction<boolean>>;
   createVcFlow?: boolean;
-  onPaymentMethodCreated?: () => void;
+  onPaymentMethodCreated?: (paymentMethod?: PaymentMethodRecord | null) => void;
+  autoOpen?: boolean;
 }
 
 export default function Plaid({
@@ -29,6 +30,7 @@ export default function Plaid({
   setUsePlaid,
   createVcFlow = false,
   onPaymentMethodCreated,
+  autoOpen = false,
 }: PlaidProps) {
   const [loading, setLoading] = useState(false);
   const { refetchPaymentMethods } = useBorrowerDeps();
@@ -41,6 +43,7 @@ export default function Plaid({
   const handledAccessTokenRef = useRef(false);
   const fetchLinkTokenRef = useRef(fetchLinkToken);
   const resetLinkFlowRef = useRef(resetLinkFlow);
+  const autoOpenedRef = useRef(false);
 
   useEffect(() => {
     fetchLinkTokenRef.current = fetchLinkToken;
@@ -70,14 +73,27 @@ export default function Plaid({
   const createPaymentMethod = useCallback(() => {
     setLoading(true);
     createPaymentMethodBank(api, new PaymentMethodRecord({ user_id: user?.id }), true)
-      .then(() => {
-        refetchPaymentMethods();
-        if (createVcFlow && onPaymentMethodCreated) {
-          onPaymentMethodCreated();
-        } else {
-          // Refetch entity to get updated bank_verification_attempts from backend
-          fetchEntity();
+      .then(async (createdPaymentMethod) => {
+        const [paymentMethodsResult] = await Promise.all([
+          refetchPaymentMethods(),
+          Promise.resolve(fetchEntity()),
+        ]);
+        const refreshedPaymentMethods = paymentMethodsResult?.data ?? [];
+        const connectedPaymentMethod =
+          refreshedPaymentMethods.find(
+            (paymentMethod) => paymentMethod.id === createdPaymentMethod?.id,
+          ) ??
+          refreshedPaymentMethods.find(
+            (paymentMethod) =>
+              paymentMethod.payment_type === 'bank_account' && paymentMethod.is_default,
+          ) ??
+          createdPaymentMethod ??
+          null;
+
+        if (onPaymentMethodCreated) {
+          onPaymentMethodCreated(connectedPaymentMethod);
         }
+
         makeToast('Payment Method Successfully Created', 'success');
         resetLinkFlow();
 
@@ -133,6 +149,15 @@ export default function Plaid({
 
     return () => window.clearTimeout(timeoutId);
   }, [accessToken, createPaymentMethod]);
+
+  useEffect(() => {
+    if (!autoOpen || !ready || !linkToken || autoOpenedRef.current) {
+      return;
+    }
+
+    autoOpenedRef.current = true;
+    open();
+  }, [autoOpen, linkToken, open, ready]);
 
   return (
     <>
