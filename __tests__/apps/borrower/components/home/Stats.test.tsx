@@ -204,27 +204,32 @@ describe('Stats Component', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Bank Statement Verification' }),
+      ).toBeInTheDocument();
     });
-    expect(screen.getByRole('radiogroup', { name: 'Verification method' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Verification method' })).toBeInTheDocument();
     expect(
-      screen.getByRole('radio', { name: 'Connect bank account with Plaid' }),
-    ).toBeInTheDocument();
+      screen.queryByRole('radiogroup', { name: 'Verification method' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Instant Bank Verification/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Upload bank statements/i })).toBeInTheDocument();
+    expect(screen.getByText('Securely connect via Plaid instantly')).toBeInTheDocument();
     expect(
-      screen.getByRole('radio', { name: 'Upload bank statements manually' }),
+      screen.getByText('Manually upload. Takes up to 3 business days to get a decision.'),
     ).toBeInTheDocument();
+    expect(screen.getByText('Recommended')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
 
-    const plaidRadio = screen.getByRole('radio', { name: 'Connect bank account with Plaid' });
-    const manualRadio = screen.getByRole('radio', { name: 'Upload bank statements manually' });
-    const plaidCard = screen.getByText('Connect bank account with Plaid');
-    const manualCard = screen.getByText('Upload bank statements manually');
+    const plaidRadio = screen.getByRole('radio', { name: /Instant Bank Verification/i });
+    const manualRadio = screen.getByRole('radio', { name: /Upload bank statements/i });
+    const plaidCard = plaidRadio.nextElementSibling as HTMLElement;
+    const manualCard = manualRadio.nextElementSibling as HTMLElement;
 
-    expect(plaidCard).not.toHaveClass('border-primary-blue');
-    expect(plaidCard).not.toHaveClass('bg-primary-blue/5');
-    expect(plaidCard).not.toHaveClass('ring-2');
-    expect(manualCard).not.toHaveClass('border-primary-blue');
-    expect(manualCard).not.toHaveClass('bg-primary-blue/5');
-    expect(manualCard).not.toHaveClass('ring-2');
+    expect(plaidRadio).toBeChecked();
+    expect(manualRadio).not.toBeChecked();
+    expect(plaidCard).toHaveClass('border-[#C4DBFC]', 'bg-[#F0F6FE]');
+    expect(manualCard).toHaveClass('border-[#D9D9D9]', 'bg-white');
 
     act(() => {
       manualRadio.focus();
@@ -235,9 +240,8 @@ describe('Stats Component', () => {
 
     fireEvent.click(manualRadio);
     expect(manualRadio).toBeChecked();
-    expect(plaidCard).not.toHaveClass('border-primary-blue');
-    expect(plaidCard).not.toHaveClass('bg-primary-blue/5');
-    expect(manualCard).toHaveClass('border-primary-blue', 'bg-primary-blue/5');
+    expect(plaidCard).toHaveClass('border-[#D9D9D9]', 'bg-white');
+    expect(manualCard).toHaveClass('border-[#C4DBFC]', 'bg-[#F0F6FE]');
     expect(plaidRadio).not.toBeChecked();
   });
 
@@ -281,15 +285,16 @@ describe('Stats Component', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Bank Statement Verification' }),
+      ).toBeInTheDocument();
     });
-    expect(screen.getByRole('radiogroup', { name: 'Verification method' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Verification method' })).toBeInTheDocument();
     expect(
-      screen.getByRole('radio', { name: 'Connect bank account with Plaid' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('radio', { name: 'Upload bank statements manually' }),
-    ).toBeInTheDocument();
+      screen.queryByRole('radiogroup', { name: 'Verification method' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Instant Bank Verification/i })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Upload bank statements/i })).toBeInTheDocument();
   });
 
   test('routes approved companies with an existing Plaid connection to the connected-bank review step first', async () => {
@@ -370,7 +375,9 @@ describe('Stats Component', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Bank Statement Verification' }),
+      ).toBeInTheDocument();
     });
     expect(
       screen.queryByRole('heading', { name: 'Review Increase Request' }),
@@ -411,7 +418,9 @@ describe('Stats Component', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Verify your bank account' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Bank Statement Verification' }),
+      ).toBeInTheDocument();
     });
     expect(
       screen.queryByRole('heading', { name: 'Review Increase Request' }),

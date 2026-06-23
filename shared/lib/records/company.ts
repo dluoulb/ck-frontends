@@ -53,6 +53,7 @@ export default class CompanyRecord {
           ),
         }
       : cleanedData;
+
     const normalizedData = {
       ...assignableData,
       ...(assignableData.is_bank_connected !== undefined && {
@@ -75,16 +76,16 @@ export default class CompanyRecord {
       this.address = new AddressRecord(cleanedData.address);
     }
 
-    if (normalizedData.credit_line) {
-      this.credit_line = new CreditLine(normalizedData.credit_line);
+    if (cleanedData.credit_line) {
+      this.credit_line = new CreditLine(cleanedData.credit_line);
     }
 
-    if (normalizedData.borrower) {
-      this.borrower = new UserRecord(normalizedData.borrower);
+    if (cleanedData.borrower) {
+      this.borrower = new UserRecord(cleanedData.borrower);
     }
 
-    if (normalizedData && normalizedData.merchant_applied_with) {
-      this.merchant_applied_with = new MerchantRecord(normalizedData.merchant_applied_with);
+    if (cleanedData && cleanedData.merchant_applied_with) {
+      this.merchant_applied_with = new MerchantRecord(cleanedData.merchant_applied_with);
     }
   }
 
