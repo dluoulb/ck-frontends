@@ -1,7 +1,6 @@
 import {
   amazonPhysicalCardTest,
   amazonPhysicalCardTestEnabled,
-  plusCohorts,
   plusEnabled,
 } from '@lib/constants/SiteVariables';
 import { removeNulls } from '@lib/utils/record_utils';
@@ -103,7 +102,12 @@ export default class CompanyRecord {
   }
 
   get plus_enabled() {
-    return plusEnabled && plusCohorts.some((cohort) => this.active_cohorts.includes(cohort));
+    return (
+      plusEnabled &&
+      this.underwriting_status !== 'declined' &&
+      !this.isNetX &&
+      !this.isAmazonExclusive
+    );
   }
 
   get physical_card_enabled() {

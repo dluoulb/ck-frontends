@@ -1,4 +1,4 @@
-import { amazonPhysicalCardTest, plusCohorts } from '@lib/constants/SiteVariables';
+import { amazonPhysicalCardTest } from '@lib/constants/SiteVariables';
 import type CompanyRecordType from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
 
@@ -162,10 +162,11 @@ describe('CompanyRecord#plus_enabled', () => {
       CompanyRecord = loadCompanyRecordWithPlusFlag(false);
     });
 
-    it('returns false even for a test group member', () => {
+    it('returns false even for a non-NetX non-AmazonExclusive borrower', () => {
       const company = new CompanyRecord({
         ...companyApproved,
-        active_cohorts: [plusCohorts[0]],
+        tier: 'tier_y',
+        active_cohorts_by_type: {},
       });
       expect(company.plus_enabled).toBe(false);
     });
@@ -178,18 +179,49 @@ describe('CompanyRecord#plus_enabled', () => {
       CompanyRecord = loadCompanyRecordWithPlusFlag(true);
     });
 
-    it('returns true for a test group member', () => {
+    it('returns true for a non-NetX non-AmazonExclusive borrower', () => {
       const company = new CompanyRecord({
         ...companyApproved,
-        active_cohorts: [plusCohorts[0]],
+        tier: 'tier_y',
+        active_cohorts_by_type: {},
       });
       expect(company.plus_enabled).toBe(true);
     });
 
-    it('returns false when not in the test group', () => {
+    it('returns true for a pending borrower', () => {
       const company = new CompanyRecord({
         ...companyApproved,
-        active_cohorts: [],
+        underwriting_status: 'pending',
+        tier: 'tier_y',
+        active_cohorts_by_type: {},
+      });
+      expect(company.plus_enabled).toBe(true);
+    });
+
+    it('returns false for a declined borrower', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        underwriting_status: 'declined',
+        tier: 'tier_y',
+        active_cohorts_by_type: {},
+      });
+      expect(company.plus_enabled).toBe(false);
+    });
+
+    it('returns false for NetX borrowers', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        tier: 'NETX',
+      });
+      expect(company.plus_enabled).toBe(false);
+    });
+
+    it('returns false for Amazon-exclusive borrowers', () => {
+      const company = new CompanyRecord({
+        ...companyApproved,
+        active_cohorts_by_type: {
+          [amazonPhysicalCardTest.type]: amazonPhysicalCardTest.cohort,
+        },
       });
       expect(company.plus_enabled).toBe(false);
     });
