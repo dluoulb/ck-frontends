@@ -38,7 +38,10 @@ describe('MerchantCard', () => {
     expect(screen.getByText('A test merchant description')).toBeInTheDocument();
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute('href', 'https://marketplace.test.com/merchants/acme-supplies');
+    expect(link).toHaveAttribute(
+      'href',
+      'https://marketplace.test.com/merchants/acme-supplies?utm_source=ck-portal&utm_medium=referral',
+    );
   });
 
   test('renders initials fallback when merchant logo is unavailable', () => {
@@ -59,6 +62,12 @@ describe('MerchantCard', () => {
     expect(screen.getByText('SC')).toBeInTheDocument();
     expect(screen.getByText('$3.25 cash back')).toBeInTheDocument();
     expect(screen.getByText('1% Plus Bonus')).toBeInTheDocument();
+
+    const link = screen.getByTestId('reward-merchant-card');
+    expect(link).toHaveAttribute(
+      'href',
+      'https://merchant.test.com/?utm_source=ck-portal&utm_medium=referral',
+    );
   });
 
   test('falls back to slug-based URL when marketplaceUrl has an unsafe scheme', () => {
@@ -76,10 +85,13 @@ describe('MerchantCard', () => {
     );
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute('href', 'https://marketplace.test.com/merchants/unsafe-merchant');
+    expect(link).toHaveAttribute(
+      'href',
+      'https://marketplace.test.com/merchants/unsafe-merchant?utm_source=ck-portal&utm_medium=referral',
+    );
   });
 
-  test('uses marketplaceUrl directly when provided', () => {
+  test('appends UTM params to marketplaceUrl when provided', () => {
     customRender(
       <MerchantCard
         merchant={{
@@ -93,7 +105,10 @@ describe('MerchantCard', () => {
     );
 
     const link = screen.getByTestId('reward-merchant-card');
-    expect(link).toHaveAttribute('href', 'https://merchant.test.com?c=164321');
+    expect(link).toHaveAttribute(
+      'href',
+      'https://merchant.test.com/?c=164321&utm_source=ck-portal&utm_medium=referral',
+    );
   });
 
   test('renders the provided plus bonus label for integrated merchants', () => {

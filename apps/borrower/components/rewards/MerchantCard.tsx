@@ -5,6 +5,11 @@ import { marketplace } from '@lib/actions/marketplace';
 import { TopCashbackMerchant } from '@lib/actions/merchants';
 import logoOnly from '@lib/images/logo_only.svg';
 
+const MERCHANT_TILE_UTM_PARAMS = {
+  utm_source: 'ck-portal',
+  utm_medium: 'referral',
+};
+
 const isSafeUrl = (url: string): boolean => {
   try {
     const { protocol } = new URL(url);
@@ -14,14 +19,30 @@ const isSafeUrl = (url: string): boolean => {
   }
 };
 
+const withMerchantTileUtmParams = (url?: string): string | undefined => {
+  if (!url || !isSafeUrl(url)) {
+    return url;
+  }
+
+  const merchantUrl = new URL(url);
+
+  Object.entries(MERCHANT_TILE_UTM_PARAMS).forEach(([key, value]) => {
+    merchantUrl.searchParams.set(key, value);
+  });
+
+  return merchantUrl.toString();
+};
+
 const getMerchantUrl = (merchant: TopCashbackMerchant) => {
   if (merchant.marketplaceUrl && isSafeUrl(merchant.marketplaceUrl)) {
-    return merchant.marketplaceUrl;
+    return withMerchantTileUtmParams(merchant.marketplaceUrl);
   }
   if (merchant.slug && marketplace.url) {
-    return new URL(`/merchants/${merchant.slug}`, marketplace.url).toString();
+    return withMerchantTileUtmParams(
+      new URL(`/merchants/${merchant.slug}`, marketplace.url).toString(),
+    );
   }
-  return marketplace.url;
+  return withMerchantTileUtmParams(marketplace.url);
 };
 
 type MerchantCardProps = {
