@@ -72,14 +72,17 @@ describe('RewardsActivityTable', () => {
     expect(screen.getByText('Order Amount')).toBeInTheDocument();
     expect(screen.queryByText(/^Amount$/)).not.toBeInTheDocument();
     expect(screen.getByText('$100.00')).toBeInTheDocument();
+    const postedRow = screen.getByText('Order #1234').closest('tr');
     const redemptionRow = screen.getByText('Points Redemption').closest('tr');
 
+    expect(postedRow).not.toBeNull();
     expect(redemptionRow).not.toBeNull();
+    expect(within(postedRow as HTMLElement).getByText('+300 pts')).toHaveClass('text-green-600');
     expect(
       within(redemptionRow as HTMLElement).getByText(
         (_, element) => element?.tagName === 'SPAN' && element?.textContent === '-500 pts ($5.00)',
       ),
-    ).toBeInTheDocument();
+    ).toHaveClass('text-black');
   });
 
   test('shows no-points upsell empty state for non-subscribed users without rewards', () => {

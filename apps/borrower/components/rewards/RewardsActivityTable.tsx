@@ -168,7 +168,7 @@ export default function RewardsActivityTable({
             displayPoints = points;
           }
 
-          const color = getPointsColor(status);
+          const color = isRedeemed ? 'text-black' : getPointsColor(status);
           const sign = displayPoints > 0 ? '+' : '';
           const redeemedAmount = isRedeemed ? formatCurrency(Math.abs(displayPoints) / 100) : null;
 
