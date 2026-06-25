@@ -102,6 +102,7 @@ The monorepo houses the following applications:
 | FullStory | Session replay and analytics |
 | Rollbar | Error tracking and monitoring |
 | Customer.io CDP | Customer data platform |
+| PostHog | Product analytics & NPS person targeting (borrower portal) |
 
 ## Monorepo Structure
 
@@ -452,6 +453,15 @@ The borrower dashboard `Stats` feature component (`apps/borrower/components/home
 Continuing from that first step branches into one of two real downstream paths. Approved companies whose entity data reports `is_bank_connected=true` see a connected-bank review step that can submit the request immediately with the existing bank or route to `Change connected bank`. Approved companies without an active bank connection go directly to the verification-method selection screen, where the default Plaid option renders `apps/borrower/components/payment_methods/Plaid.tsx` and the manual option renders a request-scoped bank-statement upload step inside `apps/borrower/components/home/RequestIncreaseModal.tsx`. The manual step requires exactly three selected PDF, Word, Excel, JPG, or PNG bank statement files under 10MB each plus a disclaimer confirming the statements match the existing payment method on file. After completing Plaid verification or the manual upload step, both paths advance to an in-modal review step that requires the borrower to authorize a soft credit pull before the `Submit request` button is enabled. On final submission, the manual path uploads each selected file through `shared/lib/actions/companies.ts#uploadCompanyDocument` with `file_type=bank_statements` and then calls `shared/lib/actions/companies.ts#createLimitIncreaseRequest`; the Plaid path calls only `createLimitIncreaseRequest`. Successful Plaid, connected-bank, and manual-statement paths transition to an in-modal under-review confirmation that displays the requested increase, pending review status, and current limit before the borrower closes the modal.
 
 Deployment enforces the same tier split at build time. `.github/workflows/deploy.yml` fetches the tier secret, then `deploy/bin/write-build-env.sh` strips `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED` from the secret-derived env payload for every tier and appends `NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true` only for `development` before Docker bakes `.env.production` into the Next.js bundle. That keeps deployed development aligned with local/test defaults while leaving staging and production on the legacy link path by default.
+
+### PostHog Analytics
+
+The borrower portal is instrumented with PostHog (`posthog-js`) for product analytics and NPS person targeting, following PostHog's Next.js 15.3+ pattern.
+
+- **Initialization**: `instrumentation-client.ts` (repo root) initializes the SDK on the client before hydration via `posthog.init()` with `defaults`, `person_profiles: 'identified_only'`, and `autocapture: true`. Session replay uses **selective masking** rather than a blanket blur: the manual bank-entry form (`BankForm`) and the Qolo virtual/physical card widgets carry the `ph-no-capture` class — the PostHog equivalent of FullStory's `fs-exclude` — and the card widgets are cross-origin iframes that rrweb does not record at all. Everything else in the portal is visible in replays. It is token-guarded, so it no-ops when `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` is unset (e.g., local dev without a key).
+- **Identification**: `shared/hooks/usePosthogIdentify.ts` (mounted in `PortalLayout`) calls `shared/lib/posthog.ts#identifyUser` once the user and company entity have loaded, setting `name`, `companyName`, `companyId`, `totalOrders`, and `tier`. Admin and impersonated sessions are skipped, and the identify fires once per session.
+- **Reset**: `resetPostHog()` is called on sign-out (`TopNav`/`MobileNav`) to unlink subsequent events from the previous user.
+- **Per-environment projects**: local dev and staging point at the "Credit Key Web (Staging)" PostHog project; production uses its own project. Only the `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` value differs per environment (committed in `.env.*` for local, AWS Secrets Manager for deployed tiers) — no code change is needed for the split.
 
 ## Styling System
 
@@ -822,4 +832,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-06-19
+**Last Updated**: 2026-06-24

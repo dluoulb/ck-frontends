@@ -22,6 +22,7 @@ services:
       - ./.npmrc:/app/.npmrc
       - ./globals.css:/app/globals.css
       - ./middleware.ts:/app/middleware.ts
+      - ./instrumentation-client.ts:/app/instrumentation-client.ts
       - ./next.config.js:/app/next.config.js
       - ./next-env.d.ts:/app/next-env.d.ts
       - ./package.json:/app/package.json

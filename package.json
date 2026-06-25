@@ -5,10 +5,10 @@
     "dev": "next dev",
     "start": "next start",
     "test": "jest",
-    "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
-    "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
-    "lint": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" --fix",
-    "lint:ci": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\""
+    "format": "prettier --write \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" instrumentation-client.ts jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
+    "format:check": "prettier --check \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" instrumentation-client.ts jest.config.ts jest.setup.ts middleware.ts next.config.js postcss.config.js",
+    "lint": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" instrumentation-client.ts --fix",
+    "lint:ci": "eslint \"{apps,pages,shared,__tests__}/**/*.ts?(x)\" instrumentation-client.ts"
   },
   "dependencies": {
     "@bharathvaj/fullstory-rollbar": "^1.0.0",
@@ -39,6 +39,7 @@
     "js-file-downloader": "^1.1.25",
     "luxon": "^3.4.4",
     "next": "^16.2.6",
+    "posthog-js": "^1.393.0",
     "react": "^18.3.1",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.3.8",

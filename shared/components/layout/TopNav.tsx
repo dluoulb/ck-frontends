@@ -13,6 +13,7 @@ import RewardPointsWidget from '@components/layout/RewardPointsWidget';
 import TclWidget from '@components/layout/TclWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import { resetPostHog } from '@lib/posthog';
 import OrdersBadge from './OrdersBadge';
 import WalletBadge from './WalletBadge';
 
@@ -23,6 +24,7 @@ export default function TopNav() {
 
   const handleAction = async (action: string) => {
     if (action === 'signout') {
+      resetPostHog();
       await signOut();
       router.push(href);
     }

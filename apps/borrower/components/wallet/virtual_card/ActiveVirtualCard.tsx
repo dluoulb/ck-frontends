@@ -102,7 +102,7 @@ export default function ActiveVirtualCard({
     frame: {
       container_id: 'widget_container_virtual',
       iframe_class:
-        'fs-exclude widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
+        'fs-exclude ph-no-capture widget-iframe aspect-[385/244] w-full mx-auto overflow-y-scroll border-0',
       spinner: false,
       display: 'flex',
       filter: 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%)',

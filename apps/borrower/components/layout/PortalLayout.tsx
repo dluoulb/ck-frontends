@@ -9,6 +9,7 @@ import { usePromo } from '@contexts/PromoContext';
 import { useUser } from '@contexts/UserContext';
 import { useCustomerIO } from '@hooks/useCustomerio';
 import useOrders from '@hooks/useOrders';
+import { usePosthogIdentify } from '@hooks/usePosthogIdentify';
 import { platform } from '@lib/constants/SiteVariables';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import PossessUser from './PossessUser';
@@ -24,6 +25,7 @@ export default function PortalLayout({ children }) {
   const { entity } = useEntity();
   const { totalOrderCount } = useOrders(entity);
   useCustomerIO();
+  usePosthogIdentify();
 
   const promo_id = searchParams.get('promo_id');
 

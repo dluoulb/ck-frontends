@@ -22,7 +22,7 @@ RUN adduser --system --uid 1001 nextjs
 FROM base AS builder
 WORKDIR /app
 
-COPY .npmrc package.json package-lock.json tsconfig.json postcss.config.js next.config.js globals.css middleware.ts next-env.d.ts ./
+COPY .npmrc package.json package-lock.json tsconfig.json postcss.config.js next.config.js globals.css middleware.ts instrumentation-client.ts next-env.d.ts ./
 
 ENV NODE_ENV=production
 RUN npm install --only=production

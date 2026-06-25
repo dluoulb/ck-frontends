@@ -186,7 +186,7 @@ export default function BankForm({
         const disabled = Object.values(errors).some((e) => !!e);
         return (
           <Form>
-            <div className="flex flex-col m-auto w-full">
+            <div className="flex flex-col m-auto w-full ph-no-capture">
               <ErrorAlert hasAlert={hasAlert} next={next} />
               <ColumnInput error={errors.bank_routing} touched={touched.bank_routing}>
                 <StickyInput

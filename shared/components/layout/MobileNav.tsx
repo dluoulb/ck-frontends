@@ -8,6 +8,7 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import { resetPostHog } from '@lib/posthog';
 
 export default function MobileNav() {
   const router = useRouter();
@@ -65,6 +66,7 @@ export default function MobileNav() {
                   <DisclosureButton
                     as="div"
                     onClick={async () => {
+                      resetPostHog();
                       await signOut();
                       router.push(href);
                     }}
