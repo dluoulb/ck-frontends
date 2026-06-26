@@ -1,6 +1,6 @@
 import Stats from '@apps/borrower/components/home/Stats';
-import { consumerAccount } from '@lib/testing/records';
-import { customRender, screen } from '@lib/testing/test-utils';
+import { companyApproved, consumerAccount } from '@lib/testing/records';
+import { act, customRender, screen, waitFor } from '@lib/testing/test-utils';
 
 const requestIncreaseModalEnvVar = 'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED';
 const originalRequestIncreaseModalEnv = process.env[requestIncreaseModalEnvVar];
@@ -15,6 +15,7 @@ describe('Stats request increase modal mount', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env[requestIncreaseModalEnvVar] = 'true';
+    window.history.replaceState({}, '', '/borrower');
     global.mockedUseEntity.mockImplementation(() => ({
       entity: consumerAccount as any,
       setEntity: jest.fn(),
@@ -37,5 +38,91 @@ describe('Stats request increase modal mount', () => {
 
     expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
     expect(mockRequestIncreaseModal).not.toHaveBeenCalled();
+  });
+
+  test('does not mount the request increase modal for approved companies that are not eligible even when the deep link is present', () => {
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+    const ineligibleApprovedCompany = Object.assign(
+      Object.create(Object.getPrototypeOf(companyApproved)),
+      companyApproved,
+      {
+        eligible_for_line_increase_request: false,
+      },
+    );
+
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: ineligibleApprovedCompany as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
+    expect(mockRequestIncreaseModal).not.toHaveBeenCalled();
+  });
+
+  test('passes an auto-opened modal state to the request increase modal for eligible deep links', async () => {
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: companyApproved as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(
+        mockRequestIncreaseModal.mock.calls.some(
+          ([props]) => props.companyId === companyApproved.id && props.isModalActive === true,
+        ),
+      ).toBe(true);
+    });
+  });
+
+  test('auto-opens again after navigating back to the same deep link while Stats stays mounted', async () => {
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: companyApproved as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    const { rerender } = customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(
+        mockRequestIncreaseModal.mock.calls.filter(([props]) => props.isModalActive === true)
+          .length,
+      ).toBe(1);
+    });
+    expect(window.location.search).toBe('');
+
+    act(() => {
+      const latestProps = mockRequestIncreaseModal.mock.calls.at(-1)?.[0];
+      latestProps.toggleModal();
+    });
+
+    await waitFor(() => {
+      expect(mockRequestIncreaseModal.mock.calls.at(-1)?.[0].isModalActive).toBe(false);
+    });
+
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+    rerender(<Stats />);
+
+    await waitFor(() => {
+      expect(
+        mockRequestIncreaseModal.mock.calls.filter(([props]) => props.isModalActive === true)
+          .length,
+      ).toBe(2);
+    });
+    expect(window.location.search).toBe('');
   });
 });

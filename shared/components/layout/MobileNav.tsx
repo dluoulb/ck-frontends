@@ -12,7 +12,6 @@ import { resetPostHog } from '@lib/posthog';
 
 export default function MobileNav() {
   const router = useRouter();
-  const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
   const { primaryRoutes } = usePrimaryRoutes();
   const navigation = [{ route: '/borrower', routes: primaryRoutes }];
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
@@ -66,6 +65,7 @@ export default function MobileNav() {
                   <DisclosureButton
                     as="div"
                     onClick={async () => {
+                      const href = authRedirectLink(window.location.href);
                       resetPostHog();
                       await signOut();
                       router.push(href);

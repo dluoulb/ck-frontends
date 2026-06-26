@@ -44,7 +44,7 @@ describe('write-build-env.sh', () => {
     );
   });
 
-  test('keeps the request increase modal flag unset outside development builds', () => {
+  test('forces the request increase modal flag on for staging builds', () => {
     const outputPath = path.join(tempDir, 'app.env');
 
     execFileSync('bash', [scriptPath, outputPath], {
@@ -53,6 +53,35 @@ describe('write-build-env.sh', () => {
         ...process.env,
         APP_VERSION: 'def456',
         DEPLOY_TIER: 'staging',
+        NEXT_PUBLIC_MARKET_API_URL: 'https://market.example.test',
+      },
+      input: JSON.stringify({
+        EXISTING_SECRET: 'present',
+        NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED: 'false',
+      }),
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+
+    expect(readFileSync(outputPath, 'utf8')).toBe(
+      [
+        'EXISTING_SECRET=present',
+        'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true',
+        'NEXT_PUBLIC_MARKET_API_URL=https://market.example.test',
+        'APP_VERSION=def456',
+        '',
+      ].join('\n'),
+    );
+  });
+
+  test('keeps the request increase modal flag unset for production builds', () => {
+    const outputPath = path.join(tempDir, 'app.env');
+
+    execFileSync('bash', [scriptPath, outputPath], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        APP_VERSION: 'ghi789',
+        DEPLOY_TIER: 'production',
         NEXT_PUBLIC_MARKET_API_URL: 'https://market.example.test',
       },
       input: JSON.stringify({
@@ -66,7 +95,7 @@ describe('write-build-env.sh', () => {
       [
         'EXISTING_SECRET=present',
         'NEXT_PUBLIC_MARKET_API_URL=https://market.example.test',
-        'APP_VERSION=def456',
+        'APP_VERSION=ghi789',
         '',
       ].join('\n'),
     );

@@ -40,7 +40,7 @@ function parseUserJwt(token) {
 }
 
 export default async function middleware(req: NextRequest) {
-  const { pathname, protocol } = req.nextUrl;
+  const { pathname, protocol, search } = req.nextUrl;
   const host = req.headers.get('host');
   const site = siteForHost(req.headers.get('host'));
   const currentRoute = routes.find((route) => {
@@ -56,7 +56,9 @@ export default async function middleware(req: NextRequest) {
   const parsedToken = parseUserJwt(sessionToken);
 
   if (!sessionToken) {
-    return NextResponse.redirect(new URL(authRedirectLink(`${protocol}//${host}${pathname}`)));
+    return NextResponse.redirect(
+      new URL(authRedirectLink(`${protocol}//${host}${pathname}${search}`)),
+    );
   }
 
   // marketplace proxy routes don't need path-rewriting; session is already verified above

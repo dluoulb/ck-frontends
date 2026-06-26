@@ -20,10 +20,10 @@ import WalletBadge from './WalletBadge';
 export default function TopNav() {
   const { secondaryRoutes } = useSecondaryRoutes();
   const router = useRouter();
-  const href = authRedirectLink(`${window.location.origin}${router.asPath}`);
 
   const handleAction = async (action: string) => {
     if (action === 'signout') {
+      const href = authRedirectLink(window.location.href);
       resetPostHog();
       await signOut();
       router.push(href);

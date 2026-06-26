@@ -63,7 +63,7 @@ export const authRedirectLink = (href) => {
   if (isInvalidPath) {
     url.pathname = '';
   }
-  return encodeURI(`${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${url.href}`);
+  return `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}/?r=${encodeURIComponent(url.href)}`;
 };
 
 export const qoloWidgetOrigin = () => {

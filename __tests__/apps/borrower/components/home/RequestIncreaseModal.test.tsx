@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import RequestIncreaseModal from '@apps/borrower/components/home/RequestIncreaseModal';
 import useToast from '@hooks/useToast';
 import { createLimitIncreaseRequest, uploadCompanyDocument } from '@lib/actions/companies';
+import PaymentMethodRecord from '@lib/records/payment_method';
 import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test-utils';
 
 const mockApi = {};
@@ -333,16 +334,46 @@ describe('RequestIncreaseModal', () => {
     expect(plaidRadio).toHaveFocus();
     expect(plaidCard).toHaveClass('ring-2', 'ring-primary-blue', 'ring-offset-2');
     expect(manualCard).not.toHaveClass('ring-2');
+  });
 
-    fireEvent.click(plaidCard);
-    expect(plaidRadio).toBeChecked();
-    expect(plaidCard).toHaveClass('border-[#C4DBFC]', 'bg-[#F0F6FE]');
-    expect(manualCard).toHaveClass('border-[#D9D9D9]', 'bg-white');
-    expect(manualRadio).not.toBeChecked();
+  test('auto-forwards into Plaid verification when the instant option is selected', () => {
+    customRender(
+      <RequestIncreaseModal
+        companyId="123"
+        currentCreditLimit={20000}
+        hasConnectedPlaidAccount={false}
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
+    );
 
+    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
+      target: { value: '25000' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    fireEvent.click(screen.getByText('Instant Bank Verification'));
+
+    expect(screen.getByText('Plaid verification screen')).toBeInTheDocument();
+  });
+
+  test('auto-forwards into the manual upload screen when the upload option is selected', () => {
+    customRender(
+      <RequestIncreaseModal
+        companyId="123"
+        currentCreditLimit={20000}
+        hasConnectedPlaidAccount={false}
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
+      target: { value: '25000' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     fireEvent.click(screen.getByText('Upload bank statements'));
-    expect(manualRadio).toBeChecked();
-    expect(plaidRadio).not.toBeChecked();
+
+    expect(screen.getByRole('heading', { name: 'Financial Information' })).toBeInTheDocument();
   });
 
   test('continues into the Plaid verification screen from the default verification method', () => {
@@ -1227,12 +1258,20 @@ describe('RequestIncreaseModal', () => {
     ).not.toBeInTheDocument();
   });
 
-  test('shows the connected-bank interim step first when a Plaid account is already connected and can switch to method selection', () => {
+  test('shows the connected-bank review step first when a Plaid account is already connected and can switch to method selection', () => {
     customRender(
       <RequestIncreaseModal
         companyId="123"
         currentCreditLimit={20000}
         hasConnectedPlaidAccount
+        connectedBank={
+          new PaymentMethodRecord({
+            payment_type: 'bank_account',
+            label: 'Tartan Bank',
+            bank_name: 'Tartan Bank',
+            bank_account: '000000000',
+          })
+        }
         isModalActive
         toggleModal={jest.fn()}
       />,
@@ -1245,10 +1284,14 @@ describe('RequestIncreaseModal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 
     expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
-    expect(screen.getByText(/you already have a bank account connected/i)).toBeInTheDocument();
-    expect(screen.getByText('Increase request preview')).toBeInTheDocument();
+    expect(screen.getByText('Current credit limit')).toBeInTheDocument();
+    expect(screen.getByText('$20,000.00')).toBeInTheDocument();
+    expect(screen.getByText('New credit limit')).toBeInTheDocument();
+    expect(screen.getByText('$45,000.00')).toBeInTheDocument();
+    expect(screen.getByText('Connected bank account')).toBeInTheDocument();
+    expect(screen.getByText('Tartan Bank ••••0000')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Change connected bank' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Change' }));
 
     expect(
       screen.getByRole('heading', { name: 'Bank Statement Verification' }),
@@ -1276,7 +1319,10 @@ describe('RequestIncreaseModal', () => {
       target: { value: 'Need additional purchasing flexibility' },
     });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Continue with connected bank' }));
+
+    expect(screen.getByRole('button', { name: 'Submit request' })).toBeDisabled();
+    fireEvent.click(screen.getByLabelText(/I authorize Credit Key to perform a soft credit pull/));
+    fireEvent.click(screen.getByRole('button', { name: 'Submit request' }));
 
     await waitFor(() => {
       expect(mockCreateLimitIncreaseRequest).toHaveBeenCalledWith(

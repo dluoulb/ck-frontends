@@ -11,7 +11,7 @@ jq -r --arg request_increase_modal_env_var "$request_increase_modal_env_var" '
   | "\(.key)=\(.value)"
 ' > "$output_path"
 
-if [[ "${DEPLOY_TIER:-}" == 'development' ]]; then
+if [[ "${DEPLOY_TIER:-}" == 'development' || "${DEPLOY_TIER:-}" == 'staging' ]]; then
   echo "${request_increase_modal_env_var}=true" >> "$output_path"
 fi
 

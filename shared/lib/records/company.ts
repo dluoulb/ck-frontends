@@ -28,6 +28,7 @@ export default class CompanyRecord {
   credit_line: CreditLine;
   is_bank_connected: boolean;
   is_bank_connection_pending: boolean;
+  eligible_for_line_increase_request?: boolean;
   cta_banners: any[];
   vc_sub_limits: Record<string, any>;
   latest_approval_date: string;
@@ -63,6 +64,11 @@ export default class CompanyRecord {
         is_bank_connection_pending:
           assignableData.is_bank_connection_pending === true ||
           assignableData.is_bank_connection_pending === 'true',
+      }),
+      ...(assignableData.eligible_for_line_increase_request !== undefined && {
+        eligible_for_line_increase_request:
+          assignableData.eligible_for_line_increase_request === true ||
+          assignableData.eligible_for_line_increase_request === 'true',
       }),
     };
 

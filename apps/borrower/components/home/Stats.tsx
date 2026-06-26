@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faExclamationTriangle, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -7,13 +7,18 @@ import Notification from '@components/Notification';
 import Tooltip from '@components/Tooltip';
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
 import { useEntity } from '@contexts/EntityContext';
+import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
+import usePaymentMethods from '@hooks/usePaymentMethods';
 import { isEnabled } from '@lib/utils/envvar';
 import { formatCurrency } from '@lib/utils/formatters';
 import RequestIncreaseModal from './RequestIncreaseModal';
 
+const requestIncreaseDeepLinkParam = 'request_credit_increase';
+
 export default function Stats() {
   const { entity } = useEntity();
+  const { user } = useUser();
   const { stats, statsError, isLoading } = useBorrowerDeps();
   const { isModalActive, setIsModalActive } = useModal();
 
@@ -22,15 +27,28 @@ export default function Stats() {
       ? entity.credit_line.remaining_amount
       : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
   const approvedUser = entity?.status === 'approved';
-  const requestIncreaseCompanyId =
-    approvedUser && entity?.type === 'company' ? (entity.id ?? undefined) : undefined;
-  const canRequestIncrease = Boolean(requestIncreaseCompanyId);
+  const canRequestIncrease = Boolean(
+    approvedUser &&
+    entity?.type === 'company' &&
+    entity?.id &&
+    entity?.eligible_for_line_increase_request,
+  );
+  const requestIncreaseCompanyId = canRequestIncrease ? entity.id : undefined;
   const hasConnectedPlaidAccount = Boolean(entity?.type === 'company' && entity.is_bank_connected);
   const requestIncreaseModalEnabled = isEnabled(
     process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
   );
   const showRequestIncreaseModalEntry = requestIncreaseModalEnabled && canRequestIncrease;
+  const showRequestIncreaseLink = !requestIncreaseModalEnabled && canRequestIncrease;
   const currentCreditLimit = entity?.credit_line?.amount ?? entity?.max_purchase_amount ?? 0;
+  const { defaultBank } = usePaymentMethods(
+    user,
+    entity,
+    showRequestIncreaseModalEntry && hasConnectedPlaidAccount,
+  );
+  const hasRequestIncreaseDeepLink =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get(requestIncreaseDeepLinkParam) === 'true';
   const openRequestIncreaseModal = () => {
     if (showRequestIncreaseModalEntry) {
       setIsModalActive(true);
@@ -38,13 +56,38 @@ export default function Stats() {
   };
   const closeRequestIncreaseModal = () => setIsModalActive(false);
 
+  useEffect(() => {
+    if (
+      !hasRequestIncreaseDeepLink ||
+      !showRequestIncreaseModalEntry ||
+      isModalActive ||
+      typeof window === 'undefined'
+    ) {
+      return;
+    }
+
+    const currentUrl = new URL(window.location.href);
+
+    if (currentUrl.searchParams.get(requestIncreaseDeepLinkParam) !== 'true') {
+      return;
+    }
+
+    currentUrl.searchParams.delete(requestIncreaseDeepLinkParam);
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
+    );
+    setIsModalActive(true);
+  }, [hasRequestIncreaseDeepLink, isModalActive, setIsModalActive, showRequestIncreaseModalEntry]);
+
   const entityData = [
     {
       name: 'Maximum Credit',
       value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
       action: showRequestIncreaseModalEntry ? { name: 'Request Increase' } : undefined,
-      link: !requestIncreaseModalEnabled
+      link: showRequestIncreaseLink
         ? {
             url: 'https://www.creditkey.com/credit-key-increase-request',
             name: 'Request Increase',
@@ -147,6 +190,7 @@ export default function Stats() {
           companyId={requestIncreaseCompanyId}
           currentCreditLimit={currentCreditLimit}
           hasConnectedPlaidAccount={hasConnectedPlaidAccount}
+          connectedBank={hasConnectedPlaidAccount ? (defaultBank ?? null) : null}
           isModalActive={isModalActive}
           toggleModal={closeRequestIncreaseModal}
         />

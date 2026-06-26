@@ -18,9 +18,19 @@ interface RequestIncreaseModalProps {
   companyId?: string;
   currentCreditLimit: number;
   hasConnectedPlaidAccount: boolean;
+  connectedBank?: PaymentMethodRecord | null;
   isModalActive: boolean;
   toggleModal: () => void;
 }
+
+const formatConnectedBankLabel = (paymentMethod: PaymentMethodRecord | null | undefined) => {
+  if (!paymentMethod) return null;
+
+  const name = paymentMethod.bank_name || paymentMethod.label;
+  const lastFour = paymentMethod.bank_account ? paymentMethod.payment_method_last_4 : '';
+
+  return lastFour ? `${name} ••••${lastFour}` : name;
+};
 
 type RequestIncreaseStep =
   | 'request-details'
@@ -101,6 +111,7 @@ export default function RequestIncreaseModal({
   companyId,
   currentCreditLimit,
   hasConnectedPlaidAccount,
+  connectedBank,
   isModalActive,
   toggleModal,
 }: RequestIncreaseModalProps) {
@@ -306,6 +317,10 @@ export default function RequestIncreaseModal({
       handleUsePlaidChange(false);
     }
   };
+  const handleVerificationMethodSelect = (method: Exclude<VerificationMethod, null>) => {
+    setVerificationMethod(method);
+    handleUsePlaidChange(method === 'plaid');
+  };
   const getVerificationOptionClassName = (method: Exclude<VerificationMethod, null>) => {
     const isSelected = verificationMethod === method;
     const isFocused = focusedVerificationMethod === method;
@@ -398,36 +413,69 @@ export default function RequestIncreaseModal({
 
       {step === 'connected-bank' && (
         <div className="space-y-4 py-2">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <h2 className="text-xl font-bold leading-7 text-primary">Review Increase Request</h2>
             <p className="text-sm text-primary">
-              You already have a bank account connected. You can keep using it for this request or
-              switch to a different verification method.
+              Review the details of your credit limit increase request before submitting.
             </p>
           </div>
-          <div className="rounded-md border border-primary-gray-border p-3">
-            <p className="text-sm font-semibold text-primary">Increase request preview</p>
-            <p className="mt-1 text-sm text-secondary-gray">
-              Requested amount: {formatCurrency(Number(requestedAmount.trim() || '0'))}
-            </p>
+
+          <div className="space-y-2 rounded-md border border-primary-gray-border p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-secondary-gray">Current credit limit</span>
+              <span className="text-sm font-semibold text-primary">
+                {formatCurrency(currentCreditLimit)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-secondary-gray">New credit limit</span>
+              <span className="text-sm font-semibold text-primary">
+                {formatCurrency(newCreditLimit)}
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button
-              type="button"
-              onClick={submitRequest}
+
+          <div className="rounded-md border border-primary-gray-border p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-primary">Connected bank account</p>
+                <p className="mt-1 text-sm text-secondary-gray">
+                  {formatConnectedBankLabel(connectedBank) ?? 'Bank account connected'}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={showVerificationMethodStep}
+                disabled={isSubmitting}
+                className="shrink-0 text-sm font-semibold text-primary-blue hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Change
+              </button>
+            </div>
+          </div>
+
+          <label className="flex items-start gap-3 rounded-md bg-[#FAFAFA] p-3 text-sm leading-[18.2px] text-primary">
+            <input
+              type="checkbox"
+              checked={softCreditPullAccepted}
               disabled={isSubmitting}
-              className="h-9 rounded-md bg-primary-blue px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Continue with connected bank
-            </button>
-            <button
-              type="button"
-              onClick={showVerificationMethodStep}
-              className="text-sm font-semibold text-primary-blue hover:underline"
-            >
-              Change connected bank
-            </button>
-          </div>
+              onChange={(event) => setSoftCreditPullAccepted(event.target.checked)}
+              className="mt-1 h-4 w-4 shrink-0"
+            />
+            <span>
+              I authorize Credit Key to perform a soft credit pull as part of this credit limit
+              increase request. This will not affect my credit score.
+            </span>
+          </label>
+
+          <button
+            type="button"
+            onClick={submitRequest}
+            disabled={!softCreditPullAccepted || isSubmitting}
+            className="h-9 w-full rounded-md bg-primary-blue px-4 text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit request'}
+          </button>
         </div>
       )}
 
@@ -453,12 +501,13 @@ export default function RequestIncreaseModal({
                     value={option.method}
                     checked={verificationMethod === option.method}
                     onChange={() => setVerificationMethod(option.method)}
+                    onClick={() => handleVerificationMethodSelect(option.method)}
                     onFocus={() => setFocusedVerificationMethod(option.method)}
                     onBlur={() => setFocusedVerificationMethod(null)}
                     className="sr-only"
                   />
                   <span className={getVerificationOptionClassName(option.method)}>
-                    <span className="min-w-0 flex-1 space-y-[14px]">
+                    <span className="min-w-0 flex-1 space-y-1.5">
                       <span className="flex w-full items-center gap-[14px]">
                         <span className="text-base font-semibold leading-5 text-primary">
                           {option.title}

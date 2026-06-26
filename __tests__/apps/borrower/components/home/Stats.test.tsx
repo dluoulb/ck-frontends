@@ -19,6 +19,7 @@ jest.mock('@components/modals/ModalWrapper', () => ({
 describe('Stats Component', () => {
   beforeEach(() => {
     process.env[requestIncreaseModalEnvVar] = 'true';
+    window.history.replaceState({}, '', '/borrower');
     const companyApprovedWithoutBankConnection = Object.assign(
       Object.create(Object.getPrototypeOf(companyApproved)),
       companyApproved,
@@ -108,6 +109,20 @@ describe('Stats Component', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
   });
 
+  test('auto-opens the request increase modal from the request_credit_increase deep link and consumes the query param', async () => {
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(screen.getByText('Request Credit Line Increase')).toBeInTheDocument();
+    });
+    expect(
+      screen.getByLabelText('What is the additional amount you are requesting?'),
+    ).toBeInTheDocument();
+    expect(window.location.search).toBe('');
+  });
+
   test('keeps Continue disabled for invalid, zero, and non-positive requested amounts', async () => {
     customRender(<Stats />, { withBorrowerProviders: true });
 
@@ -157,8 +172,38 @@ describe('Stats Component', () => {
   });
 
   test('does not show Request Increase when the approved entity is missing a company id', async () => {
+    const approvedCompanyWithoutId = Object.assign(
+      Object.create(Object.getPrototypeOf(companyApproved)),
+      companyApproved,
+      {
+        id: null,
+      },
+    );
+
     global.mockedUseEntity.mockImplementation(() => ({
-      entity: { ...companyApproved, id: null } as any,
+      entity: approvedCompanyWithoutId as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
+  });
+
+  test('does not show Request Increase for approved companies that are not eligible for a line increase request', async () => {
+    const ineligibleApprovedCompany = Object.assign(
+      Object.create(Object.getPrototypeOf(companyApproved)),
+      companyApproved,
+      {
+        eligible_for_line_increase_request: false,
+      },
+    );
+
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: ineligibleApprovedCompany as any,
       setEntity: jest.fn(),
       fetchEntity: jest.fn(),
       entityError: null,
@@ -239,10 +284,7 @@ describe('Stats Component', () => {
     expect(manualCard).toHaveClass('ring-2', 'ring-primary-blue', 'ring-offset-2');
 
     fireEvent.click(manualRadio);
-    expect(manualRadio).toBeChecked();
-    expect(plaidCard).toHaveClass('border-[#D9D9D9]', 'bg-white');
-    expect(manualCard).toHaveClass('border-[#C4DBFC]', 'bg-[#F0F6FE]');
-    expect(plaidRadio).not.toBeChecked();
+    expect(screen.getByRole('heading', { name: 'Financial Information' })).toBeInTheDocument();
   });
 
   test('does not treat a Plaid access token as an existing bank connection', async () => {
@@ -332,7 +374,11 @@ describe('Stats Component', () => {
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
     });
-    expect(screen.getByRole('button', { name: 'Change connected bank' })).toBeInTheDocument();
+    expect(screen.getByText('Current credit limit')).toBeInTheDocument();
+    expect(screen.getByText('New credit limit')).toBeInTheDocument();
+    expect(screen.getByText('Connected bank account')).toBeInTheDocument();
+    expect(screen.getByText('Mega Corp Bank ••••7890')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Change' })).toBeInTheDocument();
   });
 
   test('does not treat a plaid item id alone as an existing connected bank', async () => {
