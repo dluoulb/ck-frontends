@@ -57,10 +57,17 @@ const verificationMethodOptions = [
   },
 ];
 
-const isValidRequestedAmount = (value: string) => {
-  const requestedAmount = Number(value.trim());
+const parseCurrencyAmount = (value: string | number | null | undefined) => {
+  const normalizedValue = typeof value === 'string' ? value.replace(/[$,\s]/g, '') : value;
+  const amount = Number(normalizedValue);
 
-  return value.trim() !== '' && Number.isFinite(requestedAmount) && requestedAmount > 0;
+  return Number.isFinite(amount) ? amount : 0;
+};
+
+const isValidRequestedAmount = (value: string) => {
+  const requestedAmount = parseCurrencyAmount(value);
+
+  return value.trim() !== '' && requestedAmount > 0;
 };
 const emptyManualStatementFiles = (): (File | null)[] => [null, null, null];
 const emptyManualStatementFileErrors = (): string[] => ['', '', ''];
@@ -162,8 +169,9 @@ export default function RequestIncreaseModal({
   if (!isModalActive) return null;
 
   const canContinue = Boolean(companyId) && isValidRequestedAmount(requestedAmount);
-  const parsedRequestedAmount = Number(requestedAmount.trim());
-  const newCreditLimit = currentCreditLimit + parsedRequestedAmount;
+  const parsedCurrentCreditLimit = parseCurrencyAmount(currentCreditLimit);
+  const parsedRequestedAmount = parseCurrencyAmount(requestedAmount);
+  const newCreditLimit = parsedCurrentCreditLimit + parsedRequestedAmount;
   const showVerificationMethodStep = () => {
     setVerificationMethod((current) => current ?? 'plaid');
     setStep('verification-method');
@@ -424,7 +432,13 @@ export default function RequestIncreaseModal({
             <div className="flex items-center justify-between">
               <span className="text-sm text-secondary-gray">Current credit limit</span>
               <span className="text-sm font-semibold text-primary">
-                {formatCurrency(currentCreditLimit)}
+                {formatCurrency(parsedCurrentCreditLimit)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-secondary-gray">Requested increase</span>
+              <span className="text-sm font-semibold text-primary">
+                {formatCurrency(parsedRequestedAmount)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -531,7 +545,7 @@ export default function RequestIncreaseModal({
               ))}
             </div>
           </fieldset>
-          <div className="flex items-center gap-[14px] bg-[#FAFAFA] px-[10px] py-[10px]">
+          <div className="mt-6 flex items-center gap-[14px] bg-[#FAFAFA] px-[10px] py-[10px]">
             <Image src={shieldCheck} alt="" width={24} height={24} aria-hidden />
             <p className="text-xs leading-[15.6px] text-[#8A94A3]">
               Your bank credentials are encrypted and never stored by Credit Key. We use bank-level
@@ -685,7 +699,13 @@ export default function RequestIncreaseModal({
             <div className="flex items-center justify-between">
               <span className="text-sm text-secondary-gray">Current credit limit</span>
               <span className="text-sm font-semibold text-primary">
-                {formatCurrency(currentCreditLimit)}
+                {formatCurrency(parsedCurrentCreditLimit)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-secondary-gray">Requested increase</span>
+              <span className="text-sm font-semibold text-primary">
+                {formatCurrency(parsedRequestedAmount)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -799,7 +819,7 @@ export default function RequestIncreaseModal({
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-base text-secondary-gray">Current limit</dt>
                 <dd className="text-base font-semibold text-primary">
-                  {formatCurrency(currentCreditLimit)}
+                  {formatCurrency(parsedCurrentCreditLimit)}
                 </dd>
               </div>
             </dl>

@@ -9,6 +9,16 @@ import CreditLine from './credit_line';
 import MerchantRecord from './merchant';
 import UserRecord from './user';
 
+export type LineIncreaseRequestUnavailableReason =
+  | 'company_status'
+  | 'pending_request'
+  | 'recent_credit_refresh';
+
+export interface LineIncreaseRequestAvailability {
+  eligible: boolean;
+  reason?: LineIncreaseRequestUnavailableReason;
+}
+
 export default class CompanyRecord {
   underwriting?: {
     plaid_item_id?: string | null;
@@ -29,6 +39,7 @@ export default class CompanyRecord {
   is_bank_connected: boolean;
   is_bank_connection_pending: boolean;
   eligible_for_line_increase_request?: boolean;
+  line_increase_request_availability?: LineIncreaseRequestAvailability;
   cta_banners: any[];
   vc_sub_limits: Record<string, any>;
   latest_approval_date: string;
@@ -69,6 +80,14 @@ export default class CompanyRecord {
         eligible_for_line_increase_request:
           assignableData.eligible_for_line_increase_request === true ||
           assignableData.eligible_for_line_increase_request === 'true',
+      }),
+      ...(assignableData.line_increase_request_availability !== undefined && {
+        line_increase_request_availability: {
+          ...assignableData.line_increase_request_availability,
+          eligible:
+            assignableData.line_increase_request_availability.eligible === true ||
+            assignableData.line_increase_request_availability.eligible === 'true',
+        },
       }),
     };
 

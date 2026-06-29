@@ -325,7 +325,7 @@ describe('RequestIncreaseModal', () => {
     expect(plaidCard).toHaveClass('gap-[14px]', 'border-[#C4DBFC]', 'bg-[#F0F6FE]');
     expect(manualCard).toHaveClass('gap-[14px]', 'border-[#D9D9D9]', 'bg-white');
     expect(recommendationBadge).toHaveClass('ml-auto');
-    expect(securityNote).toHaveClass('gap-[14px]', 'px-[10px]', 'py-[10px]');
+    expect(securityNote).toHaveClass('mt-6', 'gap-[14px]', 'px-[10px]', 'py-[10px]');
     expect(verificationContinueButton).toHaveClass('h-[38px]', 'text-[15px]');
 
     act(() => {
@@ -466,6 +466,8 @@ describe('RequestIncreaseModal', () => {
     expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
     expect(screen.getByText('Current credit limit')).toBeInTheDocument();
     expect(screen.getByText('$20,000.00')).toBeInTheDocument();
+    expect(screen.getByText('Requested increase')).toBeInTheDocument();
+    expect(screen.getByText('$5,000.00')).toBeInTheDocument();
     expect(screen.getByText('New credit limit')).toBeInTheDocument();
     expect(screen.getByText('$25,000.00')).toBeInTheDocument();
     expect(screen.getByText('Connected bank account')).toBeInTheDocument();
@@ -474,6 +476,31 @@ describe('RequestIncreaseModal', () => {
       screen.getByLabelText(/I authorize Credit Key to perform a soft credit pull/),
     ).not.toBeChecked();
     expect(screen.getByRole('button', { name: 'Submit request' })).toBeDisabled();
+  });
+
+  test('calculates the requested increase review from numeric string values', () => {
+    customRender(
+      <RequestIncreaseModal
+        companyId="123"
+        currentCreditLimit={'20000' as unknown as number}
+        hasConnectedPlaidAccount={false}
+        isModalActive
+        toggleModal={jest.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('What is the additional amount you are requesting?'), {
+      target: { value: '5000' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Complete Plaid verification' }));
+
+    expect(screen.getByText('Requested increase')).toBeInTheDocument();
+    expect(screen.getByText('$5,000.00')).toBeInTheDocument();
+    expect(screen.getByText('New credit limit')).toBeInTheDocument();
+    expect(screen.getByText('$25,000.00')).toBeInTheDocument();
+    expect(screen.queryByText('$200,005,000.00')).not.toBeInTheDocument();
   });
 
   test('shows the under-review confirmation after submitting via Plaid', async () => {
@@ -881,6 +908,8 @@ describe('RequestIncreaseModal', () => {
     expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
     expect(screen.getByText('Current credit limit')).toBeInTheDocument();
     expect(screen.getByText('$20,000.00')).toBeInTheDocument();
+    expect(screen.getByText('Requested increase')).toBeInTheDocument();
+    expect(screen.getByText('$25,000.00')).toBeInTheDocument();
     expect(screen.getByText('New credit limit')).toBeInTheDocument();
     expect(screen.getByText('$45,000.00')).toBeInTheDocument();
     expect(screen.getByText('Bank statements')).toBeInTheDocument();
@@ -1286,6 +1315,8 @@ describe('RequestIncreaseModal', () => {
     expect(screen.getByRole('heading', { name: 'Review Increase Request' })).toBeInTheDocument();
     expect(screen.getByText('Current credit limit')).toBeInTheDocument();
     expect(screen.getByText('$20,000.00')).toBeInTheDocument();
+    expect(screen.getByText('Requested increase')).toBeInTheDocument();
+    expect(screen.getByText('$25,000.00')).toBeInTheDocument();
     expect(screen.getByText('New credit limit')).toBeInTheDocument();
     expect(screen.getByText('$45,000.00')).toBeInTheDocument();
     expect(screen.getByText('Connected bank account')).toBeInTheDocument();

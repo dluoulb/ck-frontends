@@ -5,6 +5,9 @@ import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test
 const requestIncreaseModalEnvVar = 'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED';
 const originalRequestIncreaseModalEnv = process.env[requestIncreaseModalEnvVar];
 
+const buildCompany = (overrides = {}) =>
+  Object.assign(Object.create(Object.getPrototypeOf(companyApproved)), companyApproved, overrides);
+
 jest.mock('@components/modals/ModalWrapper', () => ({
   __esModule: true,
   default: ({ children, header, isModalActive }) =>
@@ -20,14 +23,10 @@ describe('Stats Component', () => {
   beforeEach(() => {
     process.env[requestIncreaseModalEnvVar] = 'true';
     window.history.replaceState({}, '', '/borrower');
-    const companyApprovedWithoutBankConnection = Object.assign(
-      Object.create(Object.getPrototypeOf(companyApproved)),
-      companyApproved,
-      {
-        is_bank_connected: false,
-        is_bank_connection_pending: false,
-      },
-    );
+    const companyApprovedWithoutBankConnection = buildCompany({
+      is_bank_connected: false,
+      is_bank_connection_pending: false,
+    });
 
     global.mockedUseEntity.mockImplementation(() => ({
       entity: companyApprovedWithoutBankConnection,
@@ -87,6 +86,37 @@ describe('Stats Component', () => {
     );
     expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
     expect(screen.queryByText('Request Credit Line Increase')).not.toBeInTheDocument();
+  });
+
+  test('shows the disabled Request Increase control while the modal feature flag is disabled and the company is ineligible', async () => {
+    delete process.env[requestIncreaseModalEnvVar];
+    const ineligibleCompany = buildCompany({
+      eligible_for_line_increase_request: false,
+      line_increase_request_availability: {
+        eligible: false,
+        reason: 'company_status',
+      },
+      underwriting_status: 'pending',
+    });
+
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: ineligibleCompany as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    const requestIncreaseButton = screen.getByRole('button', { name: /request increase/i });
+
+    expect(requestIncreaseButton).toBeDisabled();
+    expect(requestIncreaseButton).toHaveAttribute(
+      'title',
+      'Your company is currently not eligible for a credit request increase',
+    );
+    expect(screen.queryByRole('link', { name: /request increase/i })).not.toBeInTheDocument();
   });
 
   test('opens the request increase modal from the maximum credit tile and shows the first-step copy', async () => {
@@ -172,13 +202,7 @@ describe('Stats Component', () => {
   });
 
   test('does not show Request Increase when the approved entity is missing a company id', async () => {
-    const approvedCompanyWithoutId = Object.assign(
-      Object.create(Object.getPrototypeOf(companyApproved)),
-      companyApproved,
-      {
-        id: null,
-      },
-    );
+    const approvedCompanyWithoutId = buildCompany({ id: null });
 
     global.mockedUseEntity.mockImplementation(() => ({
       entity: approvedCompanyWithoutId as any,
@@ -193,27 +217,60 @@ describe('Stats Component', () => {
     expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
   });
 
-  test('does not show Request Increase for approved companies that are not eligible for a line increase request', async () => {
-    const ineligibleApprovedCompany = Object.assign(
-      Object.create(Object.getPrototypeOf(companyApproved)),
-      companyApproved,
-      {
-        eligible_for_line_increase_request: false,
+  test.each([
+    {
+      availability: {
+        eligible: false,
+        reason: 'pending_request',
       },
-    );
+      expectedLabel: 'Increase Request Pending',
+      expectedTooltip: 'Your credit increase is under review',
+      underwriting_status: 'approved',
+    },
+    {
+      availability: {
+        eligible: false,
+        reason: 'recent_credit_refresh',
+      },
+      expectedLabel: 'Request increase',
+      expectedTooltip: 'You are only able to request a credit line increase once every 6 months',
+      underwriting_status: 'approved',
+    },
+    {
+      availability: {
+        eligible: false,
+        reason: 'company_status',
+      },
+      expectedLabel: 'Request increase',
+      expectedTooltip: 'Your company is currently not eligible for a credit request increase',
+      underwriting_status: 'pending',
+    },
+  ])(
+    'shows a disabled Request Increase control with the $availability.reason tooltip',
+    async ({ availability, expectedLabel, expectedTooltip, underwriting_status }) => {
+      const ineligibleCompany = buildCompany({
+        eligible_for_line_increase_request: false,
+        line_increase_request_availability: availability,
+        underwriting_status,
+      });
 
-    global.mockedUseEntity.mockImplementation(() => ({
-      entity: ineligibleApprovedCompany as any,
-      setEntity: jest.fn(),
-      fetchEntity: jest.fn(),
-      entityError: null,
-      entityLoading: false,
-    }));
+      global.mockedUseEntity.mockImplementation(() => ({
+        entity: ineligibleCompany as any,
+        setEntity: jest.fn(),
+        fetchEntity: jest.fn(),
+        entityError: null,
+        entityLoading: false,
+      }));
 
-    customRender(<Stats />, { withBorrowerProviders: true });
+      customRender(<Stats />, { withBorrowerProviders: true });
 
-    expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
-  });
+      const requestIncreaseButton = screen.getByRole('button', { name: expectedLabel });
+
+      expect(requestIncreaseButton).toBeDisabled();
+      expect(requestIncreaseButton).toHaveAttribute('title', expectedTooltip);
+      expect(screen.queryByText('Request Credit Line Increase')).not.toBeInTheDocument();
+    },
+  );
 
   test('does not show Request Increase for approved non-company entities', async () => {
     global.mockedUseEntity.mockImplementation(() => ({

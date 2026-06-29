@@ -262,3 +262,28 @@ describe('CompanyRecord#underwriting', () => {
     expect(company.underwriting).toEqual({});
   });
 });
+
+describe('CompanyRecord#line_increase_request_availability', () => {
+  let CompanyRecord: typeof CompanyRecordType;
+
+  beforeAll(() => {
+    CompanyRecord = loadCompanyRecord(false);
+  });
+
+  it('normalizes the eligible flag while preserving the unavailable reason', () => {
+    const company = new CompanyRecord({
+      ...companyApproved,
+      eligible_for_line_increase_request: 'false',
+      line_increase_request_availability: {
+        eligible: 'false',
+        reason: 'recent_credit_refresh',
+      },
+    });
+
+    expect(company.eligible_for_line_increase_request).toBe(false);
+    expect(company.line_increase_request_availability).toEqual({
+      eligible: false,
+      reason: 'recent_credit_refresh',
+    });
+  });
+});

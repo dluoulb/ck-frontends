@@ -15,31 +15,65 @@ import { formatCurrency } from '@lib/utils/formatters';
 import RequestIncreaseModal from './RequestIncreaseModal';
 
 const requestIncreaseDeepLinkParam = 'request_credit_increase';
+const requestIncreaseUnavailableTooltips = {
+  company_status: 'Your company is currently not eligible for a credit request increase',
+  pending_request: 'Your credit increase is under review',
+  recent_credit_refresh: 'You are only able to request a credit line increase once every 6 months',
+};
+type RequestIncreaseUnavailableReason = keyof typeof requestIncreaseUnavailableTooltips;
+const fallbackRequestIncreaseUnavailableTooltip =
+  'You are currently unable to request a credit line increase';
 
 export default function Stats() {
   const { entity } = useEntity();
   const { user } = useUser();
   const { stats, statsError, isLoading } = useBorrowerDeps();
   const { isModalActive, setIsModalActive } = useModal();
+  const requestIncreaseModalEnabled = isEnabled(
+    process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
+  );
 
   const remainingCredit =
     entity?.credit_line !== undefined
       ? entity.credit_line.remaining_amount
       : (entity.max_purchase_amount ?? 0) - (stats?.credit_utilized ?? 0);
   const approvedUser = entity?.status === 'approved';
+  const companyCanShowRequestIncrease = Boolean(entity?.type === 'company' && entity?.id);
+  const lineIncreaseRequestAvailability =
+    entity?.type === 'company' ? entity.line_increase_request_availability : undefined;
+  const lineIncreaseRequestEligible =
+    lineIncreaseRequestAvailability?.eligible ??
+    entity?.eligible_for_line_increase_request ??
+    false;
   const canRequestIncrease = Boolean(
-    approvedUser &&
-    entity?.type === 'company' &&
-    entity?.id &&
-    entity?.eligible_for_line_increase_request,
+    approvedUser && companyCanShowRequestIncrease && lineIncreaseRequestEligible,
   );
-  const requestIncreaseCompanyId = canRequestIncrease ? entity.id : undefined;
+  const unavailableReason =
+    lineIncreaseRequestAvailability?.reason ?? (approvedUser ? undefined : 'company_status');
+  const unavailableTooltip =
+    unavailableReason && unavailableReason in requestIncreaseUnavailableTooltips
+      ? requestIncreaseUnavailableTooltips[unavailableReason as RequestIncreaseUnavailableReason]
+      : fallbackRequestIncreaseUnavailableTooltip;
+  const disabledRequestIncreaseTooltip = companyCanShowRequestIncrease
+    ? unavailableTooltip
+    : undefined;
+  const disabledRequestIncreaseLabel =
+    unavailableReason === 'pending_request' ? 'Increase Request Pending' : 'Request increase';
+  const requestIncreaseCompanyId =
+    canRequestIncrease && entity?.type === 'company' ? entity.id : undefined;
+  const requestIncreaseAction = canRequestIncrease
+    ? { disabled: false, name: 'Request Increase' }
+    : companyCanShowRequestIncrease
+      ? {
+          disabled: true,
+          name: disabledRequestIncreaseLabel,
+          tooltipText: disabledRequestIncreaseTooltip,
+        }
+      : undefined;
+  const showRequestIncreaseLink = Boolean(!requestIncreaseModalEnabled && canRequestIncrease);
+  const showDisabledRequestIncreaseAction = companyCanShowRequestIncrease && !canRequestIncrease;
   const hasConnectedPlaidAccount = Boolean(entity?.type === 'company' && entity.is_bank_connected);
-  const requestIncreaseModalEnabled = isEnabled(
-    process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
-  );
   const showRequestIncreaseModalEntry = requestIncreaseModalEnabled && canRequestIncrease;
-  const showRequestIncreaseLink = !requestIncreaseModalEnabled && canRequestIncrease;
   const currentCreditLimit = entity?.credit_line?.amount ?? entity?.max_purchase_amount ?? 0;
   const { defaultBank } = usePaymentMethods(
     user,
@@ -86,7 +120,10 @@ export default function Stats() {
       name: 'Maximum Credit',
       value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
-      action: showRequestIncreaseModalEntry ? { name: 'Request Increase' } : undefined,
+      action:
+        requestIncreaseModalEnabled || showDisabledRequestIncreaseAction
+          ? requestIncreaseAction
+          : undefined,
       link: showRequestIncreaseLink
         ? {
             url: 'https://www.creditkey.com/credit-key-increase-request',
@@ -147,13 +184,31 @@ export default function Stats() {
                   <span>{stat.value}</span>
                   <div className="flex items-center text-sm">
                     {stat.action ? (
-                      <button
-                        type="button"
-                        onClick={openRequestIncreaseModal}
-                        className="text-xs text-primary-blue no-underline hover:underline inline-block"
-                      >
-                        {stat.action.name}
-                      </button>
+                      stat.action.tooltipText ? (
+                        <Tooltip
+                          tooltip_text={stat.action.tooltipText}
+                          trigger_class="cursor-not-allowed max-w-max border-none"
+                          container_class="text-black p-4 px-6 text-sm bg-white"
+                        >
+                          <button
+                            type="button"
+                            disabled
+                            title={stat.action.tooltipText}
+                            className="text-xs text-primary-blue opacity-50 no-underline inline-block cursor-not-allowed pointer-events-none"
+                          >
+                            {stat.action.name}
+                          </button>
+                        </Tooltip>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={stat.action.disabled}
+                          onClick={openRequestIncreaseModal}
+                          className="text-xs text-primary-blue no-underline hover:underline inline-block"
+                        >
+                          {stat.action.name}
+                        </button>
+                      )
                     ) : stat.link ? (
                       <a
                         href={stat.link.url}
@@ -164,16 +219,18 @@ export default function Stats() {
                         {stat.link.name}
                       </a>
                     ) : null}
-                    <Tooltip
-                      tooltip_text="You are able to request a line increase once every 6 months"
-                      trigger_class="cursor-pointer max-w-max border-none"
-                      container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
-                    >
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        className="text-tertiary-gray ml-2 text-base"
-                      />
-                    </Tooltip>
+                    {!stat.action?.disabled && (
+                      <Tooltip
+                        tooltip_text="You are able to request a line increase once every 6 months"
+                        trigger_class="cursor-pointer max-w-max border-none"
+                        container_class="text-center text-black p-4 px-6 text-sm bg-secondary-blue"
+                      >
+                        <FontAwesomeIcon
+                          icon={faInfoCircle}
+                          className="text-tertiary-gray ml-2 text-base"
+                        />
+                      </Tooltip>
+                    )}
                   </div>
                 </div>
               ) : (
