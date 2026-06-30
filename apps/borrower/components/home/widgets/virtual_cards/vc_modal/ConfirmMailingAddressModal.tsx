@@ -7,6 +7,7 @@ import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createPhysicalCard } from '@lib/actions/companies';
+import { captureEvent } from '@lib/posthog';
 import FullStory from '@lib/utils/fullstory';
 
 export default function ConfirmMailingAddressModal({ next }) {
@@ -25,6 +26,7 @@ export default function ConfirmMailingAddressModal({ next }) {
     createPhysicalCard(api, entity?.id)
       .then(() => {
         refetchPhysicalCard();
+        captureEvent('physical_card_requested');
         makeToast('Credit Key Card Successfully Requested', 'success');
         setLoading(false);
         next();

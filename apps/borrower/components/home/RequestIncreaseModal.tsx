@@ -11,6 +11,7 @@ import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createLimitIncreaseRequest, uploadCompanyDocument } from '@lib/actions/companies';
 import shieldCheck from '@lib/images/shield-check.svg';
+import { captureEvent } from '@lib/posthog';
 import PaymentMethodRecord from '@lib/records/payment_method';
 import { formatCurrency } from '@lib/utils/formatters';
 
@@ -186,6 +187,9 @@ export default function RequestIncreaseModal({
   const canContinueToReview =
     Boolean(companyId) && selectedManualStatementFiles.length === 3 && manualDisclaimerAccepted;
   const showSubmissionConfirmation = () => {
+    captureEvent('cli_increase_requested', {
+      request_method: verificationMethod === 'manual' ? 'manual' : 'plaid',
+    });
     setStep('confirmation');
   };
   const handleManualStatementFileChange = (

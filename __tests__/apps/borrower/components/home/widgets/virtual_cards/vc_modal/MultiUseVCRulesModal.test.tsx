@@ -6,6 +6,8 @@ import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useToast from '@hooks/useToast';
 import { createVirtualCard } from '@lib/actions/companies';
+import { CardType } from '@lib/constants/Enums';
+import { captureEvent } from '@lib/posthog';
 
 jest.mock('@contexts/EntityContext');
 jest.mock('@contexts/UserContext');
@@ -20,6 +22,9 @@ jest.mock('@hooks/useToast', () => ({
 jest.mock('@lib/actions/companies', () => ({
   createVirtualCard: jest.fn(),
 }));
+jest.mock('@lib/posthog', () => ({
+  captureEvent: jest.fn(),
+}));
 jest.mock('@lib/utils/fullstory', () =>
   jest.fn().mockImplementation(() => ({
     agreeVcRulesEvent: jest.fn(),
@@ -30,6 +35,7 @@ const mockUseEntity = useEntity as jest.MockedFunction<typeof useEntity>;
 const mockUseUser = useUser as jest.MockedFunction<typeof useUser>;
 const mockUseToast = useToast as jest.MockedFunction<typeof useToast>;
 const mockCreateVirtualCard = createVirtualCard as jest.MockedFunction<typeof createVirtualCard>;
+const mockCaptureEvent = captureEvent as jest.MockedFunction<typeof captureEvent>;
 
 describe('MultiUseVCRulesModal', () => {
   const next = jest.fn();
@@ -45,7 +51,7 @@ describe('MultiUseVCRulesModal', () => {
         is_bank_connected: true,
       } as any,
     } as any);
-    mockUseUser.mockReturnValue({ user: { id: 'user-1' } } as any);
+    mockUseUser.mockReturnValue({ user: { id: 'user-1', full_name: 'Test User' } } as any);
     mockUseToast.mockImplementation(() => ({ makeToast: jest.fn() }) as any);
     mockCreateVirtualCard.mockResolvedValue({ id: 'vc-1' } as any);
     syncVirtualCardAfterCreate.mockResolvedValue({
@@ -65,6 +71,7 @@ describe('MultiUseVCRulesModal', () => {
         setModalState={setModalState}
         skipCardCreate={true}
         syncVirtualCardAfterCreate={syncVirtualCardAfterCreate}
+        cardType={CardType.PHYSICAL}
       />,
     );
 
@@ -77,6 +84,12 @@ describe('MultiUseVCRulesModal', () => {
 
     expect(mockCreateVirtualCard).not.toHaveBeenCalled();
     expect(setModalState).not.toHaveBeenCalled();
+    expect(mockCaptureEvent).toHaveBeenCalledWith('agreed_to_card_rules', {
+      user_id: 'user-1',
+      company_id: 'entity-1',
+      name: 'Test User',
+      card_type: CardType.PHYSICAL,
+    });
   });
 
   test('creates the virtual card immediately when the normal virtual-card flow can skip later steps', async () => {
@@ -87,6 +100,7 @@ describe('MultiUseVCRulesModal', () => {
         hasDefaultTerm={true}
         setModalState={setModalState}
         syncVirtualCardAfterCreate={syncVirtualCardAfterCreate}
+        cardType={CardType.VIRTUAL}
       />,
     );
 
@@ -96,6 +110,12 @@ describe('MultiUseVCRulesModal', () => {
     await waitFor(() => {
       expect(mockCreateVirtualCard).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledTimes(1);
+    });
+    expect(mockCaptureEvent).toHaveBeenCalledWith('agreed_to_card_rules', {
+      user_id: 'user-1',
+      company_id: 'entity-1',
+      name: 'Test User',
+      card_type: CardType.VIRTUAL,
     });
   });
 
@@ -107,6 +127,7 @@ describe('MultiUseVCRulesModal', () => {
         hasDefaultTerm={true}
         setModalState={setModalState}
         syncVirtualCardAfterCreate={syncVirtualCardAfterCreate}
+        cardType={CardType.VIRTUAL}
       />,
     );
 

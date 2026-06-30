@@ -9,6 +9,7 @@ import useToast from '@hooks/useToast';
 import { getVirtualCardToken } from '@lib/actions/companies';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import vcSvg from '@lib/images/vc-blue.svg';
+import { captureEvent } from '@lib/posthog';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 import { formatCardNumber } from '@lib/utils/formatters';
 import { CardAssets } from '../cardAssets';
@@ -184,6 +185,7 @@ export default function ActivePhysicalCard({
       const nextToken = await getVirtualCardToken(api, entity.id, card.id);
       setToken(nextToken);
       onShowWidget();
+      captureEvent('physical_card_viewed');
     } catch (error) {
       if (error?.response?.status === 429) {
         makeToast('Too many requests. Please wait a minute and try again.', 'error');

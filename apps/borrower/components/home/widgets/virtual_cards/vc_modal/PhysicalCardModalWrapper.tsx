@@ -9,6 +9,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import { getMerchant } from '@lib/actions/merchants';
+import { CardType } from '@lib/constants/Enums';
 import CardholderAgreementModal from './CardholderAgreementModal';
 import ConfirmMailingAddressModal from './ConfirmMailingAddressModal';
 import MultiUseVCRulesModal from './MultiUseVCRulesModal';
@@ -105,6 +106,7 @@ export default function PhysicalCardModalWrapper({ isModalActive, toggleModal })
     createVcFlow: true,
     skipCardCreate: true,
     hasDefaultTerm: hasDefaultTerm,
+    cardType: CardType.PHYSICAL,
   };
 
   useEffect(() => {

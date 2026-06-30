@@ -4,6 +4,7 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import useModal from '@hooks/useModal';
 import { useCancelSubscription } from '@hooks/useSubscription';
 import useToast from '@hooks/useToast';
+import { captureEvent } from '@lib/posthog';
 import SubscriptionRecord from '@lib/records/subscription';
 import CancelSubscriptionModal from './CancelSubscriptionModal';
 
@@ -41,6 +42,7 @@ const ManageSubscriptionButton: FC<ManageSubscriptionButtonProps> = ({
         reason,
         comment,
       });
+      captureEvent('ck_plus_subscription', { subscription_status: 'cancelled' });
 
       makeToast('Subscription cancelled successfully', 'success');
       onCancelled();

@@ -10,6 +10,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useModal from '@hooks/useModal';
 import { getMerchant } from '@lib/actions/merchants';
+import { CardType } from '@lib/constants/Enums';
 import { jitEnabled } from '@lib/constants/SiteVariables';
 import AddFundsModal from './AddFundsModal';
 import CardholderAgreementModal from './CardholderAgreementModal';
@@ -168,6 +169,7 @@ export default function MultiUseVirtualCardModalWrapper({
     skipCardCreate: false,
     hasDefaultTerm: hasDefaultTerm,
     syncVirtualCardAfterCreate,
+    cardType: CardType.VIRTUAL,
   };
 
   useEffect(() => {

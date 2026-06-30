@@ -11,6 +11,7 @@ import usePaymentMethods from '@hooks/usePaymentMethods';
 import { useRewardPointsBalance, useRewardPointsLedger } from '@hooks/useReward';
 import useToast from '@hooks/useToast';
 import { redeemPoints } from '@lib/actions/plus';
+import { captureEvent } from '@lib/posthog';
 import { formatCurrency } from '@lib/utils/formatters';
 
 const ACH_MIN_POINTS = 250;
@@ -74,6 +75,7 @@ export default function RedeemPointsModal({
     setIsSubmitting(true);
     try {
       const result = await redeemPoints(api, entity.id, pointsToRedeem);
+      captureEvent('rewards_redeemed');
 
       makeToast(
         result.message ??

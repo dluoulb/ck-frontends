@@ -6,6 +6,7 @@ import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import { useActiveSubscription, useCreateSubscription } from '@hooks/useSubscription';
 import useToast from '@hooks/useToast';
+import { captureEvent } from '@lib/posthog';
 import FullStory from '@lib/utils/fullstory';
 import ActivationModal from './ActivationModal';
 import Banner from './Banner';
@@ -36,6 +37,7 @@ export default function Plus() {
 
     const fullstory = new FullStory();
     fullstory.plusSubscriptionSuccessfulEvent(user?.id, entity?.id, planType);
+    captureEvent('ck_plus_subscription', { subscription_status: 'activated' });
 
     toggleActivationModal();
     makeToast('Credit Key Plus subscription activated successfully!', 'success');

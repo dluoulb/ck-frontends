@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 
 import { useBorrowerDeps } from '@contexts/BorrowerContext';
+import { amountBand, captureEvent } from '@lib/posthog';
 import PaymentModalForm from './components/PaymentModalForm';
 
 type FormValues = {
@@ -19,6 +20,10 @@ export default function PaymentsModal({ next, order, setModalState, toggleModal,
   const defaultPayment = order.entity_type === 'account' ? defaultCard : defaultBank;
 
   const setConfirmModal = (values) => {
+    captureEvent('payment_initiated', {
+      payment_type: isPaymentPlan ? 'payment_plan' : 'loan',
+      amount_band: amountBand(parseFloat(values.amount)),
+    });
     setModalState(values);
     next();
   };

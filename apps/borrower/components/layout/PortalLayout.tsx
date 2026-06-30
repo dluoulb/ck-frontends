@@ -10,7 +10,9 @@ import { useUser } from '@contexts/UserContext';
 import { useCustomerIO } from '@hooks/useCustomerio';
 import useOrders from '@hooks/useOrders';
 import { usePosthogIdentify } from '@hooks/usePosthogIdentify';
+import { usePosthogPageView } from '@hooks/usePosthogPageView';
 import { platform } from '@lib/constants/SiteVariables';
+import { setPosthogSessionOptOut } from '@lib/posthog';
 import { fromISO } from '@lib/utils/datetime_formatters';
 import PossessUser from './PossessUser';
 
@@ -24,8 +26,14 @@ export default function PortalLayout({ children }) {
   const { isAdminUser, isImpersonating } = useUser();
   const { entity } = useEntity();
   const { totalOrderCount } = useOrders(entity);
+
+  useEffect(() => {
+    setPosthogSessionOptOut(isAdminUser || isImpersonating);
+  }, [isAdminUser, isImpersonating]);
+
   useCustomerIO();
   usePosthogIdentify();
+  usePosthogPageView();
 
   const promo_id = searchParams.get('promo_id');
 

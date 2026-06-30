@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ActiveCardSection from '@apps/borrower/components/wallet/ActiveCardSection';
 import InactiveCardSection from '@apps/borrower/components/wallet/InactiveCardSection';
@@ -8,6 +8,7 @@ import {
   physicalCardBenefitsConfig,
   virtualCardBenefitsConfig,
 } from '@lib/constants/SiteVariables';
+import { captureEvent } from '@lib/posthog';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 
 interface ModalState {
@@ -34,9 +35,21 @@ function resolveActiveCard(
   return null;
 }
 
-export default function MultiUseVirtualCardDetails({ modalState }: { modalState?: ModalState }) {
+export default function MultiUseVirtualCardDetails({
+  modalState,
+  createVcFlow,
+}: {
+  modalState?: ModalState;
+  createVcFlow?: boolean;
+}) {
   const vcProps = useCompanyVirtualCard();
   const [showWidget, setShowWidget] = useState(false);
+
+  useEffect(() => {
+    if (createVcFlow) {
+      captureEvent('virtual_card_provisioned');
+    }
+  }, [createVcFlow]);
 
   const handleShowWidget = () => setShowWidget(true);
   const handleHideWidget = () => setShowWidget(false);

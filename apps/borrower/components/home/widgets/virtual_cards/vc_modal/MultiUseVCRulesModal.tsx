@@ -7,6 +7,8 @@ import { useUser } from '@contexts/UserContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createVirtualCard } from '@lib/actions/companies';
+import { CardType } from '@lib/constants/Enums';
+import { captureEvent } from '@lib/posthog';
 import FullStory from '@lib/utils/fullstory';
 
 interface MultiUseVCRulesModalProps {
@@ -16,6 +18,7 @@ interface MultiUseVCRulesModalProps {
   setModalState?: React.Dispatch<React.SetStateAction<any>>;
   skipCardCreate?: boolean;
   syncVirtualCardAfterCreate?: (createdCard: any) => Promise<any>;
+  cardType: (typeof CardType)[keyof typeof CardType];
 }
 
 export default function MultiUseVCRulesModal({
@@ -25,6 +28,7 @@ export default function MultiUseVCRulesModal({
   setModalState,
   skipCardCreate = false,
   syncVirtualCardAfterCreate,
+  cardType,
 }: MultiUseVCRulesModalProps) {
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,6 +42,12 @@ export default function MultiUseVCRulesModal({
   const handleClick = async () => {
     const fullstory = new FullStory();
     fullstory.agreeVcRulesEvent(user?.id, entity?.id);
+    captureEvent('agreed_to_card_rules', {
+      user_id: user?.id,
+      company_id: entity?.id,
+      name: user?.full_name,
+      card_type: cardType,
+    });
 
     if (shouldCreateCardOnAgree) {
       setLoading(true);

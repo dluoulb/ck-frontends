@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useOrders from '@hooks/useOrders';
-import { identifyUser } from '@lib/posthog';
+import { capturePortalLogin, identifyUser } from '@lib/posthog';
 
 export const usePosthogIdentify = () => {
   const { user, isImpersonating, isAdminUser } = useUser();
@@ -16,6 +16,7 @@ export const usePosthogIdentify = () => {
 
     if (user?.id && entity?.type === 'company' && !ordersLoading && !hasIdentified.current) {
       identifyUser(user, entity, totalOrderCount);
+      capturePortalLogin(user.id, entity.id);
       hasIdentified.current = true;
     }
   }, [user, entity, totalOrderCount, ordersLoading, isImpersonating, isAdminUser]);

@@ -7,12 +7,14 @@ import { useRouter } from 'next/router';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
+import { useUser } from '@contexts/UserContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
-import { resetPostHog } from '@lib/posthog';
+import { capturePortalSessionEnded, resetPostHog } from '@lib/posthog';
 
 export default function MobileNav() {
   const router = useRouter();
   const { primaryRoutes } = usePrimaryRoutes();
+  const { isAdminUser, isImpersonating } = useUser();
   const navigation = [{ route: '/borrower', routes: primaryRoutes }];
   const mobileApp = localStorage.getItem('mobileApp') === 'true';
 
@@ -66,8 +68,11 @@ export default function MobileNav() {
                     as="div"
                     onClick={async () => {
                       const href = authRedirectLink(window.location.href);
-                      resetPostHog();
                       await signOut();
+                      if (!isAdminUser && !isImpersonating) {
+                        capturePortalSessionEnded();
+                      }
+                      resetPostHog();
                       router.push(href);
                     }}
                     className="text-primary-blue-hover hover:bg-primary-blue-hover/80 hover:text-white block rounded-md px-3 py-2 text-sm font-medium flex items-center gap-2"

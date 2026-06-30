@@ -45,64 +45,64 @@ The monorepo houses the following applications:
 
 ### Core Framework & Language
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Next.js | ^16.2.6 | React framework with SSR/SSG capabilities |
-| React | 18.3.1 | UI library for building components |
-| TypeScript | 5.4.5 | Type-safe JavaScript development |
-| Node.js | 22.22.3 | Runtime environment |
+| Technology | Version | Purpose                                   |
+| ---------- | ------- | ----------------------------------------- |
+| Next.js    | ^16.2.6 | React framework with SSR/SSG capabilities |
+| React      | 18.3.1  | UI library for building components        |
+| TypeScript | 5.4.5   | Type-safe JavaScript development          |
+| Node.js    | 22.22.3 | Runtime environment                       |
 
 ### UI & Styling
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Tailwind CSS | 3.4.17 | Utility-first CSS framework |
-| SASS | 1.82.0 | CSS preprocessor for custom styles |
-| Radix UI | Various | Headless UI components |
-| Headless UI | 2.1.2 | Unstyled accessible components |
-| FontAwesome Pro | 6.5.2 | Icon library |
+| Technology      | Version | Purpose                            |
+| --------------- | ------- | ---------------------------------- |
+| Tailwind CSS    | 3.4.17  | Utility-first CSS framework        |
+| SASS            | 1.82.0  | CSS preprocessor for custom styles |
+| Radix UI        | Various | Headless UI components             |
+| Headless UI     | 2.1.2   | Unstyled accessible components     |
+| FontAwesome Pro | 6.5.2   | Icon library                       |
 
 ### State Management & Data Fetching
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| React Context API | - | Global state management |
-| TanStack React Query | 5.37.1 | Server state management & caching |
-| Axios | 1.7.2 | HTTP client for API requests |
-| Formik | 2.4.6 | Form state management |
+| Technology           | Version | Purpose                           |
+| -------------------- | ------- | --------------------------------- |
+| React Context API    | -       | Global state management           |
+| TanStack React Query | 5.37.1  | Server state management & caching |
+| Axios                | 1.7.2   | HTTP client for API requests      |
+| Formik               | 2.4.6   | Form state management             |
 
 ### Authentication & Authorization
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| SuperTokens | 0.41.1 | SSO authentication framework |
+| Technology  | Version | Purpose                      |
+| ----------- | ------- | ---------------------------- |
+| SuperTokens | 0.41.1  | SSO authentication framework |
 
 ### Search & Data
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| React Instantsearch | 7.11.1 | Search UI components |
-| Typesense Adapter | 2.8.0 | Search engine integration |
-| TanStack React Table | 8.20.5 | Table component library |
+| Technology           | Version | Purpose                   |
+| -------------------- | ------- | ------------------------- |
+| React Instantsearch  | 7.11.1  | Search UI components      |
+| Typesense Adapter    | 2.8.0   | Search engine integration |
+| TanStack React Table | 8.20.5  | Table component library   |
 
 ### Development & Testing
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Jest | 29.7.0 | Testing framework |
-| React Testing Library | 16.0.0 | Component testing utilities |
-| MSW | 2.3.5 | API mocking for tests |
-| ESLint | 9.39.2 | Code linting |
-| Prettier | 3.8.0 | Code formatting |
+| Technology            | Version | Purpose                     |
+| --------------------- | ------- | --------------------------- |
+| Jest                  | 29.7.0  | Testing framework           |
+| React Testing Library | 16.0.0  | Component testing utilities |
+| MSW                   | 2.3.5   | API mocking for tests       |
+| ESLint                | 9.39.2  | Code linting                |
+| Prettier              | 3.8.0   | Code formatting             |
 
 ### Monitoring & Analytics
 
-| Technology | Purpose |
-|-----------|---------|
-| FullStory | Session replay and analytics |
-| Rollbar | Error tracking and monitoring |
-| Customer.io CDP | Customer data platform |
-| PostHog | Product analytics & NPS person targeting (borrower portal) |
+| Technology      | Purpose                                                    |
+| --------------- | ---------------------------------------------------------- |
+| FullStory       | Session replay and analytics                               |
+| Rollbar         | Error tracking and monitoring                              |
+| Customer.io CDP | Customer data platform                                     |
+| PostHog         | Product analytics & NPS person targeting (borrower portal) |
 
 ## Monorepo Structure
 
@@ -299,22 +299,22 @@ const sites = [
 
 ### Environment-Based URLs
 
-| Environment | Application | URL |
-|-------------|------------|-----|
-| **Production** | Borrower Portal | https://borrower.creditkey.com |
-| | Admin Dashboard | https://admin.creditkey.com |
-| | Reports Dashboard | https://reports.creditkey.com |
-| | Instore Portal | https://merchant-instore.creditkey.com |
-| **Staging** | Borrower Portal | https://staging-borrower.creditkey.com |
-| | Admin Dashboard | https://staging-admin.creditkey.com |
-| | Reports Dashboard | https://staging-reports.creditkey.com |
-| | Instore Portal | https://staging-merchant-instore.creditkey.com |
-| | Demo Checkout | https://demo.creditkey.tech |
-| **Development** | Borrower Portal | http://borrower.creditkey.localhost |
-| | Admin Dashboard | http://admin.creditkey.localhost |
-| | Reports Dashboard | http://reports.creditkey.localhost |
-| | Instore Portal | http://merchant-instore.creditkey.localhost |
-| | Demo Checkout | http://demo.creditkey.localhost |
+| Environment     | Application       | URL                                            |
+| --------------- | ----------------- | ---------------------------------------------- |
+| **Production**  | Borrower Portal   | https://borrower.creditkey.com                 |
+|                 | Admin Dashboard   | https://admin.creditkey.com                    |
+|                 | Reports Dashboard | https://reports.creditkey.com                  |
+|                 | Instore Portal    | https://merchant-instore.creditkey.com         |
+| **Staging**     | Borrower Portal   | https://staging-borrower.creditkey.com         |
+|                 | Admin Dashboard   | https://staging-admin.creditkey.com            |
+|                 | Reports Dashboard | https://staging-reports.creditkey.com          |
+|                 | Instore Portal    | https://staging-merchant-instore.creditkey.com |
+|                 | Demo Checkout     | https://demo.creditkey.tech                    |
+| **Development** | Borrower Portal   | http://borrower.creditkey.localhost            |
+|                 | Admin Dashboard   | http://admin.creditkey.localhost               |
+|                 | Reports Dashboard | http://reports.creditkey.localhost             |
+|                 | Instore Portal    | http://merchant-instore.creditkey.localhost    |
+|                 | Demo Checkout     | http://demo.creditkey.localhost                |
 
 ### Middleware Logic
 
@@ -379,11 +379,7 @@ const [formData, setFormData] = useState({});
 Used for complex form management:
 
 ```tsx
-<Formik
-  initialValues={initialValues}
-  validationSchema={validationSchema}
-  onSubmit={handleSubmit}
->
+<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
   {/* Form components */}
 </Formik>
 ```
@@ -429,10 +425,10 @@ export const useUserData = (userId: string) => {
 // Component usage
 const UserProfile = ({ userId }) => {
   const { data: user, isLoading, error } = useUserData(userId);
-  
+
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage error={error} />;
-  
+
   return <UserDetails user={user} />;
 };
 ```
@@ -458,9 +454,10 @@ Deployment enforces the same tier split at build time. `.github/workflows/deploy
 
 The borrower portal is instrumented with PostHog (`posthog-js`) for product analytics and NPS person targeting, following PostHog's Next.js 15.3+ pattern.
 
-- **Initialization**: `instrumentation-client.ts` (repo root) initializes the SDK on the client before hydration via `posthog.init()` with `defaults`, `person_profiles: 'identified_only'`, and `autocapture: true`. Session replay uses **selective masking** rather than a blanket blur: the manual bank-entry form (`BankForm`) and the Qolo virtual/physical card widgets carry the `ph-no-capture` class — the PostHog equivalent of FullStory's `fs-exclude` — and the card widgets are cross-origin iframes that rrweb does not record at all. Everything else in the portal is visible in replays. It is token-guarded, so it no-ops when `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` is unset (e.g., local dev without a key).
+- **Initialization**: `instrumentation-client.ts` (repo root) initializes the SDK on the client before hydration via `posthog.init()` with `defaults`, `person_profiles: 'identified_only'`, and `autocapture: true`. A `before_send` hook (`shared/lib/posthog.ts#posthogBeforeSend`) gates **every** event — autocapture, automatic pageviews, and explicit wrapper events — behind an in-memory suppression flag, and `initSessionSuppression()` seeds that flag synchronously from the impersonation marker (`parentUserId` in `sessionStorage`, set by `usePossessedUser`) so impersonated sessions are dropped before the first event fires; the same signal sets `disable_session_recording`. Real borrower sessions therefore capture from the first event with no persistence to leak across users. Session replay otherwise uses **selective masking** rather than a blanket blur: the manual bank-entry form (`BankForm`) and the Qolo virtual/physical card widgets carry the `ph-no-capture` class — the PostHog equivalent of FullStory's `fs-exclude` — and the card widgets are cross-origin iframes that rrweb does not record at all. Everything else in real borrower sessions is visible in replays. It is token-guarded, so it no-ops when `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` is unset (e.g., local dev without a key).
 - **Identification**: `shared/hooks/usePosthogIdentify.ts` (mounted in `PortalLayout`) calls `shared/lib/posthog.ts#identifyUser` once the user and company entity have loaded, setting `name`, `companyName`, `companyId`, `totalOrders`, and `tier`. Admin and impersonated sessions are skipped, and the identify fires once per session.
-- **Reset**: `resetPostHog()` is called on sign-out (`TopNav`/`MobileNav`) to unlink subsequent events from the previous user.
+- **Session suppression**: `PortalLayout` syncs the suppression flag (`setPosthogSessionOptOut`) from `isAdminUser || isImpersonating` — which also stops/starts session recording to match — before the login/page-view hooks register. This covers pure-admin sessions, where role is only known asynchronously; impersonated sessions are already suppressed synchronously at init. The flag is held in memory only, so nothing leaks across users in the same tab.
+- **Reset**: `resetPostHog()` is called on sign-out (`TopNav`/`MobileNav`) to unlink subsequent events from the previous user and re-suppress the session until the next normal borrower session resumes capture.
 - **Per-environment projects**: local dev and staging point at the "Credit Key Web (Staging)" PostHog project; production uses its own project. Only the `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` value differs per environment (committed in `.env.*` for local, AWS Secrets Manager for deployed tiers) — no code change is needed for the split.
 
 ## Styling System
@@ -519,12 +516,14 @@ screens: {
 
 ```tsx
 // Example: Conditional styling
-<button className={classNames(
-  'w-full font-semibold transition duration-150',
-  'text-white py-2 px-3 rounded-lg',
-  isActive ? 'bg-primary-blue' : 'bg-disabled',
-  { '!cursor-not-allowed': disabled }
-)}>
+<button
+  className={classNames(
+    'w-full font-semibold transition duration-150',
+    'text-white py-2 px-3 rounded-lg',
+    isActive ? 'bg-primary-blue' : 'bg-disabled',
+    { '!cursor-not-allowed': disabled },
+  )}
+>
   Submit
 </button>
 ```
@@ -558,25 +557,25 @@ __tests__/
 ### Testing Conventions
 
 ```tsx
-import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 import MyComponent from '@components/MyComponent';
+import { customRender, screen, waitFor } from '@lib/testing/test-utils';
 
 describe('MyComponent', () => {
   test('renders correctly with props', async () => {
     customRender(<MyComponent title="Test" />);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Test')).toBeInTheDocument();
     });
   });
-  
+
   test('handles user interaction', async () => {
     const handleClick = jest.fn();
     customRender(<MyComponent onClick={handleClick} />);
-    
+
     const button = screen.getByRole('button');
     button.click();
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
@@ -664,10 +663,8 @@ docker compose down
 ```typescript
 // 1. React imports
 import React, { FC, useState } from 'react';
-
 // 2. Node built-ins
 import path from 'path';
-
 // 3. Third-party packages
 import axios from 'axios';
 import classNames from 'classnames';
@@ -676,7 +673,6 @@ import classNames from 'classnames';
 import Button from '@components/Button';
 import { useAuth } from '@hooks/useAuth';
 import { formatDate } from '@lib/helpers/dateHelpers';
-
 // 5. Relative imports
 import { LocalComponent } from './LocalComponent';
 ```
@@ -736,6 +732,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use monorepo structure
 
 **Rationale**:
+
 - Shared component library across applications
 - Consistent versioning and dependencies
 - Simplified development workflow
@@ -747,6 +744,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use Next.js instead of Create React App or vanilla React
 
 **Rationale**:
+
 - Server-side rendering capabilities
 - Built-in routing
 - API routes for backend functionality
@@ -758,6 +756,7 @@ Environment-specific configuration is managed through:
 **Decision**: Migrate to TypeScript (strict mode disabled during transition)
 
 **Rationale**:
+
 - Enhanced developer experience with autocomplete
 - Compile-time error detection
 - Better refactoring support
@@ -769,6 +768,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use SuperTokens instead of building custom auth
 
 **Rationale**:
+
 - SSO across multiple applications
 - Security best practices built-in
 - Reduces development and maintenance burden
@@ -780,6 +780,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use Tailwind CSS over CSS-in-JS or traditional CSS
 
 **Rationale**:
+
 - Utility-first approach improves development speed
 - Consistent design system
 - Small production bundle sizes
@@ -791,6 +792,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use React Query instead of Redux or Redux Toolkit
 
 **Rationale**:
+
 - Optimized for server state management
 - Built-in caching and background updates
 - Less boilerplate than Redux
@@ -802,6 +804,7 @@ Environment-specific configuration is managed through:
 **Decision**: Organize by feature instead of technical layer
 
 **Rationale**:
+
 - Easier to locate related code
 - Better encapsulation
 - Scales better with application growth
@@ -812,6 +815,7 @@ Environment-specific configuration is managed through:
 **Decision**: Use subdomains to separate applications
 
 **Rationale**:
+
 - Clear application boundaries
 - SEO-friendly URLs
 - Easier to manage permissions

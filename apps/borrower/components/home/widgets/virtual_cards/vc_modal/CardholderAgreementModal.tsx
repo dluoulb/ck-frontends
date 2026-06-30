@@ -4,10 +4,24 @@ import OutlineButton from '@components/buttons/OutlineButton';
 import PrimaryButton from '@components/buttons/PrimaryButton';
 import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
+import { CardType } from '@lib/constants/Enums';
+import { captureEvent } from '@lib/posthog';
 import FullStory from '@lib/utils/fullstory';
 import CardholderAgreement from './CardholderAgreement';
 
-export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
+interface CardholderAgreementModalProps {
+  next: () => void;
+  goTo: (step: string) => void;
+  toggleModal: () => void;
+  cardType: (typeof CardType)[keyof typeof CardType];
+}
+
+export default function CardholderAgreementModal({
+  next,
+  goTo,
+  toggleModal,
+  cardType,
+}: CardholderAgreementModalProps) {
   const [agree, setAgree] = useState(false);
   const { entity } = useEntity();
   const { user } = useUser();
@@ -15,6 +29,12 @@ export default function CardholderAgreementModal({ next, goTo, toggleModal }) {
   const handleAgree = () => {
     const fullstory = new FullStory();
     fullstory.acceptCardholderAgreementEvent(user?.id, entity?.id);
+    captureEvent('accepted_cardholder_agreement', {
+      user_id: user?.id,
+      company_id: entity?.id,
+      name: user?.full_name,
+      card_type: cardType,
+    });
 
     if (entity.is_bank_connected) {
       goTo('set_default_terms');

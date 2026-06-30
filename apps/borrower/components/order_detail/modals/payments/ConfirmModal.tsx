@@ -7,6 +7,7 @@ import PrimaryButton from '@components/buttons/PrimaryButton';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { createLoanPayment, createPaymentPlanPayment } from '@lib/actions/payments';
+import { amountBand, captureEvent } from '@lib/posthog';
 import PaymentRecord from '@lib/records/payment';
 import ConfirmationData from './components/ConfirmationData';
 
@@ -38,6 +39,10 @@ export default function ConfirmModal({
     setLoading(true);
     createPayment()
       .then(() => {
+        captureEvent('payment_completed', {
+          payment_type: order.product_type === 'mambu_loan' ? 'loan' : 'payment_plan',
+          amount_band: amountBand(parseFloat(values.amount)),
+        });
         refetchOrder();
         toggleModal();
         setLoading(false);

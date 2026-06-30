@@ -12,20 +12,25 @@ import useSecondaryRoutes from '@apps/borrower/hooks/useSecondaryRoutes';
 import RewardPointsWidget from '@components/layout/RewardPointsWidget';
 import TclWidget from '@components/layout/TclWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
+import { useUser } from '@contexts/UserContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
-import { resetPostHog } from '@lib/posthog';
+import { capturePortalSessionEnded, resetPostHog } from '@lib/posthog';
 import OrdersBadge from './OrdersBadge';
 import WalletBadge from './WalletBadge';
 
 export default function TopNav() {
   const { secondaryRoutes } = useSecondaryRoutes();
   const router = useRouter();
+  const { isAdminUser, isImpersonating } = useUser();
 
   const handleAction = async (action: string) => {
     if (action === 'signout') {
       const href = authRedirectLink(window.location.href);
-      resetPostHog();
       await signOut();
+      if (!isAdminUser && !isImpersonating) {
+        capturePortalSessionEnded();
+      }
+      resetPostHog();
       router.push(href);
     }
   };
