@@ -1,20 +1,46 @@
-import React from 'react';
-import { faQuestionCircle } from '@fortawesome/pro-regular-svg-icons';
+import React, { useEffect, useState } from 'react';
+import { faQuestionCircle, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useModal from '@hooks/useModal';
 import { physicalCardBenefitsConfig } from '@lib/constants/SiteVariables';
+import { getCookie, setCookie } from '@lib/utils/cookies';
 import ActivationBenefits from '../../wallet/ActivationBenefits';
 import HowToUseModal from '../../wallet/physical_card/HowToUseModal';
 import InactivePhysicalCard from '../../wallet/physical_card/InactivePhysicalCard';
 
+const HIDE_PHYSICAL_CARD_UPSELL_COOKIE = 'hide_physical_card_upsell';
+const COOKIE_EXPIRY_DAYS = 30;
+
 export default function DashboardPCSection() {
   const { isModalActive, toggleModal } = useModal();
+  const [isDismissed, setIsDismissed] = useState(true);
+
+  useEffect(() => {
+    if (!getCookie(HIDE_PHYSICAL_CARD_UPSELL_COOKIE)) {
+      setIsDismissed(false);
+    }
+  }, []);
+
+  const handleDismiss = () => {
+    setCookie(HIDE_PHYSICAL_CARD_UPSELL_COOKIE, 'true', COOKIE_EXPIRY_DAYS);
+    setIsDismissed(true);
+  };
+
+  if (isDismissed) return null;
 
   return (
     <>
       <div className="space-y-4">
-        <div className="bg-[#fff7ec] shadow-sm p-6 border border-border-gray rounded-md">
+        <div className="relative bg-[#fff7ec] shadow-sm p-6 border border-border-gray rounded-md">
+          <button
+            type="button"
+            onClick={handleDismiss}
+            aria-label="Dismiss physical card upsell"
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+          >
+            <FontAwesomeIcon icon={faXmark} className="text-lg" />
+          </button>
           <div className="flex flex-col lg:flex-row">
             <div className="w-full lg:w-1/2 rounded-2xl bg-white border border-gray-200 max-w-lg mx-auto py-2">
               <div className="space-y-2 flex flex-col items-center">
