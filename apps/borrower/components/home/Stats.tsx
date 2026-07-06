@@ -10,7 +10,6 @@ import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import usePaymentMethods from '@hooks/usePaymentMethods';
-import { isEnabled } from '@lib/utils/envvar';
 import { formatCurrency } from '@lib/utils/formatters';
 import RequestIncreaseModal from './RequestIncreaseModal';
 
@@ -29,9 +28,6 @@ export default function Stats() {
   const { user } = useUser();
   const { stats, statsError, isLoading } = useBorrowerDeps();
   const { isModalActive, setIsModalActive } = useModal();
-  const requestIncreaseModalEnabled = isEnabled(
-    process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED,
-  );
 
   const remainingCredit =
     entity?.credit_line !== undefined
@@ -70,21 +66,18 @@ export default function Stats() {
           tooltipText: disabledRequestIncreaseTooltip,
         }
       : undefined;
-  const showRequestIncreaseLink = Boolean(!requestIncreaseModalEnabled && canRequestIncrease);
-  const showDisabledRequestIncreaseAction = companyCanShowRequestIncrease && !canRequestIncrease;
   const hasConnectedPlaidAccount = Boolean(entity?.type === 'company' && entity.is_bank_connected);
-  const showRequestIncreaseModalEntry = requestIncreaseModalEnabled && canRequestIncrease;
   const currentCreditLimit = entity?.credit_line?.amount ?? entity?.max_purchase_amount ?? 0;
   const { defaultBank } = usePaymentMethods(
     user,
     entity,
-    showRequestIncreaseModalEntry && hasConnectedPlaidAccount,
+    canRequestIncrease && hasConnectedPlaidAccount,
   );
   const hasRequestIncreaseDeepLink =
     typeof window !== 'undefined' &&
     new URLSearchParams(window.location.search).get(requestIncreaseDeepLinkParam) === 'true';
   const openRequestIncreaseModal = () => {
-    if (showRequestIncreaseModalEntry) {
+    if (canRequestIncrease) {
       setIsModalActive(true);
     }
   };
@@ -93,7 +86,7 @@ export default function Stats() {
   useEffect(() => {
     if (
       !hasRequestIncreaseDeepLink ||
-      !showRequestIncreaseModalEntry ||
+      !canRequestIncrease ||
       isModalActive ||
       typeof window === 'undefined'
     ) {
@@ -113,23 +106,14 @@ export default function Stats() {
       `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
     );
     setIsModalActive(true);
-  }, [hasRequestIncreaseDeepLink, isModalActive, setIsModalActive, showRequestIncreaseModalEntry]);
+  }, [canRequestIncrease, hasRequestIncreaseDeepLink, isModalActive, setIsModalActive]);
 
   const entityData = [
     {
       name: 'Maximum Credit',
       value: !approvedUser ? '--' : formatCurrency(entity.max_purchase_amount),
       className: 'text-primary-blue-hover',
-      action:
-        requestIncreaseModalEnabled || showDisabledRequestIncreaseAction
-          ? requestIncreaseAction
-          : undefined,
-      link: showRequestIncreaseLink
-        ? {
-            url: 'https://www.creditkey.com/credit-key-increase-request',
-            name: 'Request Increase',
-          }
-        : undefined,
+      action: requestIncreaseAction,
     },
     {
       name: 'Credit in Use',
@@ -242,7 +226,7 @@ export default function Stats() {
           </div>
         );
       })}
-      {showRequestIncreaseModalEntry && (
+      {canRequestIncrease && (
         <RequestIncreaseModal
           companyId={requestIncreaseCompanyId}
           currentCreditLimit={currentCreditLimit}

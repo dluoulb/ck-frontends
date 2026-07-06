@@ -33,7 +33,6 @@ global.scrollTo = jest.fn();
 // Mock environment variables for tests
 process.env.NEXT_PUBLIC_MARKETPLACE_URL = 'https://marketplace.test.com';
 process.env.NEXT_PUBLIC_AMAZON_PHYSICAL_CARD_TEST_ENABLED = 'true';
-process.env.NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED = 'true';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({

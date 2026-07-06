@@ -15,7 +15,7 @@ describe('write-build-env.sh', () => {
     rmSync(tempDir, { force: true, recursive: true });
   });
 
-  test('forces the request increase modal flag on for development builds', () => {
+  test('removes the legacy request increase modal flag from development builds', () => {
     const outputPath = path.join(tempDir, 'app.env');
 
     execFileSync('bash', [scriptPath, outputPath], {
@@ -36,7 +36,6 @@ describe('write-build-env.sh', () => {
     expect(readFileSync(outputPath, 'utf8')).toBe(
       [
         'EXISTING_SECRET=present',
-        'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true',
         'NEXT_PUBLIC_MARKET_API_URL=https://market.example.test',
         'APP_VERSION=abc123',
         '',
@@ -44,7 +43,7 @@ describe('write-build-env.sh', () => {
     );
   });
 
-  test('forces the request increase modal flag on for staging builds', () => {
+  test('removes the legacy request increase modal flag from staging builds', () => {
     const outputPath = path.join(tempDir, 'app.env');
 
     execFileSync('bash', [scriptPath, outputPath], {
@@ -65,7 +64,6 @@ describe('write-build-env.sh', () => {
     expect(readFileSync(outputPath, 'utf8')).toBe(
       [
         'EXISTING_SECRET=present',
-        'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED=true',
         'NEXT_PUBLIC_MARKET_API_URL=https://market.example.test',
         'APP_VERSION=def456',
         '',
@@ -73,7 +71,7 @@ describe('write-build-env.sh', () => {
     );
   });
 
-  test('keeps the request increase modal flag unset for production builds', () => {
+  test('removes the legacy request increase modal flag from production builds', () => {
     const outputPath = path.join(tempDir, 'app.env');
 
     execFileSync('bash', [scriptPath, outputPath], {

@@ -2,9 +2,6 @@ import Stats from '@apps/borrower/components/home/Stats';
 import { companyApproved, consumerAccount } from '@lib/testing/records';
 import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test-utils';
 
-const requestIncreaseModalEnvVar = 'NEXT_PUBLIC_BORROWER_REQUEST_INCREASE_MODAL_ENABLED';
-const originalRequestIncreaseModalEnv = process.env[requestIncreaseModalEnvVar];
-
 const buildCompany = (overrides = {}) =>
   Object.assign(Object.create(Object.getPrototypeOf(companyApproved)), companyApproved, overrides);
 
@@ -21,7 +18,6 @@ jest.mock('@components/modals/ModalWrapper', () => ({
 
 describe('Stats Component', () => {
   beforeEach(() => {
-    process.env[requestIncreaseModalEnvVar] = 'true';
     window.history.replaceState({}, '', '/borrower');
     const companyApprovedWithoutBankConnection = buildCompany({
       is_bank_connected: false,
@@ -46,14 +42,6 @@ describe('Stats Component', () => {
     }));
   });
 
-  afterAll(() => {
-    if (originalRequestIncreaseModalEnv === undefined) {
-      delete process.env[requestIncreaseModalEnvVar];
-    } else {
-      process.env[requestIncreaseModalEnvVar] = originalRequestIncreaseModalEnv;
-    }
-  });
-
   test('renders', async () => {
     customRender(<Stats />, { withBorrowerProviders: true });
 
@@ -74,22 +62,17 @@ describe('Stats Component', () => {
     expect(screen.getByText(/Unable to collect available company credit/));
   });
 
-  test('uses the legacy external Request Increase link while the modal feature flag is disabled', async () => {
-    delete process.env[requestIncreaseModalEnvVar];
+  test('keeps the in-app Request Increase modal available by default', async () => {
     customRender(<Stats />, { withBorrowerProviders: true });
 
-    const requestIncreaseLink = screen.getByRole('link', { name: /request increase/i });
+    const requestIncreaseButton = screen.getByRole('button', { name: /request increase/i });
 
-    expect(requestIncreaseLink).toHaveAttribute(
-      'href',
-      'https://www.creditkey.com/credit-key-increase-request',
-    );
-    expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
+    expect(requestIncreaseButton).toBeEnabled();
+    expect(screen.queryByRole('link', { name: /request increase/i })).not.toBeInTheDocument();
     expect(screen.queryByText('Request Credit Line Increase')).not.toBeInTheDocument();
   });
 
-  test('shows the disabled Request Increase control while the modal feature flag is disabled and the company is ineligible', async () => {
-    delete process.env[requestIncreaseModalEnvVar];
+  test('shows the disabled Request Increase control for an ineligible company by default', async () => {
     const ineligibleCompany = buildCompany({
       eligible_for_line_increase_request: false,
       line_increase_request_availability: {
@@ -117,6 +100,7 @@ describe('Stats Component', () => {
       'Your company is currently not eligible for a credit request increase',
     );
     expect(screen.queryByRole('link', { name: /request increase/i })).not.toBeInTheDocument();
+    expect(screen.queryByText('Request Credit Line Increase')).not.toBeInTheDocument();
   });
 
   test('opens the request increase modal from the maximum credit tile and shows the first-step copy', async () => {
