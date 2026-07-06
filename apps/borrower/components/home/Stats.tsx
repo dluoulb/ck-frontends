@@ -163,47 +163,36 @@ export default function Stats() {
                 stat.className,
               )}
             >
-              {stat.action || stat.link ? (
+              {stat.action ? (
                 <div className="flex flex-col items-start">
                   <span>{stat.value}</span>
                   <div className="flex items-center text-sm">
-                    {stat.action ? (
-                      stat.action.tooltipText ? (
-                        <Tooltip
-                          tooltip_text={stat.action.tooltipText}
-                          trigger_class="cursor-not-allowed max-w-max border-none"
-                          container_class="text-black p-4 px-6 text-sm bg-white"
-                        >
-                          <button
-                            type="button"
-                            disabled
-                            title={stat.action.tooltipText}
-                            className="text-xs text-primary-blue opacity-50 no-underline inline-block cursor-not-allowed pointer-events-none"
-                          >
-                            {stat.action.name}
-                          </button>
-                        </Tooltip>
-                      ) : (
+                    {stat.action.tooltipText ? (
+                      <Tooltip
+                        tooltip_text={stat.action.tooltipText}
+                        trigger_class="cursor-not-allowed max-w-max border-none"
+                        container_class="text-black p-4 px-6 text-sm bg-white"
+                      >
                         <button
                           type="button"
-                          disabled={stat.action.disabled}
-                          onClick={openRequestIncreaseModal}
-                          className="text-xs text-primary-blue no-underline hover:underline inline-block"
+                          disabled
+                          title={stat.action.tooltipText}
+                          className="text-xs text-primary-blue opacity-50 no-underline inline-block cursor-not-allowed pointer-events-none"
                         >
                           {stat.action.name}
                         </button>
-                      )
-                    ) : stat.link ? (
-                      <a
-                        href={stat.link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      </Tooltip>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={stat.action.disabled}
+                        onClick={openRequestIncreaseModal}
                         className="text-xs text-primary-blue no-underline hover:underline inline-block"
                       >
-                        {stat.link.name}
-                      </a>
-                    ) : null}
-                    {!stat.action?.disabled && (
+                        {stat.action.name}
+                      </button>
+                    )}
+                    {!stat.action.disabled && (
                       <Tooltip
                         tooltip_text="You are able to request a line increase once every 6 months"
                         trigger_class="cursor-pointer max-w-max border-none"
