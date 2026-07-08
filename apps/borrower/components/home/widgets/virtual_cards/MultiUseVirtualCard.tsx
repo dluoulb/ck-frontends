@@ -6,6 +6,7 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
+import { CardStatus } from '@lib/constants/Enums';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import ActiveMultiUseVirtualCard from './ActiveMultiUseVirtualCard';
 import MultiUseVirtualCardModalWrapper from './vc_modal/MultiUseVirtualCardModalWrapper';
@@ -27,7 +28,7 @@ export default function MultiUseVirtualCard({ onActivateVirtualCard }: MultiUseV
 
   const showPhysicalCardPresentment =
     vcProps.virtualCard &&
-    vcProps.virtualCard.status === 'ACTIVE' &&
+    vcProps.virtualCard.status === CardStatus.ACTIVE &&
     !physicalCard &&
     entity?.physical_card_enabled;
 

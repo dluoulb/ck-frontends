@@ -7,6 +7,7 @@ import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import Loading from '@components/Loading';
 import { useEntity } from '@contexts/EntityContext';
 import useModal from '@hooks/useModal';
+import { CardStatus } from '@lib/constants/Enums';
 import {
   physicalCardBenefitsConfig,
   virtualCardBenefitsConfig,
@@ -17,6 +18,8 @@ import PendingTransactionsSection from './PendingTransactionsSection';
 import PendingPhysicalCard from './physical_card/PendingPhysicalCard';
 import SelectionWidget from '../home/widgets/SelectionWidget';
 import SuttonVcDisclosure from '../home/widgets/virtual_cards/SuttonVcDisclosure';
+
+const visibleVirtualCardStatuses = [CardStatus.ACTIVE, CardStatus.SUSPEND];
 
 export default function Wallet() {
   const { entity, entityLoading } = useEntity();
@@ -31,6 +34,10 @@ export default function Wallet() {
     toggleModal: toggleVirtualActivationModal,
   } = useModal();
   const showPhysicalCard = !entityLoading && entity?.physical_card_enabled !== false;
+  const virtualCardStatus = vcProps.virtualCard?.status;
+  const showVirtualCard = !!vcProps.virtualCard;
+  const showVirtualCardDetailsSection =
+    showVirtualCard && visibleVirtualCardStatuses.includes(virtualCardStatus);
 
   const handleSelect = (index) => {
     setActive(index);
@@ -89,7 +96,7 @@ export default function Wallet() {
                     showPhysicalCard && active !== 0 && 'hidden',
                   )}
                 >
-                  {vcProps.virtualCard && vcProps.virtualCard.status === 'ACTIVE' && (
+                  {showVirtualCardDetailsSection && (
                     <ActiveCardSection
                       card={vcProps.virtualCard}
                       cardType="virtual"
@@ -98,7 +105,7 @@ export default function Wallet() {
                       onHideWidget={() => setActiveWidget(null)}
                     />
                   )}
-                  {(!vcProps.virtualCard || vcProps.virtualCard.status !== 'ACTIVE') && (
+                  {!showVirtualCardDetailsSection && (
                     <InactiveCardSection
                       title="Credit Key Virtual Card"
                       bgColor="F4F8FF"

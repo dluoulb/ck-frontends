@@ -3,6 +3,7 @@ import React from 'react';
 import ActiveVirtualCard from '@apps/borrower/components/wallet/virtual_card/ActiveVirtualCard';
 import { useEntity } from '@contexts/EntityContext';
 import { getVirtualCardToken } from '@lib/actions/companies';
+import { CardStatus } from '@lib/constants/Enums';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 import { companyAmazonExclusive, companyApproved } from '@lib/testing/records';
 import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test-utils';
@@ -92,6 +93,17 @@ describe('ActiveVirtualCard', () => {
       _setIframeReady(true);
 
       customRender(<ActiveVirtualCard {...defaultProps} showWidget={true} />);
+
+      expect(screen.queryByText('View Card Info')).not.toBeInTheDocument();
+    });
+
+    test('does not render View Card Info for suspended cards', () => {
+      const suspendedCard = new CompanyVirtualCardRecord({
+        ...mockCard,
+        status: CardStatus.SUSPEND,
+      });
+
+      customRender(<ActiveVirtualCard {...defaultProps} card={suspendedCard} showWidget={false} />);
 
       expect(screen.queryByText('View Card Info')).not.toBeInTheDocument();
     });

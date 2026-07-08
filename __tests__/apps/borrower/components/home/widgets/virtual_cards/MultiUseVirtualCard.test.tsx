@@ -2,6 +2,7 @@ import MultiUseVirtualCard from '@apps/borrower/components/home/widgets/virtual_
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import { useEntity } from '@contexts/EntityContext';
+import { CardStatus } from '@lib/constants/Enums';
 import { amazonPhysicalCardTest } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
@@ -128,5 +129,27 @@ describe('MultiUseVirtualCard - Physical Card Presentment', () => {
     customRender(<MultiUseVirtualCard />);
 
     expect(screen.queryByText('Credit Key Physical Card')).not.toBeInTheDocument();
+  });
+
+  test('shows call support prompt when virtual card is suspended', () => {
+    mockUseEntity.mockReturnValue({
+      entity: makeEntity({}),
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+    mockUseCompanyVirtualCard.mockReturnValue({
+      ...defaultVirtualCardProps,
+      virtualCard: {
+        ...activeVirtualCard,
+        status: CardStatus.SUSPEND,
+      },
+    });
+    mockUseCompanyPhysicalCard.mockReturnValue(defaultPhysicalCardProps);
+
+    customRender(<MultiUseVirtualCard />);
+
+    expect(screen.getByText(/Your card is suspended\. Please call/i)).toBeInTheDocument();
   });
 });

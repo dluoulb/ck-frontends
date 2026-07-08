@@ -1,4 +1,4 @@
-import { CardType } from '@lib/constants/Enums';
+import { CardStatus, CardType } from '@lib/constants/Enums';
 import { jitEnabled } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
@@ -33,7 +33,17 @@ export const updateRechargeTerm = async (api, company, merchant_id, term) => {
 export const getVirtualCards = async (api, company_id) => {
   if (!company_id) return;
 
-  const resp = await api.get(`/api/companies/${company_id}/virtual_cards/all`);
+  const allowedStatuses = [
+    CardStatus.ACTIVE,
+    CardStatus.STOLEN,
+    CardStatus.SUSPEND,
+    CardStatus.PENDING,
+  ];
+  const resp = await api.get(`/api/companies/${company_id}/virtual_cards/all`, {
+    params: {
+      status: allowedStatuses,
+    },
+  });
 
   if (resp?.data?.cards) {
     return resp.data.cards.map((card) => new CompanyVirtualCardRecord(card));

@@ -7,6 +7,7 @@ import { useEntity } from '@contexts/EntityContext';
 import useApi from '@hooks/useApi';
 import useToast from '@hooks/useToast';
 import { getVirtualCardToken } from '@lib/actions/companies';
+import { CardStatus } from '@lib/constants/Enums';
 import { qoloWidgetOrigin } from '@lib/constants/SiteVariables';
 import vcSvg from '@lib/images/vc.svg';
 import { captureEvent } from '@lib/posthog';
@@ -55,6 +56,7 @@ export default function ActiveVirtualCard({
   const widgetVisible = showWidget && iframeReady && (!scriptLoaded || iframeLoaded);
   const isWaitingForWidgetReveal = showWidget && !widgetVisible;
   const isActionDisabled = isTokenLoading || isWaitingForWidgetReveal;
+  const canViewCardDetails = card?.status !== CardStatus.SUSPEND;
 
   useEffect(() => {
     if (!showWidget) {
@@ -262,7 +264,7 @@ export default function ActiveVirtualCard({
             </div>
           )}
 
-          {!widgetVisible && (
+          {!widgetVisible && canViewCardDetails && (
             <div className="flex items-center justify-between">
               <button
                 onClick={handleViewCardInfo}

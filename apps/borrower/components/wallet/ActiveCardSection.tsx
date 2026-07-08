@@ -3,6 +3,7 @@ import { faCog, faQuestionCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useModal from '@hooks/useModal';
+import { CardStatus } from '@lib/constants/Enums';
 import CompanyVirtualCardRecord from '@lib/records/company_virtual_card';
 import CardFinancialInfo from './CardFinancialInfo';
 import ManageCardModal from './ManageCardModal';
@@ -28,6 +29,31 @@ interface ActiveCardSectionProps {
   };
 }
 
+function getStatusBadge(normalizedStatus: string) {
+  switch (normalizedStatus) {
+    case CardStatus.ACTIVE:
+      return {
+        label: 'Active',
+        className: 'bg-green-100 text-green-700',
+      };
+    case CardStatus.PENDING:
+      return {
+        label: 'Pending',
+        className: 'bg-amber-100 text-amber-700',
+      };
+    case CardStatus.SUSPEND:
+      return {
+        label: 'Suspended',
+        className: 'bg-red-100 text-red-700',
+      };
+    default:
+      return {
+        label: normalizedStatus ? normalizedStatus.toLowerCase() : 'Inactive',
+        className: 'bg-gray-100 text-gray-600',
+      };
+  }
+}
+
 export default function ActiveCardSection({
   card,
   cardType = 'virtual',
@@ -40,21 +66,7 @@ export default function ActiveCardSection({
 
   const { isModalActive: isManageModalActive, toggleModal: toggleManageModal } = useModal();
   const normalizedStatus = card.status?.toUpperCase?.() ?? '';
-  const statusBadge =
-    normalizedStatus === 'ACTIVE'
-      ? {
-          label: 'Active',
-          className: 'bg-green-100 text-green-700',
-        }
-      : normalizedStatus === 'PENDING'
-        ? {
-            label: 'Pending',
-            className: 'bg-amber-100 text-amber-700',
-          }
-        : {
-            label: normalizedStatus ? normalizedStatus.toLowerCase() : 'Inactive',
-            className: 'bg-gray-100 text-gray-600',
-          };
+  const statusBadge = getStatusBadge(normalizedStatus);
 
   return (
     <>

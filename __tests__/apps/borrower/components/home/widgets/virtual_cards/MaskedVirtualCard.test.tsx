@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import MaskedVirtualCard from '@apps/borrower/components/home/widgets/virtual_cards/MaskedVirtualCard';
+import { CardStatus } from '@lib/constants/Enums';
 import CompanyRecord from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
 import { customRender, screen } from '@lib/testing/test-utils';
@@ -111,5 +112,34 @@ describe('MaskedVirtualCard', () => {
     expect(screen.getByTestId('tooltip-text')).toHaveTextContent(
       'The Credit Key Card is issued with its own credit limit, separate from your total trade credit limit.',
     );
+  });
+
+  test('renders suspended state and blocks view action when card is suspended', () => {
+    global.mockedUseEntity.mockImplementationOnce(() => ({
+      entity: entityWithConsistentLimits,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+    const onView = jest.fn();
+
+    customRender(
+      <MaskedVirtualCard
+        virtualCard={{
+          ...virtualCard,
+          status: CardStatus.SUSPEND,
+        }}
+        onView={onView}
+      />,
+    );
+
+    expect(screen.getByTestId('virtual-card-suspended-status')).toHaveTextContent('Suspended');
+    expect(screen.queryByText('View Card')).not.toBeInTheDocument();
+    expect(onView).not.toHaveBeenCalled();
+    const cardContainer = screen.getByTestId('virtual-card-container');
+    const supportPrompt = screen.getByText(/Your card is suspended\. Please call/i);
+    expect(supportPrompt).toBeInTheDocument();
+    expect(cardContainer).toContainElement(supportPrompt);
   });
 });

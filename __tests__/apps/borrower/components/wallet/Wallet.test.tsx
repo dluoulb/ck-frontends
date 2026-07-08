@@ -4,6 +4,7 @@ import Wallet from '@apps/borrower/components/wallet/index';
 import useCompanyPhysicalCard from '@apps/borrower/hooks/useCompanyPhysicalCard';
 import useCompanyVirtualCard from '@apps/borrower/hooks/useCompanyVirtualCard';
 import { useEntity } from '@contexts/EntityContext';
+import { CardStatus } from '@lib/constants/Enums';
 import { amazonPhysicalCardTest } from '@lib/constants/SiteVariables';
 import CompanyRecord from '@lib/records/company';
 import { companyApproved } from '@lib/testing/records';
@@ -177,5 +178,29 @@ describe('Wallet - Physical Card Visibility', () => {
     rerender(<Wallet />);
 
     expect(screen.getByTestId('wallet-activation-modal')).toBeInTheDocument();
+  });
+
+  test('shows suspended virtual card details instead of activation card', () => {
+    mockUseEntity.mockReturnValue({
+      entity: makeEntity({}),
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    });
+    mockUseCompanyVirtualCard.mockReturnValue({
+      ...defaultVirtualCardProps,
+      virtualCard: {
+        ...activeVirtualCard,
+        status: CardStatus.SUSPEND,
+      },
+    });
+    mockUseCompanyPhysicalCard.mockReturnValue(defaultPhysicalCardProps);
+
+    customRender(<Wallet />);
+
+    expect(screen.getByText('Credit Key Virtual Card')).toBeInTheDocument();
+    expect(screen.getByText('Suspended')).toBeInTheDocument();
+    expect(screen.queryByText('Activate Virtual Card Instantly')).not.toBeInTheDocument();
   });
 });
