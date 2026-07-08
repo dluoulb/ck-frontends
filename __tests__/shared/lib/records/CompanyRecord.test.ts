@@ -287,3 +287,29 @@ describe('CompanyRecord#line_increase_request_availability', () => {
     });
   });
 });
+
+describe('CompanyRecord#is_bank_connected_via_plaid', () => {
+  let CompanyRecord: typeof CompanyRecordType;
+
+  beforeAll(() => {
+    CompanyRecord = loadCompanyRecord(false);
+  });
+
+  it('normalizes the Plaid bank connection flag from API payloads', () => {
+    const companyWithFalseFlag = new CompanyRecord({
+      ...companyApproved,
+      is_bank_connected: 'true',
+      is_bank_connected_via_plaid: 'false',
+    });
+
+    const companyWithTrueFlag = new CompanyRecord({
+      ...companyApproved,
+      is_bank_connected: 'true',
+      is_bank_connected_via_plaid: 'true',
+    });
+
+    expect(companyWithFalseFlag.is_bank_connected).toBe(true);
+    expect(companyWithFalseFlag.is_bank_connected_via_plaid).toBe(false);
+    expect(companyWithTrueFlag.is_bank_connected_via_plaid).toBe(true);
+  });
+});

@@ -37,6 +37,7 @@ export default class CompanyRecord {
   max_rate?: string | number;
   credit_line: CreditLine;
   is_bank_connected: boolean;
+  is_bank_connected_via_plaid: boolean;
   is_bank_connection_pending: boolean;
   eligible_for_line_increase_request?: boolean;
   line_increase_request_availability?: LineIncreaseRequestAvailability;
@@ -70,6 +71,11 @@ export default class CompanyRecord {
       ...(assignableData.is_bank_connected !== undefined && {
         is_bank_connected:
           assignableData.is_bank_connected === true || assignableData.is_bank_connected === 'true',
+      }),
+      ...(assignableData.is_bank_connected_via_plaid !== undefined && {
+        is_bank_connected_via_plaid:
+          assignableData.is_bank_connected_via_plaid === true ||
+          assignableData.is_bank_connected_via_plaid === 'true',
       }),
       ...(assignableData.is_bank_connection_pending !== undefined && {
         is_bank_connection_pending:

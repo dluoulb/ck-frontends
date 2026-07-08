@@ -21,6 +21,7 @@ describe('Stats Component', () => {
     window.history.replaceState({}, '', '/borrower');
     const companyApprovedWithoutBankConnection = buildCompany({
       is_bank_connected: false,
+      is_bank_connected_via_plaid: false,
       is_bank_connection_pending: false,
     });
 
@@ -270,7 +271,21 @@ describe('Stats Component', () => {
     expect(screen.queryByRole('button', { name: /request increase/i })).not.toBeInTheDocument();
   });
 
-  test('routes approved companies without a connected Plaid account to the verification-method selection step', async () => {
+  test('routes approved companies with only a non-Plaid bank connection to the verification-method selection step', async () => {
+    const companyApprovedWithNonPlaidBank = buildCompany({
+      is_bank_connected: true,
+      is_bank_connected_via_plaid: false,
+      is_bank_connection_pending: false,
+    });
+
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: companyApprovedWithNonPlaidBank as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
     customRender(<Stats />, { withBorrowerProviders: true });
 
     fireEvent.click(screen.getByRole('button', { name: /request increase/i }));
@@ -334,6 +349,7 @@ describe('Stats Component', () => {
       companyApproved,
       {
         is_bank_connected: false,
+        is_bank_connected_via_plaid: false,
         is_bank_connection_pending: false,
         underwriting: {
           plaid_access_token: 'access-sandbox-secret',
@@ -384,6 +400,11 @@ describe('Stats Component', () => {
     const companyApprovedWithPlaid = Object.assign(
       Object.create(Object.getPrototypeOf(companyApproved)),
       companyApproved,
+      {
+        is_bank_connected: true,
+        is_bank_connected_via_plaid: true,
+        is_bank_connection_pending: false,
+      },
     );
 
     global.mockedUseEntity.mockImplementation(() => ({
@@ -428,6 +449,7 @@ describe('Stats Component', () => {
       companyApproved,
       {
         is_bank_connected: false,
+        is_bank_connected_via_plaid: false,
         is_bank_connection_pending: false,
         underwriting: {
           plaid_item_id: 'item_123',
@@ -475,6 +497,7 @@ describe('Stats Component', () => {
     const companyApprovedWithStringBankFlag = new (companyApproved.constructor as any)({
       ...companyApproved,
       is_bank_connected: 'false',
+      is_bank_connected_via_plaid: 'false',
       is_bank_connection_pending: 'false',
     });
 

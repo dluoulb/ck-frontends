@@ -66,7 +66,9 @@ export default function Stats() {
           tooltipText: disabledRequestIncreaseTooltip,
         }
       : undefined;
-  const hasConnectedPlaidAccount = Boolean(entity?.type === 'company' && entity.is_bank_connected);
+  const hasConnectedPlaidAccount = Boolean(
+    entity?.type === 'company' && entity.is_bank_connected_via_plaid,
+  );
   const currentCreditLimit = entity?.credit_line?.amount ?? entity?.max_purchase_amount ?? 0;
   const { defaultBank } = usePaymentMethods(
     user,

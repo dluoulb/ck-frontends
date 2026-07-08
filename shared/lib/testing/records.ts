@@ -80,6 +80,7 @@ const companyApproved = new CompanyRecord({
     zip: '99999',
   },
   is_bank_connected: true,
+  is_bank_connected_via_plaid: true,
   is_bank_connection_pending: false,
   cta_banners: [
     { name: 'virtual_card', enabled: true },
