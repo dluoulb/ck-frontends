@@ -77,6 +77,68 @@ describe('Stats request increase modal mount', () => {
     });
   });
 
+  test('passes a company entity refresh callback to the request increase modal', async () => {
+    const fetchEntity = jest.fn();
+
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: companyApproved as any,
+      setEntity: jest.fn(),
+      fetchEntity,
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockRequestIncreaseModal).toHaveBeenCalled();
+    });
+
+    const latestProps = mockRequestIncreaseModal.mock.calls.at(-1)?.[0];
+
+    expect(latestProps).toBeDefined();
+
+    act(() => {
+      latestProps.refreshRequestIncreaseAvailability();
+    });
+
+    expect(fetchEntity).toHaveBeenCalledWith(companyApproved.id, 'company');
+  });
+
+  test('does not auto-open again after remounting on the sanitized URL from a consumed deep link', async () => {
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: companyApproved as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+
+    const { unmount } = customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(
+        mockRequestIncreaseModal.mock.calls.filter(([props]) => props.isModalActive === true)
+          .length,
+      ).toBe(1);
+    });
+    expect(window.location.search).toBe('');
+
+    unmount();
+    mockRequestIncreaseModal.mockClear();
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockRequestIncreaseModal).toHaveBeenCalled();
+    });
+    expect(
+      mockRequestIncreaseModal.mock.calls.some(([props]) => props.isModalActive === true),
+    ).toBe(false);
+    expect(window.location.search).toBe('');
+  });
+
   test('auto-opens again after navigating back to the same deep link while Stats stays mounted', async () => {
     window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
     global.mockedUseEntity.mockImplementation(() => ({

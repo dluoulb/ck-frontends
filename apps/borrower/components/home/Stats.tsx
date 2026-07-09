@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { faExclamationTriangle, faInfoCircle } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -24,7 +24,7 @@ const fallbackRequestIncreaseUnavailableTooltip =
   'You are currently unable to request a credit line increase';
 
 export default function Stats() {
-  const { entity } = useEntity();
+  const { entity, fetchEntity } = useEntity();
   const { user } = useUser();
   const { stats, statsError, isLoading } = useBorrowerDeps();
   const { isModalActive, setIsModalActive } = useModal();
@@ -75,6 +75,11 @@ export default function Stats() {
     entity,
     canRequestIncrease && hasConnectedPlaidAccount,
   );
+  const refreshRequestIncreaseAvailability = useCallback(() => {
+    if (!requestIncreaseCompanyId) return;
+
+    fetchEntity(requestIncreaseCompanyId, 'company');
+  }, [fetchEntity, requestIncreaseCompanyId]);
   const hasRequestIncreaseDeepLink =
     typeof window !== 'undefined' &&
     new URLSearchParams(window.location.search).get(requestIncreaseDeepLinkParam) === 'true';
@@ -224,6 +229,7 @@ export default function Stats() {
           hasConnectedPlaidAccount={hasConnectedPlaidAccount}
           connectedBank={hasConnectedPlaidAccount ? (defaultBank ?? null) : null}
           isModalActive={isModalActive}
+          refreshRequestIncreaseAvailability={refreshRequestIncreaseAvailability}
           toggleModal={closeRequestIncreaseModal}
         />
       )}

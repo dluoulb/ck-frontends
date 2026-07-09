@@ -9,7 +9,6 @@ import { act, customRender, fireEvent, screen, waitFor } from '@lib/testing/test
 const mockApi = {};
 const mockMakeToast = jest.fn();
 const plaidPropsHistory: any[] = [];
-
 const mockPlaidPaymentMethod = {
   id: 'pm-1',
   user_id: 'u-1',
@@ -214,6 +213,10 @@ describe('RequestIncreaseModal', () => {
     mockUseToast.mockReturnValue({ makeToast: mockMakeToast } as any);
     mockCreateLimitIncreaseRequest.mockResolvedValue({} as any);
     mockUploadCompanyDocument.mockResolvedValue(true);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   test('renders first-step UI with current credit limit and dollar-prefixed amount input', () => {
@@ -503,8 +506,9 @@ describe('RequestIncreaseModal', () => {
     expect(screen.queryByText('$200,005,000.00')).not.toBeInTheDocument();
   });
 
-  test('shows the under-review confirmation after submitting via Plaid', async () => {
+  test('shows the under-review confirmation after submitting via Plaid and refreshes request availability', async () => {
     const toggleModal = jest.fn();
+    const refreshRequestIncreaseAvailability = jest.fn();
 
     customRender(
       <RequestIncreaseModal
@@ -512,6 +516,7 @@ describe('RequestIncreaseModal', () => {
         currentCreditLimit={20000}
         hasConnectedPlaidAccount={false}
         isModalActive
+        refreshRequestIncreaseAvailability={refreshRequestIncreaseAvailability}
         toggleModal={toggleModal}
       />,
     );
@@ -542,6 +547,10 @@ describe('RequestIncreaseModal', () => {
     expect(mockMakeToast).not.toHaveBeenCalled();
 
     await expectSubmissionConfirmation('$5,000.00', '$20,000.00');
+    expect(refreshRequestIncreaseAvailability).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByText('Updating your dashboard so your pending request status appears.'),
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(toggleModal).toHaveBeenCalledTimes(1);

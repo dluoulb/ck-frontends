@@ -21,6 +21,7 @@ interface RequestIncreaseModalProps {
   hasConnectedPlaidAccount: boolean;
   connectedBank?: PaymentMethodRecord | null;
   isModalActive: boolean;
+  refreshRequestIncreaseAvailability?: () => void;
   toggleModal: () => void;
 }
 
@@ -99,6 +100,7 @@ const invalidManualBankStatementTypeMessage =
 const oversizedManualBankStatementMessage =
   'File is too large. Please upload a file smaller than 10MB.';
 const manualBankStatementUploadErrorMessage = 'Unable to upload one or more bank statements.';
+const noop = () => {};
 
 const getFileExtension = (fileName: string) => {
   const extensionIndex = fileName.lastIndexOf('.');
@@ -121,6 +123,7 @@ export default function RequestIncreaseModal({
   hasConnectedPlaidAccount,
   connectedBank,
   isModalActive,
+  refreshRequestIncreaseAvailability = noop,
   toggleModal,
 }: RequestIncreaseModalProps) {
   const api = useApi();
@@ -162,9 +165,9 @@ export default function RequestIncreaseModal({
   }, [isModalActive]);
 
   useEffect(() => {
-    if (step === 'confirmation') {
-      confirmationHeadingRef.current?.focus();
-    }
+    if (step !== 'confirmation') return;
+
+    confirmationHeadingRef.current?.focus();
   }, [step]);
 
   if (!isModalActive) return null;
@@ -191,6 +194,7 @@ export default function RequestIncreaseModal({
       request_method: verificationMethod === 'manual' ? 'manual' : 'plaid',
     });
     setStep('confirmation');
+    refreshRequestIncreaseAvailability();
   };
   const handleManualStatementFileChange = (
     index: number,
@@ -805,6 +809,9 @@ export default function RequestIncreaseModal({
                 <p className="text-[17px] leading-[24px] text-secondary-gray">
                   Our team is reviewing your request and will follow up by email. Please allow at
                   least 1 business day. All messages will come through support@creditkey.com.
+                </p>
+                <p aria-live="polite" className="sr-only">
+                  Updating your dashboard so your pending request status appears.
                 </p>
               </div>
             </div>
