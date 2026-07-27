@@ -10,6 +10,7 @@ import { useEntity } from '@contexts/EntityContext';
 import { useUser } from '@contexts/UserContext';
 import useModal from '@hooks/useModal';
 import usePaymentMethods from '@hooks/usePaymentMethods';
+import useToast from '@hooks/useToast';
 import { formatCurrency } from '@lib/utils/formatters';
 import RequestIncreaseModal from './RequestIncreaseModal';
 
@@ -28,6 +29,7 @@ export default function Stats() {
   const { user } = useUser();
   const { stats, statsError, isLoading } = useBorrowerDeps();
   const { isModalActive, setIsModalActive } = useModal();
+  const { makeToast } = useToast();
 
   const remainingCredit =
     entity?.credit_line !== undefined
@@ -114,6 +116,31 @@ export default function Stats() {
     );
     setIsModalActive(true);
   }, [canRequestIncrease, hasRequestIncreaseDeepLink, isModalActive, setIsModalActive]);
+
+  useEffect(() => {
+    if (
+      !hasRequestIncreaseDeepLink ||
+      canRequestIncrease ||
+      !entity?.id ||
+      typeof window === 'undefined'
+    ) {
+      return;
+    }
+
+    const currentUrl = new URL(window.location.href);
+
+    if (currentUrl.searchParams.get(requestIncreaseDeepLinkParam) !== 'true') {
+      return;
+    }
+
+    currentUrl.searchParams.delete(requestIncreaseDeepLinkParam);
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
+    );
+    makeToast(unavailableTooltip, 'info');
+  }, [canRequestIncrease, entity?.id, hasRequestIncreaseDeepLink, makeToast, unavailableTooltip]);
 
   const entityData = [
     {

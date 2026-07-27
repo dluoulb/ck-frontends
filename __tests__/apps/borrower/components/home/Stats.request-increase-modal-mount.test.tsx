@@ -1,8 +1,10 @@
 import Stats from '@apps/borrower/components/home/Stats';
+import useToast from '@hooks/useToast';
 import { companyApproved, consumerAccount } from '@lib/testing/records';
 import { act, customRender, screen, waitFor } from '@lib/testing/test-utils';
 
 const mockRequestIncreaseModal = jest.fn(() => null);
+const mockMakeToast = jest.fn();
 
 const buildCompany = (overrides = {}) =>
   Object.assign(Object.create(Object.getPrototypeOf(companyApproved)), companyApproved, overrides);
@@ -12,9 +14,14 @@ jest.mock('@apps/borrower/components/home/RequestIncreaseModal', () => ({
   default: (...args) => mockRequestIncreaseModal(...args),
 }));
 
+jest.mock('@hooks/useToast');
+
+const mockUseToast = useToast as jest.MockedFunction<typeof useToast>;
+
 describe('Stats request increase modal mount', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUseToast.mockReturnValue({ makeToast: mockMakeToast });
     window.history.replaceState({}, '', '/borrower');
     global.mockedUseEntity.mockImplementation(() => ({
       entity: consumerAccount as any,
@@ -177,6 +184,110 @@ describe('Stats request increase modal mount', () => {
           .length,
       ).toBe(2);
     });
+    expect(window.location.search).toBe('');
+  });
+});
+
+describe('Stats ineligible deep link toast', () => {
+  const mockEntity = (entity) => {
+    global.mockedUseEntity.mockImplementation(() => ({
+      entity: entity as any,
+      setEntity: jest.fn(),
+      fetchEntity: jest.fn(),
+      entityError: null,
+      entityLoading: false,
+    }));
+  };
+
+  const buildIneligibleCompany = (reason?: string) =>
+    buildCompany({
+      eligible_for_line_increase_request: false,
+      line_increase_request_availability: reason
+        ? { eligible: false, reason }
+        : { eligible: false },
+    });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockUseToast.mockReturnValue({ makeToast: mockMakeToast });
+    window.history.replaceState({}, '', '/borrower?request_credit_increase=true');
+  });
+
+  test('toasts the cooldown notice and strips the param for a recent_credit_refresh deep link', async () => {
+    mockEntity(buildIneligibleCompany('recent_credit_refresh'));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockMakeToast).toHaveBeenCalledWith(
+        'You are only able to request a credit line increase once every 6 months',
+        'info',
+      );
+    });
+    expect(mockMakeToast).toHaveBeenCalledTimes(1);
+    expect(window.location.search).toBe('');
+    expect(mockRequestIncreaseModal).not.toHaveBeenCalled();
+  });
+
+  test('toasts the pending request notice for a pending_request deep link', async () => {
+    mockEntity(buildIneligibleCompany('pending_request'));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockMakeToast).toHaveBeenCalledWith('Your credit increase is under review', 'info');
+    });
+    expect(window.location.search).toBe('');
+  });
+
+  test('toasts the company status notice for a company_status deep link', async () => {
+    mockEntity(buildIneligibleCompany('company_status'));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockMakeToast).toHaveBeenCalledWith(
+        'Your company is currently not eligible for a credit request increase',
+        'info',
+      );
+    });
+    expect(window.location.search).toBe('');
+  });
+
+  test('toasts the generic notice when no availability reason is present', async () => {
+    mockEntity(buildIneligibleCompany());
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(mockMakeToast).toHaveBeenCalledWith(
+        'You are currently unable to request a credit line increase',
+        'info',
+      );
+    });
+    expect(window.location.search).toBe('');
+  });
+
+  test('does not toast for an eligible deep link', async () => {
+    mockEntity(companyApproved);
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    await waitFor(() => {
+      expect(
+        mockRequestIncreaseModal.mock.calls.some(([props]) => props.isModalActive === true),
+      ).toBe(true);
+    });
+    expect(mockMakeToast).not.toHaveBeenCalled();
+  });
+
+  test('does not toast for an ineligible company without a deep link', () => {
+    window.history.replaceState({}, '', '/borrower');
+    mockEntity(buildIneligibleCompany('recent_credit_refresh'));
+
+    customRender(<Stats />, { withBorrowerProviders: true });
+
+    expect(mockMakeToast).not.toHaveBeenCalled();
     expect(window.location.search).toBe('');
   });
 });

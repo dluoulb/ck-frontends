@@ -1,10 +1,18 @@
-import { faCircleCheck, faCircleXmark } from '@fortawesome/pro-regular-svg-icons';
+import { faCircleCheck, faCircleInfo, faCircleXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import toast from 'react-hot-toast';
 
+const toastStyles = {
+  success: { icon: faCircleCheck, bgColor: 'bg-background-success', textColor: 'text-success' },
+  info: { icon: faCircleInfo, bgColor: 'bg-secondary-blue', textColor: 'text-primary-blue-hover' },
+  error: { icon: faCircleXmark, bgColor: 'bg-background-error', textColor: 'text-error' },
+};
+
 export default function useToast() {
   const makeToast = (msg, type) => {
+    const { icon, bgColor, textColor } = toastStyles[type] ?? toastStyles.error;
+
     return toast(
       <div
         id="static-example"
@@ -16,19 +24,12 @@ export default function useToast() {
         <div
           className={classNames(
             'flex justify-between items-center p-3 rounded-md shadow-xl',
-            type === 'success' ? 'bg-background-success' : 'bg-background-error',
+            bgColor,
           )}
         >
           <div className="flex items-start gap-2">
-            <FontAwesomeIcon
-              icon={type === 'success' ? faCircleCheck : faCircleXmark}
-              className={classNames('mt-0.5', type === 'success' ? 'text-success' : 'text-error')}
-            />
-            <p
-              className={classNames('text-sm', type === 'success' ? 'text-success' : 'text-error')}
-            >
-              {msg}
-            </p>
+            <FontAwesomeIcon icon={icon} className={classNames('mt-0.5', textColor)} />
+            <p className={classNames('text-sm', textColor)}>{msg}</p>
           </div>
         </div>
       </div>,
