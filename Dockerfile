@@ -50,7 +50,10 @@ FROM base AS runner
 WORKDIR /app
 
 RUN apk add --no-cache bash openssl su-exec
-RUN npm i sharp
+RUN npm i sharp \
+    && npm cache clean --force \
+    && rm -rf /root/.npm /usr/local/lib/node_modules/npm \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
