@@ -14,6 +14,7 @@ import TclWidget from '@components/layout/TclWidget';
 import { BorrowerContextProvider } from '@contexts/BorrowerContext';
 import { useUser } from '@contexts/UserContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import { resetCustomerIO } from '@lib/customerio';
 import { capturePortalSessionEnded, resetPostHog } from '@lib/posthog';
 import OrdersBadge from './OrdersBadge';
 import WalletBadge from './WalletBadge';
@@ -30,6 +31,7 @@ export default function TopNav() {
       if (!isAdminUser && !isImpersonating) {
         capturePortalSessionEnded();
       }
+      await resetCustomerIO();
       resetPostHog();
       router.push(href);
     }

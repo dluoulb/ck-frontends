@@ -7,6 +7,7 @@ import MobileNav from '@components/layout/MobileNav';
 import TopNav from '@components/layout/TopNav';
 import { UserContext } from '@contexts/UserContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import { resetCustomerIO } from '@lib/customerio';
 import { capturePortalSessionEnded, resetPostHog } from '@lib/posthog';
 
 const uiActionPromises: Promise<unknown>[] = [];
@@ -85,6 +86,9 @@ jest.mock('@lib/posthog', () => ({
   capturePortalSessionEnded: jest.fn(),
   resetPostHog: jest.fn(),
 }));
+jest.mock('@lib/customerio', () => ({
+  resetCustomerIO: jest.fn(() => Promise.resolve()),
+}));
 
 const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
 const mockSignOut = signOut as jest.MockedFunction<typeof signOut>;
@@ -92,6 +96,7 @@ const mockCapturePortalSessionEnded = capturePortalSessionEnded as jest.MockedFu
   typeof capturePortalSessionEnded
 >;
 const mockResetPostHog = resetPostHog as jest.MockedFunction<typeof resetPostHog>;
+const mockResetCustomerIO = resetCustomerIO as jest.MockedFunction<typeof resetCustomerIO>;
 const requestIncreaseLink = '/borrower?request_credit_increase=true';
 const cleanedBorrowerLink = 'http://localhost/borrower';
 const originalSuperTokensWebsiteDomain = process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN;
@@ -162,8 +167,12 @@ const expectBorrowerSignOutAnalytics = async (renderNav: NavRenderer) => {
   await signOutThroughNav(renderNav);
 
   expect(mockCapturePortalSessionEnded).toHaveBeenCalledTimes(1);
+  expect(mockResetCustomerIO).toHaveBeenCalledTimes(1);
   expect(mockResetPostHog).toHaveBeenCalledTimes(1);
   expect(mockCapturePortalSessionEnded.mock.invocationCallOrder[0]).toBeLessThan(
+    mockResetCustomerIO.mock.invocationCallOrder[0],
+  );
+  expect(mockResetCustomerIO.mock.invocationCallOrder[0]).toBeLessThan(
     mockResetPostHog.mock.invocationCallOrder[0],
   );
 };
@@ -172,7 +181,11 @@ const expectPrivilegedSignOutAnalytics = async (renderNav: NavRenderer, session:
   await signOutThroughNav(renderNav, session);
 
   expect(mockCapturePortalSessionEnded).not.toHaveBeenCalled();
+  expect(mockResetCustomerIO).toHaveBeenCalledTimes(1);
   expect(mockResetPostHog).toHaveBeenCalledTimes(1);
+  expect(mockResetCustomerIO.mock.invocationCallOrder[0]).toBeLessThan(
+    mockResetPostHog.mock.invocationCallOrder[0],
+  );
 };
 
 const expectRejectedPrivilegedSignOutDoesNotResetPostHog = async (renderNav: NavRenderer) => {
@@ -187,6 +200,7 @@ const expectRejectedPrivilegedSignOutDoesNotResetPostHog = async (renderNav: Nav
   expect(uiActionPromises).toHaveLength(1);
   await expect(uiActionPromises[0]).rejects.toThrow('sign out failed');
   expect(mockCapturePortalSessionEnded).not.toHaveBeenCalled();
+  expect(mockResetCustomerIO).not.toHaveBeenCalled();
   expect(mockResetPostHog).not.toHaveBeenCalled();
   expect(push).not.toHaveBeenCalled();
 };
@@ -203,6 +217,7 @@ const expectRejectedBorrowerSignOutDoesNotCaptureOrReset = async (renderNav: Nav
   expect(uiActionPromises).toHaveLength(1);
   await expect(uiActionPromises[0]).rejects.toThrow('sign out failed');
   expect(mockCapturePortalSessionEnded).not.toHaveBeenCalled();
+  expect(mockResetCustomerIO).not.toHaveBeenCalled();
   expect(mockResetPostHog).not.toHaveBeenCalled();
   expect(push).not.toHaveBeenCalled();
 };
@@ -215,10 +230,13 @@ const expectBorrowerSignOutCapturesAfterSignOut = async (renderNav: NavRenderer)
   mockCapturePortalSessionEnded.mockImplementationOnce(() => {
     captureOrder.push('capturePortalSessionEnded');
   });
+  mockResetCustomerIO.mockImplementationOnce(async () => {
+    captureOrder.push('resetCustomerIO');
+  });
 
   await signOutThroughNav(renderNav);
 
-  expect(captureOrder).toEqual(['signOut', 'capturePortalSessionEnded']);
+  expect(captureOrder).toEqual(['signOut', 'capturePortalSessionEnded', 'resetCustomerIO']);
 };
 
 describe('borrower nav sign-out redirects', () => {

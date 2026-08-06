@@ -9,6 +9,7 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 import usePrimaryRoutes from '@apps/borrower/hooks/usePrimaryRoutes';
 import { useUser } from '@contexts/UserContext';
 import { authRedirectLink } from '@lib/constants/SiteVariables';
+import { resetCustomerIO } from '@lib/customerio';
 import { capturePortalSessionEnded, resetPostHog } from '@lib/posthog';
 
 export default function MobileNav() {
@@ -72,6 +73,7 @@ export default function MobileNav() {
                       if (!isAdminUser && !isImpersonating) {
                         capturePortalSessionEnded();
                       }
+                      await resetCustomerIO();
                       resetPostHog();
                       router.push(href);
                     }}
