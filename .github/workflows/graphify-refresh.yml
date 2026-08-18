@@ -1,0 +1,20 @@
+name: Refresh Graphify graph
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 6 * * *"
+
+jobs:
+  refresh:
+    if: ${{ github.event_name != 'schedule' || vars.GRAPHIFY_REFRESH_ENABLED != 'false' }}
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    uses: creditkey/ck-github-actions/.github/workflows/graphify-refresh.yml@6cd52b65be3bb9ea778f8ca5084159f9bc78797c
+    with:
+      graphify_version: graphifyy[sql,terraform]==0.9.46
+      max_graph_mb: 80
+      warn_graph_mb: 50
+      query_smoke: What are the main architecture components and how do they relate?

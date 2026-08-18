@@ -252,6 +252,12 @@ docker compose up
 - Ensure architectural decisions are documented in the "Key Architectural Decisions" section
 - Keep the document synchronized with actual implementation
 
+## Graphify
+
+- Copilot and Paperclip should query the committed Graphify graph first when navigating the codebase or tracing dependencies.
+- Verify graph conclusions against the current source before making changes.
+- Use local Graphify only when branch work needs context fresher than the daily committed graph.
+
 ## Response Format
 When suggesting code changes:
 1. Explain the change briefly (1-2 sentences)

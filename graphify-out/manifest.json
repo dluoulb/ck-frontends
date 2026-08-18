@@ -1,0 +1,2005 @@
+{
+  ".github/copilot-instructions.md": {
+    "ast_hash": "d7e64175b7839c29d8690edd4e003033",
+    "semantic_hash": ""
+  },
+  ".github/workflows/deploy.yml": {
+    "ast_hash": "6beca60a7add1c717be648d4877fbe07",
+    "semantic_hash": ""
+  },
+  ".github/workflows/format-lint-test.yml": {
+    "ast_hash": "a8f58ee58701b88ee2c480ccbb208015",
+    "semantic_hash": ""
+  },
+  ".github/workflows/graphify-refresh.yml": {
+    "ast_hash": "28b7b9c587f0662e945ed6836aba92db",
+    "semantic_hash": ""
+  },
+  "ARCHITECTURE.md": {
+    "ast_hash": "64c5e1683cd0da8b135219dae9186619",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "ast_hash": "f9b1e7e16ae32c5b9e7ec648bcd4d957",
+    "semantic_hash": ""
+  },
+  "__mocks__/@fortawesome/react-fontawesome.tsx": {
+    "ast_hash": "cfd176d1086266089a9c933b915a35e7",
+    "semantic_hash": ""
+  },
+  "__mocks__/nextFontMock.ts": {
+    "ast_hash": "2f4e7bdfe0505f67da503d2ec73dd641",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/PortalLayout.test.tsx": {
+    "ast_hash": "a6f304d568f483e046f64e160287001c",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/BorrowerDashboard.test.tsx": {
+    "ast_hash": "f03fcc02cb22107822ddb42a664a2ad8",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/BorrowerOverview.test.tsx": {
+    "ast_hash": "64deb8679d5625957f2c30dc13470138",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/OverdueLoansBanner.test.tsx": {
+    "ast_hash": "65f89dab562a6293913f7384d5e63149",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/RequestIncreaseModal.test.tsx": {
+    "ast_hash": "c1c682503c4bafcd04d2f5e4c235c412",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/Stats.request-increase-modal-mount.test.tsx": {
+    "ast_hash": "b64c0cdc0d273338952b5ace3a220b2e",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/Stats.test.tsx": {
+    "ast_hash": "c1f4aab0afe1254088249e397e8f335c",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/table/OrderStatus.test.tsx": {
+    "ast_hash": "462db8e8b689e85a2bafd2d3353ef130",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/CreditKeyAnywhere.test.tsx": {
+    "ast_hash": "cfbc4cdae1ff3077680d617b7b9d30f1",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/DashboardPCSection.test.tsx": {
+    "ast_hash": "25055364825390381295868246c1f0a4",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/SupportWidget.test.tsx": {
+    "ast_hash": "c0c8023c0d6ca9758ef134a6b98718c3",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/default_settings/DefaultSettings.test.tsx": {
+    "ast_hash": "669bd9cec101e229a0a5cbbbb1dfb787",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/default_settings/DefaultTermsDisplay.test.tsx": {
+    "ast_hash": "a338f15c337c925e1b141c4259950ec7",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/index.test.tsx": {
+    "ast_hash": "5c8f9569f57da3805e3190420d5a6ac6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/MaskedVirtualCard.test.tsx": {
+    "ast_hash": "db2f5939da8da6dffd005985b25f05aa",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/MultiUseVirtualCard.test.tsx": {
+    "ast_hash": "478712e6743d843e16652765831e7a56",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/PromoteMarketPlace.test.tsx": {
+    "ast_hash": "80dfb6cdc7c750c1500caabf2cd135fa",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/SingleUseVirtualCard.test.tsx": {
+    "ast_hash": "234013c4a5d7a712b0b305f7ff699e97",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/VCList.test.tsx": {
+    "ast_hash": "c9362511c7f0c1d80775085b25504277",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/VirtualCard.test.tsx": {
+    "ast_hash": "ce0dd78bb32fe4b4bfc53323a69e6522",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/CardholderAgreementModal.test.tsx": {
+    "ast_hash": "50c6ac2a4244faf09b3888699af762fe",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/ConfirmMailingAddressModal.test.tsx": {
+    "ast_hash": "b2d6189cba6fe0fe1df88e418331e7e3",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVCRulesModal.test.tsx": {
+    "ast_hash": "6ac189b32f5c7b8879100cf1ec2e94b3",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardDetails.test.tsx": {
+    "ast_hash": "8b0d75650964194dd51f3ffcbac28d93",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper.test.tsx": {
+    "ast_hash": "179dbad70f2951ea740ce7018f14ad75",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/home/widgets/virtual_cards/vc_modal/SetDefaultTermsModal.test.tsx": {
+    "ast_hash": "8ddee62cfd58ebac9a5df560d1e92cb5",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/multi_use_virtual_card/index.test.tsx": {
+    "ast_hash": "daba4b3bd2fdbad765776e37e9ccb70a",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/payment_methods/BankForm.test.tsx": {
+    "ast_hash": "627dbbb0f322d1a2b81c9e8b253f87c6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/payment_methods/Plaid.test.tsx": {
+    "ast_hash": "2c8d029965805ac9aa75f54984e270c7",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/payment_methods/modals/PaymentMethodModalWrapper.test.tsx": {
+    "ast_hash": "d804cb4efa26a56b53ea3b279a92d253",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/ActivationModal.test.tsx": {
+    "ast_hash": "947ad9f12b07d36769563b970909d304",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/Banner.test.tsx": {
+    "ast_hash": "5ca02da75b8b69681abfa758dda3a844",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/CTA.test.tsx": {
+    "ast_hash": "2f22cc773532b58e147c5775761613d6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/CancelSubscriptionModal.test.tsx": {
+    "ast_hash": "0c1645f7666cffe0d335af8d65de579f",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/ManageSubscriptionButton.test.tsx": {
+    "ast_hash": "41e9703a05f8a3336a23c4968ebc5f98",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/plus/RedeemPointsModal.test.tsx": {
+    "ast_hash": "2b2a04c6141c4af422d0c8f0f8cae449",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/rewards/MerchantCard.test.tsx": {
+    "ast_hash": "773f08bffa33ae7a8660c0fbeed36063",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/rewards/MerchantsSection.test.tsx": {
+    "ast_hash": "3caf19fae6ef37d32e18b9ab778c772d",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/rewards/RewardsActivityTable.test.tsx": {
+    "ast_hash": "55dd732f9c2d037ab7e7edff9fac43a7",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/rewards/index.test.tsx": {
+    "ast_hash": "ea51d581db7d79bce4bd6d8369e09a35",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/wallet/HowToUseModal.test.tsx": {
+    "ast_hash": "3e4e06837b3fc49c89293e046fb3d9c6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/wallet/ManageCardModal.test.tsx": {
+    "ast_hash": "1abfd36f75f1b8aa9b66f0f5fc751a7b",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/wallet/Wallet.test.tsx": {
+    "ast_hash": "dbf0037bf2d7ef1fb032a5626570c2f5",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/wallet/physical_card/ActivePhysicalCard.test.tsx": {
+    "ast_hash": "798d3176f45582bfa85ab02efd2eb459",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/components/wallet/virtual_card/ActiveVirtualCard.test.tsx": {
+    "ast_hash": "a334dfe5de9fc948ee13d8f1ceb1f288",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/hooks/useAuthorizedRoute.test.tsx": {
+    "ast_hash": "26e408135e63b7e6c915c345667c77b5",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/hooks/useBorrowerRoutes.test.tsx": {
+    "ast_hash": "30764a9149a2d8bef119dafc0f4e5ea0",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/hooks/useCompanyCards.test.tsx": {
+    "ast_hash": "3ac0f95650d5f999eb8df5a097b72cb1",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/borrower/hooks/useQoloWidget.test.ts": {
+    "ast_hash": "5a61efd92f1a2877bc1a8c41486008c0",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/BaseGrid.test.tsx": {
+    "ast_hash": "6d58d4f5bfa3285ff9369b245a1560c0",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/PageNavigation.test.tsx": {
+    "ast_hash": "5a761d259eb58f7ef87aac4617698a36",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/SearchTab.test.tsx": {
+    "ast_hash": "e40f69f8f7b9862066b72d37ac79b71d",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/EntityDetail.test.tsx": {
+    "ast_hash": "387113f58c88e2fa53767eea2e8e14e3",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/EntityOverview.test.tsx": {
+    "ast_hash": "e7c876beb1fe9fdd804985822edd401c",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/MainDashboard.test.tsx": {
+    "ast_hash": "8d27ef5f01a096066a124c5b304cb436",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/OrderDashboard.test.tsx": {
+    "ast_hash": "b0faa9167a17296cc4e035d80f18a157",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Applications/AddressDetails.test.tsx": {
+    "ast_hash": "83ca796e02c76776465a87d867a66e20",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Applications/ApplicationDropdown.test.tsx": {
+    "ast_hash": "1417fc95b4484e71d865233fe2339701",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Applications/ApplicationStatus.test.tsx": {
+    "ast_hash": "1dbc36705bb590806f27bd12312f449f",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Applications/PendReasons.test.tsx": {
+    "ast_hash": "8094a2d3d1e596d7e59b4f9c598f8858",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Attachments/Attachments.test.tsx": {
+    "ast_hash": "b441408a0516c9310df14c38823d0e98",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Attachments/DownloadDocument.test.tsx": {
+    "ast_hash": "d22c73d4ac2aaebf33b68232426c629e",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/Attachments/TableHeader.test.tsx": {
+    "ast_hash": "0246e2090bb94ac4ee4fa911ab9b5ecd",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/EntityInfo.test.tsx": {
+    "ast_hash": "b51e408e44581425d4a3e571493ac767",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/entity_detail/widgets/OwnerInfo.test.tsx": {
+    "ast_hash": "43d687475113d17dc37fd11b337b9cb6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/AdditionalInfo.test.tsx": {
+    "ast_hash": "861717cf49a498797022f4b2854c90f6",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/OrderOverview.test.tsx": {
+    "ast_hash": "73afc34489b6b69ea8626a04702d6d3a",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/PSTable.test.tsx": {
+    "ast_hash": "140c432f732bf4d72cd8a8fdfc7773bb",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/TransactionsTable.test.tsx": {
+    "ast_hash": "0831188dbad4a69f975c4f62f388e83d",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/overview/BorrowerInfo.test.tsx": {
+    "ast_hash": "ba7cfc62fa1f82d4d11eaee34cf4fe01",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/overview/MerchantInfo.test.tsx": {
+    "ast_hash": "55f34a8d96cc2ddd6b8f7758039c8a89",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/overview/OrderInfo.test.tsx": {
+    "ast_hash": "e26782afb18b344337c2f1f3c38008eb",
+    "semantic_hash": ""
+  },
+  "__tests__/apps/reports/components/order_detail/overview/ProductInfo.test.tsx": {
+    "ast_hash": "5fd72a869bd8fa8490b6433b790dec37",
+    "semantic_hash": ""
+  },
+  "__tests__/deploy/bin/write-build-env.test.ts": {
+    "ast_hash": "68ec0ea324aa887269ad6ec1bc2ced86",
+    "semantic_hash": ""
+  },
+  "__tests__/instrumentation-client.test.ts": {
+    "ast_hash": "33ea755e6793130074933d2044bade44",
+    "semantic_hash": ""
+  },
+  "__tests__/middleware.test.ts": {
+    "ast_hash": "e5a9d25ec121bb3742b8cf196a548305",
+    "semantic_hash": ""
+  },
+  "__tests__/pages/borrower/index.test.tsx": {
+    "ast_hash": "a5b44318a0688e4be3438110af3e0cb1",
+    "semantic_hash": ""
+  },
+  "__tests__/pages/index.test.tsx": {
+    "ast_hash": "b3515ac6f5cc51789cb39b790e785600",
+    "semantic_hash": ""
+  },
+  "__tests__/pages/reports/[type]/[id].test.tsx": {
+    "ast_hash": "96af3c2e8fdbb8eb5539ac255b676439",
+    "semantic_hash": ""
+  },
+  "__tests__/pages/reports/orders/[id].test.tsx": {
+    "ast_hash": "aff3edee864f691ca6594bd4ec365326",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/components/layout/NavSignOut.test.tsx": {
+    "ast_hash": "945c84b7b91ff498365b64bac7b351e9",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/components/layout/RewardPointsWidget.test.tsx": {
+    "ast_hash": "913ac42f707dc4a0ffbbdb8b2a86ca1f",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/components/modals/ModalWrapper.test.tsx": {
+    "ast_hash": "cc3dcc8e0e1b7a56f0f466766227e7ca",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/actions/companies.test.ts": {
+    "ast_hash": "5a65cf4229c240777d61ac1a405d5a7b",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/actions/merchants.test.ts": {
+    "ast_hash": "f1be6ed2d21d341f1fe0e8467143ab11",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/actions/plus.test.ts": {
+    "ast_hash": "481e2eccab076d3fc4ab67aae3df4294",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/posthog.test.ts": {
+    "ast_hash": "11249cf7ac3b451dd8d07ea97e3fe9f3",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/records/CompanyRecord.test.ts": {
+    "ast_hash": "02bbf957dacf253ec8fed5266b0b2488",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/sessionErrorHandler.test.ts": {
+    "ast_hash": "e72080cc4e617e0cf07098a9d4537c8f",
+    "semantic_hash": ""
+  },
+  "__tests__/shared/lib/utils/formatters.test.ts": {
+    "ast_hash": "b16857ffb793db90cc7dd6f3b8c8bb06",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/DocumentTableColumns.tsx": {
+    "ast_hash": "6528b060419909bbc64ef70c4cbde141",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/documentTypes.ts": {
+    "ast_hash": "add77640c0f4effb580cb6d72d3509cf",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/document_list.tsx": {
+    "ast_hash": "773d38728cb52e3f9efb24d365f648a5",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/document_upload_form.tsx": {
+    "ast_hash": "b7839f83999a6cd19bf6f52a81defca5",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/file_uploader.tsx": {
+    "ast_hash": "385a6697a6bcf496e54c84974d23577a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/documents/index.tsx": {
+    "ast_hash": "7dd470699d0a57b0199d7b61e7175003",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/BorrowerDashboard.tsx": {
+    "ast_hash": "8c1d106f346f97947d64168495855644",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/BorrowerOverview.tsx": {
+    "ast_hash": "91b63432d6657fb41479a638270dafff",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/ExportPaymentHistory.tsx": {
+    "ast_hash": "7d1e417f1b076b6be5ba05877dece8ec",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/OverdueLoansBanner.tsx": {
+    "ast_hash": "fbef56550ce4450f093cef22aedba765",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/Promo.tsx": {
+    "ast_hash": "0b3bc76d309fd461ddf61d9b3d25eb5e",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/RequestIncreaseModal.tsx": {
+    "ast_hash": "feecfba317f92e1edd2172aa6dd5e756",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/Stats.tsx": {
+    "ast_hash": "ee77d197a931eec268c361c438403632",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/ActiveOrdersTable.tsx": {
+    "ast_hash": "338914c09e78b67b63d65900529e433a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/BuildColumnStack.tsx": {
+    "ast_hash": "73c1832bef3d3a58e881f2b846ea5836",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/DashboardTableColumns.tsx": {
+    "ast_hash": "a214684fd380c8c3f38aba60ad4117a6",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/NextPayment.tsx": {
+    "ast_hash": "fa5987bdec93f7302c3d97b4db12d6ec",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/OrderStatus.tsx": {
+    "ast_hash": "1343c786898d661f630bb86f15b601b3",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/OrderTotalColumn.tsx": {
+    "ast_hash": "8caba2e12826a72dc67ebfd25f84e0a3",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/table/TermsColumn.tsx": {
+    "ast_hash": "2a6609333a92b2ebca833d8e74a4eb73",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/CkaLink.tsx": {
+    "ast_hash": "aa46d0762b19d21753245b34f294bbb8",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/CreditKeyAnywhere.tsx": {
+    "ast_hash": "fd449ac0d714a54efa8ed4655f77ece8",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/DashboardPCSection.tsx": {
+    "ast_hash": "7e4f5cb23edf914d70a8df191c8723fd",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/DashboardVCSection.tsx": {
+    "ast_hash": "1ff5ec64c60cc4f5fa14b20824aed475",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/MarketplaceLink.tsx": {
+    "ast_hash": "73b545efde42d3704410b7e67b7241ce",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/SelectionWidget.tsx": {
+    "ast_hash": "3bcd29d11cf7811dc8ad887a38248378",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/SupportWidget.tsx": {
+    "ast_hash": "7ac5974f6d518948c2c7c5238b01d953",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/BillingCycleDisplay.tsx": {
+    "ast_hash": "794f3a02b593f6a011662695f7125fcc",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/DefaultSettings.tsx": {
+    "ast_hash": "5c5de6ff88be3bee572e243b10910fcd",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/DefaultTermsDisplay.tsx": {
+    "ast_hash": "b4b909998ade6c4cd1b1d8054caaa560",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/DefaultTermsModal.tsx": {
+    "ast_hash": "385c06579cac4c2221ae010bfb14b6e4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/DefaultVirtualCardTerms.tsx": {
+    "ast_hash": "6e7d234c477d5e0b64e1d8e338f03d93",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/default_settings/index.tsx": {
+    "ast_hash": "9518f9516ba829c2007333230009f9c1",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/index.tsx": {
+    "ast_hash": "2459142f395e9c3ad6e6f0414aad13ba",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/ActiveMultiUseVirtualCard.tsx": {
+    "ast_hash": "62dffc38c1905cfc12f6b69c74b1d186",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/HowToUse.tsx": {
+    "ast_hash": "bf59286945c93e3c99d130a0ff800b48",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/MaskedVirtualCard.tsx": {
+    "ast_hash": "2d9253c4cc7f91ed3bffef4cccefa7d6",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/MultiUseVirtualCard.tsx": {
+    "ast_hash": "e0efa79e9744d2af99e14207831907b4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/PromotDigitalWallet.tsx": {
+    "ast_hash": "d509f35c0f3499e4bf4f5f848ddef475",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/PromoteApp.tsx": {
+    "ast_hash": "1f6a385a87de8ba1a41eea6d57bbd53b",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/PromoteMarketPlace.tsx": {
+    "ast_hash": "5aabde44c21899611ca3a47e4661ff5a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/SingleUseVirtualCard.tsx": {
+    "ast_hash": "47e4592e01fb6c602168e885e773cf38",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/SuttonVcDisclosure.tsx": {
+    "ast_hash": "ec42a10522a15ea44872db41d6c7561a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/VCList.tsx": {
+    "ast_hash": "52b7c5354fee4788688add127277937f",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/VirtualCard.tsx": {
+    "ast_hash": "41d9878146a158fae074055948d7866c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/AddFundsModal.tsx": {
+    "ast_hash": "4d814b39b19c49a68da05c7c1855442f",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/CardholderAgreement.tsx": {
+    "ast_hash": "9277bd9b3ef5f1df9d98bec15750c925",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/CardholderAgreementModal.tsx": {
+    "ast_hash": "97deb964811794b0d46744593479d6ee",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/ConfirmMailingAddressModal.tsx": {
+    "ast_hash": "35cf596496ea47df4ea66575d6cc9e59",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/ConfirmVCModal.tsx": {
+    "ast_hash": "00952aa9db05657d7b6d954bf5bbb174",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVCRulesModal.tsx": {
+    "ast_hash": "0f885b50aa3875c49bb5d9e8e7c12f29",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardDetails.tsx": {
+    "ast_hash": "5dfee941144ff9884649255ed236c82a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardDetailsModal.tsx": {
+    "ast_hash": "6234e85894bfbbd9d45bbfc3071c2aab",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/MultiUseVirtualCardModalWrapper.tsx": {
+    "ast_hash": "083d552bd6165471b35a02337f8f67cb",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/PhysicalCardActivationModal.tsx": {
+    "ast_hash": "8147da42e2dffce0d9d2ce8d4c9a5ac4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/PhysicalCardModalWrapper.tsx": {
+    "ast_hash": "962bfb3799c88772df6ae52e242b96af",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/SetDefaultTermsModal.tsx": {
+    "ast_hash": "3e4e92d60bac3747c7ed262d75289653",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/VCModalWrapper.tsx": {
+    "ast_hash": "6e17742d29ae841e57714ad7493f1378",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/VCRulesModal.tsx": {
+    "ast_hash": "95116813117d539b95f6e5a65b27cce2",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/VirtualCardForm.tsx": {
+    "ast_hash": "2f8499e2567bd8c323f6e1e73515fc55",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/VirtualCardModal.tsx": {
+    "ast_hash": "f06ffb20888836516cd5c151fafe3b18",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/home/widgets/virtual_cards/vc_modal/index.ts": {
+    "ast_hash": "86e77b51c92bc177fa686f855adcf221",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/layout/PortalLayout.tsx": {
+    "ast_hash": "3fdc46487458af0f29f09bee63239d96",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/layout/PossessUser.tsx": {
+    "ast_hash": "056079d3ffbc0838b217375a901f5ffb",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/merchant_invite/AcceptMerchantInvite.tsx": {
+    "ast_hash": "56e5be63d4136ba5f8e1a52b7133d1d0",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/multi_use_virtual_card/index.tsx": {
+    "ast_hash": "88b3e0bf34dfbd45bac2bdd73963b485",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/Documents.tsx": {
+    "ast_hash": "9cadd26b1cc29b152ad142dec1681e3f",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/OrderOverview.tsx": {
+    "ast_hash": "31a5eb43760d5c1983f2a103a865366a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/PaymentProgress.tsx": {
+    "ast_hash": "efc0610a7e3dacb4a9f2f9126eb2f38b",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/Stats.tsx": {
+    "ast_hash": "66f71553933c8d73fcd04bd5703eb3bb",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/card_transactions/CardTransactions.tsx": {
+    "ast_hash": "315d8e21060f084a47ec92a0c30bcfc3",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/card_transactions/CardTransactionsDisclosure.tsx": {
+    "ast_hash": "2c5c884d1672b5895eaa92398b51b92a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/fee_display/AdditionalFeesDisclosure.tsx": {
+    "ast_hash": "35b6dfcc227d9ccd9ee406bee328bf68",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/fee_display/FeeDisplay.tsx": {
+    "ast_hash": "974c8662d520faf4546c76b587ffe17f",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/index.tsx": {
+    "ast_hash": "545a736f907981e91bfc09d55d0f8741",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/ReturnsModal.tsx": {
+    "ast_hash": "01b40e4efda6b5c6f15e5d9d267e731c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/CompleteModal.tsx": {
+    "ast_hash": "2cdf3089b22c65003b48400a1153f328",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/ConfirmModal.tsx": {
+    "ast_hash": "2b09447db0512bd696658c171f3ae2a5",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/PaymentsModal.tsx": {
+    "ast_hash": "d680fdd98fff50e654f2ee5166a6fc9e",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/PaymentsModalWrapper.tsx": {
+    "ast_hash": "464e09cde914089c9f8df1e05360ac47",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/components/AutoPayBanner.tsx": {
+    "ast_hash": "0b17258361417b05c419caf46e780e55",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/components/ConfirmationData.tsx": {
+    "ast_hash": "ad5584aec65ccf35018365529efb838a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/components/PaymentMethods.tsx": {
+    "ast_hash": "8df52b97d32a6f3df99d750f6aa8c67d",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/components/PaymentModalForm.tsx": {
+    "ast_hash": "f29063cf95c6844a3d5497364d9537da",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/components/PaymentOptions.tsx": {
+    "ast_hash": "2c86387da7dff6092838cdb759513fbe",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/modals/payments/index.ts": {
+    "ast_hash": "037f772fa58e0e8e721ecef236094a3a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/payment_schedule/PaymentScheduleDisclosure.tsx": {
+    "ast_hash": "d57c6ac39b3408bf0ee46ff943faff13",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/payment_schedule/Schedule.tsx": {
+    "ast_hash": "69a33d13d3b288c93ed88a7240f52cb2",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/order_detail/payment_schedule/ScheduleTimeline.tsx": {
+    "ast_hash": "9a14d57de806e91ac4b09db3669d22a1",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/orders/BuildColumnStack.tsx": {
+    "ast_hash": "96619bfedf70df7eec65f8a02fe57b5a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/orders/TableColumns.tsx": {
+    "ast_hash": "6a6feabed13a75945c2c1ceccd59c3fe",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/orders/index.tsx": {
+    "ast_hash": "5595e1087688c3d3cd1ca6c41024f973",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/DefaultButton.tsx": {
+    "ast_hash": "c2425a1f49bdc66ca6b4a0d79075a6b2",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/DeleteButton.tsx": {
+    "ast_hash": "4799c2c8d95d0e48292781fe28aa0eb1",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/PaymentMethodList.tsx": {
+    "ast_hash": "05efb1067df26bc10abaf8093af4e376",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/Plaid.tsx": {
+    "ast_hash": "bd406ce859eddbf60ce94794ec1be6ff",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/forms/AcceptBlueHostedForm.tsx": {
+    "ast_hash": "d735f2b5ba71d235e0b22c9a0e255708",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/forms/BankForm.tsx": {
+    "ast_hash": "62616d61053a4fbed87a5521ecc3e75c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/forms/CreditCardForm.tsx": {
+    "ast_hash": "492d14a3ed80ff85ea9606553efec8b4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/forms/CreditCardValidationMessages.tsx": {
+    "ast_hash": "9740c2890a2ba6b4b4413bf18c72d46c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/index.tsx": {
+    "ast_hash": "ce0c8dc7d8f299c03da50d8bab3cec38",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/BankPendHelp.tsx": {
+    "ast_hash": "df8060a357532fbb2fe67c519de62350",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/DeletePmModal.tsx": {
+    "ast_hash": "9bcd5cdce774388784aa09db68b18708",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/ErrorAlert.tsx": {
+    "ast_hash": "af5fc576be356e128322a3828f6fd61e",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/PaymentMethodModal.tsx": {
+    "ast_hash": "e6df99d297027f85ec7da830545c1252",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/PaymentMethodModalWrapper.tsx": {
+    "ast_hash": "e2d47502b5c11e8d2b4717264cf23b30",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/SupportRequiredModal.tsx": {
+    "ast_hash": "cbffa237df0374cfe432737b094a7765",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/payment_methods/modals/VcFlowDefaultPaymentMethodModal.tsx": {
+    "ast_hash": "d9e3d30a73ec22451a6fb352c8572d7d",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/ActivationModal.tsx": {
+    "ast_hash": "6e3a6a65ffc8912183488052675b9506",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/Banner.tsx": {
+    "ast_hash": "55d346092f64ccef9f98df6112942a7b",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/Benefits.tsx": {
+    "ast_hash": "9946da7827f8ff5baaad1f40710852d1",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/CTA.tsx": {
+    "ast_hash": "dacd9bf4e6df4e440cd574738382270a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/CancelSubscriptionModal.tsx": {
+    "ast_hash": "ca642b3ea1213f321b049008341306bc",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/ComparisonTable.tsx": {
+    "ast_hash": "684bec2609f0c6aa83697a6b0e21e581",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/FAQs.tsx": {
+    "ast_hash": "78c05577ad360d2cb0db306969b1071c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/ManageSubscriptionButton.tsx": {
+    "ast_hash": "d36a0a6a402ca8ed97ba8d89d994654a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/RedeemPointsModal.tsx": {
+    "ast_hash": "3c567317d40564859d2d9221684e09c5",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/RewardsBalanceCard.tsx": {
+    "ast_hash": "e4ba9386ccb043506f82fe389fc888e4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/SubscriberOverview.tsx": {
+    "ast_hash": "463b41002b56076d0f7b608f223388c2",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/plus/index.tsx": {
+    "ast_hash": "64510b8a791aec37aff53994910feb56",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/AddNewUser.tsx": {
+    "ast_hash": "51fc731d1f34b70b053a00768653fbf1",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/AddUserForm.tsx": {
+    "ast_hash": "bbd42cb73c33adfd361bae7bc33e3f3a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/BorrowerDetails.tsx": {
+    "ast_hash": "7c7b938f9fc88f1fde50de6a94cb9a03",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/Users.tsx": {
+    "ast_hash": "fa5425d719021bcd4680b10730d3e454",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/index.tsx": {
+    "ast_hash": "5728c7c1166b25573432dea69e99fbeb",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/table/BuildColumnStack.tsx": {
+    "ast_hash": "7c8efa2ceeaad86981a58aa3c28f637d",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/table/DeleteUserButton.tsx": {
+    "ast_hash": "f28ac5766e3ff817e1e2c83eaee234fd",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/table/DeleteUserModal.tsx": {
+    "ast_hash": "cb47266ddac38e9535dcff04ba55fb6a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/profile/table/UserTableColumns.tsx": {
+    "ast_hash": "99171ab77673955079338c0bdc329abc",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/rewards/MerchantCard.tsx": {
+    "ast_hash": "5c450746a52bce89656b6c5276bbe6a6",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/rewards/MerchantsSection.tsx": {
+    "ast_hash": "51c4de0200bd5ef941bfa0cf76f4c669",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/rewards/RewardsActivityTable.tsx": {
+    "ast_hash": "15c9e536d03fb72c9dad06cb14eb57f4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/rewards/index.tsx": {
+    "ast_hash": "cfc6612b6bfe030a1e1a08d3816a656c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/terms/UpdateTermsModalForm.tsx": {
+    "ast_hash": "fedc518297e5faf775a1d807305fef9c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/terms/UpdateTermsModalWrapper.tsx": {
+    "ast_hash": "b34e96faf8b6dff26090f1978c58aa62",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/terms/UpdateTermsSelect.tsx": {
+    "ast_hash": "bf2423d8c8c921ccb75a96e2ee58cd4c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/ActivationBenefits.tsx": {
+    "ast_hash": "0a73a35d851eecd56ea133aaa092364c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/ActiveCardSection.tsx": {
+    "ast_hash": "44ebbbfe884e1dff9f352698ddcf4e3a",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/CardFinancialInfo.tsx": {
+    "ast_hash": "8f4e0f8c5fcaa590e0a6c36b474abc3c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/InactiveCardSection.tsx": {
+    "ast_hash": "ca2631c5356b64f9cfebb385212671a4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/ManageCardModal.tsx": {
+    "ast_hash": "b408bc0e48ddf31c3f79e3aa1c107044",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/PendingTransactionsSection.tsx": {
+    "ast_hash": "188ac2f5dacffde9dff95ecb03a8a3a2",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/cardAssets.ts": {
+    "ast_hash": "0cbe60b0cd076a4e721e460279e75c11",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/index.tsx": {
+    "ast_hash": "bbe2d7ef73fee49fb6de86f4e1592774",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/physical_card/ActivePhysicalCard.tsx": {
+    "ast_hash": "419b769af6843e79494edc905ce10907",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/physical_card/HowToUseModal.tsx": {
+    "ast_hash": "5ebb489f759f752bab1291db2c149a92",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/physical_card/InactivePhysicalCard.tsx": {
+    "ast_hash": "658020a5e50a9ee65d4350bab22efbe8",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/physical_card/PendingPhysicalCard.tsx": {
+    "ast_hash": "0179082abc096debdb10764afea6e7a0",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/virtual_card/ActiveVirtualCard.tsx": {
+    "ast_hash": "63be363655877ff8b02a2888ed7c1cfb",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/virtual_card/HowToUseModal.tsx": {
+    "ast_hash": "f95583d31c0db04d2bed290ac7f354b0",
+    "semantic_hash": ""
+  },
+  "apps/borrower/components/wallet/virtual_card/InactiveVirtualCard.tsx": {
+    "ast_hash": "868259888907b5e9c4c5450fd31fce10",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useAuthorizedRoute.ts": {
+    "ast_hash": "d866cd7622bb1ac185759ea8ba1e9368",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useCompanyCards.ts": {
+    "ast_hash": "736849ce9504135be198350efbcd40f0",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useCompanyPhysicalCard.ts": {
+    "ast_hash": "7c2d6358472cf64f34eb4c48f0443900",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useCompanyVirtualCard.ts": {
+    "ast_hash": "092a0c06486f3266b26e70dc21035f39",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useOrderFees.ts": {
+    "ast_hash": "a90b7777af579625bbd71f834ae718c4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/usePendingAuthorizations.ts": {
+    "ast_hash": "bd9b614b66dbf9e236c48214f276ef7c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/usePrimaryRoutes.ts": {
+    "ast_hash": "f9d78743e57514b3789d54162d461491",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/usePromo.ts": {
+    "ast_hash": "e578f41a8637ee3b4fcc0ced7fce3611",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useQoloWidget.ts": {
+    "ast_hash": "5fd479e483f95002256686fba7e1cbd9",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useSecondaryRoutes.ts": {
+    "ast_hash": "347077344fe8de64f960c8f0348df01c",
+    "semantic_hash": ""
+  },
+  "apps/borrower/hooks/useVirtualCardBalance.ts": {
+    "ast_hash": "5097e86faed6187b0d8e0caeec008ae4",
+    "semantic_hash": ""
+  },
+  "apps/borrower/utils/fee_display_helpers.tsx": {
+    "ast_hash": "876b92d51ce63326dead132cddf75417",
+    "semantic_hash": ""
+  },
+  "apps/borrower/utils/status_helper.tsx": {
+    "ast_hash": "a0004e18e632e1bfc6ea30b3afdf76db",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/PageNavigation.tsx": {
+    "ast_hash": "c34e72c3d62a6a64484c90ea81586f7d",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/SearchTab.tsx": {
+    "ast_hash": "6ae2dc387f220aad02d9031efb826dce",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/EntityDetail.tsx": {
+    "ast_hash": "6ffdea976ea1daf972d0250e34641d9d",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/EntityOverview.tsx": {
+    "ast_hash": "2e5dcfb5f9c2ec6467f49de922c325a3",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/MainDashboard.tsx": {
+    "ast_hash": "733ba8e249e352ab7fb2b3df7edd2c25",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/OrderDashboard.tsx": {
+    "ast_hash": "18680191e3677e37a88e08032a210999",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/order_table/BuildColumnStack.tsx": {
+    "ast_hash": "0087392bf0f566295c64fc5e1b576786",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/order_table/OrderStatus.tsx": {
+    "ast_hash": "98f665ed93398a0a6869b17446f729f2",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/order_table/TableColumns.tsx": {
+    "ast_hash": "8f9b10e42c43ef8c3f2458e7238940d8",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/AddressDetails.tsx": {
+    "ast_hash": "386ebe6a7903271a741f9343bea41b5e",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/ApplicationDropdown.tsx": {
+    "ast_hash": "df48a4d55713c39aa050208859573057",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/ApplicationStatus.tsx": {
+    "ast_hash": "463700ddaf10fba67a8297719580f9a7",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/Applications.tsx": {
+    "ast_hash": "baf9f6151165b57c515816acb87078c7",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/PendReasons.tsx": {
+    "ast_hash": "3adf0595c1487bd1fe8a179d3b9c93fe",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/application_helpers.ts": {
+    "ast_hash": "9f7dcef4215d103cb055ca39260bd1df",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Applications/index.ts": {
+    "ast_hash": "1bda5d39b949e675e50e560fa7887695",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Attachments/Attachments.tsx": {
+    "ast_hash": "a3312e927bebbfad03c8af0df2719712",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Attachments/table/BuildColumnStack.tsx": {
+    "ast_hash": "55ff8b7deb274a887177f13404cdd0ba",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Attachments/table/DocumentsTable.tsx": {
+    "ast_hash": "2409d16b3bbf127bd1125501a7b3d399",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Attachments/table/DownloadDocument.tsx": {
+    "ast_hash": "d7208b963e74d1cb586578ac7774b469",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/Attachments/table/TableColumns.tsx": {
+    "ast_hash": "be2ecf9daab4d8ce90c87167b743be3b",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/EntityInfo.tsx": {
+    "ast_hash": "249a4e72e59fd19c2a35b69bada24456",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/entity_detail/widgets/OwnerInfo.tsx": {
+    "ast_hash": "d5d4d4281a56867615d4b47fb00ebc54",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/AdditionalInfo.tsx": {
+    "ast_hash": "98b1701400bd902ff6cae77dccb83d37",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/OrderOverview.tsx": {
+    "ast_hash": "cbd65002d0534839bec139b3fc3b153c",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/overview/BorrowerInfo.tsx": {
+    "ast_hash": "ae105eed7edc3714c7bf8af1c6f6335c",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/overview/MerchantInfo.tsx": {
+    "ast_hash": "0ae45c61aa5d68d44a1c6255014f9c2c",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/overview/OrderInfo.tsx": {
+    "ast_hash": "71e824a37cc90822131a341d967a8e2a",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/overview/ProductInfo.tsx": {
+    "ast_hash": "20c9a2fa7a78388890b4d38587ff9d78",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/payment_schedule/BuildColumnStack.tsx": {
+    "ast_hash": "e85fe00e9ae2609cbc7071fab5b4cf6f",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/payment_schedule/PSTable.tsx": {
+    "ast_hash": "c552e42cba079be3c24eeded77611503",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/payment_schedule/TableColumns.tsx": {
+    "ast_hash": "754f6d65421a529bf73ce41e0cced62f",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/transactions_table/BuildColumnStack.tsx": {
+    "ast_hash": "3bae81e3d82af611f510defe97c38fdc",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/transactions_table/TableColumns.tsx": {
+    "ast_hash": "07bc041d3d0c1538c327748baffbde30",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/order_detail/transactions_table/TransactionsTable.tsx": {
+    "ast_hash": "2a8410b36aa9f6b7caf76b3d37a4ce39",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/HitTab.tsx": {
+    "ast_hash": "3e77338618bc19e43e4171fc4f043a30",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/NoResults.tsx": {
+    "ast_hash": "47d5174021f6f5c3e581ea8ce9cd5fe5",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/SearchResults.tsx": {
+    "ast_hash": "a42a3378dc3990763960d428242e6ee8",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/helpers.tsx": {
+    "ast_hash": "445d196e742e71e2cdd06ddc64e8e20f",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/hit_types/ApplicationHit.tsx": {
+    "ast_hash": "fcc826d87b2d3d87f6fde92a8a94113f",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/hit_types/CompanyHit.tsx": {
+    "ast_hash": "f1e4f2ac077737bdea088fc3917db3f4",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/hit_types/OrderHit.tsx": {
+    "ast_hash": "6778a9160aeb0ba4e3b15b459b2f9fea",
+    "semantic_hash": ""
+  },
+  "apps/reports/components/search_results/hit_types/UserHit.tsx": {
+    "ast_hash": "510a3b44426281c74fa6d798e38b307b",
+    "semantic_hash": ""
+  },
+  "apps/reports/hooks/useOrderDependencies.ts": {
+    "ast_hash": "e9d369d1df45b7bd86f7061b6cbc189d",
+    "semantic_hash": ""
+  },
+  "bitbucket-pipelines.yml": {
+    "ast_hash": "3a41ee7fb0f9bdb6cafdadf0667c883b",
+    "semantic_hash": ""
+  },
+  "compose.yml": {
+    "ast_hash": "52a12f21f3dce25d96734b14dad2404b",
+    "semantic_hash": ""
+  },
+  "deploy/bin/entrypoint.sh": {
+    "ast_hash": "b4c15f1b40e43eff75a4200e8d7c23fc",
+    "semantic_hash": ""
+  },
+  "deploy/bin/write-build-env.sh": {
+    "ast_hash": "010788945067154545272f85135db802",
+    "semantic_hash": ""
+  },
+  "deploy/ck-ecs.sh": {
+    "ast_hash": "a441d9b346c8d3d9d84356141e07b8d9",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/_shared/ck-frontends/main.tf": {
+    "ast_hash": "2a3d13dbadfd7366b31e6621e2456cd4",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/_shared/domains/main.tf": {
+    "ast_hash": "e31baf239ca0d576c785ce24845318e3",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/_shared/main.tf": {
+    "ast_hash": "9ff5fa6e638093fcb57f25a0bc742af0",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/development/main.tf": {
+    "ast_hash": "febbcf449e55b5c20d9046d3a7c0bfc0",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/production/main.tf": {
+    "ast_hash": "5b19a51e9772ea834468c03d6b4a0cb1",
+    "semantic_hash": ""
+  },
+  "deploy/terraform/deploy_tier/staging/main.tf": {
+    "ast_hash": "b94cf2eaa1af8700d9058c31a77618d6",
+    "semantic_hash": ""
+  },
+  "eslint.config.mjs": {
+    "ast_hash": "74bb0a305ed062fb89050c828f56f71f",
+    "semantic_hash": ""
+  },
+  "instrumentation-client.ts": {
+    "ast_hash": "d5d2962c1993a395f92c9773eccec761",
+    "semantic_hash": ""
+  },
+  "jest.config.ts": {
+    "ast_hash": "b3b91edde407c5413d0ea53484ad40b4",
+    "semantic_hash": ""
+  },
+  "jest.setup.ts": {
+    "ast_hash": "0df68736b05e84986bc48f6ad3efdb73",
+    "semantic_hash": ""
+  },
+  "middleware.ts": {
+    "ast_hash": "31c345573862847d5ef4349343423690",
+    "semantic_hash": ""
+  },
+  "next-env.d.ts": {
+    "ast_hash": "f6c1b70a275911d0e40d7fda38f177c3",
+    "semantic_hash": ""
+  },
+  "next.config.js": {
+    "ast_hash": "4bca1a2eb7899f2f31fa3bd60904c7be",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "ast_hash": "3308e5174eb8374a6ee0569bf3d9e851",
+    "semantic_hash": ""
+  },
+  "pages/_app.tsx": {
+    "ast_hash": "4a7a395a0d66b7fb32278f7b5fe8b4c2",
+    "semantic_hash": ""
+  },
+  "pages/admin.tsx": {
+    "ast_hash": "4904e68236d01f3f289d24e8c2d1ccc6",
+    "semantic_hash": ""
+  },
+  "pages/api/_healthcheck.ts": {
+    "ast_hash": "a2797a9d0ed8e4c0e7998ee4533c3d41",
+    "semantic_hash": ""
+  },
+  "pages/borrower/documents.tsx": {
+    "ast_hash": "c4ccf357c4e392e8385d1dc6e0294c69",
+    "semantic_hash": ""
+  },
+  "pages/borrower/index.tsx": {
+    "ast_hash": "e2d94fcab6d6f74ada9860a13dd7c880",
+    "semantic_hash": ""
+  },
+  "pages/borrower/merchant-invite/[id].tsx": {
+    "ast_hash": "fc9444d98c333530f3908eb566a60d74",
+    "semantic_hash": ""
+  },
+  "pages/borrower/orders/[id].tsx": {
+    "ast_hash": "5a0ed38e8af41e11ce48cffebaced6f5",
+    "semantic_hash": ""
+  },
+  "pages/borrower/orders/index.tsx": {
+    "ast_hash": "820b32e007c9197124dde2b0dea6bcf3",
+    "semantic_hash": ""
+  },
+  "pages/borrower/payment_methods.tsx": {
+    "ast_hash": "63304bdefcf33a6e9c3852554e6335c3",
+    "semantic_hash": ""
+  },
+  "pages/borrower/plus.tsx": {
+    "ast_hash": "d29e58d3133af5c007b018e5d7377dde",
+    "semantic_hash": ""
+  },
+  "pages/borrower/profile.tsx": {
+    "ast_hash": "7c809412797d82ccba51c188cbb9304b",
+    "semantic_hash": ""
+  },
+  "pages/borrower/promo/[id].tsx": {
+    "ast_hash": "2098649a369853d89c0fbcf47d803140",
+    "semantic_hash": ""
+  },
+  "pages/borrower/rewards.tsx": {
+    "ast_hash": "cf6cd306283323f6f56a77388fa99b1a",
+    "semantic_hash": ""
+  },
+  "pages/borrower/virtual_card.tsx": {
+    "ast_hash": "691b2d13c21698f793a3f9e9b219a4f1",
+    "semantic_hash": ""
+  },
+  "pages/borrower/wallet.tsx": {
+    "ast_hash": "4cedf54c9cca95b4cd0effa6a76a29a7",
+    "semantic_hash": ""
+  },
+  "pages/index.tsx": {
+    "ast_hash": "5fbaec0e8ac98cdcc280877c5500df06",
+    "semantic_hash": ""
+  },
+  "pages/reports/[type]/[id].tsx": {
+    "ast_hash": "7bd23e23865e615af7d0cdcb434505df",
+    "semantic_hash": ""
+  },
+  "pages/reports/index.tsx": {
+    "ast_hash": "f7b74c338e3e3f88798ab7907a6ae326",
+    "semantic_hash": ""
+  },
+  "pages/reports/orders/[id].tsx": {
+    "ast_hash": "20ef40a238ec218604988733951d75dd",
+    "semantic_hash": ""
+  },
+  "pages/unauthorized.tsx": {
+    "ast_hash": "cdaccaa1de8468f0506a27570a585bdd",
+    "semantic_hash": ""
+  },
+  "postcss.config.js": {
+    "ast_hash": "d75cf5f9f66171ccb397e82a93408a65",
+    "semantic_hash": ""
+  },
+  "public/ck-mark.png": {
+    "ast_hash": "1fe7b1615b0530cb426583dad285577e",
+    "semantic_hash": ""
+  },
+  "public/favicon-16x16.png": {
+    "ast_hash": "6404f45fc7e8094da6f768a46ef60bf2",
+    "semantic_hash": ""
+  },
+  "public/favicon-32x32.png": {
+    "ast_hash": "e0c63f4709b351d8855f90c588bbb49e",
+    "semantic_hash": ""
+  },
+  "public/vercel.svg": {
+    "ast_hash": "4b4f1876502eb6721764637fe5c41702",
+    "semantic_hash": ""
+  },
+  "shared/components/Alert.tsx": {
+    "ast_hash": "bfe16fb793d0cab4424f52feb5f9725b",
+    "semantic_hash": ""
+  },
+  "shared/components/BaseGrid.tsx": {
+    "ast_hash": "af235a621f6540447226bdbebe493309",
+    "semantic_hash": ""
+  },
+  "shared/components/BaseTable.tsx": {
+    "ast_hash": "b7391d4de73fe37a1edbbff4060fd3d5",
+    "semantic_hash": ""
+  },
+  "shared/components/DocumentLink.tsx": {
+    "ast_hash": "162db4929df81b1f18833f629b052602",
+    "semantic_hash": ""
+  },
+  "shared/components/Dropdown.tsx": {
+    "ast_hash": "22ace831bee1d47a7f3df82d903e437c",
+    "semantic_hash": ""
+  },
+  "shared/components/Loading.tsx": {
+    "ast_hash": "702843a8fe188440aec4c75940610af9",
+    "semantic_hash": ""
+  },
+  "shared/components/NoDataError.tsx": {
+    "ast_hash": "bf6887590a8fc9dec499469b1d883cb2",
+    "semantic_hash": ""
+  },
+  "shared/components/NotFound.tsx": {
+    "ast_hash": "87db51cdc195f6fd4ce1aa87b96dff52",
+    "semantic_hash": ""
+  },
+  "shared/components/Notification.tsx": {
+    "ast_hash": "cd6747c87f54dc8dedbd7fe57c41eda7",
+    "semantic_hash": ""
+  },
+  "shared/components/Pagination.tsx": {
+    "ast_hash": "b4f69577f3a4dc9fc0240cad3826a70d",
+    "semantic_hash": ""
+  },
+  "shared/components/Scripts.tsx": {
+    "ast_hash": "1d62f5e7c725ac7f23f28507792f8452",
+    "semantic_hash": ""
+  },
+  "shared/components/SearchConfig.tsx": {
+    "ast_hash": "76c665ff2aa14f3bc79b5928df12c75b",
+    "semantic_hash": ""
+  },
+  "shared/components/Support.tsx": {
+    "ast_hash": "e70250a2e295ae9a097f56ae452971df",
+    "semantic_hash": ""
+  },
+  "shared/components/TableHeader.tsx": {
+    "ast_hash": "777da4f18eef7150b04793822bf7d989",
+    "semantic_hash": ""
+  },
+  "shared/components/Title.tsx": {
+    "ast_hash": "93eae0cf451b366639a499b549ae72b8",
+    "semantic_hash": ""
+  },
+  "shared/components/Tooltip.tsx": {
+    "ast_hash": "7273fd9247693de88a6d95d2be1f0c4f",
+    "semantic_hash": ""
+  },
+  "shared/components/ZendeskChatLink.tsx": {
+    "ast_hash": "a0b713faac6a6a2c61575af73c37306e",
+    "semantic_hash": ""
+  },
+  "shared/components/buttons/OutlineButton.tsx": {
+    "ast_hash": "1a276a5207ee00e8ad411c5455710e53",
+    "semantic_hash": ""
+  },
+  "shared/components/buttons/PrimaryButton.tsx": {
+    "ast_hash": "9890a10529cacfb981bfd47a79f37d19",
+    "semantic_hash": ""
+  },
+  "shared/components/components/ui/checkbox.tsx": {
+    "ast_hash": "8b3f4ae5f9a3040b38abde970da1932f",
+    "semantic_hash": ""
+  },
+  "shared/components/components/ui/skeleton.tsx": {
+    "ast_hash": "3a2e5839dd48916d0cc7260091885a3c",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/ColumnInput.tsx": {
+    "ast_hash": "cd4119428e415256f3aea081078e58ca",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/Input.tsx": {
+    "ast_hash": "ce8c78cdefd9d005a355a84be3070414",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/MaskedField.tsx": {
+    "ast_hash": "798ae2b2406428a19d6b0b99361821fc",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/StickyCheckbox.tsx": {
+    "ast_hash": "977aeb55dc67371657ec80c548865c9d",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/StickyInput.tsx": {
+    "ast_hash": "492c35b3fc4b9eebb31f70db7bed7ec9",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/StickySelect.tsx": {
+    "ast_hash": "a76461c8515fec1f220c6122a1424d9c",
+    "semantic_hash": ""
+  },
+  "shared/components/inputs/index.ts": {
+    "ast_hash": "89c4038ebfe729a4f38efc4e3cdc1809",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/MainLayout.tsx": {
+    "ast_hash": "53d6d78dc23c3a5ddfa7ec31a59e4a45",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/MobileNav.tsx": {
+    "ast_hash": "57ffe58ac8526c4ed241697e1bc09e41",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/OrdersBadge.tsx": {
+    "ast_hash": "dc93fe9402ae1a22d7cd9f1beb892b5e",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/RewardPointsWidget.tsx": {
+    "ast_hash": "c9a018dd37c70b964a284356134d4bf9",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/StaticFooter.tsx": {
+    "ast_hash": "cbe026e79140d41fd390ddf0b34d2ddd",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/StaticHeader.tsx": {
+    "ast_hash": "9311e50483e4499051bf45143aee093b",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/TclWidget.tsx": {
+    "ast_hash": "9372967814995828dcb5a014ba429eab",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/TopNav.tsx": {
+    "ast_hash": "6028a22a6249ce7ff989bb90a598f902",
+    "semantic_hash": ""
+  },
+  "shared/components/layout/WalletBadge.tsx": {
+    "ast_hash": "9b586f4cc83e8049fdf15c4fd82b468a",
+    "semantic_hash": ""
+  },
+  "shared/components/modals/ModalWrapper.tsx": {
+    "ast_hash": "6034068301f0703317a8cc71771a2e3e",
+    "semantic_hash": ""
+  },
+  "shared/components/orders_table/GlobalFilter.tsx": {
+    "ast_hash": "541f732241e1d0b5f4f85e8dffa0b29e",
+    "semantic_hash": ""
+  },
+  "shared/components/orders_table/OrdersTable.tsx": {
+    "ast_hash": "4d20d900b63142602f884f08f06a2ade",
+    "semantic_hash": ""
+  },
+  "shared/contexts/BorrowerContext.tsx": {
+    "ast_hash": "293bb2eb366e9e6be2c214127030e0ca",
+    "semantic_hash": ""
+  },
+  "shared/contexts/EntityContext.tsx": {
+    "ast_hash": "40c67c4fba72c9c98e6670336d77bca0",
+    "semantic_hash": ""
+  },
+  "shared/contexts/PromoContext.tsx": {
+    "ast_hash": "6a88699969bb7fbd4d493d1d82d5e488",
+    "semantic_hash": ""
+  },
+  "shared/contexts/QueryContext.ts": {
+    "ast_hash": "3ec3b4365a5d8e43446369dab1a69491",
+    "semantic_hash": ""
+  },
+  "shared/contexts/ReportsContext.tsx": {
+    "ast_hash": "074db73e887210cf145b4f3b3413f52b",
+    "semantic_hash": ""
+  },
+  "shared/contexts/UserContext.tsx": {
+    "ast_hash": "54e28fbd9b774cfee7e51d597fb21e56",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useActiveOrders.ts": {
+    "ast_hash": "4ef3abc7cc383f06d881d5794f154f9d",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useApi.ts": {
+    "ast_hash": "c293eada80f5e441eecc0afa4f817889",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useApplications.ts": {
+    "ast_hash": "777d3b70624e26e552ced77643db4da4",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useCashBackMerchants.ts": {
+    "ast_hash": "5d93af6cec38359181191826cf27a53e",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useCompanyUsers.ts": {
+    "ast_hash": "14d592352c9ec7a089fa8c47e946c930",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useCustomerio.ts": {
+    "ast_hash": "b0ead21893919b99479a9f38c1dbca8e",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useDefaultTerms.tsx": {
+    "ast_hash": "41f6fb0de817935c2b54a77b1444f060",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useDocuments.ts": {
+    "ast_hash": "d365f1c8fb59265a1fdc9b6cbd8945aa",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useDropdown.ts": {
+    "ast_hash": "871a136d3596141d0f94deff442374ac",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useInputs.ts": {
+    "ast_hash": "cb58cbccf5510f970f6ccd11c8d3b2b2",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useMarketplaceApi.ts": {
+    "ast_hash": "bb22f75ec6bd36e3386373e5c66dee1c",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useModal.ts": {
+    "ast_hash": "b69c5360a45868f956f9458573d146a0",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useOrders.ts": {
+    "ast_hash": "e37fc0a5e32de9876e832746186d744d",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePaymentMethods.tsx": {
+    "ast_hash": "785df617525a006d6de51525cacbdd9c",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePaymentSchedule.ts": {
+    "ast_hash": "5dc8100f78ac116cee1a38153cf59ed1",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePlaid.tsx": {
+    "ast_hash": "b63b1319914596905955dcb73e025d73",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePossessedUser.ts": {
+    "ast_hash": "cf89c9640471eb748621b3487b8e13cd",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePosthogIdentify.ts": {
+    "ast_hash": "a1ab4f2353e4046aec69715eeefcc3e5",
+    "semantic_hash": ""
+  },
+  "shared/hooks/usePosthogPageView.ts": {
+    "ast_hash": "9e893d0b76e1c66afc89e8561fa24f37",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useReward.ts": {
+    "ast_hash": "a1c1af07820d21e78d2d915ed3b33b6f",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useStats.ts": {
+    "ast_hash": "02a78476598211bb503258470f81ff56",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useSubscription.ts": {
+    "ast_hash": "4a9124257e0ed2ea0536a4f293ae25b9",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useToast.tsx": {
+    "ast_hash": "c166848ea7f53f25192ebce8942a3a69",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useTransactions.ts": {
+    "ast_hash": "31ff4521453f5468216d7938269e5c17",
+    "semantic_hash": ""
+  },
+  "shared/hooks/useWindowSize.ts": {
+    "ast_hash": "8804ee384cea91906c79661bf6cf4810",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/accounts.ts": {
+    "ast_hash": "218fc146c7a6b1e7c2cdc657f5c04f2a",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/companies.ts": {
+    "ast_hash": "e32cc3dc1407a634bfccb20b97b33766",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/ecomm.ts": {
+    "ast_hash": "9ee6ca16446f1a4f3534361d7c875b9c",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/entities.ts": {
+    "ast_hash": "e444ef35e090a0de8d290538ce2fe07b",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/general.ts": {
+    "ast_hash": "1d944e24829e912a012dbedd18af3e97",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/marketplace.ts": {
+    "ast_hash": "2d6efae65efa2b5ab622b3184fd900a2",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/merchants.ts": {
+    "ast_hash": "c47e44e69876b4a554ad47c1663680e2",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/orders.ts": {
+    "ast_hash": "87db5b37628c89940190d9858af6a7ab",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/payment_methods.ts": {
+    "ast_hash": "305f95e7f5166e0723fd63ebe0ea093c",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/payments.ts": {
+    "ast_hash": "e193c11ae9499c3f237ee9f3a6493621",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/plaid.ts": {
+    "ast_hash": "65f0932618f16539488f4dbdde2c5c12",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/plus.ts": {
+    "ast_hash": "2ba77c67455b080cd2a9df7e110705a8",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/search.ts": {
+    "ast_hash": "1d1a4b4451d5e8dc9227c77944c11afb",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/users.ts": {
+    "ast_hash": "ed30296501299dafdd6db0fb285dc341",
+    "semantic_hash": ""
+  },
+  "shared/lib/actions/virtualcards.ts": {
+    "ast_hash": "1d7b3842a80c1455cf6914302cacd095",
+    "semantic_hash": ""
+  },
+  "shared/lib/api.ts": {
+    "ast_hash": "1841e8b98c02e989a4c4cd6a1d53aedc",
+    "semantic_hash": ""
+  },
+  "shared/lib/constants/Enums.ts": {
+    "ast_hash": "ad5679e7325345a06de2db68c930228b",
+    "semantic_hash": ""
+  },
+  "shared/lib/constants/SiteVariables.ts": {
+    "ast_hash": "6d6362f0364f52dd0214b7b4d7603e3e",
+    "semantic_hash": ""
+  },
+  "shared/lib/constants/SuperTokensConfig.ts": {
+    "ast_hash": "26744c2c28196eadf5aa96effa0d71cb",
+    "semantic_hash": ""
+  },
+  "shared/lib/customerio.ts": {
+    "ast_hash": "bbf80e10baf9429a6e12c1144bc089be",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/CK-plus-banner.svg": {
+    "ast_hash": "236def3ebb6656bac1ffd78ee941cc62",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/app_qr_code.png": {
+    "ast_hash": "34adc2a7976f8b8ddfc8c23073488703",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/apple-pay.svg": {
+    "ast_hash": "3ada1b2a6e24bb08244b8fd44e3fbcfd",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/badge-percent.svg": {
+    "ast_hash": "070228c2ff45530fb2e2e79aeceb9141",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/calendar-clock.svg": {
+    "ast_hash": "0fc9488749e80d722fbc2b3424a636eb",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/check.gif": {
+    "ast_hash": "46597940f840c846fb02a374938f660e",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/google-wallet.svg": {
+    "ast_hash": "7cdcd164818765919b05479c0537011b",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/headset.svg": {
+    "ast_hash": "6a8a5bd6f45f2c269fc439ece910b1d8",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/home_page.png": {
+    "ast_hash": "874a87ce71a944b3e5ca7e540caa1f61",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/logo-white-text.svg": {
+    "ast_hash": "d47d5b0b2406a1246eb7c827daae37ee",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/logo.svg": {
+    "ast_hash": "65bc91988ca661083873f1eed20c606a",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/logo_only.svg": {
+    "ast_hash": "1477f034993f3a45224f63af51b3edf4",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/mastercard.svg": {
+    "ast_hash": "67213b3cc0af591887ac890b5e6ccf12",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/shield-check.svg": {
+    "ast_hash": "33a96e0641dcc9da058964fc5bc193ba",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc-blank-mastercard.png": {
+    "ast_hash": "4e5206528b52558be88065e83ae76f52",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc-blue.svg": {
+    "ast_hash": "3e2afa668ee8c52e6e8141ae3cbb7d5a",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc-cardart-mastercard.png": {
+    "ast_hash": "07f3849cd6035422b5abdbf781d733ba",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc-image.png": {
+    "ast_hash": "ceea5d3890578a2ea2d8936aa9a28ed8",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc.svg": {
+    "ast_hash": "dc5f4f91ddac25a4745ce723cff8e0cc",
+    "semantic_hash": ""
+  },
+  "shared/lib/images/vc_cardart_visa.png": {
+    "ast_hash": "4a048ac80ce3342970da6076b4e5b773",
+    "semantic_hash": ""
+  },
+  "shared/lib/marketplaceApi.ts": {
+    "ast_hash": "2b4073baf5a1ad5e581798e1419372d7",
+    "semantic_hash": ""
+  },
+  "shared/lib/posthog.ts": {
+    "ast_hash": "2aa8a3459f80b549c29878331f2419e7",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/account.ts": {
+    "ast_hash": "afc9da6f7be05fb9125e548cf576b559",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/address.ts": {
+    "ast_hash": "e30f017e844f86b6b096c1b891ba555b",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/application.ts": {
+    "ast_hash": "39916b31d0d1f8e4ecd4ee139b3781bd",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/approved_term.ts": {
+    "ast_hash": "c611279415e3fa00dbae66b6b3ab182f",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/beneficial_owner.ts": {
+    "ast_hash": "553c327064e991de39117aadddd2d7d3",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/company.ts": {
+    "ast_hash": "e8176a085cd3f827cbe284109e44c391",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/company_virtual_card.ts": {
+    "ast_hash": "bdff4831a3ef09c8b76cc2f3825ecddc",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/credit_card_transaction.ts": {
+    "ast_hash": "b61e1b3a65f134ceb406c6951eccbcfa",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/credit_line.ts": {
+    "ast_hash": "506156fc8f6846520827fafbd918d658",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/loan.ts": {
+    "ast_hash": "9615ae3c20a7886127f4a1e30a8e7beb",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/merchant.ts": {
+    "ast_hash": "73cd87af434beaca8df87853cc928f32",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/order.ts": {
+    "ast_hash": "5d4ecc0d0efb87a5b87f50fde19a4429",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/payment.ts": {
+    "ast_hash": "6cfdc875feac22c2eeec41b662e67bf4",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/payment_method.ts": {
+    "ast_hash": "1a3f7b39b3222cb70655f5cdfde221f7",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/payment_plan.ts": {
+    "ast_hash": "1a421b08cd6d8502d2d9c6878861dc9c",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/reward.ts": {
+    "ast_hash": "f33dbfce7f5cd29627666b93d972c3fc",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/subscription.ts": {
+    "ast_hash": "2deca3acd95a61125ffc2e77d3bf6b09",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/subscription_plan.ts": {
+    "ast_hash": "5cd6bbc8e05091245f17867a20dd6abd",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/user.ts": {
+    "ast_hash": "9b5411d55664973f9e79f192cdd0b7d0",
+    "semantic_hash": ""
+  },
+  "shared/lib/records/virtual_card_balance.ts": {
+    "ast_hash": "3fbeba3ed96c5c2c7dfd5d01f0f93972",
+    "semantic_hash": ""
+  },
+  "shared/lib/sessionErrorHandler.ts": {
+    "ast_hash": "bd49ea97f203f9d50f0d9b9662869368",
+    "semantic_hash": ""
+  },
+  "shared/lib/testing/api_response.ts": {
+    "ast_hash": "c66c9a29eb6457ac5e4890c170cc2290",
+    "semantic_hash": ""
+  },
+  "shared/lib/testing/records.ts": {
+    "ast_hash": "b4ff448d10e6c0d69a7be2892d916f8e",
+    "semantic_hash": ""
+  },
+  "shared/lib/testing/sharedTests.tsx": {
+    "ast_hash": "65bbd61ea12d22f10ff2bb56bd0b908f",
+    "semantic_hash": ""
+  },
+  "shared/lib/testing/test-utils.tsx": {
+    "ast_hash": "bdc62ab90ba0d03b109c82efa8fc93a0",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/authorization.ts": {
+    "ast_hash": "183667ab5d36357076e72e9ff5ca6b00",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/cookies.ts": {
+    "ast_hash": "6104fe0ca98ec53f4aba86730f423c29",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/datetime_formatters.ts": {
+    "ast_hash": "d273529dfa187c2c656c5aa7d51d3580",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/envvar.ts": {
+    "ast_hash": "0b661601c37fd1959cf5635a34bd49e1",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/formatters.ts": {
+    "ast_hash": "a70b7db1648dcc32bc9039bd589d48be",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/fullstory.ts": {
+    "ast_hash": "fae06f02230052093288ff20a9bbc3b0",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/pagination_helpers.tsx": {
+    "ast_hash": "caad6134209e9c6c6e6d5e54801f8f82",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/record_utils.ts": {
+    "ast_hash": "491e192ef62e7d58e10f966ec941f1cd",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/rollbar.ts": {
+    "ast_hash": "e368459d1e1047f3bc73442d5db9e9c9",
+    "semantic_hash": ""
+  },
+  "shared/lib/utils/search_configs.ts": {
+    "ast_hash": "cce2a7441d207b9498bb16d1143d6bb3",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "ast_hash": "e0feaf4d88aab5459547d87fb4c2a228",
+    "semantic_hash": ""
+  },
+  "types/global.d.ts": {
+    "ast_hash": "9b7c15a4c1649f94eec52837e5bcd2a0",
+    "semantic_hash": ""
+  },
+  "__graphify_metadata__": {
+    "source_commit_sha": "207e1bb07640b6dfe34068133c87a89bb77536f7"
+  }
+}
