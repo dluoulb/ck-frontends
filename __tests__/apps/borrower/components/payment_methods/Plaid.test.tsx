@@ -152,7 +152,7 @@ describe('Plaid', () => {
       linkToken: 'link-token',
       linkTokenLoading: false,
       resetLinkFlow: jest.fn(),
-      accessToken: 'access-token',
+      accessToken: true,
       fetchAccessToken: jest.fn(),
       accessTokenLoading: false,
       exchangePublicToken: jest.fn(),

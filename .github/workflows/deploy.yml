@@ -88,14 +88,15 @@ jobs:
         if: contains(fromJSON('["deploy", "build_image"]'), env.DEPLOY_COMMAND)
         env:
           DOCKER_BUILDKIT: 1
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
         run: |
           docker build \
             --secret id=app-env,src=/tmp/app.env \
+            --secret id=fontawesome-npm-auth-token,env=FONTAWESOME_NPM_AUTH_TOKEN \
             -t "$IMAGE_NAME:$DEPLOY_TIER" \
             -t "$ECR_BASE/$ECR_NAME:$DEPLOY_TIER" \
             --label "APP_VERSION=$APP_VERSION" \
             --build-arg APP_VERSION="$APP_VERSION" \
-            --build-arg FONTAWESOME_NPM_AUTH_TOKEN="${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}" \
             .
 
       - name: Rotate ECR rollback tags

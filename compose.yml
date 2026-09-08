@@ -8,14 +8,16 @@ networks:
 secrets:
   app-env:
     file: ./deploy/.env.aws.secrets
+  fontawesome-npm-auth-token:
+    environment: FONTAWESOME_NPM_AUTH_TOKEN
 
 services:
   ck-frontends:
     build:
       target: dev
       context: .
-      args:
-        FONTAWESOME_NPM_AUTH_TOKEN: ${FONTAWESOME_NPM_AUTH_TOKEN}
+      secrets:
+        - fontawesome-npm-auth-token
     ports:
       - 3000
     volumes:
@@ -60,8 +62,7 @@ services:
       context: .
       secrets:
         - app-env
-      args:
-        FONTAWESOME_NPM_AUTH_TOKEN: ${FONTAWESOME_NPM_AUTH_TOKEN}
+        - fontawesome-npm-auth-token
     environment:
       BYPASS_AUTH: 1
     ports:

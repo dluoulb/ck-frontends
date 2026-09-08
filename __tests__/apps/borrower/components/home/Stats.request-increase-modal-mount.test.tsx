@@ -1,9 +1,14 @@
+import type { ComponentProps } from 'react';
+
+import type RequestIncreaseModal from '@apps/borrower/components/home/RequestIncreaseModal';
 import Stats from '@apps/borrower/components/home/Stats';
 import useToast from '@hooks/useToast';
 import { companyApproved, consumerAccount } from '@lib/testing/records';
 import { act, customRender, screen, waitFor } from '@lib/testing/test-utils';
 
-const mockRequestIncreaseModal = jest.fn(() => null);
+type RequestIncreaseModalProps = ComponentProps<typeof RequestIncreaseModal>;
+
+const mockRequestIncreaseModal = jest.fn((_props: RequestIncreaseModalProps) => null);
 const mockMakeToast = jest.fn();
 
 const buildCompany = (overrides = {}) =>
@@ -11,12 +16,22 @@ const buildCompany = (overrides = {}) =>
 
 jest.mock('@apps/borrower/components/home/RequestIncreaseModal', () => ({
   __esModule: true,
-  default: (...args) => mockRequestIncreaseModal(...args),
+  default: (props: RequestIncreaseModalProps) => mockRequestIncreaseModal(props),
 }));
 
 jest.mock('@hooks/useToast');
 
 const mockUseToast = useToast as jest.MockedFunction<typeof useToast>;
+
+const getLatestRequestIncreaseModalProps = () => {
+  const latestCall = mockRequestIncreaseModal.mock.calls.at(-1);
+
+  if (!latestCall) {
+    throw new Error('Expected RequestIncreaseModal to be called');
+  }
+
+  return latestCall[0];
+};
 
 describe('Stats request increase modal mount', () => {
   beforeEach(() => {
@@ -101,7 +116,7 @@ describe('Stats request increase modal mount', () => {
       expect(mockRequestIncreaseModal).toHaveBeenCalled();
     });
 
-    const latestProps = mockRequestIncreaseModal.mock.calls.at(-1)?.[0];
+    const latestProps = getLatestRequestIncreaseModalProps();
 
     expect(latestProps).toBeDefined();
 
@@ -167,12 +182,12 @@ describe('Stats request increase modal mount', () => {
     expect(window.location.search).toBe('');
 
     act(() => {
-      const latestProps = mockRequestIncreaseModal.mock.calls.at(-1)?.[0];
+      const latestProps = getLatestRequestIncreaseModalProps();
       latestProps.toggleModal();
     });
 
     await waitFor(() => {
-      expect(mockRequestIncreaseModal.mock.calls.at(-1)?.[0].isModalActive).toBe(false);
+      expect(getLatestRequestIncreaseModalProps().isModalActive).toBe(false);
     });
 
     window.history.replaceState({}, '', '/borrower?request_credit_increase=true');

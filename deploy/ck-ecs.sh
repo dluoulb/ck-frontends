@@ -55,13 +55,13 @@ inform () {
 build_image () {
   APP_VERSION
   inform "Building $VERSION_INFO"
-  docker build \
+  DOCKER_BUILDKIT=1 docker build \
     -t "$IMAGE_NAME:$TARGET" \
     -t $DEPLOY_IMAGE \
     --label "APP_VERSION=$APP_VERSION" \
     --build-arg APP_VERSION="$APP_VERSION" \
     --build-arg DEPLOY_TARGET="$TARGET" \
-    --build-arg FONTAWESOME_NPM_AUTH_TOKEN="$FONTAWESOME_NPM_AUTH_TOKEN" \
+    --secret id=fontawesome-npm-auth-token,env=FONTAWESOME_NPM_AUTH_TOKEN \
     .
 
     docker tag $DEPLOY_IMAGE $ECR_TARGET
@@ -106,14 +106,15 @@ push_image () {
 
 test_image () {
   set -x
-  docker build --platform linux/amd64 -t "$IMAGE_NAME:test" \
+  DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t "$IMAGE_NAME:test" \
     --target dev \
     --build-arg APP_VERSION="$APP_VERSION" \
     --build-arg DEPLOY_TARGET="$TARGET" \
+    --secret id=fontawesome-npm-auth-token,env=FONTAWESOME_NPM_AUTH_TOKEN \
     .
 
   inform "Testing $VERSION_INFO"
-  docker run "$IMAGE_NAME:$TARGET" npm run test
+  docker run "$IMAGE_NAME:test" npm run test
 
   docker tag $DEPLOY_IMAGE $ECR_TARGET
 

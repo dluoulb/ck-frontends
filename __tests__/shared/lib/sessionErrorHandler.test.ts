@@ -30,7 +30,9 @@ describe('createResponseErrorHandler', () => {
   });
 
   test('retries the request with a refreshed token after a 401', async () => {
-    const api = jest.fn().mockResolvedValue({ data: { ok: true } });
+    const api = jest.fn().mockResolvedValue({ data: { ok: true } }) as jest.Mock & {
+      defaults: { headers: { common: Record<string, string> } };
+    };
     api.defaults = { headers: { common: {} as Record<string, string> } };
     const originalRequest = { headers: {} as Record<string, string> };
 

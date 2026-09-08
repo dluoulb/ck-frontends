@@ -1,3 +1,5 @@
+export {};
+
 jest.mock('posthog-js', () => ({
   __esModule: true,
   default: {

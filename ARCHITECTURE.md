@@ -47,10 +47,10 @@ The monorepo houses the following applications:
 
 | Technology | Version | Purpose                                   |
 | ---------- | ------- | ----------------------------------------- |
-| Next.js    | ^16.2.6 | React framework with SSR/SSG capabilities |
+| Next.js    | 16.3.4  | React framework with SSR/SSG capabilities |
 | React      | 18.3.1  | UI library for building components        |
 | TypeScript | 5.4.5   | Type-safe JavaScript development          |
-| Node.js    | 22.22.3 | Runtime environment                       |
+| Node.js    | 22.23.2 | Runtime environment                       |
 
 ### UI & Styling
 
@@ -594,7 +594,7 @@ describe('MyComponent', () => {
 
 #### Prerequisites
 
-- Node.js 22.22.0 (managed via nvm)
+- Node.js 22.23.2 (managed via nvm or asdf)
 - Docker & Docker Compose
 - Access to Credit Key infrastructure
 
@@ -836,4 +836,4 @@ This architecture document should be updated whenever:
 
 For questions about this architecture, please contact the Credit Key Engineering team.
 
-**Last Updated**: 2026-07-09
+**Last Updated**: 2026-09-04

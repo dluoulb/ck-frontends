@@ -46,8 +46,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    env:
-      FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
     steps:
       - uses: actions/checkout@v6
 
@@ -58,7 +56,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
+        env:
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
         run: npm ci
 
       - name: Run tests
         run: npm run test
+
+      - name: Run Docker image smoke test
+        env:
+          DOCKER_SMOKE_TEST: 1
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+        run: npx jest __tests__/Dockerfile.test.ts --runInBand --verbose
