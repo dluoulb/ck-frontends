@@ -1,15 +1,14 @@
 import Link from 'next/link';
 
 import { formatShortDate } from '@lib/utils/datetime_formatters';
-import { formatInstallments } from '@lib/utils/formatters';
+import { formatOrderTermLabel } from '@lib/utils/formatters';
 import NextPayment from '../home/table/NextPayment';
 import OrderTotalColumn from '../home/table/OrderTotalColumn';
 import TermsColumn from '../home/table/TermsColumn';
 
 export const BuildStack = ({ original, openModalForLoan }) => {
   const isEditable = original.terms_editable;
-  const installments = Number(original.product?.installments ?? 0);
-  const label = formatInstallments(installments);
+  const label = formatOrderTermLabel(original);
 
   return (
     <>

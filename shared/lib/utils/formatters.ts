@@ -120,6 +120,15 @@ export const formatInstallments = (installments: number, defaultText = '—'): s
   return `${installments} ${installments === 1 ? 'month' : 'months'}`;
 };
 
+export const formatOrderTermLabel = (
+  order: { product_type?: string; product?: { installments?: number | string } },
+  defaultText = '—',
+): string => {
+  if (order.product_type === 'pay_now') return 'Pay In Full';
+
+  return formatInstallments(Number(order?.product?.installments ?? 0), defaultText);
+};
+
 export const formatCreditTransactionAmount = (value, entryType) => {
   const absoluteValue = Math.abs(value);
   const isCredit = entryType === 'CREDIT' || entryType === 'credit';

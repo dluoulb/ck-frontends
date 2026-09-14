@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { formatInstallments } from '@lib/utils/formatters';
+import { formatOrderTermLabel } from '@lib/utils/formatters';
 import { BuildStack } from './BuildColumnStack';
 import NextPayment from '../home/table/NextPayment';
 import OrderStatus from '../home/table/OrderStatus';
@@ -10,8 +10,7 @@ import TermsColumn from '../home/table/TermsColumn';
 
 const TermsCell = ({ order, openModalForLoan }) => {
   const isEditable = order.terms_editable;
-  const installments = Number(order.product?.installments ?? 0);
-  const label = formatInstallments(installments);
+  const label = formatOrderTermLabel(order);
 
   if (isEditable) {
     return <TermsColumn order={order} openModalForLoan={openModalForLoan} />;

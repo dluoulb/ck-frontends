@@ -1,4 +1,4 @@
-import { getTermLabel } from '@lib/utils/formatters';
+import { formatOrderTermLabel, getTermLabel } from '@lib/utils/formatters';
 
 describe('getTermLabel', () => {
   test('returns default text when term is null', () => {
@@ -31,5 +31,23 @@ describe('getTermLabel', () => {
 
   test('returns month label for monthly term=1', () => {
     expect(getTermLabel({ term: 1, term_period: 'monthly' })).toBe('1 month');
+  });
+});
+
+describe('formatOrderTermLabel', () => {
+  test('returns Pay In Full for pay now orders', () => {
+    expect(formatOrderTermLabel({ product_type: 'pay_now' })).toBe('Pay In Full');
+  });
+
+  test('returns 1 month for one installment', () => {
+    expect(formatOrderTermLabel({ product: { installments: 1 } })).toBe('1 month');
+  });
+
+  test('returns Pay in 4 for four installments', () => {
+    expect(formatOrderTermLabel({ product: { installments: 4 } })).toBe('Pay in 4');
+  });
+
+  test('returns the default text when installments are missing', () => {
+    expect(formatOrderTermLabel({})).toBe('—');
   });
 });

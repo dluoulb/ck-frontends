@@ -34,6 +34,9 @@ export default function NextPayment({ order }) {
       <span className="font-medium">{getAmount()}</span>
       {(() => {
         const date = getDate();
+        if (order?.product_type === 'pay_now' && date === 'Not Yet Scheduled') {
+          return null;
+        }
         const nonDateStatuses = [
           'Paid: Final Payment Pending',
           'Not Yet Scheduled',
